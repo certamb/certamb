@@ -7,11 +7,11 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.sistcoop.cooperativa.models.jpa.entities.AgenciaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.TrabajadorEntity;
 import org.sistcoop.rrhh.models.AgenciaModel;
 import org.sistcoop.rrhh.models.SucursalModel;
 import org.sistcoop.rrhh.models.TrabajadorModel;
-import org.sistcoop.rrhh.models.jpa.entities.AgenciaEntity;
-import org.sistcoop.rrhh.models.jpa.entities.TrabajadorEntity;
 
 public class AgenciaAdapter implements AgenciaModel {
 

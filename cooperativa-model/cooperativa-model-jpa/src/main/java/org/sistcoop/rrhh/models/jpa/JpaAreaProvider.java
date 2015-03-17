@@ -10,9 +10,9 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.sistcoop.cooperativa.models.jpa.entities.AreaEntity;
 import org.sistcoop.rrhh.models.AreaModel;
 import org.sistcoop.rrhh.models.AreaProvider;
-import org.sistcoop.rrhh.models.jpa.entities.AreaEntity;
 
 @Named
 @Stateless

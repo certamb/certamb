@@ -1,6 +1,5 @@
-package org.sistcoop.rrhh.models.jpa.entities;
+package org.sistcoop.cooperativa.models.jpa.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,43 +19,29 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "SUCURSAL", indexes = { @Index(columnList = "id") })
+@Table(name = "ENTIDAD", indexes = { @Index(columnList = "id") })
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@NamedQueries({ 
-	@NamedQuery(name = SucursalEntity.findAll, query = "SELECT s FROM SucursalEntity s"), 
-	@NamedQuery(name = SucursalEntity.findByDenominacion, query = "SELECT s FROM SucursalEntity s WHERE s.denominacion = :denominacion"),
-	@NamedQuery(name = SucursalEntity.findByEstado, query = "SELECT s FROM SucursalEntity s WHERE s.estado = :estado"),
-	@NamedQuery(name = SucursalEntity.findByFilterText, query = "SELECT s FROM SucursalEntity s WHERE (UPPER(s.denominacion) LIKE :filterText OR s.abreviatura LIKE :filterText) AND s.estado = TRUE")})
-public class SucursalEntity implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public static final String base = "org.softgreen.sistcoop.organizacion.ejb.models.jpa.entities.SucursalEntity.";
-	public static final String findAll = base + "findAll";
-	public static final String findByDenominacion = base + "findByDenominacion";
-	public static final String findByEstado = base + "findByEstado";
-	public static final String findByFilterText = base + "findByFilterText";//por defecto solo busca activos
+public class EntidadEntity {
 
 	private Integer id;
 	private String denominacion;
 	private String abreviatura;
 	private boolean estado;
+	private Set<TransaccionBovedaEntidadEntity> transaccionesBovedaEntidad = new HashSet<TransaccionBovedaEntidadEntity>(
+			0);
 
-	private Set<AgenciaEntity> agencias = new HashSet<AgenciaEntity>();
+	private Timestamp optlk;
 
-	private Timestamp optlk;	
+	public EntidadEntity() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Id
 	@GeneratedValue(generator = "SgGenericGenerator")
@@ -72,7 +57,7 @@ public class SucursalEntity implements Serializable {
 	@Size(min = 1, max = 60)
 	@NotBlank
 	@NotEmpty
-	@NaturalId(mutable = true)
+	@NaturalId
 	public String getDenominacion() {
 		return denominacion;
 	}
@@ -82,7 +67,7 @@ public class SucursalEntity implements Serializable {
 	}
 
 	@NotNull
-	@Size(min = 1, max = 30)
+	@Size(min = 1, max = 20)
 	@NotBlank
 	@NotEmpty
 	public String getAbreviatura() {
@@ -103,14 +88,15 @@ public class SucursalEntity implements Serializable {
 		this.estado = estado;
 	}
 
-	@XmlTransient	
-	@OneToMany(fetch= FetchType.LAZY, mappedBy = "sucursal")
-	public Set<AgenciaEntity> getAgencias() {
-		return agencias;
+	@XmlTransient
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entidad")
+	public Set<TransaccionBovedaEntidadEntity> getTransaccionesBovedaEntidad() {
+		return transaccionesBovedaEntidad;
 	}
 
-	public void setAgencias(Set<AgenciaEntity> agencias) {
-		this.agencias = agencias;
+	public void setTransaccionesBovedaEntidad(
+			Set<TransaccionBovedaEntidadEntity> transaccionesBovedaEntidad) {
+		this.transaccionesBovedaEntidad = transaccionesBovedaEntidad;
 	}
 
 	@XmlTransient
@@ -127,7 +113,8 @@ public class SucursalEntity implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((denominacion == null) ? 0 : denominacion.hashCode());
+		result = prime * result
+				+ ((denominacion == null) ? 0 : denominacion.hashCode());
 		return result;
 	}
 
@@ -137,9 +124,9 @@ public class SucursalEntity implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof SucursalEntity))
+		if (!(obj instanceof EntidadEntity))
 			return false;
-		SucursalEntity other = (SucursalEntity) obj;
+		EntidadEntity other = (EntidadEntity) obj;
 		if (denominacion == null) {
 			if (other.denominacion != null)
 				return false;

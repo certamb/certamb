@@ -7,10 +7,10 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.sistcoop.cooperativa.models.jpa.entities.AgenciaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.SucursalEntity;
 import org.sistcoop.rrhh.models.AgenciaModel;
 import org.sistcoop.rrhh.models.SucursalModel;
-import org.sistcoop.rrhh.models.jpa.entities.AgenciaEntity;
-import org.sistcoop.rrhh.models.jpa.entities.SucursalEntity;
 
 public class SucursalAdapter implements SucursalModel {
 

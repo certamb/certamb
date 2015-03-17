@@ -2,8 +2,8 @@ package org.sistcoop.rrhh.models.jpa;
 
 import javax.persistence.EntityManager;
 
+import org.sistcoop.cooperativa.models.jpa.entities.AreaEntity;
 import org.sistcoop.rrhh.models.AreaModel;
-import org.sistcoop.rrhh.models.jpa.entities.AreaEntity;
 
 public class AreaAdapter implements AreaModel {
 

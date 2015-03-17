@@ -10,9 +10,9 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.sistcoop.cooperativa.models.jpa.entities.CargoEntity;
 import org.sistcoop.rrhh.models.CargoModel;
 import org.sistcoop.rrhh.models.CargoProvider;
-import org.sistcoop.rrhh.models.jpa.entities.CargoEntity;
 
 @Named
 @Stateless

@@ -2,8 +2,8 @@ package org.sistcoop.rrhh.models.jpa;
 
 import javax.persistence.EntityManager;
 
+import org.sistcoop.cooperativa.models.jpa.entities.CargoEntity;
 import org.sistcoop.rrhh.models.CargoModel;
-import org.sistcoop.rrhh.models.jpa.entities.CargoEntity;
 
 public class CargoAdapter implements CargoModel {
 

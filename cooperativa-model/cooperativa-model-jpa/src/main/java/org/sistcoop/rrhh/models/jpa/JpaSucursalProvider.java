@@ -12,9 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.sistcoop.cooperativa.models.jpa.entities.SucursalEntity;
 import org.sistcoop.rrhh.models.SucursalModel;
 import org.sistcoop.rrhh.models.SucursalProvider;
-import org.sistcoop.rrhh.models.jpa.entities.SucursalEntity;
 
 @Named
 @Stateless
