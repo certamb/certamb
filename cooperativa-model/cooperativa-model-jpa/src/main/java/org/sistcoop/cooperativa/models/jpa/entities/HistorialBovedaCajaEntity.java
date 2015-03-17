@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -18,7 +18,7 @@ import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
-@DiscriminatorValue("bovedaCaja")
+@Table(name = "HISTORIAL_BOVEDA_CAJA")
 @NamedQueries({
 		@NamedQuery(name = HistorialBovedaCajaEntity.findByHistorialActivo, query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja c WHERE c.id = :idCaja AND h.estado = true"),
 		@NamedQuery(name = HistorialBovedaCajaEntity.findByHistorialDateRange, query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja c WHERE c.id = :idCaja AND h.fechaApertura BETWEEN :desde AND :hasta AND h.estado = false ORDER BY h.horaApertura DESC"),

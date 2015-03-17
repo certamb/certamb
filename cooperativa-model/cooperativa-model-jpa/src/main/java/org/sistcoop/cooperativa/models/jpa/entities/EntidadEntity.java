@@ -34,14 +34,8 @@ public class EntidadEntity {
 	private String denominacion;
 	private String abreviatura;
 	private boolean estado;
-	private Set<TransaccionBovedaEntidadEntity> transaccionesBovedaEntidad = new HashSet<TransaccionBovedaEntidadEntity>(
-			0);
 
 	private Timestamp optlk;
-
-	public EntidadEntity() {
-		// TODO Auto-generated constructor stub
-	}
 
 	@Id
 	@GeneratedValue(generator = "SgGenericGenerator")
@@ -88,18 +82,6 @@ public class EntidadEntity {
 		this.estado = estado;
 	}
 
-	@XmlTransient
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entidad")
-	public Set<TransaccionBovedaEntidadEntity> getTransaccionesBovedaEntidad() {
-		return transaccionesBovedaEntidad;
-	}
-
-	public void setTransaccionesBovedaEntidad(
-			Set<TransaccionBovedaEntidadEntity> transaccionesBovedaEntidad) {
-		this.transaccionesBovedaEntidad = transaccionesBovedaEntidad;
-	}
-
-	@XmlTransient
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;
