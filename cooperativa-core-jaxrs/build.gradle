@@ -1,0 +1,6 @@
+dependencies {	
+	compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.0.10.Final'
+	compile group: 'org.jboss.resteasy', name: 'resteasy-validator-provider-11', version: '3.0.10.Final'
+	
+	compile group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider', version: '2.5.1'				
+}

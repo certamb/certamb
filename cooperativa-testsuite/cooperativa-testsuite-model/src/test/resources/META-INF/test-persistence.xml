@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+	http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="personaTestPU">
+		<jta-data-source>java:jboss/datasources/personaTestDS</jta-data-source>
+		<class>org.sistcoop.models.jpa.entities.TipoDocumentoEntity</class>
+		<class>org.sistcoop.models.jpa.entities.PersonaNaturalEntity</class>
+		<class>org.sistcoop.models.jpa.entities.PersonaJuridicaEntity</class>
+		<class>org.sistcoop.models.jpa.entities.PersonaEntity</class>
+		<class>org.sistcoop.models.jpa.entities.AccionistaEntity</class>
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.id.new_generator_mappings" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>

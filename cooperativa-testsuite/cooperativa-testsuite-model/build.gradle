@@ -1,0 +1,5 @@
+dependencies {
+	compile project(':cooperativa-model:cooperativa-model-api')
+	compile project(':cooperativa-model:cooperativa-model-jpa')
+	compile project(':cooperativa-model:cooperativa-model-mongo')
+}
