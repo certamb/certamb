@@ -1,7 +1,5 @@
 package org.sistcoop.cooperativa.models.jpa.entities;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -10,5 +8,10 @@ import javax.persistence.Table;
 @Table(name = "TRANSACCION_MAYOR_CUANTIA")
 @PrimaryKeyJoinColumn
 public class TransaccionMayorCuantiaEntity extends TransaccionClienteEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 }
