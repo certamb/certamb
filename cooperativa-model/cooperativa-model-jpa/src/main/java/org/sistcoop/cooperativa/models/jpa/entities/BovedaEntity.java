@@ -15,10 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -29,8 +25,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "BOVEDA", indexes = { @Index(columnList = "id") })
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
 @NamedQueries({
 		@NamedQuery(name = BovedaEntity.findAllByIdAgencia, query = "SELECT b FROM BovedaEntity b INNER JOIN b.agencia a WHERE a.id = :idAgencia"),
 		@NamedQuery(name = BovedaEntity.findByAgenciaAndFilterText, query = "SELECT b FROM BovedaEntity b WHERE b.agencia.id = :idAgencia AND ( b.moneda LIKE :filterText OR (UPPER(b.denominacion) LIKE :filterText) ) AND b.estado = TRUE") })
@@ -40,11 +34,9 @@ public class BovedaEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public static final String base = "org.sistcoop.rrhh.models.jpa.entities.";
+	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity";
 	public static final String findAllByIdAgencia = base + "findAllByIdAgencia";
-	public static final String findByAgenciaAndFilterText = base
-			+ "findByAgenciaAndFilterText";
+	public static final String findByAgenciaAndFilterText = base + "findByAgenciaAndFilterText";
 
 	private Integer id;
 	private String moneda;
@@ -136,7 +128,6 @@ public class BovedaEntity implements Serializable {
 		this.estado = estado;
 	}
 
-	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "boveda")
 	public Set<HistorialBovedaEntity> getHistoriales() {
 		return historiales;
@@ -146,7 +137,6 @@ public class BovedaEntity implements Serializable {
 		this.historiales = historiales;
 	}
 
-	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "boveda")
 	public Set<BovedaCajaEntity> getBovedaCajas() {
 		return bovedaCajas;
@@ -156,7 +146,6 @@ public class BovedaEntity implements Serializable {
 		this.bovedaCajas = bovedaCajas;
 	}
 
-	@XmlTransient
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;

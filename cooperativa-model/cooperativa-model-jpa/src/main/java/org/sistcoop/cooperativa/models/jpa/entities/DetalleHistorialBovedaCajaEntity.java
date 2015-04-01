@@ -14,15 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "DETALLE_HISTORIAL_BOVEDACAJA", indexes = { @Index(columnList = "id") })
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
 public class DetalleHistorialBovedaCajaEntity extends DetalleHistorialEntity implements Serializable {
 
 	/**
@@ -57,7 +51,6 @@ public class DetalleHistorialBovedaCajaEntity extends DetalleHistorialEntity imp
 		this.historial = historial;
 	}
 
-	@XmlTransient
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;
@@ -65,6 +58,40 @@ public class DetalleHistorialBovedaCajaEntity extends DetalleHistorialEntity imp
 
 	public void setOptlk(Timestamp optlk) {
 		this.optlk = optlk;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((historial == null) ? 0 : historial.hashCode());
+		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
+		result = prime * result + cantidad;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof DetalleHistorialBovedaCajaEntity))
+			return false;
+		DetalleHistorialBovedaCajaEntity other = (DetalleHistorialBovedaCajaEntity) obj;
+		if (getHistorial() == null) {
+			if (other.getHistorial() != null)
+				return false;
+		} else if (!getHistorial().equals(other.getHistorial()))
+			return false;
+		if (getValor() == null) {
+			if (other.getValor() != null)
+				return false;
+		} else if (!getValor().equals(other.getValor()))
+			return false;
+		if (getValor() != other.getValor())
+			return false;
+		return true;
 	}
 
 }

@@ -14,9 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.NamedQueries;
@@ -27,17 +24,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "CAJA", indexes = { @Index(columnList = "id") })
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
 @NamedQueries({
 		@NamedQuery(name = CajaEntity.findByUsername, query = "SELECT c FROM CajaEntity c INNER JOIN c.trabajadorCajas tc INNER JOIN tc.trabajador t WHERE t.usuario = :username"),
 		@NamedQuery(name = CajaEntity.findByAgenciaAndFilterText, query = "SELECT c FROM CajaEntity c WHERE c.agencia.id = :idAgencia AND ( UPPER(c.denominacion) LIKE :filterText ) AND c.estado = TRUE") })
 public class CajaEntity {
 
-	public static final String base = "org.softgreen.sistcoop.organizacion.ejb.models.jpa.entities.CajaEntity";
+	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.CajaEntity";
 	public final static String findByUsername = base + "findByUsername";
-	public static final String findByAgenciaAndFilterText = base
-			+ "findByAgenciaAndFilterText";
+	public static final String findByAgenciaAndFilterText = base + "findByAgenciaAndFilterText";
 
 	private Integer id;
 	private String denominacion;
@@ -150,8 +144,7 @@ public class CajaEntity {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((agencia == null) ? 0 : agencia.hashCode());
-		result = prime * result
-				+ ((denominacion == null) ? 0 : denominacion.hashCode());
+		result = prime * result + ((denominacion == null) ? 0 : denominacion.hashCode());
 		return result;
 	}
 

@@ -19,17 +19,11 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "BOVEDA_CAJA")
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
 public class BovedaCajaEntity implements java.io.Serializable {
 
 	/**
@@ -104,7 +98,6 @@ public class BovedaCajaEntity implements java.io.Serializable {
 		this.boveda = boveda;
 	}
 
-	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bovedaCaja")
 	public Set<HistorialBovedaCajaEntity> getHistoriales() {
 		return historiales;
@@ -114,7 +107,6 @@ public class BovedaCajaEntity implements java.io.Serializable {
 		this.historiales = historiales;
 	}
 
-	@XmlTransient
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;
