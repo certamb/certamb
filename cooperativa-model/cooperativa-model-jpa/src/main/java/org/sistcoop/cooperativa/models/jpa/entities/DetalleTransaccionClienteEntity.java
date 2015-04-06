@@ -14,23 +14,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Formula;
 
 @Entity
-@Table(name="DETALLE_TRANSACCION_CLIENTE", indexes = { @Index(columnList = "id") })
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@Table(name = "DETALLE_TRANSACCION_CLIENTE", indexes = { @Index(columnList = "id") })
 public class DetalleTransaccionClienteEntity implements Serializable {
 
 	/**
@@ -43,7 +35,7 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	private int cantidad;
 
 	private BigDecimal subtotal;
-	
+
 	private TransaccionClienteEntity transaccionCliente;
 
 	private Timestamp optlk;
@@ -65,8 +57,6 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	@NotNull
 	@Min(value = 0)
 	@Max(value = 1000)
-	@DecimalMin(value = "0")
-	@DecimalMax(value = "1000")
 	@Digits(integer = 4, fraction = 2)
 	public BigDecimal getValor() {
 		return valor;
@@ -78,7 +68,6 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 
 	@NotNull
 	@Min(value = 0)
-	@DecimalMin(value = "0")
 	@Digits(integer = 18, fraction = 2)
 	public int getCantidad() {
 		return cantidad;
@@ -99,7 +88,6 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 		this.transaccionCliente = transaccionCliente;
 	}
 
-	@XmlTransient
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;
@@ -108,7 +96,7 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	public void setOptlk(Timestamp optlk) {
 		this.optlk = optlk;
 	}
-	
+
 	@Formula("cantidad * valor ")
 	public BigDecimal getSubtotal() {
 		return subtotal;

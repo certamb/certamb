@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@DiscriminatorValue(value = "BovedaCaja")
+@DiscriminatorValue(value = "boveda-caja")
 public class DetalleTransaccionBovedaCajaEntity extends DetalleTransaccionInternaEntity implements Serializable {
 
 	/**
@@ -35,4 +35,5 @@ public class DetalleTransaccionBovedaCajaEntity extends DetalleTransaccionIntern
 	public void setTransaccionBovedaCaja(TransaccionBovedaCajaEntity transaccionBovedaCaja) {
 		this.transaccionBovedaCaja = transaccionBovedaCaja;
 	}
+
 }

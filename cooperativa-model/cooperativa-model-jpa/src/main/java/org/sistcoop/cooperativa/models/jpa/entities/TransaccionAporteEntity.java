@@ -5,9 +5,15 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name="TRANSACCION_APORTE")
+@Table(name = "TRANSACCION_APORTE")
 @PrimaryKeyJoinColumn
 public class TransaccionAporteEntity extends TransaccionClienteEntity {
 
@@ -26,7 +32,10 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 	public TransaccionAporteEntity() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	@NotNull
+	@NotBlank
+	@Size(min = 1, max = 20)
 	public String getNumeroCuenta() {
 		return numeroCuenta;
 	}
@@ -35,6 +44,9 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 		this.numeroCuenta = numeroCuenta;
 	}
 
+	@NotNull
+	@NotBlank
+	@Size(min = 3, max = 3)
 	public String getMoneda() {
 		return moneda;
 	}
@@ -43,6 +55,8 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 		this.moneda = moneda;
 	}
 
+	@NotNull
+	@Min(value = 2000)
 	public int getAnio() {
 		return anio;
 	}
@@ -51,6 +65,8 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 		this.anio = anio;
 	}
 
+	@Min(value = 0)
+	@Max(value = 11)
 	public int getMes() {
 		return mes;
 	}
@@ -59,6 +75,7 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 		this.mes = mes;
 	}
 
+	@NotNull
 	public BigDecimal getMonto() {
 		return monto;
 	}
@@ -67,6 +84,8 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 		this.monto = monto;
 	}
 
+	@NotNull
+	@Min(value = 0)
 	public BigDecimal getSaldoDisponible() {
 		return saldoDisponible;
 	}

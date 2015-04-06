@@ -12,13 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Version;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Formula;
 
@@ -57,8 +54,6 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 	@NotNull
 	@Min(value = 0)
 	@Max(value = 1000)
-	@DecimalMin(value = "0")
-	@DecimalMax(value = "1000")
 	@Digits(integer = 4, fraction = 2)
 	public BigDecimal getValor() {
 		return valor;
@@ -70,7 +65,6 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 
 	@NotNull
 	@Min(value = 0)
-	@DecimalMin(value = "0")
 	@Digits(integer = 18, fraction = 2)
 	public int getCantidad() {
 		return cantidad;
@@ -80,7 +74,6 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	@XmlTransient
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;
@@ -97,6 +90,31 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 
 	public void setSubtotal(BigDecimal subtotal) {
 		this.subtotal = subtotal;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof DetalleTransaccionInternaEntity))
+			return false;
+		DetalleTransaccionInternaEntity other = (DetalleTransaccionInternaEntity) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

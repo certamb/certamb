@@ -14,25 +14,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "TRANSACCION_CAJA_CAJA", indexes = { @Index(columnList = "id") })
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
-public class TransaccionCajaCajaEntity extends TransaccionInternaEntity
-		implements java.io.Serializable {
+public class TransaccionCajaCajaEntity extends TransaccionInternaEntity implements java.io.Serializable {
 
 	/**
 	 * 
@@ -64,7 +55,6 @@ public class TransaccionCajaCajaEntity extends TransaccionInternaEntity
 	@NotNull
 	@Size(min = 3, max = 3)
 	@NotBlank
-	@NotEmpty
 	public String getMoneda() {
 		return moneda;
 	}
@@ -80,8 +70,7 @@ public class TransaccionCajaCajaEntity extends TransaccionInternaEntity
 		return historialBovedaCajaDestino;
 	}
 
-	public void setHistorialBovedaCajaDestino(
-			HistorialBovedaCajaEntity historialBovedaCajaDestino) {
+	public void setHistorialBovedaCajaDestino(HistorialBovedaCajaEntity historialBovedaCajaDestino) {
 		this.historialBovedaCajaDestino = historialBovedaCajaDestino;
 	}
 
@@ -92,14 +81,12 @@ public class TransaccionCajaCajaEntity extends TransaccionInternaEntity
 		return historialBovedaCajaOrigen;
 	}
 
-	public void setHistorialBovedaCajaOrigen(
-			HistorialBovedaCajaEntity historialBovedaCajaOrigen) {
+	public void setHistorialBovedaCajaOrigen(HistorialBovedaCajaEntity historialBovedaCajaOrigen) {
 		this.historialBovedaCajaOrigen = historialBovedaCajaOrigen;
 	}
 
 	@NotNull
 	@Min(value = 0)
-	@DecimalMin(value = "0")
 	@Digits(integer = 18, fraction = 2)
 	public BigDecimal getMonto() {
 		return monto;
@@ -109,7 +96,6 @@ public class TransaccionCajaCajaEntity extends TransaccionInternaEntity
 		this.monto = monto;
 	}
 
-	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionCajaCaja")
 	public Set<DetalleTransaccionCajaCajaEntity> getDetalle() {
 		return detalle;

@@ -22,14 +22,12 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="TRANSACCION_CLIENTE")
+@Table(name = "TRANSACCION_CLIENTE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TransaccionClienteEntity implements Serializable {
 
@@ -105,7 +103,6 @@ public class TransaccionClienteEntity implements Serializable {
 	@NotNull
 	@Size(min = 0, max = 60)
 	@NotBlank
-	@NotEmpty
 	public String getObservacion() {
 		return observacion;
 	}
@@ -125,7 +122,6 @@ public class TransaccionClienteEntity implements Serializable {
 		this.historialBovedaCaja = historialBovedaCaja;
 	}
 
-	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionCliente")
 	public Set<DetalleTransaccionClienteEntity> getDetalle() {
 		return detalle;
@@ -135,7 +131,6 @@ public class TransaccionClienteEntity implements Serializable {
 		this.detalle = detalle;
 	}
 
-	@XmlTransient
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;

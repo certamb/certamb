@@ -14,17 +14,12 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "TRABAJADOR_CAJA", indexes = { @Index(columnList = "id") })
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
 public class TrabajadorCajaEntity {
 
 	private Integer id;
@@ -85,5 +80,42 @@ public class TrabajadorCajaEntity {
 
 	public void setOptlk(Timestamp optlk) {
 		this.optlk = optlk;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((caja == null) ? 0 : caja.hashCode());
+		result = prime * result + ((numeroDocumento == null) ? 0 : numeroDocumento.hashCode());
+		result = prime * result + ((tipoDocumento == null) ? 0 : tipoDocumento.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof TrabajadorCajaEntity))
+			return false;
+		TrabajadorCajaEntity other = (TrabajadorCajaEntity) obj;
+		if (caja == null) {
+			if (other.caja != null)
+				return false;
+		} else if (!caja.equals(other.caja))
+			return false;
+		if (numeroDocumento == null) {
+			if (other.numeroDocumento != null)
+				return false;
+		} else if (!numeroDocumento.equals(other.numeroDocumento))
+			return false;
+		if (tipoDocumento == null) {
+			if (other.tipoDocumento != null)
+				return false;
+		} else if (!tipoDocumento.equals(other.tipoDocumento))
+			return false;
+		return true;
 	}
 }
