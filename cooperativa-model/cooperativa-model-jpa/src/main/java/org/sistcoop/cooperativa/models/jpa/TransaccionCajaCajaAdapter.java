@@ -30,7 +30,7 @@ public class TransaccionCajaCajaAdapter implements TransaccionCajaCajaModel {
 		return transaccionCajaCajaEntity;
 	}
 
-	public static TransaccionCajaCajaEntity toCajaEntity(TransaccionCajaCajaModel model, EntityManager em) {
+	public static TransaccionCajaCajaEntity toTransaccionCajaCajaEntity(TransaccionCajaCajaModel model, EntityManager em) {
 		if (model instanceof TransaccionCajaCajaAdapter) {
 			return ((TransaccionCajaCajaAdapter) model).getTransaccionCajaCajaEntity();
 		}
