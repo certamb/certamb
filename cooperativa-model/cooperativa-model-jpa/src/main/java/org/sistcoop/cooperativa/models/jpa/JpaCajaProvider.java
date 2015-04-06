@@ -10,14 +10,17 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
+import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.CajaProvider;
 
 @Named
 @Stateless
-@Local(BovedaProvider.class)
+@Local(CajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaBovedaProvider implements BovedaProvider {
+public class JpaCajaProvider implements CajaProvider {
 
 	@PersistenceContext
 	protected EntityManager em;
@@ -28,43 +31,43 @@ public class JpaBovedaProvider implements BovedaProvider {
 	}
 
 	@Override
-	public BovedaModel addBoveda(String moneda, String denominacion, String agencia) {
+	public CajaModel addCaja(String denominacion, String agencia) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean desactivarBoveda(BovedaModel bovedaModel) {
+	public boolean desactivarCaja(CajaModel cajaModel) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public BovedaModel getBovedaById(Integer id) {
+	public CajaModel getCajaById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<BovedaModel> getBovedas() {
+	public List<CajaModel> getCajas() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<BovedaModel> getBovedas(String agencia) {
+	public List<CajaModel> getCajas(String agencia) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<BovedaModel> getBovedas(boolean estado) {
+	public List<CajaModel> getCajas(boolean estado) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<BovedaModel> getBovedas(String agencia, boolean estado) {
+	public List<CajaModel> getCajas(String agencia, boolean estado) {
 		// TODO Auto-generated method stub
 		return null;
 	}

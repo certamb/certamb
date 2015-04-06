@@ -10,14 +10,17 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.sistcoop.cooperativa.models.BovedaCajaModel;
+import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
+import org.sistcoop.cooperativa.models.CajaModel;
 
 @Named
 @Stateless
-@Local(BovedaProvider.class)
+@Local(BovedaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaBovedaProvider implements BovedaProvider {
+public class JpaBovedaCajaProvider implements BovedaCajaProvider {
 
 	@PersistenceContext
 	protected EntityManager em;
@@ -28,43 +31,25 @@ public class JpaBovedaProvider implements BovedaProvider {
 	}
 
 	@Override
-	public BovedaModel addBoveda(String moneda, String denominacion, String agencia) {
+	public BovedaCajaModel addBovedaCaja(BovedaModel bovedaModel, CajaModel cajaModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean desactivarBoveda(BovedaModel bovedaModel) {
+	public boolean desactivarBovedaCaja(BovedaCajaModel bovedaCajaModel) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public BovedaModel getBovedaById(Integer id) {
+	public BovedaCajaModel getBovedaCajaById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<BovedaModel> getBovedas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<BovedaModel> getBovedas(String agencia) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<BovedaModel> getBovedas(boolean estado) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<BovedaModel> getBovedas(String agencia, boolean estado) {
+	public BovedaCajaModel getBovedaCajaByBovedaCaja(BovedaModel bovedaModel, CajaModel cajaModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}
