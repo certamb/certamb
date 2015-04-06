@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
@@ -17,7 +18,12 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "ENTIDAD", indexes = { @Index(columnList = "id") })
-public class EntidadEntity {
+public class EntidadEntity implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private String denominacion;

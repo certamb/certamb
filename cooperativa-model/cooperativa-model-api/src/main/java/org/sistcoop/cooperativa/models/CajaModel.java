@@ -2,15 +2,17 @@ package org.sistcoop.cooperativa.models;
 
 import java.util.List;
 
-public interface BovedaModel extends Model {
+public interface CajaModel {
 
 	Integer getId();
-
-	String getMoneda();
 
 	String getDenominacion();
 
 	void setDenominacion(String denominacion);
+
+	boolean getEstado();
+
+	void desactivar();
 
 	boolean isAbierto();
 
@@ -20,13 +22,10 @@ public interface BovedaModel extends Model {
 
 	void setEstadoMovimiento(boolean estadoMovimiento);
 
-	boolean getEstado();
-
-	void setEstado(boolean estado);
-
 	String getAgencia();
 
-	List<HistorialBovedaModel> getHistorial();
-
 	List<BovedaCajaModel> getBovedaCajas();
+
+	List<TrabajadorCajaModel> getTrabajadorCajas();
+
 }
