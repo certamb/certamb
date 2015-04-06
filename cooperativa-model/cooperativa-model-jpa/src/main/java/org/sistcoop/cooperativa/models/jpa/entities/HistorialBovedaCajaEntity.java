@@ -19,12 +19,11 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "HISTORIAL_BOVEDA_CAJA")
-@NamedQueries({
-		@NamedQuery(name = HistorialBovedaCajaEntity.findByHistorialActivo, query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja c WHERE c.id = :idCaja AND h.estado = true"),
-		@NamedQuery(name = HistorialBovedaCajaEntity.findByHistorialDateRange, query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja c WHERE c.id = :idCaja AND h.fechaApertura BETWEEN :desde AND :hasta AND h.estado = false ORDER BY h.horaApertura DESC"),
-		@NamedQuery(name = HistorialBovedaCajaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja AND s.estado = :estado") })
-public class HistorialBovedaCajaEntity extends HistorialEntity implements
-		Serializable {
+@NamedQueries({ 
+	@NamedQuery(name = HistorialBovedaCajaEntity.findByHistorialActivo, query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja c WHERE c.id = :idCaja AND h.estado = true"), 
+	@NamedQuery(name = HistorialBovedaCajaEntity.findByHistorialDateRange, query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja c WHERE c.id = :idCaja AND h.fechaApertura BETWEEN :desde AND :hasta AND h.estado = false ORDER BY h.horaApertura DESC"),		
+	@NamedQuery(name = HistorialBovedaCajaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja AND s.estado = :estado") })
+public class HistorialBovedaCajaEntity extends HistorialEntity implements Serializable {
 
 	/**
 	 * 
@@ -32,10 +31,8 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements
 	private static final long serialVersionUID = 1L;
 
 	public final static String base = "org.softgreen.sistcoop.organizacion.ejb.models.jpa.entities.HistorialCajaEntity.";
-	public final static String findByHistorialActivo = base
-			+ "findByHistorialActivo";
-	public final static String findByHistorialDateRange = base
-			+ "findByHistorialDateRange";
+	public final static String findByHistorialActivo = base + "findByHistorialActivo";
+	public final static String findByHistorialDateRange = base + "findByHistorialDateRange";
 	public final static String findByEstado = base + "findByEstado";
 
 	private BovedaCajaEntity bovedaCaja;

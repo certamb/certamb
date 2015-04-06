@@ -16,6 +16,7 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.TrabajadorCajaEntity;
 
 public class TrabajadorCajaAdapter implements TrabajadorCajaModel {
 
@@ -24,7 +25,7 @@ public class TrabajadorCajaAdapter implements TrabajadorCajaModel {
 	protected BovedaEntity bovedaEntity;
 	protected EntityManager em;
 
-	public TrabajadorCajaAdapter(EntityManager em, BovedaEntity bovedaEntity) {
+	public TrabajadorCajaAdapter(EntityManager em, TrabajadorCajaEntity trabajadorCajaEntity) {
 		this.em = em;
 		this.bovedaEntity = bovedaEntity;
 	}

@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -9,9 +10,12 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
+import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 
 @Named
 @Stateless
@@ -28,45 +32,75 @@ public class JpaBovedaProvider implements BovedaProvider {
 	}
 
 	@Override
-	public BovedaModel addBoveda(String moneda, String denominacion, String agencia) {
-		// TODO Auto-generated method stub
-		return null;
+	public BovedaModel addBoveda(String agencia, String moneda, String denominacion) {
+		BovedaEntity bovedaEntity = new BovedaEntity();
+
+		bovedaEntity.setAgencia(agencia);
+		bovedaEntity.setDenominacion(denominacion);
+		bovedaEntity.setMoneda(moneda);
+		bovedaEntity.setAbierto(false);
+		bovedaEntity.setEstadoMovimiento(false);
+		bovedaEntity.setEstado(true);
+
+		em.persist(bovedaEntity);
+		return new BovedaAdapter(em, bovedaEntity);
 	}
 
 	@Override
 	public boolean desactivarBoveda(BovedaModel bovedaModel) {
-		// TODO Auto-generated method stub
-		return false;
+		BovedaEntity bovedaEntity = this.em.find(BovedaEntity.class, bovedaModel.getId());
+		bovedaEntity.setEstado(false);
+		em.merge(bovedaEntity);
+		return true;
 	}
 
 	@Override
 	public BovedaModel getBovedaById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		BovedaEntity BovedaEntity = this.em.find(BovedaEntity.class, id);
+		return BovedaEntity != null ? new BovedaAdapter(em, BovedaEntity) : null;
 	}
 
 	@Override
 	public List<BovedaModel> getBovedas() {
-		// TODO Auto-generated method stub
-		return null;
+		return getBovedas(true);
 	}
 
 	@Override
 	public List<BovedaModel> getBovedas(String agencia) {
-		// TODO Auto-generated method stub
-		return null;
+		return getBovedas(agencia, true);
 	}
 
 	@Override
 	public List<BovedaModel> getBovedas(boolean estado) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Object> list = null;
+		CriteriaQuery<Object> cq = this.em.getCriteriaBuilder().createQuery();
+		cq.select(cq.from(BovedaEntity.class));
+		list = this.em.createQuery(cq).getResultList();
+
+		List<BovedaModel> result = new ArrayList<BovedaModel>();
+		for (Object object : list) {
+			BovedaEntity bovedaEntity = (BovedaEntity) object;
+			if (bovedaEntity.isEstado() == estado) {
+				result.add(new BovedaAdapter(em, bovedaEntity));
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public List<BovedaModel> getBovedas(String agencia, boolean estado) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<BovedaEntity> query = em.createNamedQuery(BovedaEntity.findByAgencia, BovedaEntity.class);
+		query.setParameter("agencia", agencia);
+		List<BovedaEntity> list = query.getResultList();
+
+		List<BovedaModel> result = new ArrayList<BovedaModel>();
+		for (Object object : list) {
+			BovedaEntity bovedaEntity = (BovedaEntity) object;
+			if (bovedaEntity.isEstado() == estado) {
+				result.add(new BovedaAdapter(em, bovedaEntity));
+			}
+		}
+		return result;
 	}
 
 }

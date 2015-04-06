@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -9,12 +10,12 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
 
-import org.sistcoop.cooperativa.models.BovedaCajaProvider;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
+import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 
 @Named
 @Stateless
@@ -31,45 +32,66 @@ public class JpaCajaProvider implements CajaProvider {
 	}
 
 	@Override
-	public CajaModel addCaja(String denominacion, String agencia) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public CajaModel addCaja(String agencia, String denominacion) {
+		CajaEntity cajaEntity = new CajaEntity();
 
-	@Override
-	public boolean desactivarCaja(CajaModel cajaModel) {
-		// TODO Auto-generated method stub
-		return false;
+		cajaEntity.setAgencia(agencia);
+		cajaEntity.setDenominacion(denominacion);
+		cajaEntity.setAbierto(false);
+		cajaEntity.setEstadoMovimiento(false);
+		cajaEntity.setEstado(true);
+
+		em.persist(cajaEntity);
+		return new CajaAdapter(em, cajaEntity);
 	}
 
 	@Override
 	public CajaModel getCajaById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		CajaEntity cajaEntity = this.em.find(CajaEntity.class, id);
+		return cajaEntity != null ? new CajaAdapter(em, cajaEntity) : null;
 	}
 
 	@Override
 	public List<CajaModel> getCajas() {
-		// TODO Auto-generated method stub
-		return null;
+		return getCajas(true);
 	}
 
 	@Override
 	public List<CajaModel> getCajas(String agencia) {
-		// TODO Auto-generated method stub
-		return null;
+		return getCajas(agencia, true);
 	}
 
 	@Override
 	public List<CajaModel> getCajas(boolean estado) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Object> list = null;
+		CriteriaQuery<Object> cq = this.em.getCriteriaBuilder().createQuery();
+		cq.select(cq.from(CajaEntity.class));
+		list = this.em.createQuery(cq).getResultList();
+
+		List<CajaModel> result = new ArrayList<CajaModel>();
+		for (Object object : list) {
+			CajaEntity cajaEntity = (CajaEntity) object;
+			if (cajaEntity.isEstado() == estado) {
+				result.add(new CajaAdapter(em, cajaEntity));
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public List<CajaModel> getCajas(String agencia, boolean estado) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<CajaEntity> query = em.createNamedQuery(CajaEntity.findByAgencia, CajaEntity.class);
+		query.setParameter("agencia", agencia);
+		List<CajaEntity> list = query.getResultList();
+
+		List<CajaModel> result = new ArrayList<CajaModel>();
+		for (Object object : list) {
+			CajaEntity cajaEntity = (CajaEntity) object;
+			if (cajaEntity.isEstado() == estado) {
+				result.add(new CajaAdapter(em, cajaEntity));
+			}
+		}
+		return result;
 	}
 
 }

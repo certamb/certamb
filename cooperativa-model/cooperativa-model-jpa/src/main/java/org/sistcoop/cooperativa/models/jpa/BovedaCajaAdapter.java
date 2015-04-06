@@ -4,84 +4,119 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 
 public class BovedaCajaAdapter implements BovedaCajaModel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected BovedaEntity bovedaEntity;
+	protected BovedaCajaEntity bovedaCajaEntity;
 	protected EntityManager em;
 
-	public BovedaCajaAdapter(EntityManager em, BovedaEntity bovedaEntity) {
+	public BovedaCajaAdapter(EntityManager em, BovedaCajaEntity bovedaCajaEntity) {
 		this.em = em;
-		this.bovedaEntity = bovedaEntity;
+		this.bovedaCajaEntity = bovedaCajaEntity;
 	}
 
-	public BovedaEntity getAgenciaEntity() {
-		return bovedaEntity;
+	public BovedaCajaEntity getBovedaCajaEntity() {
+		return bovedaCajaEntity;
+	}
+
+	public static BovedaCajaEntity toBovedaCajaEntity(BovedaCajaModel model, EntityManager em) {
+		if (model instanceof BovedaCajaAdapter) {
+			return ((BovedaCajaAdapter) model).getBovedaCajaEntity();
+		}
+		return em.getReference(BovedaCajaEntity.class, model.getId());
 	}
 
 	@Override
 	public void commit() {
-		// TODO Auto-generated method stub
-
+		em.merge(bovedaCajaEntity);
 	}
 
 	@Override
 	public Integer getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return bovedaCajaEntity.getId();
 	}
 
 	@Override
 	public BigDecimal getSaldo() {
-		// TODO Auto-generated method stub
-		return null;
+		return bovedaCajaEntity.getSaldo();
 	}
 
 	@Override
 	public void setSaldo(BigDecimal saldo) {
-		// TODO Auto-generated method stub
-		
+		bovedaCajaEntity.setSaldo(saldo);
 	}
 
 	@Override
 	public boolean getEstado() {
-		// TODO Auto-generated method stub
-		return false;
+		return bovedaCajaEntity.isEstado();
 	}
 
 	@Override
 	public void desactivar() {
-		// TODO Auto-generated method stub
-		
+		bovedaCajaEntity.setEstado(false);
 	}
 
 	@Override
 	public CajaModel getCaja() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CajaAdapter(em, bovedaCajaEntity.getCaja());
 	}
 
 	@Override
 	public BovedaModel getBoveda() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BovedaAdapter(em, bovedaCajaEntity.getBoveda());
 	}
 
 	@Override
-	public List<HistorialBovedaCajaModel> getHistorial() {
-		// TODO Auto-generated method stub
-		return null;
+	public HistorialBovedaCajaModel getHistorialActivo() {
+		TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery(HistorialBovedaCajaEntity.findByEstado, HistorialBovedaCajaEntity.class);
+		query.setParameter("idBovedaCaja", getId());
+		query.setParameter("estado", true);
+		List<HistorialBovedaCajaEntity> list = query.getResultList();
+		if (list.size() > 0)
+			return new HistorialBovedaCajaAdapter(em, list.get(0));
+		else
+			return null;
 	}
 
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getBoveda() == null) ? 0 : getBoveda().hashCode());
+		result = prime * result + ((getCaja() == null) ? 0 : getCaja().hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof BovedaCajaModel))
+			return false;
+		BovedaCajaModel other = (BovedaCajaModel) obj;
+		if (getBoveda() == null) {
+			if (other.getBoveda() != null)
+				return false;
+		} else if (!getBoveda().equals(other.getBoveda()))
+			return false;
+		if (getCaja() == null) {
+			if (other.getCaja() != null)
+				return false;
+		} else if (!getCaja().equals(other.getCaja()))
+			return false;
+		return true;
+	}
 
 }

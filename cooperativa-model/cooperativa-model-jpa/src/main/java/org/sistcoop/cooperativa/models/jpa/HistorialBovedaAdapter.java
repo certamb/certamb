@@ -1,112 +1,104 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 
-import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
-import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
-import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaModel;
-import org.sistcoop.cooperativa.models.DetalleTransaccionClienteModel;
-import org.sistcoop.cooperativa.models.EntidadModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.DetalleHistorialBovedaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
 
 public class HistorialBovedaAdapter implements HistorialBovedaModel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected BovedaEntity bovedaEntity;
+	protected HistorialBovedaEntity historialBovedaEntity;
 	protected EntityManager em;
 
-	public HistorialBovedaAdapter(EntityManager em, BovedaEntity bovedaEntity) {
+	public HistorialBovedaAdapter(EntityManager em, HistorialBovedaEntity historialBovedaEntity) {
 		this.em = em;
-		this.bovedaEntity = bovedaEntity;
+		this.historialBovedaEntity = historialBovedaEntity;
 	}
 
-	public BovedaEntity getAgenciaEntity() {
-		return bovedaEntity;
+	public HistorialBovedaEntity getHistorialBovedaEntity() {
+		return historialBovedaEntity;
+	}
+
+	public static HistorialBovedaEntity toHistorialBovedaEntity(HistorialBovedaModel model, EntityManager em) {
+		if (model instanceof HistorialBovedaAdapter) {
+			return ((HistorialBovedaAdapter) model).getHistorialBovedaEntity();
+		}
+		return em.getReference(HistorialBovedaEntity.class, model.getId());
 	}
 
 	@Override
 	public void commit() {
-		// TODO Auto-generated method stub
-		
+		em.merge(historialBovedaEntity);
 	}
 
 	@Override
-	public Integer getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public Long getId() {
+		return historialBovedaEntity.getId();
 	}
 
 	@Override
 	public Date getFechaApertura() {
-		// TODO Auto-generated method stub
-		return null;
+		return historialBovedaEntity.getFechaApertura();
 	}
 
 	@Override
 	public Date getFechaCierre() {
-		// TODO Auto-generated method stub
-		return null;
+		return historialBovedaEntity.getFechaCierre();
 	}
 
 	@Override
 	public void setFechaCierre(Date fechaCierre) {
-		// TODO Auto-generated method stub
-		
+		historialBovedaEntity.setFechaCierre(fechaCierre);
 	}
 
 	@Override
 	public Date getHoraApertura() {
-		// TODO Auto-generated method stub
-		return null;
+		return historialBovedaEntity.getHoraApertura();
 	}
 
 	@Override
 	public Date getHoraCierre() {
-		// TODO Auto-generated method stub
-		return null;
+		return historialBovedaEntity.getHoraCierre();
 	}
 
 	@Override
 	public void setHoraCierre(Date horaCierre) {
-		// TODO Auto-generated method stub
-		
+		historialBovedaEntity.setHoraCierre(horaCierre);
 	}
 
 	@Override
 	public boolean getEstado() {
-		// TODO Auto-generated method stub
-		return false;
+		return historialBovedaEntity.isEstado();
 	}
 
 	@Override
 	public void desactivar() {
-		// TODO Auto-generated method stub
-		
+		historialBovedaEntity.setEstado(false);
 	}
 
 	@Override
 	public BovedaModel getBoveda() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BovedaAdapter(em, historialBovedaEntity.getBoveda());
 	}
 
 	@Override
 	public List<DetalleHistorialBovedaModel> getDetalle() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<DetalleHistorialBovedaEntity> detalleHistorialBovedaEntities = historialBovedaEntity.getDetalle();
+		List<DetalleHistorialBovedaModel> result = new ArrayList<DetalleHistorialBovedaModel>();
+		for (DetalleHistorialBovedaEntity detalleHistorialBovedaEntity : detalleHistorialBovedaEntities) {
+			result.add(new DetalleHistorialBovedaAdapter(em, detalleHistorialBovedaEntity));
+		}
+		return result;
 	}
-
-	
-	
 
 }

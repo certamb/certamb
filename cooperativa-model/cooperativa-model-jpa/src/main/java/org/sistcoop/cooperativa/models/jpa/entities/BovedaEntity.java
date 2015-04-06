@@ -25,18 +25,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "BOVEDA", indexes = { @Index(columnList = "id") })
-@NamedQueries({
-		@NamedQuery(name = BovedaEntity.findAllByIdAgencia, query = "SELECT b FROM BovedaEntity b INNER JOIN b.agencia a WHERE a.id = :idAgencia"),
-		@NamedQuery(name = BovedaEntity.findByAgenciaAndFilterText, query = "SELECT b FROM BovedaEntity b WHERE b.agencia.id = :idAgencia AND ( b.moneda LIKE :filterText OR (UPPER(b.denominacion) LIKE :filterText) ) AND b.estado = TRUE") })
+@NamedQueries({ 
+	@NamedQuery(name = BovedaEntity.findByAgencia, query = "SELECT b FROM BovedaEntity b WHERE b.agencia = :agencia") })
 public class BovedaEntity implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity";
-	public static final String findAllByIdAgencia = base + "findAllByIdAgencia";
-	public static final String findByAgenciaAndFilterText = base + "findByAgenciaAndFilterText";
+	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity.";
+	public static final String findByAgencia = base + "findByAgencia";
 
 	private Integer id;
 	private String moneda;

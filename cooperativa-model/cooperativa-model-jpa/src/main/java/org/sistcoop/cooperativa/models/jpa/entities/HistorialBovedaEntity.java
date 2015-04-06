@@ -19,9 +19,9 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "HISTORIAL_BOVEDA")
-@NamedQueries(value = { @NamedQuery(name = HistorialBovedaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaEntity s WHERE s.boveda.id = :idBoveda AND s.estado = :estado") })
-public class HistorialBovedaEntity extends HistorialEntity implements
-		Serializable {
+@NamedQueries(value = { 
+		@NamedQuery(name = HistorialBovedaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaEntity s WHERE s.boveda.id = :idBoveda AND s.estado = :estado") })
+public class HistorialBovedaEntity extends HistorialEntity implements Serializable {
 
 	/**
 	 * 

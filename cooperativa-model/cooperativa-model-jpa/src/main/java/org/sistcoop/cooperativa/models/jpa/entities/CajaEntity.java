@@ -24,14 +24,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "CAJA", indexes = { @Index(columnList = "id") })
-@NamedQueries({
-		@NamedQuery(name = CajaEntity.findByUsername, query = "SELECT c FROM CajaEntity c INNER JOIN c.trabajadorCajas tc INNER JOIN tc.trabajador t WHERE t.usuario = :username"),
-		@NamedQuery(name = CajaEntity.findByAgenciaAndFilterText, query = "SELECT c FROM CajaEntity c WHERE c.agencia.id = :idAgencia AND ( UPPER(c.denominacion) LIKE :filterText ) AND c.estado = TRUE") })
+@NamedQueries({		
+		@NamedQuery(name = CajaEntity.findByAgencia, query = "SELECT c FROM CajaEntity c WHERE c.agencia = :agencia") })
 public class CajaEntity {
 
-	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.CajaEntity";
-	public final static String findByUsername = base + "findByUsername";
-	public static final String findByAgenciaAndFilterText = base + "findByAgenciaAndFilterText";
+	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.CajaEntity.";
+	public static final String findByAgencia = base + "findByAgencia";
+	
 
 	private Integer id;
 	private String denominacion;

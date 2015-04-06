@@ -1,7 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -11,13 +10,11 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.sistcoop.cooperativa.models.BovedaCajaProvider;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.BovedaProvider;
-import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
+import org.sistcoop.cooperativa.models.jpa.entities.DetalleHistorialBovedaCajaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 
 @Named
 @Stateless
@@ -35,14 +32,15 @@ public class JpaDetalleHistorialBovedaCajaProvider implements DetalleHistorialBo
 
 	@Override
 	public DetalleHistorialBovedaCajaModel addDetalleHistorialBovedaCaja(HistorialBovedaCajaModel historialBovedaCajaModel, BigDecimal valor, int cantidad) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		HistorialBovedaCajaEntity historialBovedaCajaEntity = HistorialBovedaCajaAdapter.toHistorialBovedaCajaEntity(historialBovedaCajaModel, em);
 
-	@Override
-	public BovedaModel getDetalleHistorialBovedaCajaModelById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		DetalleHistorialBovedaCajaEntity detalleHistorialBovedaCajaEntity = new DetalleHistorialBovedaCajaEntity();
+		detalleHistorialBovedaCajaEntity.setCantidad(cantidad);
+		detalleHistorialBovedaCajaEntity.setValor(valor);
+		detalleHistorialBovedaCajaEntity.setHistorial(historialBovedaCajaEntity);
+
+		em.persist(detalleHistorialBovedaCajaEntity);
+		return new DetalleHistorialBovedaCajaAdapter(em, detalleHistorialBovedaCajaEntity);
 	}
 
 }

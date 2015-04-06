@@ -1,6 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -13,8 +13,10 @@ import javax.persistence.PersistenceContext;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 
 @Named
 @Stateless
@@ -32,26 +34,18 @@ public class JpaBovedaCajaProvider implements BovedaCajaProvider {
 
 	@Override
 	public BovedaCajaModel addBovedaCaja(BovedaModel bovedaModel, CajaModel cajaModel) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		BovedaCajaEntity bovedaCajaEntity = new BovedaCajaEntity();
 
-	@Override
-	public boolean desactivarBovedaCaja(BovedaCajaModel bovedaCajaModel) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		BovedaEntity bovedaEntity = BovedaAdapter.toBovedaEntity(bovedaModel, em);
+		CajaEntity cajaEntity = CajaAdapter.toCajaEntity(cajaModel, em);
 
-	@Override
-	public BovedaCajaModel getBovedaCajaById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		bovedaCajaEntity.setBoveda(bovedaEntity);
+		bovedaCajaEntity.setCaja(cajaEntity);
+		bovedaCajaEntity.setSaldo(BigDecimal.ZERO);
+		bovedaCajaEntity.setEstado(true);
 
-	@Override
-	public BovedaCajaModel getBovedaCajaByBovedaCaja(BovedaModel bovedaModel, CajaModel cajaModel) {
-		// TODO Auto-generated method stub
-		return null;
+		em.persist(bovedaCajaEntity);
+		return new BovedaCajaAdapter(em, bovedaCajaEntity);
 	}
 
 }

@@ -1,112 +1,104 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
-import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
-import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaModel;
-import org.sistcoop.cooperativa.models.DetalleTransaccionClienteModel;
-import org.sistcoop.cooperativa.models.EntidadModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.DetalleHistorialBovedaCajaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 
 public class HistorialBovedaCajaAdapter implements HistorialBovedaCajaModel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected BovedaEntity bovedaEntity;
+	protected HistorialBovedaCajaEntity historialBovedaCajaEntity;
 	protected EntityManager em;
 
-	public HistorialBovedaCajaAdapter(EntityManager em, BovedaEntity bovedaEntity) {
+	public HistorialBovedaCajaAdapter(EntityManager em, HistorialBovedaCajaEntity historialBovedaCajaEntity) {
 		this.em = em;
-		this.bovedaEntity = bovedaEntity;
+		this.historialBovedaCajaEntity = historialBovedaCajaEntity;
 	}
 
-	public BovedaEntity getAgenciaEntity() {
-		return bovedaEntity;
+	public HistorialBovedaCajaEntity getHistorialBovedaCajaEntity() {
+		return historialBovedaCajaEntity;
+	}
+
+	public static HistorialBovedaCajaEntity toHistorialBovedaCajaEntity(HistorialBovedaCajaModel model, EntityManager em) {
+		if (model instanceof HistorialBovedaCajaAdapter) {
+			return ((HistorialBovedaCajaAdapter) model).getHistorialBovedaCajaEntity();
+		}
+		return em.getReference(HistorialBovedaCajaEntity.class, model.getId());
 	}
 
 	@Override
 	public void commit() {
-		// TODO Auto-generated method stub
-		
+		em.merge(historialBovedaCajaEntity);
 	}
 
 	@Override
-	public Integer getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public Long getId() {
+		return historialBovedaCajaEntity.getId();
 	}
 
 	@Override
 	public Date getFechaApertura() {
-		// TODO Auto-generated method stub
-		return null;
+		return historialBovedaCajaEntity.getFechaApertura();
 	}
 
 	@Override
 	public Date getFechaCierre() {
-		// TODO Auto-generated method stub
-		return null;
+		return historialBovedaCajaEntity.getFechaCierre();
 	}
 
 	@Override
 	public void setFechaCierre(Date fechaCierre) {
-		// TODO Auto-generated method stub
-		
+		historialBovedaCajaEntity.setFechaCierre(fechaCierre);
 	}
 
 	@Override
 	public Date getHoraApertura() {
-		// TODO Auto-generated method stub
-		return null;
+		return historialBovedaCajaEntity.getHoraApertura();
 	}
 
 	@Override
 	public Date getHoraCierre() {
-		// TODO Auto-generated method stub
-		return null;
+		return historialBovedaCajaEntity.getHoraCierre();
 	}
 
 	@Override
 	public void setHoraCierre(Date horaCierre) {
-		// TODO Auto-generated method stub
-		
+		historialBovedaCajaEntity.setHoraCierre(horaCierre);
 	}
 
 	@Override
 	public boolean getEstado() {
-		// TODO Auto-generated method stub
-		return false;
+		return historialBovedaCajaEntity.isEstado();
 	}
 
 	@Override
 	public void desactivar() {
-		// TODO Auto-generated method stub
-		
+		historialBovedaCajaEntity.setEstado(false);
 	}
 
 	@Override
 	public BovedaCajaModel getBovedaCaja() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BovedaCajaAdapter(em, historialBovedaCajaEntity.getBovedaCaja());
 	}
 
 	@Override
 	public List<DetalleHistorialBovedaCajaModel> getDetalle() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<DetalleHistorialBovedaCajaEntity> detalleHistorialBovedaCajaEntities = historialBovedaCajaEntity.getDetalle();
+		List<DetalleHistorialBovedaCajaModel> result = new ArrayList<DetalleHistorialBovedaCajaModel>();
+		for (DetalleHistorialBovedaCajaEntity detalleHistorialBovedaCajaEntity : detalleHistorialBovedaCajaEntities) {
+			result.add(new DetalleHistorialBovedaCajaAdapter(em, detalleHistorialBovedaCajaEntity));
+		}
+		return result;
 	}
-
-	
-	
 
 }
