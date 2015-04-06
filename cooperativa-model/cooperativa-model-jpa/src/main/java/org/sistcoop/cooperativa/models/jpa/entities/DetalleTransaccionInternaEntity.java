@@ -29,11 +29,11 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
-	private BigDecimal valor;
-	private int cantidad;
+	protected Long id;
+	protected BigDecimal valor;
+	protected int cantidad;
 
-	private BigDecimal subtotal;
+	protected BigDecimal subtotal;
 
 	private Timestamp optlk;
 

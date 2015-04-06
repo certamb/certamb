@@ -1,7 +1,7 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Calendar;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -11,17 +11,11 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.sistcoop.cooperativa.models.BovedaCajaProvider;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.BovedaProvider;
-import org.sistcoop.cooperativa.models.CajaProvider;
-import org.sistcoop.cooperativa.models.DetalleTransaccionClienteProvider;
-import org.sistcoop.cooperativa.models.EntidadProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
-import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaProvider;
+import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.TransaccionCajaCajaEntity;
 
 @Named
 @Stateless
@@ -38,9 +32,25 @@ public class JpaTransaccionCajaCajaProvider implements TransaccionCajaCajaProvid
 	}
 
 	@Override
-	public TransaccionCajaCajaModel addTransaccionCajaCaja(HistorialBovedaCajaModel historialBovedaCajaOrigen, HistorialBovedaCajaModel historialBovedaCajaDestino, BigDecimal monto) {
-		// TODO Auto-generated method stub
-		return null;
+	public TransaccionCajaCajaModel addTransaccionCajaCaja(HistorialBovedaCajaModel historialBovedaCajaOrigen, HistorialBovedaCajaModel historialBovedaCajaDestino, BigDecimal monto, String observacion) {
+		HistorialBovedaCajaEntity historialBovedaCajaOrigenEntity = HistorialBovedaCajaAdapter.toHistorialBovedaCajaEntity(historialBovedaCajaOrigen, em);
+		HistorialBovedaCajaEntity historialBovedaCajaDestinoEntity = HistorialBovedaCajaAdapter.toHistorialBovedaCajaEntity(historialBovedaCajaDestino, em);
+
+		Calendar calendar = Calendar.getInstance();
+
+		TransaccionCajaCajaEntity transaccionCajaCajaEntity = new TransaccionCajaCajaEntity();
+		transaccionCajaCajaEntity.setHistorialBovedaCajaOrigen(historialBovedaCajaOrigenEntity);
+		transaccionCajaCajaEntity.setHistorialBovedaCajaDestino(historialBovedaCajaDestinoEntity);
+		transaccionCajaCajaEntity.setFecha(calendar.getTime());
+		transaccionCajaCajaEntity.setHora(calendar.getTime());
+		transaccionCajaCajaEntity.setMonto(monto);
+		transaccionCajaCajaEntity.setObservacion(observacion);
+		transaccionCajaCajaEntity.setEstadoSolicitud(true);
+		transaccionCajaCajaEntity.setEstadoConfirmacion(false);
+		transaccionCajaCajaEntity.setEstado(true);
+
+		em.persist(transaccionCajaCajaEntity);
+		return new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity);
 	}
 
 }

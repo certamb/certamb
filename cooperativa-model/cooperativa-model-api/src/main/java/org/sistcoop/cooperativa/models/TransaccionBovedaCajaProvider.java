@@ -10,6 +10,7 @@ public interface TransaccionBovedaCajaProvider extends Provider {
 	TransaccionBovedaCajaModel addTransaccionBovedaCaja(
 			HistorialBovedaModel historialBovedaModel,
 			HistorialBovedaCajaModel historialBovedaCajaModel,
-			String origen);
+			String origen,
+			String observacion);
 	
 }

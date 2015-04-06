@@ -8,8 +8,6 @@ public interface TransaccionCajaCajaModel extends Model {
 
 	Long getId();
 
-	String getMoneda();
-
 	HistorialBovedaCajaModel getHistorialBovedaCajaOrigen();
 
 	HistorialBovedaCajaModel getHistorialBovedaCajaDestino();

@@ -12,6 +12,7 @@ public interface TransaccionCajaCajaProvider extends Provider {
 	TransaccionCajaCajaModel addTransaccionCajaCaja(
 			HistorialBovedaCajaModel historialBovedaCajaOrigen,
 			HistorialBovedaCajaModel historialBovedaCajaDestino,
-			BigDecimal monto);
+			BigDecimal monto,
+			String observacion);
 	
 }

@@ -1,6 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.util.List;
+import java.util.Calendar;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -10,17 +10,13 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.sistcoop.cooperativa.models.BovedaCajaProvider;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.BovedaProvider;
-import org.sistcoop.cooperativa.models.CajaProvider;
-import org.sistcoop.cooperativa.models.DetalleTransaccionClienteProvider;
-import org.sistcoop.cooperativa.models.EntidadProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
+import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.TransaccionBovedaCajaEntity;
 
 @Named
 @Stateless
@@ -37,9 +33,26 @@ public class JpaTransaccionBovedaCajaProvider implements TransaccionBovedaCajaPr
 	}
 
 	@Override
-	public TransaccionBovedaCajaModel addTransaccionBovedaCaja(HistorialBovedaModel historialBovedaModel, HistorialBovedaCajaModel historialBovedaCajaModel, String origen) {
-		// TODO Auto-generated method stub
-		return null;
+	public TransaccionBovedaCajaModel addTransaccionBovedaCaja(HistorialBovedaModel historialBovedaModel, HistorialBovedaCajaModel historialBovedaCajaModel, String origen, String observacion) {
+		HistorialBovedaEntity historialBovedaEntity = HistorialBovedaAdapter.toHistorialBovedaEntity(historialBovedaModel, em);
+		HistorialBovedaCajaEntity historialBovedaCajaEntity = HistorialBovedaCajaAdapter.toHistorialBovedaCajaEntity(historialBovedaCajaModel, em);
+
+		Calendar calendar = Calendar.getInstance();
+
+		TransaccionBovedaCajaEntity transaccionBovedaCajaEntity = new TransaccionBovedaCajaEntity();
+
+		transaccionBovedaCajaEntity.setHistorialBoveda(historialBovedaEntity);
+		transaccionBovedaCajaEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
+		transaccionBovedaCajaEntity.setFecha(calendar.getTime());
+		transaccionBovedaCajaEntity.setHora(calendar.getTime());
+		transaccionBovedaCajaEntity.setObservacion(observacion);
+		transaccionBovedaCajaEntity.setOrigen(origen);
+		transaccionBovedaCajaEntity.setEstadoSolicitud(true);
+		transaccionBovedaCajaEntity.setEstadoConfirmacion(false);
+		transaccionBovedaCajaEntity.setEstado(true);
+
+		em.persist(transaccionBovedaCajaEntity);
+		return new TransaccionBovedaCajaAdapter(em, transaccionBovedaCajaEntity);
 	}
 
 }
