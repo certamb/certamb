@@ -5,13 +5,8 @@ import javax.ejb.Local;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
-public interface TrabajadorCajaProvider extends Provider {	
-	
-	TrabajadorCajaModel addTrabajadorCaja(
-			CajaModel cajaModel,
-			String tipoDocumento,
-			String numeroDocumento);
+public interface TrabajadorCajaProvider extends Provider {
 
-	boolean desactivarTrabajadorCaja(TrabajadorCajaModel trabajadorCajaModel);
-	
+	TrabajadorCajaModel addTrabajadorCaja(CajaModel cajaModel, String tipoDocumento, String numeroDocumento);
+
 }

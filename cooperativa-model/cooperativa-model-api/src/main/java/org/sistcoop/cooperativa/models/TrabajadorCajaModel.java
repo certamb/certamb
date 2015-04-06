@@ -1,6 +1,6 @@
 package org.sistcoop.cooperativa.models;
 
-public interface TrabajadorCajaModel {
+public interface TrabajadorCajaModel extends Model {
 
 	Integer getId();
 
@@ -10,4 +10,7 @@ public interface TrabajadorCajaModel {
 
 	CajaModel getCaja();
 
+	boolean getEstado();
+
+	void desactivar();
 }

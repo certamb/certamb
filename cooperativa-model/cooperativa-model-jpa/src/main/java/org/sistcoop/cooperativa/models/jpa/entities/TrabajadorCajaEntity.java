@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -26,6 +27,7 @@ public class TrabajadorCajaEntity {
 	private String tipoDocumento;
 	private String numeroDocumento;
 	private CajaEntity caja;
+	private boolean estado;
 
 	private Timestamp optlk;
 
@@ -73,6 +75,16 @@ public class TrabajadorCajaEntity {
 		this.caja = caja;
 	}
 
+	@NotNull
+	@Type(type = "org.hibernate.type.TrueFalseType")
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;
@@ -87,6 +99,7 @@ public class TrabajadorCajaEntity {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((caja == null) ? 0 : caja.hashCode());
+		result = prime * result + (estado ? 1231 : 1237);
 		result = prime * result + ((numeroDocumento == null) ? 0 : numeroDocumento.hashCode());
 		result = prime * result + ((tipoDocumento == null) ? 0 : tipoDocumento.hashCode());
 		return result;
@@ -106,6 +119,8 @@ public class TrabajadorCajaEntity {
 				return false;
 		} else if (!caja.equals(other.caja))
 			return false;
+		if (estado != other.estado)
+			return false;
 		if (numeroDocumento == null) {
 			if (other.numeroDocumento != null)
 				return false;
@@ -118,4 +133,5 @@ public class TrabajadorCajaEntity {
 			return false;
 		return true;
 	}
+
 }

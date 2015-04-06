@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -108,7 +107,6 @@ public class CajaEntity {
 		this.agencia = agencia;
 	}
 
-	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "caja")
 	public Set<BovedaCajaEntity> getBovedaCajas() {
 		return bovedaCajas;
@@ -118,7 +116,6 @@ public class CajaEntity {
 		this.bovedaCajas = bovedaCajas;
 	}
 
-	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "caja")
 	public Set<TrabajadorCajaEntity> getTrabajadorCajas() {
 		return trabajadorCajas;
@@ -128,7 +125,6 @@ public class CajaEntity {
 		this.trabajadorCajas = trabajadorCajas;
 	}
 
-	@XmlTransient
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;

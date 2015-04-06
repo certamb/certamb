@@ -1,7 +1,5 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.util.List;
-
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -10,13 +8,11 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.sistcoop.cooperativa.models.BovedaCajaProvider;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
-import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
+import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.TrabajadorCajaEntity;
 
 @Named
 @Stateless
@@ -34,14 +30,15 @@ public class JpaTrabajadorCajaProvider implements TrabajadorCajaProvider {
 
 	@Override
 	public TrabajadorCajaModel addTrabajadorCaja(CajaModel cajaModel, String tipoDocumento, String numeroDocumento) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		CajaEntity cajaEntity = CajaAdapter.toCajaEntity(cajaModel, em);
 
-	@Override
-	public boolean desactivarTrabajadorCaja(TrabajadorCajaModel trabajadorCajaModel) {
-		// TODO Auto-generated method stub
-		return false;
+		TrabajadorCajaEntity trabajadorCajaEntity = new TrabajadorCajaEntity();
+		trabajadorCajaEntity.setCaja(cajaEntity);
+		trabajadorCajaEntity.setTipoDocumento(tipoDocumento);
+		trabajadorCajaEntity.setNumeroDocumento(numeroDocumento);
+
+		em.persist(trabajadorCajaEntity);
+		return new TrabajadorCajaAdapter(em, trabajadorCajaEntity);
 	}
 
 }
