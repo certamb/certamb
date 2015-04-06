@@ -2,7 +2,7 @@ package org.sistcoop.cooperativa.models;
 
 import java.math.BigDecimal;
 
-public interface TransferenciaCuentaPersonalEntity extends TransaccionClienteModel {
+public interface TransferenciaCuentaPersonalModel extends TransaccionClienteModel {
 
 	String getNumeroCuentaOrigen();
 
