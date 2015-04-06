@@ -14,6 +14,4 @@ public interface DetalleHistorialBovedaCajaProvider extends Provider {
 			BigDecimal valor,
 			int cantidad);
 	
-	BovedaModel getDetalleHistorialBovedaCajaModelById(Long id);	
-
 }

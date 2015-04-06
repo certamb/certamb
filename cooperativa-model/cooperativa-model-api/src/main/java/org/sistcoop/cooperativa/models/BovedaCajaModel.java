@@ -1,7 +1,6 @@
 package org.sistcoop.cooperativa.models;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public interface BovedaCajaModel extends Model {
 
@@ -19,5 +18,5 @@ public interface BovedaCajaModel extends Model {
 
 	BovedaModel getBoveda();
 
-	List<HistorialBovedaCajaModel> getHistorial();
+	HistorialBovedaCajaModel getHistorialActivo();
 }

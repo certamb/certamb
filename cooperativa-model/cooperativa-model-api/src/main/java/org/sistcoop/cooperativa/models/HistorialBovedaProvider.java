@@ -7,4 +7,6 @@ import org.sistcoop.cooperativa.provider.Provider;
 @Local
 public interface HistorialBovedaProvider extends Provider {
 
+	HistorialBovedaModel addHistorialBoveda(BovedaModel bovedaModel);
+
 }

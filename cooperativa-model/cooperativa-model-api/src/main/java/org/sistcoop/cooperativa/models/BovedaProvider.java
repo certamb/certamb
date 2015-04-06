@@ -10,9 +10,9 @@ import org.sistcoop.cooperativa.provider.Provider;
 public interface BovedaProvider extends Provider {	
 	
 	BovedaModel addBoveda(
+			String agencia,
 			String moneda,
-			String denominacion,
-			String agencia);
+			String denominacion);
 
 	boolean desactivarBoveda(BovedaModel bovedaModel);
 

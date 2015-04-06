@@ -26,7 +26,9 @@ public interface BovedaModel extends Model {
 
 	String getAgencia();
 
-	List<HistorialBovedaModel> getHistorial();
+	HistorialBovedaModel getHistorialActivo();
+
+	List<HistorialBovedaModel> getHistoriales();
 
 	List<BovedaCajaModel> getBovedaCajas();
 }

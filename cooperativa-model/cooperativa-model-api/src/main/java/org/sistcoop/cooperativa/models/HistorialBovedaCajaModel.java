@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface HistorialBovedaCajaModel extends Model {
 
-	Integer getId();
+	Long getId();
 
 	Date getFechaApertura();
 

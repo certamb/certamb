@@ -9,9 +9,7 @@ import org.sistcoop.cooperativa.provider.Provider;
 @Local
 public interface CajaProvider extends Provider {
 
-	CajaModel addCaja(String denominacion, String agencia);
-
-	boolean desactivarCaja(CajaModel cajaModel);
+	CajaModel addCaja(String agencia, String denominacion);	
 
 	CajaModel getCajaById(Integer id);
 
