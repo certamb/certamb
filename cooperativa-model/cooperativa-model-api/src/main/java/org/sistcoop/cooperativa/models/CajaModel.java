@@ -2,7 +2,7 @@ package org.sistcoop.cooperativa.models;
 
 import java.util.List;
 
-public interface CajaModel {
+public interface CajaModel extends Model{
 
 	Integer getId();
 
