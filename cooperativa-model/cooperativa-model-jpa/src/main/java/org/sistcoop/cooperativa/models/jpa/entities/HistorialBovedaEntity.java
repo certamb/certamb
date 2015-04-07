@@ -55,4 +55,41 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
 		this.detalle = detalle;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((boveda == null) ? 0 : boveda.hashCode());
+		result = prime * result + ((fechaApertura == null) ? 0 : fechaApertura.hashCode());
+		result = prime * result + ((horaApertura == null) ? 0 : horaApertura.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof HistorialBovedaEntity))
+			return false;
+		HistorialBovedaEntity other = (HistorialBovedaEntity) obj;
+		if (boveda == null) {
+			if (other.boveda != null)
+				return false;
+		} else if (!boveda.equals(other.boveda))
+			return false;
+		if (fechaApertura == null) {
+			if (other.fechaApertura != null)
+				return false;
+		} else if (!fechaApertura.equals(other.fechaApertura))
+			return false;
+		if (horaApertura == null) {
+			if (other.horaApertura != null)
+				return false;
+		} else if (!horaApertura.equals(other.horaApertura))
+			return false;
+		return true;
+	}
+
 }

@@ -98,10 +98,8 @@ public abstract class HistorialEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((fechaApertura == null) ? 0 : fechaApertura.hashCode());
-		result = prime * result
-				+ ((horaApertura == null) ? 0 : horaApertura.hashCode());
+		result = prime * result + ((fechaApertura == null) ? 0 : fechaApertura.hashCode());
+		result = prime * result + ((horaApertura == null) ? 0 : horaApertura.hashCode());
 		return result;
 	}
 

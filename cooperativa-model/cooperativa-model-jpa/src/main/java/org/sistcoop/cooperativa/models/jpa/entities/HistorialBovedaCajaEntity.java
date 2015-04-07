@@ -59,4 +59,41 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
 		this.detalle = detalle;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((bovedaCaja == null) ? 0 : bovedaCaja.hashCode());
+		result = prime * result + ((fechaApertura == null) ? 0 : fechaApertura.hashCode());
+		result = prime * result + ((horaApertura == null) ? 0 : horaApertura.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof HistorialBovedaCajaEntity))
+			return false;
+		HistorialBovedaCajaEntity other = (HistorialBovedaCajaEntity) obj;
+		if (bovedaCaja == null) {
+			if (other.bovedaCaja != null)
+				return false;
+		} else if (!bovedaCaja.equals(other.bovedaCaja))
+			return false;
+		if (fechaApertura == null) {
+			if (other.fechaApertura != null)
+				return false;
+		} else if (!fechaApertura.equals(other.fechaApertura))
+			return false;
+		if (horaApertura == null) {
+			if (other.horaApertura != null)
+				return false;
+		} else if (!horaApertura.equals(other.horaApertura))
+			return false;
+		return true;
+	}
+
 }

@@ -100,5 +100,42 @@ public class HistorialBovedaAdapter implements HistorialBovedaModel {
 		}
 		return result;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((getBoveda() == null) ? 0 : getBoveda().hashCode());
+		result = prime * result + ((getFechaApertura() == null) ? 0 : getFechaApertura().hashCode());
+		result = prime * result + ((getHoraApertura() == null) ? 0 : getHoraApertura().hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof HistorialBovedaModel))
+			return false;
+		HistorialBovedaModel other = (HistorialBovedaModel) obj;
+		if (getBoveda() == null) {
+			if (other.getBoveda() != null)
+				return false;
+		} else if (!getBoveda().equals(other.getBoveda()))
+			return false;
+		if (getFechaApertura() == null) {
+			if (other.getFechaApertura() != null)
+				return false;
+		} else if (!getFechaApertura().equals(other.getFechaApertura()))
+			return false;
+		if (getHoraApertura() == null) {
+			if (other.getHoraApertura() != null)
+				return false;
+		} else if (!getHoraApertura().equals(other.getHoraApertura()))
+			return false;
+		return true;
+	}
 
 }
