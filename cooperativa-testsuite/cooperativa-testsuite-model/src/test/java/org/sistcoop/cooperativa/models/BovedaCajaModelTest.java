@@ -1,12 +1,17 @@
 package org.sistcoop.cooperativa.models;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
+import java.math.BigDecimal;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -30,18 +35,24 @@ import org.slf4j.LoggerFactory;
 
 @RunWith(Arquillian.class)
 @UsingDataSet("empty.xml")
-public class BovedaCajaProviderTest {
+public class BovedaCajaModelTest {
 
-	Logger log = LoggerFactory.getLogger(BovedaCajaProviderTest.class);	
+	Logger log = LoggerFactory.getLogger(BovedaCajaModelTest.class);
+
+	@PersistenceContext
+	private EntityManager em;
+
+	@Resource           
+	private UserTransaction utx; 
 	
 	@Inject
 	private BovedaProvider bovedaProvider;	
 	
 	@Inject
-	private CajaProvider cajaProvider;	
+	private CajaProvider cajaProvider;
 	
 	@Inject
-	private BovedaCajaProvider bovedaCajaProvider;	
+	private BovedaCajaProvider bovedaCajaProvider;
 	
 	@Deployment
 	public static WebArchive createDeployment() {
@@ -56,12 +67,12 @@ public class BovedaCajaProviderTest {
 				.addClass(CajaProvider.class)
 				.addClass(BovedaCajaProvider.class)
 				
-				.addPackage(BovedaCajaModelTest.class.getPackage())				
+				.addPackage(BovedaCajaModel.class.getPackage())				
 				
 				/**persona-model-jpa**/
 				.addClass(JpaBovedaProvider.class)
 				.addClass(BovedaAdapter.class)
-				
+
 				.addClass(JpaCajaProvider.class)
 				.addClass(CajaAdapter.class)
 				
@@ -77,18 +88,21 @@ public class BovedaCajaProviderTest {
 		war.addAsLibraries(dependencies);
 
 		return war;
-	}			
-	   
+	}				
+		
+	
 	@Test
-	public void addBoveda() {	
+	public void commit() {
 		BovedaModel bovedaModel = bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
 		CajaModel cajaModel = cajaProvider.addCaja("01", "Caja-01");
 		
-		BovedaCajaModel model = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
-					
-		assertThat(model, is(notNullValue()));
-		assertThat(model.getId(), is(notNullValue()));		
-		assertThat(model.getEstado(), is(true));	
-	}		
-	
+		BovedaCajaModel model1 = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
+		
+		BigDecimal saldoNuevo = BigDecimal.TEN;
+		model1.setSaldo(saldoNuevo);
+		model1.commit();						
+		
+		assertThat(model1.getSaldo(), is(equalTo(saldoNuevo)));
+	}	
+		
 }
