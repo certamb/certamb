@@ -63,7 +63,6 @@ public class BovedaEntity implements Serializable {
 	@NotNull
 	@Size(min = 3, max = 3)
 	@NotBlank
-	@NotEmpty
 	@NaturalId
 	public String getMoneda() {
 		return moneda;
@@ -75,6 +74,7 @@ public class BovedaEntity implements Serializable {
 
 	@NotNull
 	@NotBlank
+	@NaturalId
 	@Size(min = 1, max = 3)
 	public String getAgencia() {
 		return agencia;

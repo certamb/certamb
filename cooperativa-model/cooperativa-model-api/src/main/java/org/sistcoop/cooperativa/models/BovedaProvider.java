@@ -13,9 +13,7 @@ public interface BovedaProvider extends Provider {
 			String agencia,
 			String moneda,
 			String denominacion);
-
-	boolean desactivarBoveda(BovedaModel bovedaModel);
-
+	
 	BovedaModel getBovedaById(Integer id);
 
 	List<BovedaModel> getBovedas();

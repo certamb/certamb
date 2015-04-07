@@ -47,14 +47,6 @@ public class JpaBovedaProvider implements BovedaProvider {
 	}
 
 	@Override
-	public boolean desactivarBoveda(BovedaModel bovedaModel) {
-		BovedaEntity bovedaEntity = this.em.find(BovedaEntity.class, bovedaModel.getId());
-		bovedaEntity.setEstado(false);
-		em.merge(bovedaEntity);
-		return true;
-	}
-
-	@Override
 	public BovedaModel getBovedaById(Integer id) {
 		BovedaEntity BovedaEntity = this.em.find(BovedaEntity.class, id);
 		return BovedaEntity != null ? new BovedaAdapter(em, BovedaEntity) : null;
