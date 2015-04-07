@@ -88,8 +88,8 @@ public class BovedaAdapter implements BovedaModel {
 	}
 
 	@Override
-	public void setEstado(boolean estado) {
-		bovedaEntity.setEstado(estado);
+	public void desactivar() {
+		bovedaEntity.setEstado(false);
 	}
 
 	@Override

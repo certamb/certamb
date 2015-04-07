@@ -22,7 +22,7 @@ public interface BovedaModel extends Model {
 
 	boolean getEstado();
 
-	void setEstado(boolean estado);
+	void desactivar();
 
 	String getAgencia();
 
