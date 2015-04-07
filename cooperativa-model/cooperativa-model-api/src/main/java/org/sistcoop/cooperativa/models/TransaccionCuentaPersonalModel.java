@@ -10,6 +10,4 @@ public interface TransaccionCuentaPersonalModel extends TransaccionClienteModel 
 
 	String getReferencia();
 
-	BigDecimal getSaldoDisponible();
-
 }

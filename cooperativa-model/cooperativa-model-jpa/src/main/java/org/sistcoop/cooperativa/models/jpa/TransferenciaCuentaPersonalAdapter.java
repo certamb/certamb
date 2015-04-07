@@ -117,14 +117,4 @@ public class TransferenciaCuentaPersonalAdapter implements TransferenciaCuentaPe
 		return transferenciaCuentaPersonalEntity.getNumeroCuentaDestino();
 	}
 
-	@Override
-	public BigDecimal getSaldoDisponibleOrigen() {
-		return transferenciaCuentaPersonalEntity.getSaldoDisponibleOrigen();
-	}
-
-	@Override
-	public BigDecimal getSaldoDisponibleDestino() {
-		return transferenciaCuentaPersonalEntity.getSaldoDisponibleDestino();
-	}
-
 }

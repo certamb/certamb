@@ -48,10 +48,8 @@ public class JpaTransaccionClienteProvider implements TransaccionClienteProvider
 		transaccionAporteEntity.setAnio(anio);
 		transaccionAporteEntity.setMes(mes);
 		transaccionAporteEntity.setMonto(monto);
-		transaccionAporteEntity.setNumeroCuenta(numeroCuenta);
-		transaccionAporteEntity.setNumeroOperacion(numeroOperacion);
+		transaccionAporteEntity.setNumeroCuenta(numeroCuenta);		
 		transaccionAporteEntity.setObservacion(observacion);
-		transaccionAporteEntity.setSaldoDisponible(saldoDisponible);
 		transaccionAporteEntity.setFecha(calendar.getTime());
 		transaccionAporteEntity.setHora(calendar.getTime());
 		transaccionAporteEntity.setEstado(true);
@@ -70,10 +68,8 @@ public class JpaTransaccionClienteProvider implements TransaccionClienteProvider
 		transaccionCuentaPersonalEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
 		transaccionCuentaPersonalEntity.setNumeroCuenta(numeroCuenta);
 		transaccionCuentaPersonalEntity.setMonto(monto);
-		transaccionCuentaPersonalEntity.setReferencia(referencia);
-		transaccionCuentaPersonalEntity.setNumeroOperacion(numeroOperacion);
+		transaccionCuentaPersonalEntity.setReferencia(referencia);		
 		transaccionCuentaPersonalEntity.setObservacion(observacion);
-		transaccionCuentaPersonalEntity.setSaldoDisponible(saldoDisponible);
 		transaccionCuentaPersonalEntity.setFecha(calendar.getTime());
 		transaccionCuentaPersonalEntity.setHora(calendar.getTime());
 		transaccionCuentaPersonalEntity.setEstado(true);
@@ -89,8 +85,7 @@ public class JpaTransaccionClienteProvider implements TransaccionClienteProvider
 		Calendar calendar = Calendar.getInstance();
 
 		TransaccionCompraVentaEntity transaccionCompraVentaEntity = new TransaccionCompraVentaEntity();
-		transaccionCompraVentaEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
-		transaccionCompraVentaEntity.setNumeroOperacion(numeroOperacion);
+		transaccionCompraVentaEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);		
 		transaccionCompraVentaEntity.setObservacion(observacion);
 		transaccionCompraVentaEntity.setFecha(calendar.getTime());
 		transaccionCompraVentaEntity.setHora(calendar.getTime());
@@ -116,7 +111,6 @@ public class JpaTransaccionClienteProvider implements TransaccionClienteProvider
 
 		TransferenciaCuentaPersonalEntity transferenciaCuentaPersonalEntity = new TransferenciaCuentaPersonalEntity();
 		transferenciaCuentaPersonalEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
-		transferenciaCuentaPersonalEntity.setNumeroOperacion(numeroOperacion);
 		transferenciaCuentaPersonalEntity.setObservacion(observacion);
 		transferenciaCuentaPersonalEntity.setFecha(calendar.getTime());
 		transferenciaCuentaPersonalEntity.setHora(calendar.getTime());
@@ -126,8 +120,6 @@ public class JpaTransaccionClienteProvider implements TransaccionClienteProvider
 		transferenciaCuentaPersonalEntity.setNumeroCuentaOrigen(numeroCuentaOrigen);
 		transferenciaCuentaPersonalEntity.setNumeroCuentaDestino(numeroCuentaDestino);
 		transferenciaCuentaPersonalEntity.setReferencia(referencia);
-		transferenciaCuentaPersonalEntity.setSaldoDisponibleOrigen(saldoDisponibleOrigen);
-		transferenciaCuentaPersonalEntity.setSaldoDisponibleDestino(saldoDisponibleDestino);
 
 		em.persist(transferenciaCuentaPersonalEntity);
 		return new TransferenciaCuentaPersonalAdapter(em, transferenciaCuentaPersonalEntity);

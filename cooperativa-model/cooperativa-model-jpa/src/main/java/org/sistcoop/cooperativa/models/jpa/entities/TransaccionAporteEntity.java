@@ -26,7 +26,6 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 	private int anio;
 	private int mes;
 	private BigDecimal monto;
-	private BigDecimal saldoDisponible;
 
 	public TransaccionAporteEntity() {
 		// TODO Auto-generated constructor stub
@@ -41,7 +40,7 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 
 	public void setNumeroCuenta(String numeroCuenta) {
 		this.numeroCuenta = numeroCuenta;
-	}	
+	}
 
 	@NotNull
 	@Min(value = 2000)
@@ -70,16 +69,6 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 
 	public void setMonto(BigDecimal monto) {
 		this.monto = monto;
-	}
-
-	@NotNull
-	@Min(value = 0)
-	public BigDecimal getSaldoDisponible() {
-		return saldoDisponible;
-	}
-
-	public void setSaldoDisponible(BigDecimal saldoDisponible) {
-		this.saldoDisponible = saldoDisponible;
 	}
 
 }

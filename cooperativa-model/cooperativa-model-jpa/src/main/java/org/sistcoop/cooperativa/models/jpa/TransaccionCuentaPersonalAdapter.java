@@ -108,11 +108,6 @@ public class TransaccionCuentaPersonalAdapter implements TransaccionCuentaPerson
 	}
 
 	@Override
-	public BigDecimal getSaldoDisponible() {
-		return transaccionCuentaPersonalEntity.getSaldoDisponible();
-	}
-
-	@Override
 	public String getReferencia() {
 		return transaccionCuentaPersonalEntity.getReferencia();
 	}

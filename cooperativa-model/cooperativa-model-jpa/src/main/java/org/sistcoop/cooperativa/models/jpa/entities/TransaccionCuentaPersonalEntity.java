@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,7 +23,6 @@ public class TransaccionCuentaPersonalEntity extends TransaccionClienteEntity {
 	private String numeroCuenta;
 	private BigDecimal monto;
 	private String referencia;
-	private BigDecimal saldoDisponible;
 
 	public TransaccionCuentaPersonalEntity() {
 		// TODO Auto-generated constructor stub
@@ -57,16 +55,6 @@ public class TransaccionCuentaPersonalEntity extends TransaccionClienteEntity {
 
 	public void setReferencia(String referencia) {
 		this.referencia = referencia;
-	}
-
-	@NotNull
-	@Min(value = 0)
-	public BigDecimal getSaldoDisponible() {
-		return saldoDisponible;
-	}
-
-	public void setSaldoDisponible(BigDecimal saldoDisponible) {
-		this.saldoDisponible = saldoDisponible;
 	}
 
 }

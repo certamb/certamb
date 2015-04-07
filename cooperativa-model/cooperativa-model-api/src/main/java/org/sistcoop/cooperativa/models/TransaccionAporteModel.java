@@ -11,6 +11,5 @@ public interface TransaccionAporteModel extends TransaccionClienteModel {
 	int getMes();
 
 	BigDecimal getMonto();
-
-	BigDecimal getSaldoDisponible();
+	
 }

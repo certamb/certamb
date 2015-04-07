@@ -23,12 +23,22 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "TRANSACCION_CLIENTE")
 @Inheritance(strategy = InheritanceType.JOINED)
+@GenericGenerator(
+		name = "SgNumeroOperacionGenerator", 
+		strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", 
+		parameters = { 
+				@Parameter(name = "prefer_sequence_per_entity", value = "false"), 
+				@Parameter(name = "optimizer ", value = "pooled") 
+				}
+		)
 public class TransaccionClienteEntity implements Serializable {
 
 	/**
@@ -62,6 +72,7 @@ public class TransaccionClienteEntity implements Serializable {
 		this.id = id;
 	}
 
+	@GeneratedValue(generator = "SgNumeroOperacionGenerator")
 	public Long getNumeroOperacion() {
 		return numeroOperacion;
 	}

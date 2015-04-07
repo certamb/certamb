@@ -117,9 +117,4 @@ public class TransaccionAporteAdapter implements TransaccionAporteModel {
 		return transaccionAporteEntity.getMonto();
 	}
 
-	@Override
-	public BigDecimal getSaldoDisponible() {
-		return transaccionAporteEntity.getSaldoDisponible();
-	}
-
 }
