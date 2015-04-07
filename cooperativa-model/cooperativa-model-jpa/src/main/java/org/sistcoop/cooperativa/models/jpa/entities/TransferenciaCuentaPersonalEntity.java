@@ -24,7 +24,6 @@ public class TransferenciaCuentaPersonalEntity extends TransaccionClienteEntity 
 	private String numeroCuentaOrigen;
 	private String numeroCuentaDestino;
 	private BigDecimal monto;
-	private String moneda;
 	private BigDecimal saldoDisponibleOrigen;
 	private BigDecimal saldoDisponibleDestino;
 	private String referencia;
@@ -63,17 +62,6 @@ public class TransferenciaCuentaPersonalEntity extends TransaccionClienteEntity 
 
 	public void setMonto(BigDecimal monto) {
 		this.monto = monto;
-	}
-
-	@NotNull
-	@NotBlank
-	@Size(min = 3, max = 3)
-	public String getMoneda() {
-		return moneda;
-	}
-
-	public void setMoneda(String moneda) {
-		this.moneda = moneda;
 	}
 
 	@NotNull

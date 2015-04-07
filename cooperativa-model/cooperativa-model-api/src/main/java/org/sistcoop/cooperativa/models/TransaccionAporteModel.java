@@ -6,8 +6,6 @@ public interface TransaccionAporteModel extends TransaccionClienteModel {
 
 	String getNumeroCuenta();
 
-	String getMoneda();
-
 	int getAnio();
 
 	int getMes();

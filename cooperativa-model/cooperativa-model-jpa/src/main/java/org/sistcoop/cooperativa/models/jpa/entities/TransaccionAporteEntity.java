@@ -23,7 +23,6 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 	private static final long serialVersionUID = 1L;
 
 	private String numeroCuenta;
-	private String moneda;
 	private int anio;
 	private int mes;
 	private BigDecimal monto;
@@ -42,18 +41,7 @@ public class TransaccionAporteEntity extends TransaccionClienteEntity {
 
 	public void setNumeroCuenta(String numeroCuenta) {
 		this.numeroCuenta = numeroCuenta;
-	}
-
-	@NotNull
-	@NotBlank
-	@Size(min = 3, max = 3)
-	public String getMoneda() {
-		return moneda;
-	}
-
-	public void setMoneda(String moneda) {
-		this.moneda = moneda;
-	}
+	}	
 
 	@NotNull
 	@Min(value = 2000)

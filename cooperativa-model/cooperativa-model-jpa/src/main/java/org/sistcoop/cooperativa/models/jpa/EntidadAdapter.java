@@ -1,86 +1,71 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import javax.persistence.EntityManager;
 
-import org.sistcoop.cooperativa.models.BovedaCajaModel;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.CajaModel;
-import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
-import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaModel;
-import org.sistcoop.cooperativa.models.DetalleTransaccionClienteModel;
 import org.sistcoop.cooperativa.models.EntidadModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.EntidadEntity;
 
 public class EntidadAdapter implements EntidadModel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected BovedaEntity bovedaEntity;
+	protected EntidadEntity entidadEntity;
 	protected EntityManager em;
 
-	public EntidadAdapter(EntityManager em, BovedaEntity bovedaEntity) {
+	public EntidadAdapter(EntityManager em, EntidadEntity entidadEntity) {
 		this.em = em;
-		this.bovedaEntity = bovedaEntity;
+		this.entidadEntity = entidadEntity;
 	}
 
-	public BovedaEntity getAgenciaEntity() {
-		return bovedaEntity;
+	public EntidadEntity getEntidadEntity() {
+		return entidadEntity;
+	}
+
+	public static EntidadEntity toEntidadEntity(EntidadModel model, EntityManager em) {
+		if (model instanceof EntidadAdapter) {
+			return ((EntidadAdapter) model).getEntidadEntity();
+		}
+		return em.getReference(EntidadEntity.class, model.getId());
 	}
 
 	@Override
 	public void commit() {
-		// TODO Auto-generated method stub
-		
+		em.merge(entidadEntity);
 	}
 
 	@Override
 	public Integer getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return entidadEntity.getId();
 	}
 
 	@Override
 	public String getDenominacion() {
-		// TODO Auto-generated method stub
-		return null;
+		return entidadEntity.getDenominacion();
 	}
 
 	@Override
 	public void setDenominacion(String denominacion) {
-		// TODO Auto-generated method stub
-		
+		entidadEntity.setDenominacion(denominacion);
 	}
 
 	@Override
 	public String getAbreviatura() {
-		// TODO Auto-generated method stub
-		return null;
+		return entidadEntity.getAbreviatura();
 	}
 
 	@Override
-	public void setAbreviatura() {
-		// TODO Auto-generated method stub
-		
+	public void setAbreviatura(String abreviatura) {
+		entidadEntity.setAbreviatura(abreviatura);
 	}
 
 	@Override
 	public boolean getEstado() {
-		// TODO Auto-generated method stub
-		return false;
+		return entidadEntity.isEstado();
 	}
 
 	@Override
 	public void desactivar() {
-		// TODO Auto-generated method stub
-		
+		entidadEntity.setEstado(false);
 	}
-
-	
-	
 
 }

@@ -10,8 +10,6 @@ public interface TransferenciaCuentaPersonalModel extends TransaccionClienteMode
 
 	BigDecimal getMonto();
 
-	String getMoneda();
-
 	BigDecimal getSaldoDisponibleOrigen();
 
 	BigDecimal getSaldoDisponibleDestino();

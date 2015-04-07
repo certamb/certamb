@@ -10,7 +10,7 @@ public interface EntidadModel extends Model {
 
 	String getAbreviatura();
 
-	void setAbreviatura();
+	void setAbreviatura(String abreviatura);
 
 	boolean getEstado();
 

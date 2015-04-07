@@ -1,7 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -11,13 +10,11 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.sistcoop.cooperativa.models.BovedaCajaProvider;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.BovedaProvider;
-import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.DetalleTransaccionClienteModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionClienteProvider;
 import org.sistcoop.cooperativa.models.TransaccionClienteModel;
+import org.sistcoop.cooperativa.models.jpa.entities.DetalleTransaccionClienteEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.TransaccionClienteEntity;
 
 @Named
 @Stateless
@@ -35,8 +32,15 @@ public class JpaDetalleTransaccionClienteProvider implements DetalleTransaccionC
 
 	@Override
 	public DetalleTransaccionClienteModel addDetalleTransaccionClienteModel(TransaccionClienteModel transaccionClienteModel, BigDecimal valor, int cantidad) {
-		// TODO Auto-generated method stub
-		return null;
+		TransaccionClienteEntity transaccionClienteEntity = TransaccionClienteAdapter.toTransaccionClienteEntity(transaccionClienteModel, em);
+
+		DetalleTransaccionClienteEntity detalleTransaccionClienteEntity = new DetalleTransaccionClienteEntity();
+		detalleTransaccionClienteEntity.setTransaccionCliente(transaccionClienteEntity);
+		detalleTransaccionClienteEntity.setValor(valor);
+		detalleTransaccionClienteEntity.setCantidad(cantidad);
+
+		em.persist(detalleTransaccionClienteEntity);
+		return new DetalleTransaccionClienteAdapter(em, detalleTransaccionClienteEntity);
 	}
 
 }

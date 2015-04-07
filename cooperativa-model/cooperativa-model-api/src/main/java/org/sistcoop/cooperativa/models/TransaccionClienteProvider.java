@@ -10,17 +10,38 @@ import org.sistcoop.cooperativa.provider.Provider;
 public interface TransaccionClienteProvider extends Provider {	
 	
 	TransaccionAporteModel addTransaccionAporte(
+			HistorialBovedaCajaModel historialBovedaCajaModel,
 			String numeroCuenta,
 		    BigDecimal monto,
 			int anio,
-			int mes);
+			int mes,
+			String observacion);
 
 	TransaccionCuentaPersonalModel addTransaccionCuentaPersonal(
+			HistorialBovedaCajaModel historialBovedaCajaModel,
 			String numeroCuenta,
-		    BigDecimal monto);
+		    BigDecimal monto,
+		    String referencia,
+		    String observacion);
 	
-	TransaccionCompraVentaModel addTransaccionCompraVenta();
+	TransaccionCompraVentaModel addTransaccionCompraVenta(
+			HistorialBovedaCajaModel historialBovedaCajaModel,
+			String tipoTransaccion,
+			String cliente,
+			String monedaEntregada,
+			String monedaRecibida,
+			BigDecimal montoRecibido,
+			BigDecimal montoEntregado,
+			BigDecimal tipoCambio,			
+			String observacion);
 	
-	TransferenciaCuentaPersonalModel addTransferenciaCuentaPersonal();
+	TransferenciaCuentaPersonalModel addTransferenciaCuentaPersonal(
+			HistorialBovedaCajaModel historialBovedaCajaModel,
+			BigDecimal monto,
+			String numeroCuentaOrigen,
+			String numeroCuentaDestino,
+			String referencia,
+			String observacion);
+	
 	
 }
