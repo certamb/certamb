@@ -84,7 +84,7 @@ public class DetalleHistorialBovedaProviderTest {
 	public void addDetalleHistorialBovedaModel() {
 		BovedaModel bovedaModel = bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
 		HistorialBovedaModel historialBovedaModel = historialBovedaProvider.addHistorialBoveda(bovedaModel);
-		DetalleHistorialBovedaModel model = detalleHistorialBovedaProvider.addDetalleHistorialCaja(historialBovedaModel, BigDecimal.TEN, 10000);
+		DetalleHistorialBovedaModel model = detalleHistorialBovedaProvider.addDetalleHistorialBoveda(historialBovedaModel, BigDecimal.TEN, 10000);
 	
 		assertThat(model, is(notNullValue()));
 		assertThat(model.getId(), is(notNullValue()));

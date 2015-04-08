@@ -31,7 +31,7 @@ public class JpaDetalleHistorialBovedaProvider implements DetalleHistorialBoveda
 	}
 
 	@Override
-	public DetalleHistorialBovedaModel addDetalleHistorialCaja(HistorialBovedaModel historialBovedaModel, BigDecimal valor, int cantidad) {
+	public DetalleHistorialBovedaModel addDetalleHistorialBoveda(HistorialBovedaModel historialBovedaModel, BigDecimal valor, int cantidad) {
 		HistorialBovedaEntity historialBovedaEntity = HistorialBovedaAdapter.toHistorialBovedaEntity(historialBovedaModel, em);
 
 		DetalleHistorialBovedaEntity detalleHistorialBovedaEntity = new DetalleHistorialBovedaEntity();
