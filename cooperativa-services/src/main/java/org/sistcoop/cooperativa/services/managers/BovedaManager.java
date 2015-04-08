@@ -4,16 +4,12 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
-import org.sistcoop.cooperativa.models.BovedaCajaModel;
-import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
@@ -61,43 +57,26 @@ public class BovedaManager {
 			for (DetalleHistorialBovedaModel detalleHistorialActivoModel : detalleHistorialActivoModels) {
 				int cantidad = detalleHistorialActivoModel.getCantidad();
 				BigDecimal valor = detalleHistorialActivoModel.getValor();
-				detalleHistorialBovedaProvider.addDetalleHistorialBoveda(hishistorialActivoNuevoModelr, cantidad);
+				detalleHistorialBovedaProvider.addDetalleHistorialBoveda(historialActivoNuevoModel, valor, cantidad);
 			}
 
-			// añadir denominaciones que no existen actualmente en el historial
+			// aï¿½adir denominaciones que no existen actualmente en el historial
 			// pero que si existen en la moneda
-			String moneda = bovedaModel.getMoneda();
-			CurrencyModel currencyModel = currencyProvider.findByCode(moneda);
-			Set<DenominationModel> denominationModels = currencyModel.getDenominations();
-			for (DenominationModel denominationModel : denominationModels) {
-				BigDecimal valorPorRegistrar = denominationModel.getValue();
+			for (int i = 0; i < denominaciones.length; i++) {
+				BigDecimal valorPorRegistrar = denominaciones[i];
 				boolean exists = false;
-				for (DetalleHistorialModel detalleHistorialActivoModel : detalleHistorialActivoModels) {
-					BigDecimal valorRegistrado = detalleHistorialActivoModel.getValor();
-					if (valorRegistrado.equals(valorPorRegistrar)) {
+				for (DetalleHistorialBovedaModel detalleHistorialBovedaModel : detalleHistorialActivoModels) {
+					BigDecimal valorRegistrado = detalleHistorialBovedaModel.getValor();
+					if (valorRegistrado.compareTo(valorPorRegistrar) == 0 ) {
 						exists = true;
 					}
 				}
-				if (!exists) {
-					detalleHistorialProvider.addDetalleHistorial(historhistorialActivoNuevoModelrPorRegistrar);
+				if (!exists) {					
+					detalleHistorialBovedaProvider.addDetalleHistorialBoveda(historialActivoNuevoModel, valorPorRegistrar, 0);
 				}
-			}
-
-			
+			}		
 	
 		}
-	}
-
-	public void abrirBoveda(BovedaModel bovedaModel) {
-
-		HistorialBovedaModel historialActivoModel = bovedaModel.getHistorialActivo();
-
-		if (historialActivoModel != null) {
-			
-		} else {
-			throw new EJBException("No se encontró un historial de boveda activo para abrirla");
-		}
-
 	}
 
 }
