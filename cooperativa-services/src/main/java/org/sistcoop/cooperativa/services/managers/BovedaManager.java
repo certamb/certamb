@@ -25,7 +25,7 @@ public class BovedaManager {
 	@Inject
 	private DetalleHistorialBovedaProvider detalleHistorialBovedaProvider;
 
-	public void abrirBoveda(BovedaModel bovedaModel, BigDecimal[] denominaciones) {
+	public boolean abrirBoveda(BovedaModel bovedaModel, BigDecimal[] denominaciones) {
 
 		HistorialBovedaModel historialActivoModel = bovedaModel.getHistorialActivo();
 		
@@ -77,6 +77,8 @@ public class BovedaManager {
 			}		
 	
 		}
+		
+		return true;
 	}
 
 }
