@@ -1,6 +1,8 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -26,6 +28,20 @@ public class BovedaResorceImpl implements BovedaResource {
 	public Response addBoveda(BovedaRepresentation bovedaRepresentation) {					
 		BovedaModel bovedaModel = representationToModel.createBoveda(bovedaRepresentation, bovedaProvider);
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(bovedaModel.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(bovedaModel.getId()).build();
+	}
+
+	@Override
+	public void update(Integer id, BovedaRepresentation bovedaRepresentation) {
+		BovedaModel model = bovedaProvider.getBovedaById(id);
+		if (model == null) {
+			throw new NotFoundException("Boveda not found");
+		}
+		if (!model.getEstado()) {
+			throw new BadRequestException("Boveda inactiva, no se puede actualizar");
+		}
+		
+		model.setDenominacion(bovedaRepresentation.getDenominacion());
+		model.commit();
 	}
 
 }
