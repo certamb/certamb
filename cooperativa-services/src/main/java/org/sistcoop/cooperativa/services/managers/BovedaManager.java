@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -79,6 +80,40 @@ public class BovedaManager {
 		}
 		
 		return true;
+	}
+	
+	public boolean cerrarBoveda(BovedaModel bovedaModel){					
+		HistorialBovedaModel historialBovedaModelActivo = bovedaModel.getHistorialActivo();		
+		if (historialBovedaModelActivo != null) {
+			Calendar calendar = Calendar.getInstance();
+			bovedaModel.setAbierto(false);
+			bovedaModel.setEstadoMovimiento(false);
+			bovedaModel.commit();
+
+			historialBovedaModelActivo.setFechaCierre(calendar.getTime());
+			historialBovedaModelActivo.setHoraCierre(calendar.getTime());
+			historialBovedaModelActivo.commit();
+		} else {
+			throw new EJBException("No se encontró un historial activo para cerrar.");
+		}
+		
+		return true;		
+	}
+	
+	public void congelarBoveda(BovedaModel bovedaModel) {		
+		bovedaModel.setEstadoMovimiento(false);
+		bovedaModel.commit();
+	}
+
+	public void descongelarBoveda(BovedaModel bovedaModel) {		
+		bovedaModel.setEstadoMovimiento(true);
+		bovedaModel.commit();
+	}
+	
+	public void desactivarBoveda(BovedaModel model) {	
+		model.desactivar();
+		model.setEstadoMovimiento(false);
+		model.commit();
 	}
 
 }
