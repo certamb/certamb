@@ -3,6 +3,7 @@ package org.sistcoop.cooperativa.models.jpa;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -33,6 +34,22 @@ public class JpaBovedaProvider implements BovedaProvider {
 
 	@Override
 	public BovedaModel addBoveda(String agencia, String moneda, String denominacion) {
+		
+		//Solo debe haber una boveda/moneda por agencia
+		TypedQuery<BovedaEntity> query = em.createNamedQuery(BovedaEntity.findByAgencia, BovedaEntity.class);
+		query.setParameter("agencia", agencia);
+		List<BovedaEntity> list = query.getResultList();
+		for (BovedaEntity bovedaEntity : list) {
+			if(agencia.equals(bovedaEntity.getAgencia())){
+				if(moneda.equals(bovedaEntity.getMoneda())){
+					if(bovedaEntity.isEstado()){
+						throw new EJBException("Boveda con moneda " + moneda+ " ya existente");
+					}
+				}
+			}		
+		}
+		
+		//Crear boveda
 		BovedaEntity bovedaEntity = new BovedaEntity();
 
 		bovedaEntity.setAgencia(agencia);

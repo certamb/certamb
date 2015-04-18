@@ -133,8 +133,7 @@ public class BovedaAdapter implements BovedaModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((getAgencia() == null) ? 0 : getAgencia().hashCode());
-		result = prime * result + ((getMoneda() == null) ? 0 : getMoneda().hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
@@ -144,18 +143,13 @@ public class BovedaAdapter implements BovedaModel {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof BovedaModel))
+		if (getClass() != obj.getClass())
 			return false;
-		BovedaModel other = (BovedaModel) obj;
-		if (getAgencia() == null) {
-			if (other.getAgencia() != null)
+		BovedaEntity other = (BovedaEntity) obj;
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!getAgencia().equals(other.getAgencia()))
-			return false;
-		if (getMoneda() == null) {
-			if (other.getMoneda() != null)
-				return false;
-		} else if (!getMoneda().equals(other.getMoneda()))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}
