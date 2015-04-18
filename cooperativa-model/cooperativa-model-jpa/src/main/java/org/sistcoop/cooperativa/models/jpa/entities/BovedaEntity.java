@@ -25,7 +25,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "BOVEDA", indexes = { @Index(columnList = "id") })
 @NamedQueries({ 
-	@NamedQuery(name = BovedaEntity.findByAgencia, query = "SELECT b FROM BovedaEntity b WHERE b.agencia = :agencia") })
+	@NamedQuery(name = BovedaEntity.findByAgencia, query = "SELECT b FROM BovedaEntity b WHERE b.agencia = :agencia"),
+	@NamedQuery(name = BovedaEntity.findByAgenciaAndFilterText, query = "SELECT b FROM BovedaEntity b WHERE b.agencia = :agencia AND b.denominacion LIKE :filterText")})
 public class BovedaEntity implements Serializable {
 
 	/**
@@ -34,6 +35,7 @@ public class BovedaEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity.";
 	public static final String findByAgencia = base + "findByAgencia";
+	public static final String findByAgenciaAndFilterText = base + "findByAgenciaAndFilterText";
 
 	private Integer id;
 	private String moneda;

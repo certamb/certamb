@@ -34,7 +34,6 @@ public class JpaBovedaProvider implements BovedaProvider {
 
 	@Override
 	public BovedaModel addBoveda(String agencia, String moneda, String denominacion) {
-		
 		//Solo debe haber una boveda/moneda por agencia
 		TypedQuery<BovedaEntity> query = em.createNamedQuery(BovedaEntity.findByAgencia, BovedaEntity.class);
 		query.setParameter("agencia", agencia);
@@ -51,7 +50,6 @@ public class JpaBovedaProvider implements BovedaProvider {
 		
 		//Crear boveda
 		BovedaEntity bovedaEntity = new BovedaEntity();
-
 		bovedaEntity.setAgencia(agencia);
 		bovedaEntity.setDenominacion(denominacion);
 		bovedaEntity.setMoneda(moneda);
@@ -103,8 +101,23 @@ public class JpaBovedaProvider implements BovedaProvider {
 		List<BovedaEntity> list = query.getResultList();
 
 		List<BovedaModel> result = new ArrayList<BovedaModel>();
-		for (Object object : list) {
-			BovedaEntity bovedaEntity = (BovedaEntity) object;
+		for (BovedaEntity bovedaEntity : list) {			
+			if (bovedaEntity.isEstado() == estado) {
+				result.add(new BovedaAdapter(em, bovedaEntity));
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<BovedaModel> getBovedas(String agencia, boolean estado, String filterText, int firstResult, int maxResults) {
+		TypedQuery<BovedaEntity> query = em.createNamedQuery(BovedaEntity.findByAgenciaAndFilterText, BovedaEntity.class);
+		query.setParameter("agencia", agencia);
+		query.setParameter("filterText", "%" + filterText + "%");
+		List<BovedaEntity> list = query.getResultList();
+
+		List<BovedaModel> result = new ArrayList<BovedaModel>();
+		for (BovedaEntity bovedaEntity : list) {			
 			if (bovedaEntity.isEstado() == estado) {
 				result.add(new BovedaAdapter(em, bovedaEntity));
 			}
