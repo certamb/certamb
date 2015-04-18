@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -25,13 +26,13 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 public interface BovedaResource {
 
 	@POST
-	public Response create(
+	public Response create (
 			@NotNull
 			@Valid BovedaRepresentation bovedaRepresentation);	
 	
 	@PUT
 	@Path("/{id}")
-	public void update(
+	public void update (
 			@PathParam("id") 
 			@NotNull 
 			@Min(value = 1) Integer id, 
@@ -41,10 +42,19 @@ public interface BovedaResource {
 	
 	@POST
 	@Path("/{id}/desactivar")
-	public void desactivar(
+	public void desactivar (
 			@PathParam("id") 
 			@NotNull
 			@Min(value = 1) Integer id);
+	
+	@POST
+	@Path("/{id}/abrir")
+	public void abrir (
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id,
+			
+			@QueryParam("denominaciones") BigDecimal[] denominaciones);
 	
 	@GET
 	public List<BovedaRepresentation> searchBovedas(									

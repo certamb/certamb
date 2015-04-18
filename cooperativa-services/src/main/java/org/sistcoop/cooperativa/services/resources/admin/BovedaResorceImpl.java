@@ -100,6 +100,22 @@ public class BovedaResorceImpl implements BovedaResource {
 	}
 	
 	@Override
+	public void abrir(Integer id, BigDecimal[] denominaciones) {
+		BovedaModel model = bovedaProvider.getBovedaById(id);
+		if (model == null) {
+			throw new NotFoundException("Boveda no encontrada.");
+		}
+		if (model.isAbierto()) {
+			throw new BadRequestException("Boveda abierta, no se puede abrir nuevamente.");
+		}		
+		if (!model.getEstado()) {
+			throw new BadRequestException("Boveda inactiva, no se puede abrir.");
+		}
+		
+		bovedaManager.abrirBoveda(model, denominaciones);
+	}
+	
+	@Override
 	public List<BovedaRepresentation> searchBovedas(String agencia,
 			Boolean estado, String filterText, Integer firstResult,
 			Integer maxResults) {		
