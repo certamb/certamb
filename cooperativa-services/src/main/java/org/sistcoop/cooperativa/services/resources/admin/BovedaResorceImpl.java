@@ -112,7 +112,37 @@ public class BovedaResorceImpl implements BovedaResource {
 			throw new BadRequestException("Boveda inactiva, no se puede abrir.");
 		}
 		
-		bovedaManager.abrirBoveda(model, denominaciones);
+		boolean result = bovedaManager.abrirBoveda(model, denominaciones);
+		if(!result) {
+			throw new InternalServerErrorException("Error interno, no se pudo desactivar la Boveda");
+		}
+	}
+	
+	@Override
+	public void cerrar(Integer id) {
+		BovedaModel model = bovedaProvider.getBovedaById(id);
+		if (model == null) {
+			throw new NotFoundException("Boveda no encontrada");
+		}
+		if (!model.isAbierto()) {
+			throw new BadRequestException("Boveda cerrada, no se puede cerrar nuevamente.");
+		}		
+		if (!model.getEstado()) {
+			throw new BadRequestException("Boveda inactiva, no se puede cerrar.");
+		}
+		
+		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			CajaModel cajaModel = bovedaCajaModel.getCaja();
+			if(cajaModel.isAbierto()){
+				throw new BadRequestException("Boveda tiene cajas abiertas, no se puede cerrar");
+			}
+		}
+		
+		boolean result = bovedaManager.cerrarBoveda(model);
+		if(!result) {
+			throw new InternalServerErrorException("Error interno, no se pudo desactivar la Boveda");
+		}
 	}
 	
 	@Override
@@ -143,5 +173,7 @@ public class BovedaResorceImpl implements BovedaResource {
 		
 		return result;		
 	}
+
+	
 
 }

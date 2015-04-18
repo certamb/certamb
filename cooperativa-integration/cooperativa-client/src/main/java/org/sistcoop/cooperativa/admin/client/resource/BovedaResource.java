@@ -56,6 +56,13 @@ public interface BovedaResource {
 			
 			@QueryParam("denominaciones") BigDecimal[] denominaciones);
 	
+	@POST
+	@Path("/{id}/cerrar")
+	public void cerrar (
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id);
+	
 	@GET
 	public List<BovedaRepresentation> searchBovedas(									
 			@QueryParam("agencia")
