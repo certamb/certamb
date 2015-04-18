@@ -10,6 +10,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaProvider;
@@ -110,10 +111,20 @@ public class BovedaManager {
 		bovedaModel.commit();
 	}
 	
-	public void desactivarBoveda(BovedaModel model) {	
+	public boolean desactivarBoveda(BovedaModel model) {	
+		//desactivar bovedas
 		model.desactivar();
 		model.setEstadoMovimiento(false);
 		model.commit();
+		
+		//desactivar boveda-cajas
+		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			bovedaCajaModel.desactivar();
+			bovedaCajaModel.commit();
+		}
+		
+		return true;
 	}
 
 }

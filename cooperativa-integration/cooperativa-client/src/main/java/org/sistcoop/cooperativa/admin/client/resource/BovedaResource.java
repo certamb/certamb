@@ -25,7 +25,7 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 public interface BovedaResource {
 
 	@POST
-	public Response addBoveda(
+	public Response create(
 			@NotNull
 			@Valid BovedaRepresentation bovedaRepresentation);	
 	
@@ -38,6 +38,13 @@ public interface BovedaResource {
 			
 			@NotNull
 			@Valid BovedaRepresentation bovedaRepresentation);
+	
+	@POST
+	@Path("/{id}/desactivar")
+	public void desactivar(
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id);
 	
 	@GET
 	public List<BovedaRepresentation> searchBovedas(									
