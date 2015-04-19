@@ -18,11 +18,10 @@ import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
-import org.sistcoop.cooperativa.models.DetalleHistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
+import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 
 @Stateless
@@ -181,11 +180,27 @@ public class CajaManager {
 		cajaModel.commit();
 	}*/
 	
-	public void desactivarCaja(CajaModel model) {		
+	public boolean desactivarCaja(CajaModel model) {		
+		//desactivar caja
 		model.desactivar();
 		model.setEstadoMovimiento(false);
 		model.commit();
 
+		//desactivar boveda-cajas
+		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			bovedaCajaModel.desactivar();
+			bovedaCajaModel.commit();
+		}
+		
+		//desactivar trabajador-caja
+		List<TrabajadorCajaModel> trabajadorCajaModels = model.getTrabajadorCajas();
+		for (TrabajadorCajaModel trabajadorCajaModel : trabajadorCajaModels) {
+			trabajadorCajaModel.desactivar();
+			trabajadorCajaModel.commit();
+		}
+				
+		return true;
 	}	
 
 	public void congelar(CajaModel model) {

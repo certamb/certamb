@@ -50,14 +50,14 @@ public interface CajaResource {
 			@NotNull
 			@Valid CajaRepresentation cajaRepresentation);
 	
-	/*@POST
+	@POST
 	@Path("/{id}/desactivar")
 	public void desactivar (
 			@PathParam("id") 
 			@NotNull
 			@Min(value = 1) Integer id);
 	
-	@POST
+	/*@POST
 	@Path("/{id}/abrir")
 	public void abrir (
 			@PathParam("id") 

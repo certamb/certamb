@@ -20,7 +20,9 @@ import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
+import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
@@ -29,6 +31,7 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
+import org.sistcoop.cooperativa.services.managers.CajaManager;
 
 public class CajaResourceImpl implements CajaResource {
 
@@ -37,6 +40,9 @@ public class CajaResourceImpl implements CajaResource {
 	
 	@Inject
 	private RepresentationToModel representationToModel;
+	
+	@Inject
+	private CajaManager cajaManager;
 	
 	@Context
 	protected UriInfo uriInfo;
@@ -60,6 +66,50 @@ public class CajaResourceImpl implements CajaResource {
 		model.commit();		
 	}
 
+	@Override
+	public void desactivar(Integer id) {
+		CajaModel model = cajaProvider.getCajaById(id);
+		if (model == null) {
+			throw new NotFoundException("Caja no encontrada");
+		}
+		if (model.isAbierto())
+			throw new BadRequestException("Caja abierta, no se puede desactivar");
+		
+		if (!model.getEstado()) {
+			throw new BadRequestException("Caja inactiva, no se puede desactivar nuevamente");
+		}
+		
+		//Caja debe tener saldo 0.00 en todas sus bovedas asignadas
+		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			BigDecimal saldo = bovedaCajaModel.getSaldo();
+			if(saldo.compareTo(BigDecimal.ZERO) != 0) {
+				throw new BadRequestException("Caja/Boveda debe tener saldo 0.00");
+			}
+			
+			HistorialBovedaCajaModel historialBovedaCajaModel = bovedaCajaModel.getHistorialActivo();
+			List<DetalleHistorialBovedaCajaModel> detalleHistorialBovedaCajaModels = historialBovedaCajaModel.getDetalle();
+			for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaCajaModel : detalleHistorialBovedaCajaModels) {
+				if(detalleHistorialBovedaCajaModel.getCantidad() != 0){
+					throw new BadRequestException("Caja/Boveda debe tener saldo 0.00");
+				}
+			}
+		}
+						
+		//Validar bovedas relacionadas que esten cerradas
+		for (BovedaCajaModel bovCajModel : bovedaCajaModels) {
+			BovedaModel bovedaModel = bovCajModel.getBoveda();		
+			if (bovedaModel.isAbierto()) {
+				throw new BadRequestException("Todas las bovedas asignadas deben estar cerradas");
+			}											
+		}
+		
+		boolean result = cajaManager.desactivarCaja(model);
+		if(!result) {
+			throw new InternalServerErrorException("Error interno, no se pudo desactivar la Boveda");
+		}
+	}
+	
 	@Override
 	public List<CajaRepresentation> searchCajas(String agencia, Boolean estado,
 			String filterText, Integer firstResult, Integer maxResults) {
