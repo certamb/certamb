@@ -40,7 +40,7 @@ public class CajaManager {
 	@Inject
 	protected DetalleHistorialBovedaCajaProvider detalleHistorialBovedaCajaProvider;
 
-	public void abrir(CajaModel cajaModel) {		
+	public boolean abrirCaja(CajaModel cajaModel) {		
 		List<BovedaCajaModel> bovedaCajaModels = cajaModel.getBovedaCajas();		
 
 		List<HistorialBovedaCajaModel> historialesActivos = new ArrayList<HistorialBovedaCajaModel>();
@@ -97,6 +97,8 @@ public class CajaManager {
 		cajaModel.setAbierto(true);
 		cajaModel.setEstadoMovimiento(false);
 		cajaModel.commit();
+		
+		return true;
 	}
 	
 	/*public void cerrar(CajaModel cajaModel, List<DetalleHistorialCajaRepresentation> detalleHistorialCajaRepresentations) {

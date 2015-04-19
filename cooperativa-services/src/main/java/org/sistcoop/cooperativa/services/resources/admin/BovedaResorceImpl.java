@@ -121,7 +121,16 @@ public class BovedaResorceImpl implements BovedaResource {
 			throw new BadRequestException("Boveda abierta, no se puede abrir nuevamente.");
 		}		
 		if (!model.getEstado()) {
-			throw new BadRequestException("Boveda inactiva, no se puede abrir.");
+			throw new BadRequestException("Boveda inactiva, no se puede abrir");
+		}
+		
+		//Validar cajas relacionadas
+		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			CajaModel cajaModel = bovedaCajaModel.getCaja();
+			if(cajaModel.isAbierto()){
+				throw new BadRequestException("Cajas relacionadas deben estar cerradas");
+			}
 		}
 		
 		boolean result = bovedaManager.abrirBoveda(model, denominaciones);

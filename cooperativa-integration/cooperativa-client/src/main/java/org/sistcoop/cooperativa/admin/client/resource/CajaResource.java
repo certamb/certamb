@@ -57,16 +57,14 @@ public interface CajaResource {
 			@NotNull
 			@Min(value = 1) Integer id);
 	
-	/*@POST
+	@POST
 	@Path("/{id}/abrir")
 	public void abrir (
 			@PathParam("id") 
 			@NotNull
-			@Min(value = 1) Integer id,
-			
-			@QueryParam("denominaciones") BigDecimal[] denominaciones);
+			@Min(value = 1) Integer id);
 	
-	@POST
+	/*@POST
 	@Path("/{id}/cerrar")
 	public void cerrar (
 			@PathParam("id") 

@@ -111,6 +111,34 @@ public class CajaResourceImpl implements CajaResource {
 	}
 	
 	@Override
+	public void abrir(Integer id) {
+		CajaModel model = cajaProvider.getCajaById(id);
+		if (model == null) {
+			throw new NotFoundException("Caja no encontrada");
+		}
+		if (model.isAbierto()) {
+			throw new BadRequestException("Caja abierta, no se puede abrir nuevamente");
+		}		
+		if (!model.getEstado()) {
+			throw new BadRequestException("Caja inactiva, no se puede abrir");
+		}
+		
+		//Validar bovedas relacionadas
+		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
+			if(!bovedaModel.isAbierto()){
+				throw new BadRequestException("Bovedas relacionadas deben estar abiertas");
+			}
+		}
+		
+		boolean result = cajaManager.abrirCaja(model);
+		if(!result) {
+			throw new InternalServerErrorException("Error interno, no se pudo desactivar la Boveda");
+		}
+	}	
+	
+	@Override
 	public void congelar(Integer id) {
 		CajaModel model = cajaProvider.getCajaById(id);
 		if (model == null) {
@@ -177,6 +205,6 @@ public class CajaResourceImpl implements CajaResource {
 		
 		return result;
 		
-	}	
+	}
 
 }
