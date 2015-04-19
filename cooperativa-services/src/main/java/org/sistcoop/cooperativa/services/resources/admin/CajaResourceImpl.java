@@ -132,8 +132,22 @@ public class CajaResourceImpl implements CajaResource {
 
 	@Override
 	public void descongelar(Integer id) {
-		// TODO Auto-generated method stub
+		CajaModel model = cajaProvider.getCajaById(id);
+		if (model == null) {
+			throw new NotFoundException("Caja no encontrada");
+		}
+		if (!model.isAbierto()) {
+			throw new BadRequestException("Caja cerrada, no se puede congelar");
+		}
+		if (!model.getEstadoMovimiento()) {
+			throw new BadRequestException("Caja descongelada, no se puede descongelar nuevamente");
+		}
+		if (!model.getEstado()) {
+			throw new BadRequestException("Caja inactiva, no se puede congelar");
+		}
 		
+		model.setEstadoMovimiento(true);
+		model.commit();
 	}
 	
 	@Override
