@@ -1,8 +1,10 @@
 package org.sistcoop.cooperativa.models.utils;
 
 import org.sistcoop.cooperativa.models.BovedaModel;
+import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
 public class ModelToRepresentation {
@@ -36,6 +38,22 @@ public class ModelToRepresentation {
 		rep.setHoraApertura(model.getHoraApertura());
 		rep.setFechaCierre(model.getFechaCierre());
 		rep.setHoraCierre(model.getHoraCierre());
+		rep.setEstado(model.getEstado());
+		
+		return rep;
+	}
+
+	public static CajaRepresentation toRepresentation(CajaModel model) {
+		
+		if(model == null)
+			return null;
+		
+		CajaRepresentation rep = new CajaRepresentation();
+		rep.setId(model.getId());
+		rep.setDenominacion(model.getDenominacion());
+		rep.setAgencia(model.getAgencia());
+		rep.setAbierto(model.isAbierto());
+		rep.setEstadoMovimiento(model.getEstadoMovimiento());
 		rep.setEstado(model.getEstado());
 		
 		return rep;

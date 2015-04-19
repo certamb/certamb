@@ -28,12 +28,12 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentatio
 @Path("/cajas")
 public interface CajaResource {
 
-	/*@GET
+	@GET
 	@Path("/{id}")
-	public BovedaRepresentation findById (
+	public CajaRepresentation findById (
 			@PathParam("id") 
 			@NotNull 
-			@Min(value = 1) Integer id);*/
+			@Min(value = 1) Integer id);
 	
 	@POST
 	public Response create (

@@ -42,6 +42,12 @@ public class CajaResourceImpl implements CajaResource {
 	protected UriInfo uriInfo;
 
 	@Override
+	public CajaRepresentation findById(Integer id) {
+		CajaModel model = cajaProvider.getCajaById(id);
+		return ModelToRepresentation.toRepresentation(model);		
+	}
+	
+	@Override
 	public Response create(CajaRepresentation cajaRepresentation) {
 		CajaModel model = representationToModel.createCaja(cajaRepresentation, cajaProvider);
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
