@@ -111,6 +111,32 @@ public class CajaResourceImpl implements CajaResource {
 	}
 	
 	@Override
+	public void congelar(Integer id) {
+		CajaModel model = cajaProvider.getCajaById(id);
+		if (model == null) {
+			throw new NotFoundException("Caja no encontrada");
+		}
+		if (!model.isAbierto()) {
+			throw new BadRequestException("Caja cerrada, no se puede congelar");
+		}
+		if (model.getEstadoMovimiento()) {
+			throw new BadRequestException("Caja congelada, no se puede congelar nuevamente");
+		}
+		if (!model.getEstado()) {
+			throw new BadRequestException("Caja inactiva, no se puede congelar");
+		}
+		
+		model.setEstadoMovimiento(false);
+		model.commit();
+	}
+
+	@Override
+	public void descongelar(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public List<CajaRepresentation> searchCajas(String agencia, Boolean estado,
 			String filterText, Integer firstResult, Integer maxResults) {
 		
@@ -137,6 +163,6 @@ public class CajaResourceImpl implements CajaResource {
 		
 		return result;
 		
-	}
+	}	
 
 }

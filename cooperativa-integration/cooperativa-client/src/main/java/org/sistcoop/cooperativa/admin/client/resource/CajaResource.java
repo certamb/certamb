@@ -71,7 +71,7 @@ public interface CajaResource {
 	public void cerrar (
 			@PathParam("id") 
 			@NotNull
-			@Min(value = 1) Integer id);
+			@Min(value = 1) Integer id);*/
 	
 	@POST
 	@Path("/{id}/congelar")
@@ -85,7 +85,7 @@ public interface CajaResource {
 	public void descongelar (
 			@PathParam("id") 
 			@NotNull
-			@Min(value = 1) Integer id);*/
+			@Min(value = 1) Integer id);
 	
 	@GET
 	public List<CajaRepresentation> searchCajas(									
