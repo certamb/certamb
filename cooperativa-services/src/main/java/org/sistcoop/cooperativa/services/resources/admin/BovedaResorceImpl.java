@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,15 +20,20 @@ import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
+import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 
 public class BovedaResorceImpl implements BovedaResource {
 
 	@Inject
 	private BovedaProvider bovedaProvider;
+	
+	@Inject
+	private HistorialBovedaProvider historialBovedaProvider;
 	
 	@Inject
 	private RepresentationToModel representationToModel;
@@ -212,6 +218,42 @@ public class BovedaResorceImpl implements BovedaResource {
 		}
 		
 		return result;		
+	}
+
+	/*
+	 ** Historial boveda
+	 ***/
+	
+	@Override
+	public List<HistorialBovedaRepresentation> searchHistoriales(Integer id, Date desde, Date hasta,
+			Integer firstResult, Integer maxResults) {		
+		
+		if (firstResult == null) {
+			firstResult = -1;
+		}
+		if (maxResults == null) {
+			maxResults = -1;
+		}
+		if (desde == null || hasta == null) {
+			desde = null;
+			hasta = null;
+		}
+		
+		BovedaModel bovedaModel = bovedaProvider.getBovedaById(id);
+		List<HistorialBovedaModel> historialBovedaModels = null;
+		if (desde == null || hasta == null) {
+			historialBovedaModels = historialBovedaProvider.getHistorialesBoveda(bovedaModel, firstResult, maxResults);
+		} else {
+			historialBovedaModels = historialBovedaProvider.getHistorialesBoveda(bovedaModel, desde, hasta, firstResult, maxResults);
+		}
+		
+		List<HistorialBovedaRepresentation> result = new ArrayList<HistorialBovedaRepresentation>();
+		for (HistorialBovedaModel historialBovedaModel : historialBovedaModels) {
+			result.add(ModelToRepresentation.toRepresentation(historialBovedaModel));
+		}
+		
+		return result;
+		
 	}
 
 }

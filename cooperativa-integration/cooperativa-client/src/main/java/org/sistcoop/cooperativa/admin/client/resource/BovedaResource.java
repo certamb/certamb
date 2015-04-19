@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -86,6 +88,27 @@ public interface BovedaResource {
 			
 			@QueryParam("filterText")
 			@Size(min = 1, max = 100) String filterText, 
+			
+			@QueryParam("firstResult") 
+			@Min(value = 0) Integer firstResult, 
+			
+			@QueryParam("maxResults") 
+			@Min(value = 1) Integer maxResults);
+	
+	/*
+	 ** Historial boveda
+	 ***/
+	
+	@GET
+	@Path("/{id}/historiales")
+	public List<HistorialBovedaRepresentation> searchHistoriales (
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id,
+			
+			@QueryParam("desde") Date desde,
+			
+			@QueryParam("hasta") Date hasta,
 			
 			@QueryParam("firstResult") 
 			@Min(value = 0) Integer firstResult, 

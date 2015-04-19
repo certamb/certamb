@@ -114,6 +114,12 @@ public class JpaBovedaProvider implements BovedaProvider {
 		TypedQuery<BovedaEntity> query = em.createNamedQuery(BovedaEntity.findByAgenciaAndFilterText, BovedaEntity.class);
 		query.setParameter("agencia", agencia);
 		query.setParameter("filterText", "%" + filterText + "%");
+		if (firstResult != -1) {
+			query.setFirstResult(firstResult);
+		}
+		if (maxResults != -1) {
+			query.setMaxResults(maxResults);
+		}		
 		List<BovedaEntity> list = query.getResultList();
 
 		List<BovedaModel> result = new ArrayList<BovedaModel>();
