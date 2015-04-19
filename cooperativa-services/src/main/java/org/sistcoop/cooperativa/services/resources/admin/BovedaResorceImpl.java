@@ -146,6 +146,26 @@ public class BovedaResorceImpl implements BovedaResource {
 	}
 	
 	@Override
+	public void congelar(Integer id) {
+		BovedaModel model = bovedaProvider.getBovedaById(id);
+		if (model == null) {
+			throw new NotFoundException("Boveda no encontrada");
+		}
+		if (!model.isAbierto()) {
+			throw new BadRequestException("Boveda cerrada, no se puede congelar");
+		}
+		if (model.getEstadoMovimiento()) {
+			throw new BadRequestException("Boveda congelada, no se puede congelar nuevamente");
+		}
+		if (!model.getEstado()) {
+			throw new BadRequestException("Boveda inactiva, no se puede congelar");
+		}
+		
+		model.setEstadoMovimiento(false);
+		model.commit();
+	}
+	
+	@Override
 	public List<BovedaRepresentation> searchBovedas(String agencia,
 			Boolean estado, String filterText, Integer firstResult,
 			Integer maxResults) {		
@@ -173,7 +193,6 @@ public class BovedaResorceImpl implements BovedaResource {
 		
 		return result;		
 	}
-
 	
 
 }
