@@ -35,6 +35,12 @@ public class JpaHistorialBovedaProvider implements HistorialBovedaProvider {
 	}
 
 	@Override
+	public HistorialBovedaModel getHistorialBovedaById(Long id) {
+		HistorialBovedaEntity historialBovedaEntity = this.em.find(HistorialBovedaEntity.class, id);
+		return historialBovedaEntity != null ? new HistorialBovedaAdapter(em, historialBovedaEntity) : null;
+	}
+	
+	@Override
 	public HistorialBovedaModel addHistorialBoveda(BovedaModel bovedaModel) {
 		BovedaEntity bovedaEntity = BovedaAdapter.toBovedaEntity(bovedaModel, em);
 

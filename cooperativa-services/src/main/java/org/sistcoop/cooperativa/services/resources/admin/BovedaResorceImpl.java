@@ -45,6 +45,12 @@ public class BovedaResorceImpl implements BovedaResource {
 	protected UriInfo uriInfo;
 	
 	@Override
+	public BovedaRepresentation findById(Integer id) {
+		BovedaModel model = bovedaProvider.getBovedaById(id);
+		return ModelToRepresentation.toRepresentation(model);		
+	}
+	
+	@Override
 	public Response create(BovedaRepresentation bovedaRepresentation) {					
 		BovedaModel bovedaModel = representationToModel.createBoveda(bovedaRepresentation, bovedaProvider);
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(bovedaModel.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(bovedaModel.getId()).build();

@@ -11,6 +11,8 @@ import org.sistcoop.cooperativa.provider.Provider;
 public interface HistorialBovedaProvider extends Provider {
 
 	HistorialBovedaModel addHistorialBoveda(BovedaModel bovedaModel);
+	
+	HistorialBovedaModel getHistorialBovedaById(Long id);
 
 	List<HistorialBovedaModel> getHistorialesBoveda(
 			BovedaModel bovedaModel,

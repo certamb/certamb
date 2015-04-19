@@ -8,6 +8,10 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentatio
 public class ModelToRepresentation {
 
 	public static BovedaRepresentation toRepresentation(BovedaModel model) {
+		
+		if(model == null)
+			return null;
+		
 		BovedaRepresentation rep = new BovedaRepresentation();
 		
 		rep.setId(model.getId());
@@ -22,6 +26,9 @@ public class ModelToRepresentation {
 
 	public static HistorialBovedaRepresentation toRepresentation(
 			HistorialBovedaModel model) {
+		
+		if(model == null)
+			return null;
 		
 		HistorialBovedaRepresentation rep = new HistorialBovedaRepresentation();
 		rep.setId(model.getId());

@@ -27,6 +27,13 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentatio
 @Path("/bovedas")
 public interface BovedaResource {
 
+	@GET
+	@Path("/{id}")
+	public BovedaRepresentation findById (
+			@PathParam("id") 
+			@NotNull 
+			@Min(value = 1) Integer id);
+	
 	@POST
 	public Response create (
 			@NotNull
