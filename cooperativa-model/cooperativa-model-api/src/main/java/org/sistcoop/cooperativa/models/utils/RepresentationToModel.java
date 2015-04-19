@@ -6,7 +6,10 @@ import javax.ejb.TransactionAttributeType;
 
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
+import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -21,6 +24,16 @@ public class RepresentationToModel {
 		
 		return bovedaModel;
 		
+	}
+
+	public CajaModel createCaja(CajaRepresentation cajaRepresentation,
+			CajaProvider cajaProvider) {
+		
+		CajaModel cajaModel = cajaProvider.addCaja(
+				cajaRepresentation.getAgencia(), 
+				cajaRepresentation.getDenominacion());
+				
+		return cajaModel;
 	}
 
 }
