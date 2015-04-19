@@ -23,6 +23,8 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
+import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -101,86 +103,109 @@ public class CajaManager {
 		return true;
 	}
 	
-	/*public void cerrar(CajaModel cajaModel, List<DetalleHistorialCajaRepresentation> detalleHistorialCajaRepresentations) {
-		if (!cajaModel.isAbierto()) {
-			throw new EJBException("Caja cerrada, no se puede cerrar nuevamente.");
-		}
-		if (!cajaModel.getEstado()) {
-			throw new EJBException("Caja inactiva, no se puede cerrar.");
-		}
-
+	public boolean cerrarCaja(CajaModel cajaModel, List<MonedaRepresentation> monedas) {
 		List<BovedaCajaModel> bovedaCajaModels = cajaModel.getBovedaCajas();
+		List<HistorialBovedaCajaModel> historialesActivos = new ArrayList<HistorialBovedaCajaModel>();
 		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
-			if (!bovedaModel.isAbierto())
-				throw new EJBException("Boveda asociada cerrada, no se puede cerrar");
-		}
-
-		List<HistorialModel> historialesActivos = new ArrayList<HistorialModel>();
-		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-			HistorialModel historialModel = bovedaCajaModel.getHistorialActivo();
-			if (historialModel != null)
-				historialesActivos.add(historialModel);
+			HistorialBovedaCajaModel historialBovedaCajaModel = bovedaCajaModel.getHistorialActivo();
+			if (historialBovedaCajaModel != null)
+				historialesActivos.add(historialBovedaCajaModel);
 		}
 
 		if (historialesActivos.size() != bovedaCajaModels.size()) {
-			throw new EJBException("Error interno, boveda_caja no tiene historiales que cerrar. Pongase en contacto con el area de sistemas.");
+			throw new EJBException("Error interno, boveda_caja no tiene historiales que cerrar. Pongase en contacto con el area de sistemas");
 		}
 
 		// verificar que los saldos coincidan
-		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+		for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesActivos) {
+			BovedaCajaModel bovedaCajaModel = historialBovedaCajaModel.getBovedaCaja();
 			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
-			HistorialModel historialActivoModel = bovedaCajaModel.getHistorialActivo();
-			if (historialActivoModel == null) {
-				throw new EJBException("Error interno, no se pudo encontrar un historial activo para la caja.");
+			
+			String moneda = bovedaModel.getMoneda();
+			BigDecimal saldoSistema = BigDecimal.ZERO;
+			BigDecimal saldoUsuario = BigDecimal.ZERO;
+			
+			List<DetalleHistorialBovedaCajaModel> detalleHistorialBovedaCajaModels = historialBovedaCajaModel.getDetalle();
+			List<DetalleMonedaRepresentation> detalleMonedaRepresentations = null;
+			
+			//obteniendo saldo todal del sistema			
+			for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaCajaModel : detalleHistorialBovedaCajaModels) {				
+				BigDecimal subtotal = detalleHistorialBovedaCajaModel.getSubtotal();
+				saldoSistema = saldoSistema.add(subtotal);
 			}
-
-			DetalleHistorialCajaRepresentation detalleHistorialCajaRepresentation = getDetalleHistorialCajaRepresentationFromListDetalleHistorialCajaRepresentation(detalleHistorialCajaRepresentations, bovedaModel);
-			if (detalleHistorialCajaRepresentation == null) {
-				throw new EJBException("Error interno, no se pudo encontrar el detalle enviado.");
+			
+			//obteniendo saldo total del usuario			
+			for (MonedaRepresentation monedaRepresentation : monedas) {
+				if(moneda.equals(monedaRepresentation.getMoneda())){
+					detalleMonedaRepresentations =  monedaRepresentation.getDetalle();
+				}
 			}
-
-			BigDecimal totalRepresentation = getTotalFromListDetalleHistorialRepresentation(detalleHistorialCajaRepresentation.getDetalleHistorial());			
-			if (historialActivoModel.getSaldo().compareTo(totalRepresentation) != 0) {
+			if(detalleMonedaRepresentations == null){
+				throw new EJBException("No se encontro el detalle de una de las bovedas asignadas a la caja");
+			}
+			for (DetalleMonedaRepresentation detalleMonedaRepresentation : detalleMonedaRepresentations) {
+				int cantidad = detalleMonedaRepresentation.getCantidad();
+				BigDecimal valor = detalleMonedaRepresentation.getValor();
+				BigDecimal subtotal = valor.multiply(new BigDecimal(cantidad));
+				saldoUsuario = saldoUsuario.add(subtotal);
+			}
+			
+			//comparando saldos
+			if (saldoSistema.compareTo(saldoUsuario) != 0) {
 				throw new EJBException("Error interno, el saldo enviado no coincide con el saldo del sistema.");
 			}
-		}
-
-		// Escribir el nuevo historial
-		Calendar calendar = Calendar.getInstance();
-		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
-			HistorialModel historialActivoModel = bovedaCajaModel.getHistorialActivo();
-
-			List<DetalleHistorialModel> detalleHistorialActivoModels = historialActivoModel.getDetalle();
-			
-			DetalleHistorialCajaRepresentation detalleHistorialCajaRepresentation = getDetalleHistorialCajaRepresentationFromListDetalleHistorialCajaRepresentation(detalleHistorialCajaRepresentations, bovedaModel);
-			List<DetalleHistorialRepresentation> detalleHistorialRepresentations = detalleHistorialCajaRepresentation.getDetalleHistorial();
-			
-			if(detalleHistorialActivoModels.size() != detalleHistorialRepresentations.size()){
-				throw new EJBException("Error interno, el detalle enviado tiene una cantidad diferente de denominaciones que el sistema.");
+			//comparando denominaciones
+			if(detalleHistorialBovedaCajaModels.size() != detalleMonedaRepresentations.size()){
+				throw new EJBException("Cantidad de denominaciones no coinciden con las denominaciones del sistema");
 			}
+		}
+		
+		// Escribir el nuevo historial
+		for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesActivos) {
+			BovedaCajaModel bovedaCajaModel = historialBovedaCajaModel.getBovedaCaja();
+			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
 			
-			// cambiando los detalles
-			for (DetalleHistorialModel detalleHistorialActivoModel : detalleHistorialActivoModels) {
-				BigDecimal valor = detalleHistorialActivoModel.getValor();				
-				int cantidadNueva = getCantidadFromListDetalleHistorialRepresentation(detalleHistorialRepresentations, valor);
+			String moneda = bovedaModel.getMoneda();
+			List<DetalleHistorialBovedaCajaModel> detalleHistorialBovedaCajaModels = historialBovedaCajaModel.getDetalle();
+			List<DetalleMonedaRepresentation> detalleMonedaRepresentations = null;
+			
+			//extraer detalle adecuado
+			for (MonedaRepresentation monedaRepresentation : monedas) {
+				if(moneda.equals(monedaRepresentation.getMoneda())){
+					detalleMonedaRepresentations =  monedaRepresentation.getDetalle();
+				}
+			}			
+			
+			for (DetalleHistorialBovedaCajaModel detalleHistorialActivoModel : detalleHistorialBovedaCajaModels) {
+				BigDecimal valor = detalleHistorialActivoModel.getValor();						
+				int cantidadNueva = -1;
+				for (DetalleMonedaRepresentation detalleMonedaRepresentation : detalleMonedaRepresentations) {
+					if(valor.compareTo(detalleMonedaRepresentation.getValor()) == 0){
+						cantidadNueva = detalleMonedaRepresentation.getCantidad();
+					}
+				}
+				
 				if(cantidadNueva == -1)
-					throw new EJBException("Error interno, no se pudo encontrar la denominacion especificada.");
+					throw new EJBException("Error interno, no se pudo encontrar la denominacion especificada");
 				
 				detalleHistorialActivoModel.setCantidad(cantidadNueva);
 				detalleHistorialActivoModel.commit();
 			}
 			
-			historialActivoModel.setFechaCierre(calendar.getTime());
-			historialActivoModel.setHoraCierre(calendar.getTime());
-			historialActivoModel.commit();
+			//poner fechas y horas pero no desactivar historial, porque todavia es el historial activo
+			Calendar calendar = Calendar.getInstance();
+			historialBovedaCajaModel.setFechaCierre(calendar.getTime());
+			historialBovedaCajaModel.setHoraCierre(calendar.getTime());
+			historialBovedaCajaModel.commit();
 		}
-
+		
+		//cerrar caja
 		cajaModel.setAbierto(false);
 		cajaModel.setEstadoMovimiento(false);
-		cajaModel.commit();
-	}*/
+		cajaModel.commit();		
+		
+		return true;
+	}
 	
 	public boolean desactivarCaja(CajaModel model) {		
 		//desactivar caja

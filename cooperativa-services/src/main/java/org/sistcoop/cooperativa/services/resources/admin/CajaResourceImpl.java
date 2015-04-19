@@ -29,7 +29,9 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 import org.sistcoop.cooperativa.services.managers.CajaManager;
 
@@ -134,9 +136,37 @@ public class CajaResourceImpl implements CajaResource {
 		
 		boolean result = cajaManager.abrirCaja(model);
 		if(!result) {
-			throw new InternalServerErrorException("Error interno, no se pudo desactivar la Boveda");
+			throw new InternalServerErrorException("Error interno, no se pudo abrir la Caja");
 		}
 	}	
+	
+	@Override
+	public void cerrar(Integer id, List<MonedaRepresentation> monedas) {
+		CajaModel model = cajaProvider.getCajaById(id);
+		if (model == null) {
+			throw new NotFoundException("Caja no encontrada");
+		}
+		if (!model.isAbierto()) {
+			throw new BadRequestException("Caja cerrada, no se puede cerrar nuevamente");
+		}		
+		if (!model.getEstado()) {
+			throw new BadRequestException("Caja inactiva, no se puede cerrar");
+		}
+		
+		//Validar bovedas relacionadas
+		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
+			if (!bovedaModel.isAbierto()) {
+				throw new BadRequestException("Bovedas relacionadas deben estar abiertas");
+			}
+		}
+		
+		boolean result = cajaManager.cerrarCaja(model, monedas);
+		if(!result) {
+			throw new InternalServerErrorException("Error interno, no se pudo cerrar la Caja");
+		}
+	}
 	
 	@Override
 	public void congelar(Integer id) {

@@ -135,7 +135,7 @@ public class BovedaResorceImpl implements BovedaResource {
 		
 		boolean result = bovedaManager.abrirBoveda(model, denominaciones);
 		if(!result) {
-			throw new InternalServerErrorException("Error interno, no se pudo desactivar la Boveda");
+			throw new InternalServerErrorException("Error interno, no se pudo abrir la Boveda");
 		}
 	}
 	
@@ -162,7 +162,7 @@ public class BovedaResorceImpl implements BovedaResource {
 		
 		boolean result = bovedaManager.cerrarBoveda(model);
 		if(!result) {
-			throw new InternalServerErrorException("Error interno, no se pudo desactivar la Boveda");
+			throw new InternalServerErrorException("Error interno, no se pudo cerrar la Boveda");
 		}
 	}
 	

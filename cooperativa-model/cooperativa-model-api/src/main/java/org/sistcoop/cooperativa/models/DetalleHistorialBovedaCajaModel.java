@@ -11,6 +11,8 @@ public interface DetalleHistorialBovedaCajaModel extends Model {
 	BigDecimal getValor();
 
 	int getCantidad();
+	
+	void setCantidad(int cantidad);
 
 	BigDecimal getSubtotal();
 

@@ -21,7 +21,9 @@ import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -64,12 +66,15 @@ public interface CajaResource {
 			@NotNull
 			@Min(value = 1) Integer id);
 	
-	/*@POST
+	@POST
 	@Path("/{id}/cerrar")
 	public void cerrar (
 			@PathParam("id") 
 			@NotNull
-			@Min(value = 1) Integer id);*/
+			@Min(value = 1) Integer id,
+			
+			@NotNull
+			@Valid List<MonedaRepresentation> monedas);
 	
 	@POST
 	@Path("/{id}/congelar")
