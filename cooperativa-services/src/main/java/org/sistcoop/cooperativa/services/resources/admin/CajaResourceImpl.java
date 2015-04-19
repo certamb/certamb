@@ -60,4 +60,33 @@ public class CajaResourceImpl implements CajaResource {
 		model.commit();		
 	}
 
+	@Override
+	public List<CajaRepresentation> searchCajas(String agencia, Boolean estado,
+			String filterText, Integer firstResult, Integer maxResults) {
+		
+		List<CajaModel> list;
+		if (estado == null) {
+			if (filterText == null) {
+				filterText = "";
+			}
+			if (firstResult == null) {
+				firstResult = -1;
+			}
+			if (maxResults == null) {
+				maxResults = -1;
+			}
+			list = cajaProvider.getCajas(agencia, true, filterText, firstResult, maxResults);
+		} else {
+			list = cajaProvider.getCajas(agencia, estado, filterText, firstResult, maxResults);
+		}
+
+		List<CajaRepresentation> result = new ArrayList<CajaRepresentation>();
+		for (CajaModel cajaModel : list) {
+			result.add(ModelToRepresentation.toRepresentation(cajaModel));
+		}
+		
+		return result;
+		
+	}
+
 }

@@ -20,5 +20,7 @@ public interface CajaProvider extends Provider {
 	List<CajaModel> getCajas(boolean estado);
 
 	List<CajaModel> getCajas(String agencia, boolean estado);
+	
+	List<CajaModel> getCajas(String agencia, boolean estado, String filterText, int firstResult, int maxResults);
 
 }

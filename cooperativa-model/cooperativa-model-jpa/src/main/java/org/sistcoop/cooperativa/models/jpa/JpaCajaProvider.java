@@ -94,4 +94,28 @@ public class JpaCajaProvider implements CajaProvider {
 		return result;
 	}
 
+	@Override
+	public List<CajaModel> getCajas(String agencia, boolean estado,
+			String filterText, int firstResult, int maxResults) {
+		
+		TypedQuery<CajaEntity> query = em.createNamedQuery(CajaEntity.findByAgenciaAndFilterText, CajaEntity.class);
+		query.setParameter("agencia", agencia);
+		query.setParameter("filterText", "%" + filterText + "%");
+		if (firstResult != -1) {
+			query.setFirstResult(firstResult);
+		}
+		if (maxResults != -1) {
+			query.setMaxResults(maxResults);
+		}		
+		List<CajaEntity> list = query.getResultList();
+
+		List<CajaModel> result = new ArrayList<CajaModel>();
+		for (CajaEntity cajaEntity : list) {			
+			if (cajaEntity.isEstado() == estado) {
+				result.add(new CajaAdapter(em, cajaEntity));
+			}
+		}
+		return result;
+	}
+
 }

@@ -85,10 +85,10 @@ public interface CajaResource {
 	public void descongelar (
 			@PathParam("id") 
 			@NotNull
-			@Min(value = 1) Integer id);
+			@Min(value = 1) Integer id);*/
 	
 	@GET
-	public List<BovedaRepresentation> searchBovedas(									
+	public List<CajaRepresentation> searchCajas(									
 			@QueryParam("agencia")
 			@Size(min = 1, max = 100) String agencia,
 			
@@ -102,7 +102,7 @@ public interface CajaResource {
 			
 			@QueryParam("maxResults") 
 			@Min(value = 1) Integer maxResults);
-	*/
+	
 	/*
 	 ** Historial boveda
 	 ***/
