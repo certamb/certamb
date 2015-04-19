@@ -70,6 +70,13 @@ public interface BovedaResource {
 			@NotNull
 			@Min(value = 1) Integer id);
 	
+	@POST
+	@Path("/{id}/descongelar")
+	public void descongelar (
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id);
+	
 	@GET
 	public List<BovedaRepresentation> searchBovedas(									
 			@QueryParam("agencia")
