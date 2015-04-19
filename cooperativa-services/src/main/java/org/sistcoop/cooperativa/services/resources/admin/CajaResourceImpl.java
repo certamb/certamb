@@ -47,4 +47,11 @@ public class CajaResourceImpl implements CajaResource {
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
 	}
 
+	@Override
+	public void update(Integer id, CajaRepresentation cajaRepresentation) {
+		CajaModel model = representationToModel.createCaja(cajaRepresentation, cajaProvider);
+		model.setDenominacion(cajaRepresentation.getDenominacion());
+		model.commit();		
+	}
+
 }

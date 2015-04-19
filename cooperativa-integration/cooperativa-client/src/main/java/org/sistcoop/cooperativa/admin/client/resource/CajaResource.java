@@ -40,7 +40,7 @@ public interface CajaResource {
 			@NotNull
 			@Valid CajaRepresentation cajaRepresentation);	
 	
-	/*@PUT
+	@PUT
 	@Path("/{id}")
 	public void update (
 			@PathParam("id") 
@@ -48,9 +48,9 @@ public interface CajaResource {
 			@Min(value = 1) Integer id, 
 			
 			@NotNull
-			@Valid BovedaRepresentation bovedaRepresentation);
+			@Valid CajaRepresentation cajaRepresentation);
 	
-	@POST
+	/*@POST
 	@Path("/{id}/desactivar")
 	public void desactivar (
 			@PathParam("id") 
