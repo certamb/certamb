@@ -41,4 +41,10 @@ public class JpaTrabajadorCajaProvider implements TrabajadorCajaProvider {
 		return new TrabajadorCajaAdapter(em, trabajadorCajaEntity);
 	}
 
+	@Override
+	public TrabajadorCajaModel getTrabajadorCajaById(Integer id) {
+		TrabajadorCajaEntity trabajadorCajaEntity = this.em.find(TrabajadorCajaEntity.class, id);
+		return trabajadorCajaEntity != null ? new TrabajadorCajaAdapter(em, trabajadorCajaEntity) : null;
+	}
+
 }

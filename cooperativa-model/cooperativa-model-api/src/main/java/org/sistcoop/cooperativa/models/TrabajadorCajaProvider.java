@@ -9,4 +9,6 @@ public interface TrabajadorCajaProvider extends Provider {
 
 	TrabajadorCajaModel addTrabajadorCaja(CajaModel cajaModel, String tipoDocumento, String numeroDocumento);
 
+	TrabajadorCajaModel getTrabajadorCajaById(Integer id);
+	
 }
