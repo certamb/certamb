@@ -48,4 +48,10 @@ public class JpaBovedaCajaProvider implements BovedaCajaProvider {
 		return new BovedaCajaAdapter(em, bovedaCajaEntity);
 	}
 
+	@Override
+	public BovedaCajaModel getBovedaCajaById(Integer id) {
+		BovedaCajaEntity bovedaCajaEntity = this.em.find(BovedaCajaEntity.class, id);
+		return bovedaCajaEntity != null ? new BovedaCajaAdapter(em, bovedaCajaEntity) : null;
+	}
+
 }

@@ -9,4 +9,6 @@ public interface BovedaCajaProvider extends Provider {
 
 	BovedaCajaModel addBovedaCaja(BovedaModel bovedaModel, CajaModel cajaModel);	
 
+	BovedaCajaModel getBovedaCajaById(Integer id);
+	
 }

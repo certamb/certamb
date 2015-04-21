@@ -5,6 +5,7 @@ import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
+import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
@@ -84,6 +85,35 @@ public class ModelToRepresentation {
 		bovedaRepresentation.setDenominacion(bovedaModel.getDenominacion());
 		bovedaRepresentation.setMoneda(bovedaModel.getMoneda());
 		rep.setBoveda(bovedaRepresentation);
+		
+		return rep;
+	}
+
+	public static BovedaCajaRepresentation toRepresentation(BovedaCajaModel model) {
+		
+		if(model == null)
+			return null;
+		
+		BovedaCajaRepresentation rep = new BovedaCajaRepresentation();
+		rep.setId(model.getId());
+		rep.setSaldo(model.getSaldo());
+		rep.setEstado(model.getEstado());
+	
+		BovedaModel bovedaModel = model.getBoveda();
+		BovedaRepresentation bovedaRepresentation = new BovedaRepresentation();
+		bovedaRepresentation.setId(bovedaModel.getId());
+		bovedaRepresentation.setAgencia(bovedaModel.getAgencia());
+		bovedaRepresentation.setDenominacion(bovedaModel.getDenominacion());
+		bovedaRepresentation.setMoneda(bovedaModel.getMoneda());
+		rep.setBoveda(bovedaRepresentation);
+		
+		CajaModel cajaModel = model.getCaja();
+		CajaRepresentation cajaRepresentation = new CajaRepresentation();
+		cajaRepresentation.setId(cajaModel.getId());
+		cajaRepresentation.setDenominacion(cajaModel.getDenominacion());
+		cajaRepresentation.setAgencia(cajaModel.getAgencia());		
+		cajaRepresentation.setEstado(cajaModel.getEstado());
+		rep.setCaja(cajaRepresentation);
 		
 		return rep;
 	}
