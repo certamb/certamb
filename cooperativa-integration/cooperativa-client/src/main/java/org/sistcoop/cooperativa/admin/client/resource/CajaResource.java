@@ -22,6 +22,7 @@ import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -140,4 +141,18 @@ public interface CajaResource {
 			
 			@NotNull
 			@Valid BovedaCajaRepresentation bovedaCajaRepresentation);
+	
+	/*
+	 ** Trabajador Caja
+	 ***/
+	
+	@POST
+	@Path("/{id}/trabajadorCajas")
+	public Response addTrabajadorCaja (
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id,
+			
+			@NotNull
+			@Valid TrabajadorCajaRepresentation trabajadorCajaRepresentation);
 }

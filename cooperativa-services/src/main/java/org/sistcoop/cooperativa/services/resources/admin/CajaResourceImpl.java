@@ -23,6 +23,8 @@ import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
+import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
+import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
@@ -30,6 +32,7 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 import org.sistcoop.cooperativa.services.managers.CajaManager;
 
 public class CajaResourceImpl implements CajaResource {
@@ -45,6 +48,9 @@ public class CajaResourceImpl implements CajaResource {
 	
 	@Inject
 	private BovedaCajaProvider bovedaCajaProvider;
+	
+	@Inject
+	private TrabajadorCajaProvider trabajadorCajaProvider;
 	
 	@Inject
 	private RepresentationToModel representationToModel;
@@ -310,6 +316,16 @@ public class CajaResourceImpl implements CajaResource {
 		CajaModel cajaModel = cajaProvider.getCajaById(cajaRepresentation.getId());
 		
 		BovedaCajaModel model = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);		
+		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
+	}
+
+	@Override
+	public Response addTrabajadorCaja(Integer id, TrabajadorCajaRepresentation trabajadorCajaRepresentation) {
+		CajaModel cajaModel = cajaProvider.getCajaById(id);
+		String tipoDocumento = trabajadorCajaRepresentation.getTipoDocumento();
+		String numeroDocumento = trabajadorCajaRepresentation.getNumeroDocumento();
+		
+		TrabajadorCajaModel model = trabajadorCajaProvider.addTrabajadorCaja(cajaModel, tipoDocumento, numeroDocumento);
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
 	}
 
