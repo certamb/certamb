@@ -13,32 +13,28 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.sistcoop.cooperativa.admin.client.resource.BovedaResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
-import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
+import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
-import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
-import org.sistcoop.cooperativa.services.managers.BovedaManager;
 import org.sistcoop.cooperativa.services.managers.CajaManager;
 
 public class CajaResourceImpl implements CajaResource {
 
 	@Inject
 	private CajaProvider cajaProvider;
+	
+	@Inject
+	private HistorialBovedaCajaProvider historialBovedaCajaProvider;
 	
 	@Inject
 	private RepresentationToModel representationToModel;
@@ -235,6 +231,62 @@ public class CajaResourceImpl implements CajaResource {
 		
 		return result;
 		
+	}
+
+	@Override
+	public List<HistorialBovedaCajaRepresentation> searchHistoriales(
+			Integer id, List<String> monedas, Date desde, Date hasta,
+			Integer firstResult, Integer maxResults) {
+		
+		if (firstResult == null) {
+			firstResult = -1;
+		}
+		if (maxResults == null) {
+			maxResults = -1;
+		}
+		if (desde == null || hasta == null) {
+			desde = null;
+			hasta = null;
+		}
+		
+		CajaModel cajaModel = cajaProvider.getCajaById(id);
+		List<BovedaCajaModel> bovedaCajaModels = cajaModel.getBovedaCajas();
+		
+		//extrayendo las monedas solicitadas
+		List<BovedaCajaModel> bovedaCajaModelSolicitados = null;
+		if(monedas == null || monedas.size() == 0){
+			bovedaCajaModelSolicitados = bovedaCajaModels;
+		} else {
+			bovedaCajaModelSolicitados = new ArrayList<BovedaCajaModel>();
+			for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+				BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
+				for (int i = 0; i < monedas.size(); i++) {
+					if(bovedaModel.getMoneda().equals(monedas.get(i))){
+						bovedaCajaModelSolicitados.add(bovedaCajaModel);
+					}
+				}
+			}
+		}
+		
+		//buscando los historiales solicitados
+		List<HistorialBovedaCajaModel> historialBovedaCajaModelsTotal = new ArrayList<HistorialBovedaCajaModel>();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModelSolicitados) {			
+			List<HistorialBovedaCajaModel> historialBovedaCajaModels = null;
+			if (desde == null || hasta == null) {
+				historialBovedaCajaModels = historialBovedaCajaProvider.getHistorialesBovedaCaja(bovedaCajaModel, firstResult, maxResults);
+			} else {
+				historialBovedaCajaModels = historialBovedaCajaProvider.getHistorialesBovedaCaja(bovedaCajaModel, desde, hasta, firstResult, maxResults);
+			}
+			historialBovedaCajaModelsTotal.addAll(historialBovedaCajaModels);
+		}
+		
+		//resultado
+		List<HistorialBovedaCajaRepresentation> result = new ArrayList<HistorialBovedaCajaRepresentation>();
+		for (HistorialBovedaCajaModel historialBovedaCajaModel : historialBovedaCajaModelsTotal) {
+			result.add(ModelToRepresentation.toRepresentation(historialBovedaCajaModel));		
+		}
+		
+		return result;
 	}
 
 }

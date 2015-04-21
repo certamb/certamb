@@ -1,6 +1,9 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -9,6 +12,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
@@ -44,6 +48,57 @@ public class JpaHistorialBovedaCajaProvider implements HistorialBovedaCajaProvid
 
 		em.persist(historialBovedaCajaEntity);
 		return new HistorialBovedaCajaAdapter(em, historialBovedaCajaEntity);
+	}
+
+	@Override
+	public HistorialBovedaCajaModel getHistorialBovedaCajaById(Long id) {
+		HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class, id);
+		return historialBovedaCajaEntity != null ? new HistorialBovedaCajaAdapter(em, historialBovedaCajaEntity) : null;
+	}
+
+	@Override
+	public List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(BovedaCajaModel bovedaCajaModel, int firstResult, int maxResults) {
+		
+		TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery(HistorialBovedaCajaEntity.findByBovedaCaja, HistorialBovedaCajaEntity.class);
+		query.setParameter("idBovedaCaja", bovedaCajaModel.getId());
+		if (firstResult != -1) {
+			query.setFirstResult(firstResult);
+		}
+		if (maxResults != -1) {
+			query.setMaxResults(maxResults);
+		}		
+		List<HistorialBovedaCajaEntity> list = query.getResultList();
+		
+		List<HistorialBovedaCajaModel> result = new ArrayList<HistorialBovedaCajaModel>();
+		for (HistorialBovedaCajaEntity historialBovedaCajaEntity : list) {
+			result.add(new HistorialBovedaCajaAdapter(em, historialBovedaCajaEntity));		
+		}
+		
+		return result;
+		
+	}
+
+	@Override
+	public List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(BovedaCajaModel bovedaCajaModel, Date desde, Date hasta, int firstResult, int maxResults) {
+		
+		TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery(HistorialBovedaCajaEntity.findByBovedaCajaDesdeHasta, HistorialBovedaCajaEntity.class);
+		query.setParameter("idBovedaCaja", bovedaCajaModel.getId());
+		query.setParameter("desde", desde);
+		query.setParameter("hasta", hasta);
+		if (firstResult != -1) {
+			query.setFirstResult(firstResult);
+		}
+		if (maxResults != -1) {
+			query.setMaxResults(maxResults);
+		}		
+		List<HistorialBovedaCajaEntity> list = query.getResultList();
+		
+		List<HistorialBovedaCajaModel> result = new ArrayList<HistorialBovedaCajaModel>();
+		for (HistorialBovedaCajaEntity historialBovedaCajaEntity : list) {
+			result.add(new HistorialBovedaCajaAdapter(em, historialBovedaCajaEntity));		
+		}
+		
+		return result;
 	}
 
 }

@@ -19,10 +19,10 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "HISTORIAL_BOVEDA_CAJA")
-@NamedQueries({ 
-	@NamedQuery(name = HistorialBovedaCajaEntity.findByHistorialActivo, query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja c WHERE c.id = :idCaja AND h.estado = true"), 
-	@NamedQuery(name = HistorialBovedaCajaEntity.findByHistorialDateRange, query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja c WHERE c.id = :idCaja AND h.fechaApertura BETWEEN :desde AND :hasta AND h.estado = false ORDER BY h.horaApertura DESC"),		
-	@NamedQuery(name = HistorialBovedaCajaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja AND s.estado = :estado") })
+@NamedQueries({ 			
+	@NamedQuery(name = HistorialBovedaCajaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja AND s.estado = :estado"),
+	@NamedQuery(name = HistorialBovedaCajaEntity.findByBovedaCaja, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja"),
+	@NamedQuery(name = HistorialBovedaCajaEntity.findByBovedaCajaDesdeHasta, query = "SELECT h FROM HistorialBovedaCajaEntity h WHERE h.bovedaCaja.id = :idBovedaCaja AND h.fechaApertura < :desde AND h.fechaCierre > :hasta")})
 public class HistorialBovedaCajaEntity extends HistorialEntity implements Serializable {
 
 	/**
@@ -31,9 +31,9 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
 	private static final long serialVersionUID = 1L;
 
 	public final static String base = "org.softgreen.sistcoop.organizacion.ejb.models.jpa.entities.HistorialCajaEntity.";
-	public final static String findByHistorialActivo = base + "findByHistorialActivo";
-	public final static String findByHistorialDateRange = base + "findByHistorialDateRange";
 	public final static String findByEstado = base + "findByEstado";
+	public final static String findByBovedaCaja = base + "findByBovedaCaja";
+	public final static String findByBovedaCajaDesdeHasta = base + "findByBovedaCajaDesdeHasta";
 
 	private BovedaCajaEntity bovedaCaja;
 	private Set<DetalleHistorialBovedaCajaEntity> detalle = new HashSet<DetalleHistorialBovedaCajaEntity>();

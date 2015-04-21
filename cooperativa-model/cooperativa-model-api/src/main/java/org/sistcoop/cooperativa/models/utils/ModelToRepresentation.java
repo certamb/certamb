@@ -1,10 +1,13 @@
 package org.sistcoop.cooperativa.models.utils;
 
+import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
 public class ModelToRepresentation {
@@ -20,6 +23,22 @@ public class ModelToRepresentation {
 		rep.setAgencia(model.getAgencia());
 		rep.setDenominacion(model.getDenominacion());
 		rep.setMoneda(model.getMoneda());
+		rep.setEstadoMovimiento(model.getEstadoMovimiento());
+		rep.setEstado(model.getEstado());
+		
+		return rep;
+	}	
+
+	public static CajaRepresentation toRepresentation(CajaModel model) {
+		
+		if(model == null)
+			return null;
+		
+		CajaRepresentation rep = new CajaRepresentation();
+		rep.setId(model.getId());
+		rep.setDenominacion(model.getDenominacion());
+		rep.setAgencia(model.getAgencia());
+		rep.setAbierto(model.isAbierto());
 		rep.setEstadoMovimiento(model.getEstadoMovimiento());
 		rep.setEstado(model.getEstado());
 		
@@ -42,19 +61,29 @@ public class ModelToRepresentation {
 		
 		return rep;
 	}
-
-	public static CajaRepresentation toRepresentation(CajaModel model) {
+	
+	public static HistorialBovedaCajaRepresentation toRepresentation(
+			HistorialBovedaCajaModel model) {
 		
 		if(model == null)
 			return null;
 		
-		CajaRepresentation rep = new CajaRepresentation();
+		HistorialBovedaCajaRepresentation rep = new HistorialBovedaCajaRepresentation();
 		rep.setId(model.getId());
-		rep.setDenominacion(model.getDenominacion());
-		rep.setAgencia(model.getAgencia());
-		rep.setAbierto(model.isAbierto());
-		rep.setEstadoMovimiento(model.getEstadoMovimiento());
+		rep.setFechaApertura(model.getFechaApertura());
+		rep.setHoraApertura(model.getHoraApertura());
+		rep.setFechaCierre(model.getFechaCierre());
+		rep.setHoraCierre(model.getHoraCierre());
 		rep.setEstado(model.getEstado());
+		
+		BovedaCajaModel bovedaCajaModel = model.getBovedaCaja();
+		BovedaModel  bovedaModel = bovedaCajaModel.getBoveda();
+		BovedaRepresentation bovedaRepresentation = new BovedaRepresentation();
+		bovedaRepresentation.setId(bovedaModel.getId());
+		bovedaRepresentation.setAgencia(bovedaModel.getAgencia());
+		bovedaRepresentation.setDenominacion(bovedaModel.getDenominacion());
+		bovedaRepresentation.setMoneda(bovedaModel.getMoneda());
+		rep.setBoveda(bovedaRepresentation);
 		
 		return rep;
 	}

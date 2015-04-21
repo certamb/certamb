@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -19,10 +18,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
 
 @Consumes(MediaType.APPLICATION_JSON)
@@ -107,15 +104,17 @@ public interface CajaResource {
 			@Min(value = 1) Integer maxResults);
 	
 	/*
-	 ** Historial boveda
+	 ** Historial caja
 	 ***/
 	
-	/*@GET
+	@GET
 	@Path("/{id}/historiales")
-	public List<HistorialBovedaRepresentation> searchHistoriales (
+	public List<HistorialBovedaCajaRepresentation> searchHistoriales (
 			@PathParam("id") 
 			@NotNull
 			@Min(value = 1) Integer id,
+			
+			@QueryParam("monedas") List<String> monedas,
 			
 			@QueryParam("desde") Date desde,
 			
@@ -125,6 +124,6 @@ public interface CajaResource {
 			@Min(value = 0) Integer firstResult, 
 			
 			@QueryParam("maxResults") 
-			@Min(value = 1) Integer maxResults);*/
+			@Min(value = 1) Integer maxResults);
 	
 }
