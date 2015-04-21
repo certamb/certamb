@@ -18,6 +18,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
@@ -126,4 +127,17 @@ public interface CajaResource {
 			@QueryParam("maxResults") 
 			@Min(value = 1) Integer maxResults);
 	
+	/*
+	 ** Boveda Caja
+	 ***/
+	
+	@POST
+	@Path("/{id}/bovedaCajas")
+	public Response addBovedaCaja (
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id,
+			
+			@NotNull
+			@Valid BovedaCajaRepresentation bovedaCajaRepresentation);
 }

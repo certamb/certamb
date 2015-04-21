@@ -15,7 +15,9 @@ import javax.ws.rs.core.UriInfo;
 
 import org.sistcoop.cooperativa.admin.client.resource.CajaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
+import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
+import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
@@ -23,6 +25,8 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
+import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
@@ -35,6 +39,12 @@ public class CajaResourceImpl implements CajaResource {
 	
 	@Inject
 	private HistorialBovedaCajaProvider historialBovedaCajaProvider;
+	
+	@Inject
+	private BovedaProvider bovedaProvider;
+	
+	@Inject
+	private BovedaCajaProvider bovedaCajaProvider;
 	
 	@Inject
 	private RepresentationToModel representationToModel;
@@ -287,6 +297,20 @@ public class CajaResourceImpl implements CajaResource {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public Response addBovedaCaja(Integer id,
+			BovedaCajaRepresentation bovedaCajaRepresentation) {
+		
+		BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();
+		CajaRepresentation cajaRepresentation = bovedaCajaRepresentation.getCaja();
+		
+		BovedaModel bovedaModel = bovedaProvider.getBovedaById(bovedaRepresentation.getId());
+		CajaModel cajaModel = cajaProvider.getCajaById(cajaRepresentation.getId());
+		
+		BovedaCajaModel model = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);		
+		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
 	}
 
 }
