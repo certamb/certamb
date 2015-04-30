@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
@@ -27,6 +28,7 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 
+@Stateless
 public class BovedaResorceImpl implements BovedaResource {
 
 	@Inject

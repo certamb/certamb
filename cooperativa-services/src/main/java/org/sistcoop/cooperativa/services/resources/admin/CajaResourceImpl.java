@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
@@ -35,6 +36,7 @@ import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 import org.sistcoop.cooperativa.services.managers.CajaManager;
 
+@Stateless
 public class CajaResourceImpl implements CajaResource {
 
 	@Inject

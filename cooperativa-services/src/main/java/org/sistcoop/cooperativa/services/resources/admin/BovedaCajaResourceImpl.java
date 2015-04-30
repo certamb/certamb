@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
@@ -14,6 +15,7 @@ import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 
+@Stateless
 public class BovedaCajaResourceImpl implements BovedaCajaResource {
 
 	@Inject

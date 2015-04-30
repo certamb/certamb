@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaCajaResource;
@@ -8,6 +9,7 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 
+@Stateless
 public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResource {
 
 	@Inject

@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
@@ -10,6 +11,7 @@ import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 
+@Stateless
 public class TrabajadorCajaResourceImpl implements TrabajadorCajaResource {
 
 	@Inject
