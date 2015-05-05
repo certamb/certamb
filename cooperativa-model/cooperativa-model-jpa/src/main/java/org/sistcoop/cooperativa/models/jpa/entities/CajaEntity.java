@@ -25,7 +25,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "CAJA", indexes = { @Index(columnList = "id") })
 @NamedQueries({		
 		@NamedQuery(name = CajaEntity.findByAgencia, query = "SELECT c FROM CajaEntity c WHERE c.agencia = :agencia"),
-		@NamedQuery(name = CajaEntity.findByAgenciaAndFilterText, query = "SELECT c FROM BovedaEntity c WHERE c.agencia = :agencia AND c.denominacion LIKE :filterText") })
+		@NamedQuery(name = CajaEntity.findByAgenciaAndFilterText, query = "SELECT c FROM CajaEntity c WHERE c.agencia = :agencia AND c.denominacion LIKE :filterText") })
 public class CajaEntity {
 
 	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.CajaEntity.";
