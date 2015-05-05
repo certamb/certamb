@@ -26,6 +26,7 @@ public class ModelToRepresentation {
 		rep.setAgencia(model.getAgencia());
 		rep.setDenominacion(model.getDenominacion());
 		rep.setMoneda(model.getMoneda());
+		rep.setAbierto(model.isAbierto());
 		rep.setEstadoMovimiento(model.getEstadoMovimiento());
 		rep.setEstado(model.getEstado());
 		

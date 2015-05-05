@@ -32,14 +32,15 @@ public class BovedaManager {
 		HistorialBovedaModel historialActivoModel = bovedaModel.getHistorialActivo();
 		
 		bovedaModel.setAbierto(true);
-		bovedaModel.setEstadoMovimiento(false);
-		bovedaModel.commit(); 
+		bovedaModel.setEstadoMovimiento(true);
+		bovedaModel.commit(); 		
 		
-		if (historialActivoModel == null) {
-
+		if (historialActivoModel == null) {			
+			
 			historialActivoModel = historialBovedaProvider.addHistorialBoveda(bovedaModel);
 
-			for (int i = 0; i < denominaciones.length; i++) {
+			
+			for (int i = 0; i < denominaciones.length; i++) {				
 				int cantidad = 0;
 				BigDecimal valor = denominaciones[i];
 				detalleHistorialBovedaProvider.addDetalleHistorialBoveda(historialActivoModel, valor, cantidad);

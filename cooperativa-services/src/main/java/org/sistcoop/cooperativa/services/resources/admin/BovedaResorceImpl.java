@@ -115,7 +115,8 @@ public class BovedaResorceImpl implements BovedaResource {
 	}
 	
 	@Override
-	public void abrir(Integer id, BigDecimal[] denominaciones) {
+	public void abrir(Integer id, BigDecimal[] denominaciones) {		
+		
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
 			throw new NotFoundException("Boveda no encontrada.");

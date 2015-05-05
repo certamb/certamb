@@ -64,7 +64,7 @@ public interface BovedaResource {
 			@NotNull
 			@Min(value = 1) Integer id,
 			
-			@QueryParam("denominaciones") BigDecimal[] denominaciones);
+			BigDecimal[] denominaciones);
 	
 	@POST
 	@Path("/{id}/cerrar")
