@@ -3,7 +3,6 @@ package org.sistcoop.cooperativa.representations.idm;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -54,7 +53,6 @@ public class BovedaCajaRepresentation implements Serializable {
 	}
 
 	@XmlElement
-	@NotNull
 	public CajaRepresentation getCaja() {
 		return caja;
 	}
@@ -64,7 +62,6 @@ public class BovedaCajaRepresentation implements Serializable {
 	}
 
 	@XmlElement
-	@NotNull
 	public BovedaRepresentation getBoveda() {
 		return boveda;
 	}
