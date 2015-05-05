@@ -10,6 +10,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "Una boveda es un almacen de dinero para una agencia")
 @XmlRootElement(name = "boveda")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class BovedaRepresentation implements Serializable {
@@ -29,6 +33,7 @@ public class BovedaRepresentation implements Serializable {
 	private String agencia;
 
 	@XmlAttribute
+	@ApiModelProperty(value = "ID de boveda", required=true, allowableValues = "numeric values")
 	public Integer getId() {
 		return id;
 	}

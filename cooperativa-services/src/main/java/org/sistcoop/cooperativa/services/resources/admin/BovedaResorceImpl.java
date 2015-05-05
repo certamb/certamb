@@ -8,8 +8,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -29,7 +31,13 @@ import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 @Stateless
+@Api(value = "/bovedas", description = "Operaciones sobre boveda")
 public class BovedaResorceImpl implements BovedaResource {
 
 	@Inject
@@ -48,6 +56,12 @@ public class BovedaResorceImpl implements BovedaResource {
 	protected UriInfo uriInfo;
 	
 	@Override
+	@GET
+	@Path("/{id}")
+	@ApiOperation(value = "Buscar boveda por ID", notes = "Puede buscar bovedas activas e inactivas", response = BovedaRepresentation.class)
+	@ApiResponses(value = { 
+			@ApiResponse(code = 400, message = "ID invalido"),
+			@ApiResponse(code = 404, message = "Boveda no encontrada") })
 	public BovedaRepresentation findById(Integer id) {
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		return ModelToRepresentation.toRepresentation(model);		

@@ -21,7 +21,7 @@
 	<!-- users permisions -->
 	<security-constraint>
 		<web-resource-collection>
-			<url-pattern>/*</url-pattern>
+			<url-pattern>/rest/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>ADMIN</role-name>
@@ -29,7 +29,7 @@
 	</security-constraint>
 	<security-constraint>
 		<web-resource-collection>
-			<url-pattern>/*</url-pattern>
+			<url-pattern>/rest/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>AUTHENTICATED</role-name>
@@ -37,11 +37,16 @@
 	</security-constraint>
 	<security-constraint>
 		<web-resource-collection>
-			<url-pattern>/*</url-pattern>
+			<url-pattern>/rest/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>PUBLIC</role-name>
 		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/rest/api-docs/*</url-pattern>
+		</web-resource-collection>
 	</security-constraint>
 
 	<!-- Login method -->
@@ -49,5 +54,30 @@
 		<auth-method>KEYCLOAK</auth-method>
 		<realm-name>sistcoop</realm-name>
 	</login-config>
+
+	<!-- swangger -->
+	<context-param>
+		<param-name>javax.ws.rs.core.Application</param-name>
+		<param-value>org.sistcoop.cooperativa.JaxRsActivator</param-value>
+	</context-param>
+	<context-param>
+		<param-name>resteasy.resources</param-name>
+		<param-value>
+			com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON						
+		</param-value>
+	</context-param>
+	<context-param>
+		<param-name>resteasy.providers</param-name>
+		<param-value>
+	        com.wordnik.swagger.jaxrs.json.JacksonJsonProvider,
+	        com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider,
+	        com.wordnik.swagger.jaxrs.listing.ResourceListingProvider        	        
+    	</param-value>
+	</context-param>
+	<servlet>
+		<servlet-name>SwaggerBootstrap</servlet-name>
+		<servlet-class>org.sistcoop.cooperativa.Bootstrap</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
 
 </web-app>

@@ -4,4 +4,6 @@ dependencies {
 		
 	compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.0.10.Final'
 	compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.1.3.Final'
+	
+	compile 'com.wordnik:swagger-jaxrs_2.10:1.3.12'
 }

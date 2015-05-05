@@ -23,14 +23,14 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
+@Path("/bovedas")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Path("/bovedas")
 public interface BovedaResource {
 
 	@GET
-	@Path("/{id}")
-	public BovedaRepresentation findById (
+	@Path("/{id}")	
+	public BovedaRepresentation findById (			
 			@PathParam("id") 
 			@NotNull 
 			@Min(value = 1) Integer id);
