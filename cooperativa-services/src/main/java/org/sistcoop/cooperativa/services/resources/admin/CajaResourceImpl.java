@@ -77,7 +77,7 @@ public class CajaResourceImpl implements CajaResource {
 
 	@Override
 	public void update(Integer id, CajaRepresentation cajaRepresentation) {
-		CajaModel model = representationToModel.createCaja(cajaRepresentation, cajaProvider);
+		CajaModel model = cajaProvider.getCajaById(id);
 		model.setDenominacion(cajaRepresentation.getDenominacion());
 		model.commit();		
 	}
