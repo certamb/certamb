@@ -311,14 +311,24 @@ public class CajaResourceImpl implements CajaResource {
 	public Response addBovedaCaja(Integer id,
 			BovedaCajaRepresentation bovedaCajaRepresentation) {
 		
-		BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();
-		CajaRepresentation cajaRepresentation = bovedaCajaRepresentation.getCaja();
+		BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();	
 		
 		BovedaModel bovedaModel = bovedaProvider.getBovedaById(bovedaRepresentation.getId());
-		CajaModel cajaModel = cajaProvider.getCajaById(cajaRepresentation.getId());
+		CajaModel cajaModel = cajaProvider.getCajaById(id);
 		
 		BovedaCajaModel model = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);		
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
+	}
+
+	@Override
+	public List<BovedaCajaRepresentation> getBovedaCajas(Integer id) {
+		CajaModel cajaModel = cajaProvider.getCajaById(id);
+		List<BovedaCajaModel> bovedaCajas = cajaModel.getBovedaCajas();
+		List<BovedaCajaRepresentation> result = new ArrayList<BovedaCajaRepresentation>();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajas) {
+			result.add(ModelToRepresentation.toRepresentation(bovedaCajaModel));
+		}		
+		return result;
 	}
 
 	@Override
@@ -329,6 +339,12 @@ public class CajaResourceImpl implements CajaResource {
 		
 		TrabajadorCajaModel model = trabajadorCajaProvider.addTrabajadorCaja(cajaModel, tipoDocumento, numeroDocumento);
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
+	}
+
+	
+	@Override
+	public List<TrabajadorCajaRepresentation> getTrabajadorCajas(Integer id) {
+		return null;
 	}
 
 }

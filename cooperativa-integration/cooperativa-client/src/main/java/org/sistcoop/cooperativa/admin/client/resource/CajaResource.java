@@ -142,6 +142,13 @@ public interface CajaResource {
 			@NotNull
 			@Valid BovedaCajaRepresentation bovedaCajaRepresentation);
 	
+	@GET
+	@Path("/{id}/bovedaCajas")
+	public List<BovedaCajaRepresentation> getBovedaCajas (
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id);
+	
 	/*
 	 ** Trabajador Caja
 	 ***/
@@ -155,4 +162,12 @@ public interface CajaResource {
 			
 			@NotNull
 			@Valid TrabajadorCajaRepresentation trabajadorCajaRepresentation);
+	
+	@GET
+	@Path("/{id}/trabajadorCajas")
+	public List<TrabajadorCajaRepresentation> getTrabajadorCajas (
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id);
+	
 }
