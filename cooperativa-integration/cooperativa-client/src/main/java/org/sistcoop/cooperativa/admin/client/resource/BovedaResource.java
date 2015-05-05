@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
 @Consumes(MediaType.APPLICATION_JSON)
@@ -82,6 +83,13 @@ public interface BovedaResource {
 	@POST
 	@Path("/{id}/descongelar")
 	public void descongelar (
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id);
+	
+	@GET
+	@Path("/{id}/detalle")	
+	public List<DetalleMonedaRepresentation> getDetalle(
 			@PathParam("id") 
 			@NotNull
 			@Min(value = 1) Integer id);

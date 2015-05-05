@@ -25,6 +25,7 @@ import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 
@@ -206,6 +207,34 @@ public class BovedaResorceImpl implements BovedaResource {
 		
 		model.setEstadoMovimiento(true);
 		model.commit();
+	}
+	
+	@Override
+	public List<DetalleMonedaRepresentation> getDetalle(Integer id) {
+		BovedaModel model = bovedaProvider.getBovedaById(id);
+		if (model == null) {
+			throw new NotFoundException("Boveda no encontrada");
+		}
+		HistorialBovedaModel historialBovedaModel = model.getHistorialActivo();
+		if(historialBovedaModel == null) {
+			return null;
+		}
+		
+		List<DetalleHistorialBovedaModel> detalle = historialBovedaModel.getDetalle();
+		List<DetalleMonedaRepresentation> result = new ArrayList<DetalleMonedaRepresentation>();
+		for (DetalleHistorialBovedaModel detalleHistorialBovedaModel : detalle) {
+			int cantidad = detalleHistorialBovedaModel.getCantidad();
+			BigDecimal valor = detalleHistorialBovedaModel.getValor();
+			
+			DetalleMonedaRepresentation rep = new DetalleMonedaRepresentation();
+			rep.setCantidad(cantidad);
+			rep.setValor(valor);
+			
+			result.add(rep);
+		}
+		
+		return result;
+		
 	}
 	
 	@Override
