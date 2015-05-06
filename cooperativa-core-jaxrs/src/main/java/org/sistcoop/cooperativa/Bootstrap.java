@@ -20,13 +20,13 @@ public class Bootstrap extends HttpServlet {
         BeanConfig beanConfig = new BeanConfig();
         beanConfig.setTitle("Cooperativa restfull services");
         beanConfig.setDescription("Cooperativa restfull services para el sistema SistCoop");
-        beanConfig.setTermsOfServiceUrl("http://localhost:8080/tems");
+        beanConfig.setTermsOfServiceUrl("http://www.apache.org/licenses/LICENSE-2.0.html");
         beanConfig.setContact("sistcoop@gmail.com");
-        beanConfig.setLicense("Apache Licence");
-        beanConfig.setLicenseUrl("licenceurl");
-        beanConfig.setVersion("1.0.0");
-        beanConfig.setBasePath("http://localhost:8080/api");
-        beanConfig.setResourcePackage("org.sistcoop.cooperativa.services.resources.admin");
+        beanConfig.setLicense("Apache Licence 2.0");
+        beanConfig.setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0.txt");
+        beanConfig.setVersion("1.0.0.Final");
+        beanConfig.setBasePath("http://localhost:8080/cooperativa/rest");
+        beanConfig.setResourcePackage("org.sistcoop.cooperativa");
         beanConfig.setScan(true);
     }
     
