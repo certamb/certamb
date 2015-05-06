@@ -83,13 +83,3 @@ subprojects {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.1'
 }
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.mamohr.gradle:jboss-deployment-structure:0.8.0'
-    }
-}
-apply plugin: 'com.github.mamohr.jboss-deployment-structure'
