@@ -7,19 +7,9 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.ws.rs.BadRequestException;
-import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -39,14 +29,6 @@ import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
-@Path("/bovedas")
-@Api(value = "/bovedas", description = "Operaciones sobre boveda")
 @Stateless
 public class BovedaResorceImpl implements BovedaResource {
 
@@ -65,29 +47,15 @@ public class BovedaResorceImpl implements BovedaResource {
 	@Context
 	protected UriInfo uriInfo;
 
-	@GET
-	@Path("/{id}")
-	@ApiOperation(value = "Buscar boveda por ID", notes = "Busca bovedas activas e inactivas", response = BovedaRepresentation.class)
-	@ApiResponses(value = { @ApiResponse(code = 400, message = "ID invalido"), @ApiResponse(code = 404, message = "Boveda no encontrada") })
-	public BovedaRepresentation findById(
-			@ApiParam(value = "ID de boveda", required = true)
-			@PathParam("id") 
-			@NotNull 
-			@Min(value = 1) Integer id) {
-		
+	@Override
+	public BovedaRepresentation findById(Integer id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		return ModelToRepresentation.toRepresentation(model);
 	}
-
-	@POST
-	@ApiOperation(value = "Crear boveda", notes = "Crear una boveda en el sistema")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Boveda creada"), @ApiResponse(code = 404, message = "Error al crear boveda") })
-	public Response create(
-			@ApiParam(value = "boveda", required = true)
-			@NotNull
-			@Valid BovedaRepresentation bovedaRepresentation) {	
-		
+	
+	@Override
+	public Response create(BovedaRepresentation bovedaRepresentation) {	
 		//TODO here
 		BovedaModel bovedaModel = representationToModel.createBoveda(bovedaRepresentation, bovedaProvider);
 		return Response.created(uriInfo.getAbsolutePathBuilder()
@@ -96,20 +64,8 @@ public class BovedaResorceImpl implements BovedaResource {
 								.entity(bovedaModel.getId()).build();		
 	}
 
-	@PUT
-	@Path("/{id}")
-	@ApiOperation(value = "Actualizar boveda", notes = "Actualiza boveda (Actualiza solo el atributo denominacion)")	
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Boveda actualizada"), @ApiResponse(code = 404, message = "Error al actualizar boveda") })
-	public void update(
-			@ApiParam(value = "ID de boveda", required = true)
-			@PathParam("id") 
-			@NotNull 
-			@Min(value = 1) Integer id, 
-			
-			@ApiParam(value = "boveda", required = true)
-			@NotNull
-			@Valid BovedaRepresentation bovedaRepresentation) {
-		
+	@Override
+	public void update(Integer id, BovedaRepresentation bovedaRepresentation) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -123,16 +79,8 @@ public class BovedaResorceImpl implements BovedaResource {
 		model.commit();
 	}
 
-	@POST
-	@Path("/{id}/desactivar")
-	@ApiOperation(value = "Desactivar boveda", notes = "Desactiva boveda y BovedaCaja's relacionadas")	
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Boveda desactivada"), @ApiResponse(code = 404, message = "Error al desactivar boveda") })	
-	public void desactivar(
-			@ApiParam(value = "ID de boveda", required = true)
-			@PathParam("id") 
-			@NotNull 
-			@Min(value = 1) Integer id) {
-		
+	@Override
+	public void desactivar(Integer id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -173,19 +121,8 @@ public class BovedaResorceImpl implements BovedaResource {
 		}
 	}
 
-	@POST
-	@Path("/{id}/abrir")
-	@ApiOperation(value = "Abrir boveda", notes = "Abre boveda")	
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Boveda abierta"), @ApiResponse(code = 404, message = "Error al abrir boveda") })	
-	public void abrir(
-			@ApiParam(value = "ID de boveda", required = true)
-			@PathParam("id") 
-			@NotNull 
-			@Min(value = 1) Integer id, 
-			
-			@ApiParam(value = "Array de denominaciones con las que se abrira la boveda", required = false)
-			BigDecimal[] denominaciones) {
-
+	@Override
+	public void abrir(Integer id, BigDecimal[] denominaciones) {
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -213,16 +150,8 @@ public class BovedaResorceImpl implements BovedaResource {
 		}
 	}
 
-	@POST
-	@Path("/{id}/cerrar")
-	@ApiOperation(value = "Abrir boveda", notes = "Cierra boveda")	
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Boveda cerrada"), @ApiResponse(code = 404, message = "Error al cerrar boveda") })	
-	public void cerrar(
-			@ApiParam(value = "ID de boveda", required = true)
-			@PathParam("id") 
-			@NotNull 
-			@Min(value = 1) Integer id) {
-		
+	@Override
+	public void cerrar(Integer id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -249,16 +178,8 @@ public class BovedaResorceImpl implements BovedaResource {
 		}
 	}
 
-	@POST
-	@Path("/{id}/congelar")
-	@ApiOperation(value = "Congelar boveda", notes = "Congela boveda")	
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Boveda congelada"), @ApiResponse(code = 404, message = "Error al congelar boveda") })
-	public void congelar(
-			@ApiParam(value = "ID de boveda", required = true)
-			@PathParam("id") 
-			@NotNull 
-			@Min(value = 1) Integer id) {
-		
+	@Override
+	public void congelar(Integer id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -281,16 +202,8 @@ public class BovedaResorceImpl implements BovedaResource {
 		model.commit();
 	}
 
-	@POST
-	@Path("/{id}/descongelar")
-	@ApiOperation(value = "Descongelar boveda", notes = "Descongela boveda")	
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Boveda descongelada"),@ApiResponse(code = 404, message = "Error al descongelar boveda") })	
-	public void descongelar(
-			@ApiParam(value = "ID de boveda", required = true)
-			@PathParam("id") 
-			@NotNull 
-			@Min(value = 1) Integer id) {
-		
+	@Override
+	public void descongelar(Integer id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -310,16 +223,8 @@ public class BovedaResorceImpl implements BovedaResource {
 		model.commit();
 	}
 
-	@GET
-	@Path("/{id}/detalle")
-	@ApiOperation(value = "Detalle de monedas en boveda", notes = "Devuelve las denominaciones de moneda que tiene el historial activo de la boveda",response = List.class)	
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Boveda abierta"),@ApiResponse(code = 404, message = "Error al abrir boveda") })	
-	public List<DetalleMonedaRepresentation> getDetalle(
-			@ApiParam(value = "ID de boveda", required = true)
-			@PathParam("id") 
-			@NotNull 
-			@Min(value = 1) Integer id) {
-		
+	@Override
+	public List<DetalleMonedaRepresentation> getDetalle(Integer id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -347,29 +252,8 @@ public class BovedaResorceImpl implements BovedaResource {
 
 	}
 
-	@GET	
-	@ApiOperation(value = "Busca bovedas", notes = "Busca bovedas segun los parametros enviados",response = List.class)	
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Busqueda completada"),@ApiResponse(code = 404, message = "Error al buscar boveda") })	
-	public List<BovedaRepresentation> searchBovedas(
-			@ApiParam(value = "Codigo de agencia", required = false)
-			@QueryParam("agencia")
-			@Size(min = 1, max = 100) String agencia,
-			
-			@ApiParam(value = "Indica buscar bovedas activas o inactivas", required = false)
-			@QueryParam("estado") Boolean estado,
-			
-			@ApiParam(value = "Busca coincidencias segun el filtro", required = false)
-			@QueryParam("filterText")
-			@Size(min = 0, max = 100) String filterText, 
-			
-			@ApiParam(value = "Para indicar el puntero del primer resultado", required = false)
-			@QueryParam("firstResult") 
-			@Min(value = 0) Integer firstResult, 
-			
-			@ApiParam(value = "Para indicar el  puntero del ultimo resultado", required = false)
-			@QueryParam("maxResults") 
-			@Min(value = 1) Integer maxResults) {
-
+	@Override
+	public List<BovedaRepresentation> searchBovedas(String agencia, Boolean estado, String filterText, Integer firstResult, Integer maxResults) {
 		//TODO here
 		List<BovedaModel> list;
 		if (estado == null) {
@@ -401,30 +285,8 @@ public class BovedaResorceImpl implements BovedaResource {
 	 * * Historial boveda*
 	 */
 
-	@GET
-	@Path("/{id}/historiales")
-	@ApiOperation(value = "Buscar historiales boveda", notes = "Busca historiales de boveda segun los parametros enviados",response = HistorialBovedaRepresentation.class)	
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Busqueda completada"),@ApiResponse(code = 404, message = "Error al buscar boveda historial") })	
-	public List<HistorialBovedaRepresentation> searchHistoriales(
-			@ApiParam(value = "ID de boveda", required = true)
-			@PathParam("id") 
-			@NotNull
-			@Min(value = 1) Integer id,
-			
-			@ApiParam(value = "Historiales mayores que DESDE", required = false)
-			@QueryParam("desde") Date desde,
-			
-			@ApiParam(value = "Historiales menores que HASTA", required = false)
-			@QueryParam("hasta") Date hasta,
-			
-			@ApiParam(value = "Para indicar el puntero del primer resultado", required = false)
-			@QueryParam("firstResult") 
-			@Min(value = 0) Integer firstResult, 
-			
-			@ApiParam(value = "Para indicar el  puntero del ultimo resultado", required = false)
-			@QueryParam("maxResults") 
-			@Min(value = 1) Integer maxResults) {
-
+	@Override
+	public List<HistorialBovedaRepresentation> searchHistoriales(Integer id, Date desde, Date hasta, Integer firstResult, Integer maxResults) {
 		//TODO here
 		if (firstResult == null) {
 			firstResult = -1;

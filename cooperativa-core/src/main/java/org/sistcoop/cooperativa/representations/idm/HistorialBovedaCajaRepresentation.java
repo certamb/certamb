@@ -2,14 +2,10 @@ package org.sistcoop.cooperativa.representations.idm;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
-@XmlRootElement(name = "historialBovedaCaja")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@ApiModel(value = "historialBovedaCaja", description = "Historial de una BovedaCaja producto de una apertura o cierre de caja")
 public class HistorialBovedaCajaRepresentation {
 
 	private Long id;
@@ -18,10 +14,10 @@ public class HistorialBovedaCajaRepresentation {
 	private Date horaApertura;
 	private Date horaCierre;
 	private boolean estado;
-	
+
 	private BovedaRepresentation boveda;
 
-	@XmlAttribute
+	@ApiModelProperty(value = "ID", required = false)
 	public Long getId() {
 		return id;
 	}
@@ -30,7 +26,7 @@ public class HistorialBovedaCajaRepresentation {
 		this.id = id;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "Fecha de apertura", required = false)
 	public Date getFechaApertura() {
 		return fechaApertura;
 	}
@@ -39,7 +35,7 @@ public class HistorialBovedaCajaRepresentation {
 		this.fechaApertura = fechaApertura;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "Fecha de cierre", required = false)
 	public Date getFechaCierre() {
 		return fechaCierre;
 	}
@@ -48,7 +44,7 @@ public class HistorialBovedaCajaRepresentation {
 		this.fechaCierre = fechaCierre;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "Hora de apertura", required = false)
 	public Date getHoraApertura() {
 		return horaApertura;
 	}
@@ -57,7 +53,7 @@ public class HistorialBovedaCajaRepresentation {
 		this.horaApertura = horaApertura;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "Hora de cierre", required = false)
 	public Date getHoraCierre() {
 		return horaCierre;
 	}
@@ -66,7 +62,7 @@ public class HistorialBovedaCajaRepresentation {
 		this.horaCierre = horaCierre;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "estado", required = false, allowableValues = "true, false")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -75,7 +71,7 @@ public class HistorialBovedaCajaRepresentation {
 		this.estado = estado;
 	}
 
-	@XmlElement
+	@ApiModelProperty(value = "Boveda del historial", required = false)
 	public BovedaRepresentation getBoveda() {
 		return boveda;
 	}

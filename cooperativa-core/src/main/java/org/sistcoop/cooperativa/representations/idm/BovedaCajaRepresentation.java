@@ -3,14 +3,10 @@ package org.sistcoop.cooperativa.representations.idm;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
-@XmlRootElement(name = "bovedaCaja")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@ApiModel(value = "bovedaCaja", description = "Vinculo entre una Caja y Boveda")
 public class BovedaCajaRepresentation implements Serializable {
 
 	/**
@@ -25,7 +21,7 @@ public class BovedaCajaRepresentation implements Serializable {
 	private CajaRepresentation caja;
 	private BovedaRepresentation boveda;
 
-	@XmlAttribute
+	@ApiModelProperty(value = "ID de BovedaCaja", required = false)
 	public Integer getId() {
 		return id;
 	}
@@ -34,7 +30,7 @@ public class BovedaCajaRepresentation implements Serializable {
 		this.id = id;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "SALDO de BovedaCaja", required = false)
 	public BigDecimal getSaldo() {
 		return saldo;
 	}
@@ -43,7 +39,7 @@ public class BovedaCajaRepresentation implements Serializable {
 		this.saldo = saldo;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "ESTADO", required = false, allowableValues = "true, false")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -52,7 +48,7 @@ public class BovedaCajaRepresentation implements Serializable {
 		this.estado = estado;
 	}
 
-	@XmlElement
+	@ApiModelProperty(value = "CAJA de BovedaCaja", required = false)
 	public CajaRepresentation getCaja() {
 		return caja;
 	}
@@ -61,7 +57,7 @@ public class BovedaCajaRepresentation implements Serializable {
 		this.caja = caja;
 	}
 
-	@XmlElement
+	@ApiModelProperty(value = "BOVEDA de BovedaCaja", required = false)
 	public BovedaRepresentation getBoveda() {
 		return boveda;
 	}

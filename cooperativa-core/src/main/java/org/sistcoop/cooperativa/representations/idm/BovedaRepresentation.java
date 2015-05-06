@@ -3,19 +3,13 @@ package org.sistcoop.cooperativa.representations.idm;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
-@ApiModel(description = "Una boveda es un almacen de dinero para una agencia")
-@XmlRootElement(name = "boveda")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@ApiModel(value = "boveda", description = "Una boveda es un almacen de dinero para una agencia")
 public class BovedaRepresentation implements Serializable {
 
 	/**
@@ -32,8 +26,7 @@ public class BovedaRepresentation implements Serializable {
 
 	private String agencia;
 
-	@XmlAttribute
-	@ApiModelProperty(value = "ID de boveda", required=true, allowableValues = "numeric values")
+	@ApiModelProperty(value = "ID", required = false)
 	public Integer getId() {
 		return id;
 	}
@@ -42,9 +35,9 @@ public class BovedaRepresentation implements Serializable {
 		this.id = id;
 	}
 
-	@XmlAttribute
 	@NotNull
 	@NotBlank
+	@ApiModelProperty(value = "Alpha3Code de moneda", required = true)
 	public String getMoneda() {
 		return moneda;
 	}
@@ -53,9 +46,9 @@ public class BovedaRepresentation implements Serializable {
 		this.moneda = moneda;
 	}
 
-	@XmlAttribute
 	@NotNull
 	@NotBlank
+	@ApiModelProperty(value = "denominacion de boveda", required = true)
 	public String getDenominacion() {
 		return denominacion;
 	}
@@ -64,7 +57,7 @@ public class BovedaRepresentation implements Serializable {
 		this.denominacion = denominacion;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "abierto", required = false)
 	public boolean isAbierto() {
 		return abierto;
 	}
@@ -73,7 +66,7 @@ public class BovedaRepresentation implements Serializable {
 		this.abierto = abierto;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "estadoMovimiento", required = false)
 	public boolean isEstadoMovimiento() {
 		return estadoMovimiento;
 	}
@@ -82,7 +75,7 @@ public class BovedaRepresentation implements Serializable {
 		this.estadoMovimiento = estadoMovimiento;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "estado", required = false)
 	public boolean isEstado() {
 		return estado;
 	}
@@ -91,9 +84,9 @@ public class BovedaRepresentation implements Serializable {
 		this.estado = estado;
 	}
 
-	@XmlAttribute
 	@NotNull
 	@NotBlank
+	@ApiModelProperty(value = "codigode AGENCIA", required = true)
 	public String getAgencia() {
 		return agencia;
 	}

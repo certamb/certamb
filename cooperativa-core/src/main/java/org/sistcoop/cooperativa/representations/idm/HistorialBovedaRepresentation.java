@@ -2,13 +2,10 @@ package org.sistcoop.cooperativa.representations.idm;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
-@XmlRootElement(name = "historialBoveda")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@ApiModel(value = "historialBoveda", description = "Historial de boveda producto de un cierre o apertura de Boveda")
 public class HistorialBovedaRepresentation {
 
 	private Long id;
@@ -18,7 +15,7 @@ public class HistorialBovedaRepresentation {
 	private Date horaCierre;
 	private boolean estado;
 
-	@XmlAttribute
+	@ApiModelProperty(value = "ID", required = false)
 	public Long getId() {
 		return id;
 	}
@@ -27,7 +24,7 @@ public class HistorialBovedaRepresentation {
 		this.id = id;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "Fecha apertura", required = false)
 	public Date getFechaApertura() {
 		return fechaApertura;
 	}
@@ -36,7 +33,7 @@ public class HistorialBovedaRepresentation {
 		this.fechaApertura = fechaApertura;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "Fecha cierre", required = false)
 	public Date getFechaCierre() {
 		return fechaCierre;
 	}
@@ -45,7 +42,7 @@ public class HistorialBovedaRepresentation {
 		this.fechaCierre = fechaCierre;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "Hora apertura", required = false)
 	public Date getHoraApertura() {
 		return horaApertura;
 	}
@@ -54,7 +51,7 @@ public class HistorialBovedaRepresentation {
 		this.horaApertura = horaApertura;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "Hora cierre", required = false)
 	public Date getHoraCierre() {
 		return horaCierre;
 	}
@@ -63,7 +60,7 @@ public class HistorialBovedaRepresentation {
 		this.horaCierre = horaCierre;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "estado", required = false)
 	public boolean isEstado() {
 		return estado;
 	}

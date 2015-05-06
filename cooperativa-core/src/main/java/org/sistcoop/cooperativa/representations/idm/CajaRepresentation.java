@@ -3,15 +3,13 @@ package org.sistcoop.cooperativa.representations.idm;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-@XmlRootElement(name = "caja")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "caja", description = "Caja de agencia")
 public class CajaRepresentation implements Serializable {
 
 	/**
@@ -27,7 +25,7 @@ public class CajaRepresentation implements Serializable {
 
 	private String agencia;
 
-	@XmlAttribute
+	@ApiModelProperty(value = "ID de caja", required = false)
 	public Integer getId() {
 		return id;
 	}
@@ -36,9 +34,9 @@ public class CajaRepresentation implements Serializable {
 		this.id = id;
 	}
 
-	@XmlAttribute
 	@NotNull
 	@NotBlank
+	@ApiModelProperty(value = "DENOMINACION de caja", required = true)
 	public String getDenominacion() {
 		return denominacion;
 	}
@@ -47,7 +45,7 @@ public class CajaRepresentation implements Serializable {
 		this.denominacion = denominacion;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "ESTADO de caja", required = false, allowableValues = "true,false")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -56,7 +54,7 @@ public class CajaRepresentation implements Serializable {
 		this.estado = estado;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "estado ABIERTO de caja", required = false, allowableValues = "true,false")
 	public boolean isAbierto() {
 		return abierto;
 	}
@@ -65,7 +63,7 @@ public class CajaRepresentation implements Serializable {
 		this.abierto = abierto;
 	}
 
-	@XmlAttribute
+	@ApiModelProperty(value = "ESTADOMOVIMIENTO de caja", required = false, allowableValues = "true,false")
 	public boolean isEstadoMovimiento() {
 		return estadoMovimiento;
 	}
@@ -74,9 +72,9 @@ public class CajaRepresentation implements Serializable {
 		this.estadoMovimiento = estadoMovimiento;
 	}
 
-	@XmlAttribute
 	@NotNull
 	@NotBlank
+	@ApiModelProperty(value = "CODIGO de agencia", required = true)
 	public String getAgencia() {
 		return agencia;
 	}

@@ -23,90 +23,132 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
-@Path("/bovedas")
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Path("/bovedas")
+@Api(value = "/bovedas", description = "Operaciones sobre Boveda")
 public interface BovedaResource {
 
 	@GET
 	@Path("/{id}")	
+	@ApiOperation(value = "Buscar Boveda por ID", notes = "Busca Bovedas activas e inactivas")
+	@ApiResponse(code = 200, message = "Operacion terminada satisfactoriamente")
 	public BovedaRepresentation findById (			
-			@PathParam("id") 
+			@ApiParam(value = "ID de objeto", required = true) 
+			@PathParam("id")  
 			@NotNull 
 			@Min(value = 1) Integer id);
 	
 	@POST
+	@ApiOperation(value = "Crear Boveda", notes = "Crea una boveda en el sistema")
+	@ApiResponse(code = 201, message = "Objeto creado correctamente")
 	public Response create (
+			@ApiParam(value = "Boveda a crear", required = true)
 			@NotNull
 			@Valid BovedaRepresentation bovedaRepresentation);	
 	
 	@PUT
 	@Path("/{id}")
+	@ApiOperation(value = "Actualizar Boveda", notes = "Actualizar los atributos de una boveda")
+	@ApiResponse(code = 201, message = "Objeto actualizado correctamente")
 	public void update (
-			@PathParam("id") 
+			@ApiParam(value = "ID de objeto", required = true) 
+			@PathParam("id")  
 			@NotNull 
 			@Min(value = 1) Integer id, 
 			
+			@ApiParam(value = "BOVEDA a actualizar", required = true)
 			@NotNull
 			@Valid BovedaRepresentation bovedaRepresentation);
 	
 	@POST
-	@Path("/{id}/desactivar")
+	@Path("/{id}/desactivar")	
+	@ApiOperation(value = "Desactivar Boveda", notes = "Desactivar boveda")
+	@ApiResponse(code = 201, message = "Objeto desactivado correctamente")
 	public void desactivar (
-			@PathParam("id") 
+			@ApiParam(value = "ID de objeto", required = true) 
+			@PathParam("id")  
 			@NotNull
 			@Min(value = 1) Integer id);
 	
 	@POST
 	@Path("/{id}/abrir")
+	@ApiOperation(value = "Abrir Boveda", notes = "Abre boveda")
+	@ApiResponse(code = 201, message = "Objeto abierto correctamente")
 	public void abrir (
-			@PathParam("id") 
+			@ApiParam(value = "ID de objeto", required = true) 
+			@PathParam("id")  
 			@NotNull
 			@Min(value = 1) Integer id,
 			
+			@ApiParam(value = "Denominaciones, BigDecimal[]", required = true) 
 			BigDecimal[] denominaciones);
 	
 	@POST
 	@Path("/{id}/cerrar")
+	@ApiOperation(value = "Cerrar Boveda", notes = "Cierra boveda")
+	@ApiResponse(code = 201, message = "Objeto cerrado correctamente")
 	public void cerrar (
-			@PathParam("id") 
+			@ApiParam(value = "ID de objeto", required = true) 
+			@PathParam("id")  
 			@NotNull
 			@Min(value = 1) Integer id);
 	
 	@POST
 	@Path("/{id}/congelar")
+	@ApiOperation(value = "Congelar Boveda", notes = "Congelar boveda")
+	@ApiResponse(code = 201, message = "Objeto congelado correctamente")
 	public void congelar (
-			@PathParam("id") 
+			@ApiParam(value = "ID de objeto", required = true) 
+			@PathParam("id")  
 			@NotNull
 			@Min(value = 1) Integer id);
 	
 	@POST
 	@Path("/{id}/descongelar")
+	@ApiOperation(value = "Descongelar Boveda", notes = "Descongelar boveda")
+	@ApiResponse(code = 201, message = "Objeto descongelado correctamente")
 	public void descongelar (
-			@PathParam("id") 
+			@ApiParam(value = "ID de objeto", required = true)
+			@PathParam("id")  
 			@NotNull
 			@Min(value = 1) Integer id);
 	
 	@GET
 	@Path("/{id}/detalle")	
+	@ApiOperation(value = "Retorna detalle de VALOR y CANTIDAD de Boveda", notes = "Retorna una List<{Valor,Cantidad}>")
+	@ApiResponse(code = 200, message = "Operacion terminada satisfactoriamente")
 	public List<DetalleMonedaRepresentation> getDetalle(
-			@PathParam("id") 
+			@ApiParam(value = "ID de objeto", required = true)
+			@PathParam("id")  
 			@NotNull
 			@Min(value = 1) Integer id);
 	
 	@GET
-	public List<BovedaRepresentation> searchBovedas(									
+	@ApiOperation(value = "Busca bovedas segun los paramentros indicados", notes = "Busca bovedas segun los parametros indicados")
+	@ApiResponse(code = 200, message = "Operacion terminada satisfactoriamente")
+	public List<BovedaRepresentation> searchBovedas(	
+			@ApiParam(value = "CODIGO de agencia", required = false)
 			@QueryParam("agencia")
 			@Size(min = 1, max = 100) String agencia,
 			
+			@ApiParam(value = "Estado de las bovedas a buscar", required = false)
 			@QueryParam("estado") Boolean estado,
 			
+			@ApiParam(value = "texto de filtro", required = false)
 			@QueryParam("filterText")
 			@Size(min = 0, max = 100) String filterText, 
 			
+			@ApiParam(value = "primer resultado", required = false)
 			@QueryParam("firstResult") 
 			@Min(value = 0) Integer firstResult, 
 			
+			@ApiParam(value = "numero maximo de resultados", required = false)
 			@QueryParam("maxResults") 
 			@Min(value = 1) Integer maxResults);
 	
@@ -116,18 +158,25 @@ public interface BovedaResource {
 	
 	@GET
 	@Path("/{id}/historiales")
+	@ApiOperation(value = "Busca historiales de Boveda", notes = "Busca historiales de boveda segun los parametros indicados")
+	@ApiResponse(code = 200, message = "Operacion terminada satisfactoriamente")
 	public List<HistorialBovedaRepresentation> searchHistoriales (
-			@PathParam("id") 
+			@ApiParam(value = "ID de objeto", required = true) 
+			@PathParam("id")  
 			@NotNull
 			@Min(value = 1) Integer id,
 			
+			@ApiParam(value = "Fecha desde", required = false)
 			@QueryParam("desde") Date desde,
 			
+			@ApiParam(value = "Fecha hasta", required = false)
 			@QueryParam("hasta") Date hasta,
 			
+			@ApiParam(value = "primer resultado", required = false)
 			@QueryParam("firstResult") 
 			@Min(value = 0) Integer firstResult, 
 			
+			@ApiParam(value = "numero maximo de resultados", required = false)
 			@QueryParam("maxResults") 
 			@Min(value = 1) Integer maxResults);
 	
