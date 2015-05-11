@@ -1,5 +1,7 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -7,6 +9,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
@@ -45,6 +48,19 @@ public class JpaTrabajadorCajaProvider implements TrabajadorCajaProvider {
 	public TrabajadorCajaModel getTrabajadorCajaById(Integer id) {
 		TrabajadorCajaEntity trabajadorCajaEntity = this.em.find(TrabajadorCajaEntity.class, id);
 		return trabajadorCajaEntity != null ? new TrabajadorCajaAdapter(em, trabajadorCajaEntity) : null;
+	}
+	
+	@Override
+	public TrabajadorCajaModel getTrabajadorCajaByTipoNumeroDocumento(
+			String tipoDocumento, String numeroDocumento) {
+		
+		TypedQuery<TrabajadorCajaEntity> query = em.createNamedQuery(TrabajadorCajaEntity.findByTipoAndNumeroDocumento, TrabajadorCajaEntity.class);
+		query.setParameter("tipoDocumento", tipoDocumento);
+		query.setParameter("numeroDocumento", numeroDocumento);
+		List<TrabajadorCajaEntity> results = query.getResultList();
+		if (results.size() == 0)
+			return null;
+		return new TrabajadorCajaAdapter(em, results.get(0));
 	}
 
 }

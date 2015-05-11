@@ -24,6 +24,13 @@ public class TrabajadorCajaResourceImpl implements TrabajadorCajaResource {
 	}
 
 	@Override
+	public TrabajadorCajaRepresentation findByTipoNumeroDocumento(
+			String tipoDocumento, String numeroDocumento) {
+		TrabajadorCajaModel model = trabajadorCajaProvider.getTrabajadorCajaByTipoNumeroDocumento(tipoDocumento, numeroDocumento);
+		return ModelToRepresentation.toRepresentation(model);	
+	}
+	
+	@Override
 	public void desactivar(Integer id) {
 		TrabajadorCajaModel model = trabajadorCajaProvider.getTrabajadorCajaById(id);	
 		if (model == null) {

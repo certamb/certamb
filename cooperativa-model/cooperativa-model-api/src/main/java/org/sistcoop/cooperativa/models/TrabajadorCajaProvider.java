@@ -11,4 +11,6 @@ public interface TrabajadorCajaProvider extends Provider {
 
 	TrabajadorCajaModel getTrabajadorCajaById(Integer id);
 	
+	TrabajadorCajaModel getTrabajadorCajaByTipoNumeroDocumento(String tipoDocumento, String numeroDocumento);
+	
 }

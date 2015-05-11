@@ -2,6 +2,8 @@ package org.sistcoop.cooperativa.admin.client.resource;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -33,6 +35,23 @@ public interface TrabajadorCajaResource {
 			@NotNull 
 			@Min(value = 1) Integer id);
 		
+	@GET
+	@Path("/tipoDocumento/{tipoDocumento}/numeroDocumento/{numeroDocumento}")
+	@ApiOperation(value = "Buscar caja por Tipo y Numero de documento", notes = "Busca cajas activas solamente")
+	@ApiResponse(code = 200, message = "Operacion terminada satisfactoriamente")
+	public TrabajadorCajaRepresentation findByTipoNumeroDocumento (
+			@ApiParam(value = "Tipo Documento", required = true)
+			@PathParam("tipoDocumento") 
+			@NotNull 
+			@Size(min = 1, max = 20) 
+			String tipoDocumento, 
+			
+			@ApiParam(value = "Numero Documento", required = true)
+			@PathParam("numeroDocumento")
+			@NotNull 
+			@Pattern(regexp = "[0-9]+")
+			@Size(min = 1, max = 20) String numeroDocumento);
+	
 	@POST
 	@Path("/{id}/desactivar")
 	@ApiOperation(value = "Desactivar TrabajadorCaja", notes = "Desactiva un TrabajadorCaja")
