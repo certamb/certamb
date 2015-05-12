@@ -96,7 +96,9 @@ public class CajaAdapter implements CajaModel {
 		Set<BovedaCajaEntity> bovedaCajaEntities = cajaEntity.getBovedaCajas();
 		List<BovedaCajaModel> result = new ArrayList<BovedaCajaModel>();
 		for (BovedaCajaEntity bovedaCajaEntity : bovedaCajaEntities) {
-			result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
+			if(bovedaCajaEntity.isEstado()) {
+				result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));	
+			}				
 		}
 		return result;
 	}
@@ -106,7 +108,9 @@ public class CajaAdapter implements CajaModel {
 		Set<TrabajadorCajaEntity> trabajadorCajaEntities = cajaEntity.getTrabajadorCajas();
 		List<TrabajadorCajaModel> result = new ArrayList<TrabajadorCajaModel>();
 		for (TrabajadorCajaEntity trabajadorCajaEntity : trabajadorCajaEntities) {
-			result.add(new TrabajadorCajaAdapter(em, trabajadorCajaEntity));
+			if(trabajadorCajaEntity.isEstado()) {
+				result.add(new TrabajadorCajaAdapter(em, trabajadorCajaEntity));
+			}
 		}
 		return result;
 	}

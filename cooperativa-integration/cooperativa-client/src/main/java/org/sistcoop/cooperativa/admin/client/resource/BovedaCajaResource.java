@@ -34,7 +34,7 @@ public interface BovedaCajaResource {
 			@Min(value = 1) Integer id);
 		
 	@POST
-	@Path("/{id}/desactivar")
+	@Path("/{id}/disable")
 	@ApiOperation(value = "Desactivar BovedaCaja", notes = "Desactiva una BovedaCaja")
 	@ApiResponse(code = 201, message = "Objeto desactivado correctamente")
 	public void desactivar (

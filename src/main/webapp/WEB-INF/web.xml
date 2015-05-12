@@ -17,6 +17,12 @@
 	<security-role>
 		<role-name>PUBLIC</role-name>
 	</security-role>
+	<security-role>
+		<role-name>JEFE_CAJA</role-name>
+	</security-role>
+	<security-role>
+		<role-name>CAJERO</role-name>
+	</security-role>
 
 	<!-- users permisions -->
 	<security-constraint>
@@ -41,6 +47,22 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>PUBLIC</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/rest/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>JEFE_CAJA</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/rest/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>CAJERO</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
