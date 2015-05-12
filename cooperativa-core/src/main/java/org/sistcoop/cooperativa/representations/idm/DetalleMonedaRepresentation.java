@@ -19,7 +19,7 @@ public class DetalleMonedaRepresentation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private BigDecimal valor;
-	private int cantidad;
+	private Integer cantidad;
 
 	@NotNull
 	@Min(value = 0)
@@ -37,11 +37,11 @@ public class DetalleMonedaRepresentation implements Serializable {
 	@Min(value = 0)
 	@Max(value = 1000000)
 	@ApiModelProperty(value = "CANTIDAD de una denominacion", required = true)
-	public int getCantidad() {
+	public Integer getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(int cantidad) {
+	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
 	}
 

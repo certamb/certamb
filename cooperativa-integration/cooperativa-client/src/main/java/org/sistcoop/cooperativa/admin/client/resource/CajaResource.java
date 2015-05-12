@@ -121,6 +121,16 @@ public interface CajaResource {
 			@Min(value = 1) Integer id);
 	
 	@GET
+	@Path("/{id}/detalle")	
+	@ApiOperation(value = "Retorna detalle de MONEDA Y DETALLE (VALOR,CANTIDAD) de Caja", notes = "Retorna una List<{moneda, {Valor,Cantidad}}>")
+	@ApiResponse(code = 200, message = "Operacion terminada satisfactoriamente")
+	public List<MonedaRepresentation> getDetalle(
+			@ApiParam(value = "ID de objeto", required = true)
+			@PathParam("id")  
+			@NotNull
+			@Min(value = 1) Integer id);
+	
+	@GET
 	@ApiOperation(value = "Buscar cajas", notes = "Buscar cajas segun parametros")
 	@ApiResponse(code = 200, message = "Operacion terminada satisfactoriamente")
 	public List<CajaRepresentation> searchCajas(	

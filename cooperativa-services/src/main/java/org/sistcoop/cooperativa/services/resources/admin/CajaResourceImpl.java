@@ -31,6 +31,7 @@ import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.MonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
@@ -220,6 +221,58 @@ public class CajaResourceImpl implements CajaResource {
 		
 		model.setEstadoMovimiento(true);
 		model.commit();
+	}
+	
+	@Override
+	public List<MonedaRepresentation> getDetalle(Integer id) {
+		//TODO here
+		CajaModel model = cajaProvider.getCajaById(id);
+		if (model == null) {
+			throw new NotFoundException("Caja no encontrada");
+		}
+		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();		
+		List<HistorialBovedaCajaModel> historialBovedaCajaModels = new ArrayList<>();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			HistorialBovedaCajaModel historialActivo = bovedaCajaModel.getHistorialActivo();
+			if(historialActivo != null) {
+				historialBovedaCajaModels.add(historialActivo);
+			}
+		}		
+		if(historialBovedaCajaModels.size() == 0){
+			return null;
+		}
+			
+		//result
+		List<MonedaRepresentation> result = new ArrayList<>();
+		
+		for (HistorialBovedaCajaModel historialBovedaCajaModel : historialBovedaCajaModels) {
+			BovedaCajaModel bovedaCajaModel = historialBovedaCajaModel.getBovedaCaja();
+			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
+			List<DetalleHistorialBovedaCajaModel> detalleHistorialBovedaCajaModels = historialBovedaCajaModel.getDetalle();
+			
+			//Objeto a insertar en el resultado
+			MonedaRepresentation monedaRepresentation = new MonedaRepresentation();
+			String moneda = bovedaModel.getMoneda();
+			List<DetalleMonedaRepresentation> detalle = new ArrayList<>();
+						
+			for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaCajaModel : detalleHistorialBovedaCajaModels) {
+				int cantidad = detalleHistorialBovedaCajaModel.getCantidad();				
+				BigDecimal valor = detalleHistorialBovedaCajaModel.getValor();
+
+				DetalleMonedaRepresentation detalleMonedaRepresentation = new DetalleMonedaRepresentation();
+				detalleMonedaRepresentation.setCantidad(cantidad);
+				detalleMonedaRepresentation.setValor(valor);
+				
+				detalle.add(detalleMonedaRepresentation);
+			}
+			
+			monedaRepresentation.setMoneda(moneda);
+			monedaRepresentation.setDetalle(detalle);
+			
+			result.add(monedaRepresentation);			
+		}
+				
+		return result;
 	}
 	
 	@Override
