@@ -14,7 +14,7 @@ public interface BovedaProvider extends Provider {
 			String moneda,
 			String denominacion);
 	
-	BovedaModel getBovedaById(Integer id);
+	BovedaModel getBovedaById(String id);
 
 	List<BovedaModel> getBovedas();
 

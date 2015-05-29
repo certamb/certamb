@@ -5,15 +5,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
+import org.jboss.resteasy.spi.HttpRequest;
+import org.keycloak.KeycloakSecurityContext;
+import org.keycloak.representations.AccessToken;
+import org.sistcoop.cooperativa.admin.client.Roles;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
@@ -30,6 +40,7 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentatio
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 
 @Stateless
+@SecurityDomain("keycloak")
 public class BovedaResorceImpl implements BovedaResource {
 
 	@Inject
@@ -47,16 +58,16 @@ public class BovedaResorceImpl implements BovedaResource {
 	@Context
 	protected UriInfo uriInfo;
 
+	@RolesAllowed(Roles.ver_bovedas)
 	@Override
-	public BovedaRepresentation findById(Integer id) {		
-		//TODO here
+	public BovedaRepresentation findById(String id) {
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		return ModelToRepresentation.toRepresentation(model);
 	}
 	
+	@RolesAllowed(Roles.administrar_bovedas)
 	@Override
 	public Response create(BovedaRepresentation bovedaRepresentation) {	
-		//TODO here
 		BovedaModel bovedaModel = representationToModel.createBoveda(bovedaRepresentation, bovedaProvider);
 		return Response.created(uriInfo.getAbsolutePathBuilder()
 								.path(bovedaModel.getId().toString()).build())
@@ -64,9 +75,9 @@ public class BovedaResorceImpl implements BovedaResource {
 								.entity(bovedaModel.getId()).build();		
 	}
 
+	@RolesAllowed({Roles.administrar_bovedas, Roles.administrar_bovedas_agencia})
 	@Override
-	public void update(Integer id, BovedaRepresentation bovedaRepresentation) {		
-		//TODO here
+	public void update(String id, BovedaRepresentation bovedaRepresentation) {				
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
 			throw new NotFoundException("Boveda not found");
@@ -75,12 +86,17 @@ public class BovedaResorceImpl implements BovedaResource {
 			throw new BadRequestException("Boveda inactiva, no se puede actualizar");
 		}
 
+		//validar permisos de usuario
+		String agenciaUrl = model.getAgencia();
+		this.validarAdministrarBovedasPorAgencia(agenciaUrl);   
+		
 		model.setDenominacion(bovedaRepresentation.getDenominacion());
 		model.commit();
 	}
 
+	@RolesAllowed({Roles.administrar_bovedas, Roles.administrar_bovedas_agencia})	
 	@Override
-	public void desactivar(Integer id) {		
+	public void desactivar(String id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -93,6 +109,10 @@ public class BovedaResorceImpl implements BovedaResource {
 			throw new BadRequestException("Boveda inactiva, no se puede desactivar nuevamente");
 		}
 
+		//validar permisos de usuario
+		String agenciaUrl = model.getAgencia();
+		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
+				
 		// Boveda debe tener saldo 0.00
 		HistorialBovedaModel historialBovedaModel = model.getHistorialActivo();
 		List<DetalleHistorialBovedaModel> detalleHistorialBovedaModels = historialBovedaModel.getDetalle();
@@ -121,8 +141,9 @@ public class BovedaResorceImpl implements BovedaResource {
 		}
 	}
 
+	@RolesAllowed({Roles.administrar_bovedas, Roles.administrar_bovedas_agencia})
 	@Override
-	public void abrir(Integer id, BigDecimal[] denominaciones) {
+	public void abrir(String id, BigDecimal[] denominaciones) {
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -134,6 +155,11 @@ public class BovedaResorceImpl implements BovedaResource {
 		if (!model.getEstado()) {
 			throw new BadRequestException("Boveda inactiva, no se puede abrir");
 		}
+		
+		//validar permisos de usuario
+		String agenciaUrl = model.getAgencia();
+		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
+				
 
 		// Validar cajas relacionadas
 		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
@@ -150,6 +176,7 @@ public class BovedaResorceImpl implements BovedaResource {
 		}
 	}
 
+	@RolesAllowed({Roles.administrar_bovedas, Roles.administrar_bovedas_agencia})
 	@Override
 	public void cerrar(Integer id) {		
 		//TODO here
@@ -318,6 +345,40 @@ public class BovedaResorceImpl implements BovedaResource {
 
 		return result;
 
+	}
+	
+	@Context
+    private HttpRequest httpRequest;	
+	@Context 
+	private SecurityContext securityContext;	
+	
+	private void validarAdministrarBovedasPorAgencia(String urlAgenciaDeBoveda){		
+		//keycloak username
+        KeycloakSecurityContext securityContextKeycloak = (KeycloakSecurityContext) httpRequest.getAttribute(KeycloakSecurityContext.class.getName());                
+        AccessToken accessToken = securityContextKeycloak.getToken();             
+        
+		if(securityContext.isUserInRole(Roles.administrar_bovedas)){			
+        	//crear trababajador
+        } else if(securityContext.isUserInRole(Roles.administrar_bovedas_agencia)){        	
+        	//verificar que el usuario tenga la agencia y sucursal correcta
+        	String username = accessToken.getPreferredUsername();
+        	
+        	//obtener agencia del usuario
+        	String urlAgenciaDelUsuario = null;
+        	
+        	Client client = ClientBuilder.newBuilder().build();
+        	WebTarget target = client.target("http://foo.com/resource");
+        	Response response = target.request().get();
+        	String value = response.readEntity(String.class);
+        	response.close(); // You should close connections!
+
+        	
+        	if(!urlAgenciaDeBoveda.equals(urlAgenciaDelUsuario)) {
+        		throw new InternalServerErrorException("El usuario no tiene permisos en esta agencia");
+        	}
+        } else {        	        	
+        	throw new InternalServerErrorException();
+        }   
 	}
 
 }

@@ -2,4 +2,6 @@ dependencies {
 	compile project(':cooperativa-integration:cooperativa-client')
 	compile project(':cooperativa-model:cooperativa-model-api')
 	compile project(':cooperativa-model:cooperativa-model-jpa')	
+	
+	compile 'org.jboss.ejb3:jboss-ejb3-ext-api:2.1.0'
 }

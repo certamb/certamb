@@ -4,6 +4,11 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 
+	<context-param>
+		<param-name>keycloak.config.resolver</param-name>
+		<param-value>org.sistcoop.cooperativa.PathBasedKeycloakConfigResolver</param-value>
+	</context-param>
+
 	<!-- keycloak aplication name -->
 	<module-name>cooperativa</module-name>
 

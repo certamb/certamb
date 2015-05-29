@@ -5,39 +5,32 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 
 @Entity
-@Table(name = "BOVEDA", indexes = { @Index(columnList = "id") })
-@NamedQueries({ 
-	@NamedQuery(name = BovedaEntity.findByAgencia, query = "SELECT b FROM BovedaEntity b WHERE b.agencia = :agencia"),
-	@NamedQuery(name = BovedaEntity.findByAgenciaAndFilterText, query = "SELECT b FROM BovedaEntity b WHERE b.agencia = :agencia AND b.denominacion LIKE :filterText")})
+@Table(name = "BOVEDA")
 public class BovedaEntity implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity.";
-	public static final String findByAgencia = base + "findByAgencia";
-	public static final String findByAgenciaAndFilterText = base + "findByAgenciaAndFilterText";
-
-	private Integer id;
+	
+	private String id;
 	private String moneda;
 	private String denominacion;
 	private boolean abierto;
@@ -52,18 +45,21 @@ public class BovedaEntity implements Serializable {
 	private Timestamp optlk;
 
 	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Integer getId() {
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "ID")
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	@NotNull
 	@Size(min = 3, max = 3)
 	@NotBlank
+	@Column(name = "MONEDA")
 	public String getMoneda() {
 		return moneda;
 	}
@@ -72,9 +68,11 @@ public class BovedaEntity implements Serializable {
 		this.moneda = moneda;
 	}
 
-	@NotNull
-	@NotBlank
-	@Size(min = 1, max = 3)
+	@URL
+	@NotNull	
+	@NotBlank	
+	@Size(min = 1, max = 200)
+	@Column(name = "AGENCIA")
 	public String getAgencia() {
 		return agencia;
 	}
@@ -83,10 +81,10 @@ public class BovedaEntity implements Serializable {
 		this.agencia = agencia;
 	}
 
-	@NotNull
-	@Size(min = 1, max = 60)
+	@NotNull	
 	@NotBlank
-	@NotEmpty
+	@Size(min = 1, max = 60)
+	@Column(name = "DENOMINACION")
 	public String getDenominacion() {
 		return denominacion;
 	}
@@ -97,6 +95,7 @@ public class BovedaEntity implements Serializable {
 
 	@NotNull
 	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ABIERTO")
 	public boolean isAbierto() {
 		return abierto;
 	}
@@ -107,6 +106,7 @@ public class BovedaEntity implements Serializable {
 
 	@NotNull
 	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ESTADO_MOVIMIENTO")
 	public boolean isEstadoMovimiento() {
 		return estadoMovimiento;
 	}
@@ -117,6 +117,7 @@ public class BovedaEntity implements Serializable {
 
 	@NotNull
 	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ESTADO")
 	public boolean isEstado() {
 		return estado;
 	}

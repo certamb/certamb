@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface BovedaModel extends Model {
 
-	Integer getId();
+	String getId();
 
 	String getMoneda();
 

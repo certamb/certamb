@@ -43,7 +43,7 @@ public class BovedaAdapter implements BovedaModel {
 	}
 
 	@Override
-	public Integer getId() {
+	public String getId() {
 		return bovedaEntity.getId();
 	}
 

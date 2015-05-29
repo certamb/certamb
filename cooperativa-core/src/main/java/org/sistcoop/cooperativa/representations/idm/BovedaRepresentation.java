@@ -17,7 +17,7 @@ public class BovedaRepresentation implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	private String id;
 	private String moneda;
 	private String denominacion;
 	private boolean abierto;
@@ -27,11 +27,11 @@ public class BovedaRepresentation implements Serializable {
 	private String agencia;
 
 	@ApiModelProperty(value = "ID", required = false)
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

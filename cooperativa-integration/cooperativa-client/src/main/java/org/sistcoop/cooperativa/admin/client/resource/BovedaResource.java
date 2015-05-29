@@ -42,7 +42,7 @@ public interface BovedaResource {
 			@ApiParam(value = "ID de objeto", required = true) 
 			@PathParam("id")  
 			@NotNull 
-			@Min(value = 1) Integer id);
+			@Size(min = 1) String id);
 	
 	@POST
 	@ApiOperation(value = "Crear Boveda", notes = "Crea una boveda en el sistema")
@@ -54,13 +54,13 @@ public interface BovedaResource {
 	
 	@PUT
 	@Path("/{id}")
-	@ApiOperation(value = "Actualizar Boveda", notes = "Actualizar los atributos de una boveda")
+	@ApiOperation(value = "Actualizar Boveda", notes = "Actualizar los atributos de una boveda (Las bovedas inactivas no pueden ser modificadas)")
 	@ApiResponse(code = 201, message = "Objeto actualizado correctamente")
 	public void update (
 			@ApiParam(value = "ID de objeto", required = true) 
 			@PathParam("id")  
 			@NotNull 
-			@Min(value = 1) Integer id, 
+			@Size(min = 1) String id, 
 			
 			@ApiParam(value = "BOVEDA a actualizar", required = true)
 			@NotNull
@@ -74,7 +74,7 @@ public interface BovedaResource {
 			@ApiParam(value = "ID de objeto", required = true) 
 			@PathParam("id")  
 			@NotNull
-			@Min(value = 1) Integer id);
+			@Size(min = 1) String id);
 	
 	@POST
 	@Path("/{id}/abrir")
@@ -84,7 +84,7 @@ public interface BovedaResource {
 			@ApiParam(value = "ID de objeto", required = true) 
 			@PathParam("id")  
 			@NotNull
-			@Min(value = 1) Integer id,
+			@Size(min = 1) String id,
 			
 			@ApiParam(value = "Denominaciones, BigDecimal[]", required = true) 
 			BigDecimal[] denominaciones);
@@ -97,7 +97,7 @@ public interface BovedaResource {
 			@ApiParam(value = "ID de objeto", required = true) 
 			@PathParam("id")  
 			@NotNull
-			@Min(value = 1) Integer id);
+			@Size(min = 1) String id);
 	
 	@POST
 	@Path("/{id}/congelar")
@@ -107,7 +107,7 @@ public interface BovedaResource {
 			@ApiParam(value = "ID de objeto", required = true) 
 			@PathParam("id")  
 			@NotNull
-			@Min(value = 1) Integer id);
+			@Size(min = 1) String id);
 	
 	@POST
 	@Path("/{id}/descongelar")
@@ -117,7 +117,7 @@ public interface BovedaResource {
 			@ApiParam(value = "ID de objeto", required = true)
 			@PathParam("id")  
 			@NotNull
-			@Min(value = 1) Integer id);
+			@Size(min = 1) String id);
 	
 	@GET
 	@Path("/{id}/detalle")	
@@ -127,7 +127,7 @@ public interface BovedaResource {
 			@ApiParam(value = "ID de objeto", required = true)
 			@PathParam("id")  
 			@NotNull
-			@Min(value = 1) Integer id);
+			@Size(min = 1) String id);
 	
 	@GET
 	@ApiOperation(value = "Busca bovedas segun los paramentros indicados", notes = "Busca bovedas segun los parametros indicados")
@@ -164,7 +164,7 @@ public interface BovedaResource {
 			@ApiParam(value = "ID de objeto", required = true) 
 			@PathParam("id")  
 			@NotNull
-			@Min(value = 1) Integer id,
+			@Size(min = 1) String id,
 			
 			@ApiParam(value = "Fecha desde", required = false)
 			@QueryParam("desde") Date desde,
