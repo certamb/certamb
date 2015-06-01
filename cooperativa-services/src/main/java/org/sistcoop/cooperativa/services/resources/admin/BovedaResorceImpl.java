@@ -178,7 +178,7 @@ public class BovedaResorceImpl implements BovedaResource {
 
 	@RolesAllowed({Roles.administrar_bovedas, Roles.administrar_bovedas_agencia})
 	@Override
-	public void cerrar(Integer id) {		
+	public void cerrar(String id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -190,6 +190,11 @@ public class BovedaResorceImpl implements BovedaResource {
 		if (!model.getEstado()) {
 			throw new BadRequestException("Boveda inactiva, no se puede cerrar.");
 		}
+		
+		//validar permisos de usuario
+		String agenciaUrl = model.getAgencia();
+		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
+				
 
 		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
 		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
@@ -205,8 +210,9 @@ public class BovedaResorceImpl implements BovedaResource {
 		}
 	}
 
+	@RolesAllowed({Roles.administrar_bovedas, Roles.administrar_bovedas_agencia})
 	@Override
-	public void congelar(Integer id) {		
+	public void congelar(String id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -224,13 +230,19 @@ public class BovedaResorceImpl implements BovedaResource {
 			throw new BadRequestException(
 					"Boveda inactiva, no se puede congelar");
 		}
+		
+		//validar permisos de usuario
+		String agenciaUrl = model.getAgencia();
+		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
+				
 
 		model.setEstadoMovimiento(false);
 		model.commit();
 	}
 
+	@RolesAllowed({Roles.administrar_bovedas, Roles.administrar_bovedas_agencia})
 	@Override
-	public void descongelar(Integer id) {		
+	public void descongelar(String id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -245,13 +257,19 @@ public class BovedaResorceImpl implements BovedaResource {
 		if (!model.getEstado()) {
 			throw new BadRequestException("Boveda inactiva, no se puede congelar");
 		}
+		
+		//validar permisos de usuario
+		String agenciaUrl = model.getAgencia();
+		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
+				
 
 		model.setEstadoMovimiento(true);
 		model.commit();
 	}
 
+	@RolesAllowed(Roles.ver_bovedas)
 	@Override
-	public List<DetalleMonedaRepresentation> getDetalle(Integer id) {		
+	public List<DetalleMonedaRepresentation> getDetalle(String id) {		
 		//TODO here
 		BovedaModel model = bovedaProvider.getBovedaById(id);
 		if (model == null) {
@@ -279,6 +297,7 @@ public class BovedaResorceImpl implements BovedaResource {
 
 	}
 
+	@RolesAllowed(Roles.ver_bovedas)
 	@Override
 	public List<BovedaRepresentation> searchBovedas(String agencia, Boolean estado, String filterText, Integer firstResult, Integer maxResults) {
 		//TODO here
@@ -312,8 +331,9 @@ public class BovedaResorceImpl implements BovedaResource {
 	 * * Historial boveda*
 	 */
 
+	@RolesAllowed(Roles.ver_bovedas)
 	@Override
-	public List<HistorialBovedaRepresentation> searchHistoriales(Integer id, Date desde, Date hasta, Integer firstResult, Integer maxResults) {
+	public List<HistorialBovedaRepresentation> searchHistoriales(String id, Date desde, Date hasta, Integer firstResult, Integer maxResults) {
 		//TODO here
 		if (firstResult == null) {
 			firstResult = -1;
@@ -364,14 +384,7 @@ public class BovedaResorceImpl implements BovedaResource {
         	String username = accessToken.getPreferredUsername();
         	
         	//obtener agencia del usuario
-        	String urlAgenciaDelUsuario = null;
-        	
-        	Client client = ClientBuilder.newBuilder().build();
-        	WebTarget target = client.target("http://foo.com/resource");
-        	Response response = target.request().get();
-        	String value = response.readEntity(String.class);
-        	response.close(); // You should close connections!
-
+        	String urlAgenciaDelUsuario = null;              	
         	
         	if(!urlAgenciaDeBoveda.equals(urlAgenciaDelUsuario)) {
         		throw new InternalServerErrorException("El usuario no tiene permisos en esta agencia");
