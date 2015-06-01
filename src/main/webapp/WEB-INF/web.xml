@@ -14,19 +14,22 @@
 
 	<!-- java ee roles -->
 	<security-role>
-		<role-name>ADMIN</role-name>
+		<role-name>ver-bovedas</role-name>
 	</security-role>
 	<security-role>
-		<role-name>AUTHENTICATED</role-name>
+		<role-name>administrar-bovedas</role-name>
 	</security-role>
 	<security-role>
-		<role-name>PUBLIC</role-name>
+		<role-name>administrar-bovedas-agencia</role-name>
 	</security-role>
 	<security-role>
-		<role-name>JEFE_CAJA</role-name>
+		<role-name>ver-cajas</role-name>
 	</security-role>
 	<security-role>
-		<role-name>CAJERO</role-name>
+		<role-name>administrar-cajas</role-name>
+	</security-role>
+	<security-role>
+		<role-name>administrar-cajas-agencia</role-name>
 	</security-role>
 
 	<!-- users permisions -->
@@ -35,7 +38,15 @@
 			<url-pattern>/rest/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>ADMIN</role-name>
+			<role-name>ver-bovedas</role-name>
+		</auth-constraint>
+	</security-constraint>	
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/rest/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>administrar-bovedas</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
@@ -43,7 +54,7 @@
 			<url-pattern>/rest/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>AUTHENTICATED</role-name>
+			<role-name>administrar-bovedas-agencia</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
@@ -51,7 +62,7 @@
 			<url-pattern>/rest/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>PUBLIC</role-name>
+			<role-name>ver-cajas</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
@@ -59,7 +70,7 @@
 			<url-pattern>/rest/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>JEFE_CAJA</role-name>
+			<role-name>administrar-cajas</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
@@ -67,7 +78,7 @@
 			<url-pattern>/rest/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>CAJERO</role-name>
+			<role-name>administrar-cajas-agencia</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>

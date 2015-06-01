@@ -76,7 +76,7 @@ public class BovedaProviderTest {
 	public void getBovedaById() {
 		BovedaModel model1 = bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
 										
-		Integer id = model1.getId();		
+		String id = model1.getId();		
 		BovedaModel model2 = bovedaProvider.getBovedaById(id);
 				
 		assertThat(model1, is(equalTo(model2)));

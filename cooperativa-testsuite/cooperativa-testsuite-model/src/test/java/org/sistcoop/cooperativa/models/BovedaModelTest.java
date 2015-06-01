@@ -76,7 +76,7 @@ public class BovedaModelTest {
 	public void commit() {
 		BovedaModel model1 = bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
 						
-		Integer id = model1.getId();
+		String id = model1.getId();
 		
 		String denominacionNueva = "Nuevo";
 		model1.setDenominacion(denominacionNueva);
