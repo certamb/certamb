@@ -11,18 +11,11 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
-import org.jboss.resteasy.spi.HttpRequest;
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.representations.AccessToken;
 import org.sistcoop.cooperativa.admin.client.Roles;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
@@ -85,10 +78,6 @@ public class BovedaResorceImpl implements BovedaResource {
 		if (!model.getEstado()) {
 			throw new BadRequestException("Boveda inactiva, no se puede actualizar");
 		}
-
-		//validar permisos de usuario
-		String agenciaUrl = model.getAgencia();
-		this.validarAdministrarBovedasPorAgencia(agenciaUrl);   
 		
 		model.setDenominacion(bovedaRepresentation.getDenominacion());
 		model.commit();
@@ -107,11 +96,7 @@ public class BovedaResorceImpl implements BovedaResource {
 		}			
 		if (!model.getEstado()) {
 			throw new BadRequestException("Boveda inactiva, no se puede desactivar nuevamente");
-		}
-
-		//validar permisos de usuario
-		String agenciaUrl = model.getAgencia();
-		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
+		}		
 				
 		// Boveda debe tener saldo 0.00
 		HistorialBovedaModel historialBovedaModel = model.getHistorialActivo();
@@ -154,11 +139,7 @@ public class BovedaResorceImpl implements BovedaResource {
 		}
 		if (!model.getEstado()) {
 			throw new BadRequestException("Boveda inactiva, no se puede abrir");
-		}
-		
-		//validar permisos de usuario
-		String agenciaUrl = model.getAgencia();
-		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
+		}		
 				
 
 		// Validar cajas relacionadas
@@ -190,10 +171,6 @@ public class BovedaResorceImpl implements BovedaResource {
 		if (!model.getEstado()) {
 			throw new BadRequestException("Boveda inactiva, no se puede cerrar.");
 		}
-		
-		//validar permisos de usuario
-		String agenciaUrl = model.getAgencia();
-		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
 				
 
 		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
@@ -229,12 +206,7 @@ public class BovedaResorceImpl implements BovedaResource {
 		if (!model.getEstado()) {
 			throw new BadRequestException(
 					"Boveda inactiva, no se puede congelar");
-		}
-		
-		//validar permisos de usuario
-		String agenciaUrl = model.getAgencia();
-		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
-				
+		}				
 
 		model.setEstadoMovimiento(false);
 		model.commit();
@@ -257,11 +229,6 @@ public class BovedaResorceImpl implements BovedaResource {
 		if (!model.getEstado()) {
 			throw new BadRequestException("Boveda inactiva, no se puede congelar");
 		}
-		
-		//validar permisos de usuario
-		String agenciaUrl = model.getAgencia();
-		this.validarAdministrarBovedasPorAgencia(agenciaUrl); 
-				
 
 		model.setEstadoMovimiento(true);
 		model.commit();
@@ -367,7 +334,7 @@ public class BovedaResorceImpl implements BovedaResource {
 
 	}
 	
-	@Context
+	/*@Context
     private HttpRequest httpRequest;	
 	@Context 
 	private SecurityContext securityContext;	
@@ -392,6 +359,6 @@ public class BovedaResorceImpl implements BovedaResource {
         } else {        	        	
         	throw new InternalServerErrorException();
         }   
-	}
+	}*/
 
 }
