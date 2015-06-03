@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
+import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.Roles;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
@@ -65,7 +66,7 @@ public class BovedaResorceImpl implements BovedaResource {
 		return Response.created(uriInfo.getAbsolutePathBuilder()
 								.path(bovedaModel.getId().toString()).build())
 								.header("Access-Control-Expose-Headers", "Location")
-								.entity(bovedaModel.getId()).build();		
+								.entity(Jsend.getSuccessJSend(bovedaModel.getId())).build();		
 	}
 
 	@RolesAllowed({Roles.administrar_bovedas, Roles.administrar_bovedas_agencia})
