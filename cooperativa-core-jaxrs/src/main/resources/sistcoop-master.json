@@ -1,9 +1,0 @@
-{
-  "realm": "sistcoop-master",
-  "realm-public-key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnvvtVqgnebcD5AgZKkvltizZSWuse9UGfNEhHS5Reg7xF0lNoZ5arYIKXxc2/3buh3VgMnrPmy1s6UvzIfGp9GTVTWO3qQ4bSZInBYRpSpDs+DCDwRhPVCnxvH/JpSOzJAclnaihT5jSJTphAzVwUAxnAtiw7VEKjjvRHS2p3uQIDAQAB",
-  "bearer-only": true,
-  "ssl-required": "external",
-  "resource": "cooperativa",
-  "use-resource-role-mappings": true,
-  "enable-cors": true
-}

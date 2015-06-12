@@ -36,7 +36,7 @@ public class PathBasedKeycloakConfigResolver implements KeycloakConfigResolver {
 
     @Override
     public KeycloakDeployment resolve(HttpFacade.Request request) {
-        String path = request.getHeader("referer");       
+        /*String path = request.getHeader("referer");       
         int consoleIndex = path.indexOf("/console");
         if (consoleIndex == -1) {
             throw new IllegalStateException("Not able to resolve realm from the request path!");
@@ -50,17 +50,21 @@ public class PathBasedKeycloakConfigResolver implements KeycloakConfigResolver {
         	realm = "default";
         } else {
         	throw new IllegalStateException("Not able to resolve realm from the request path!");
-        }
+        }*/
 
-        KeycloakDeployment deployment = cache.get("sistcoop-" + realm);
+        //KeycloakDeployment deployment = cache.get("sistcoop-" + realm);
+    	KeycloakDeployment deployment = cache.get("sistcoop");
         if (null == deployment) {
             // not found on the simple cache, try to load it from the file system
-            InputStream is = getClass().getResourceAsStream("/sistcoop-" + realm + ".json");
+            //InputStream is = getClass().getResourceAsStream("/sistcoop-" + realm + ".json");
+        	InputStream is = getClass().getResourceAsStream("/sistcoop.json");
             if (is == null) {            	
-                throw new IllegalStateException("Not able to find the file sistcoop-" + realm + ".json");
+                //throw new IllegalStateException("Not able to find the file sistcoop-" + realm + ".json");
+            	throw new IllegalStateException("Not able to find the file sistcoop.json");
             }
             deployment = KeycloakDeploymentBuilder.build(is);
-            cache.put("sistcoop-" + realm, deployment);
+            //cache.put("sistcoop-" + realm, deployment);
+            cache.put("sistcoop", deployment);
         }
 
         return deployment;
