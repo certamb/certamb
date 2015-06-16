@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.CajaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
@@ -73,7 +74,7 @@ public class CajaResourceImpl implements CajaResource {
 	@Override
 	public Response create(CajaRepresentation cajaRepresentation) {
 		CajaModel model = representationToModel.createCaja(cajaRepresentation, cajaProvider);
-		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
+		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(Jsend.getSuccessJSend(model.getId())).build();
 	}
 
 	@Override
@@ -370,7 +371,7 @@ public class CajaResourceImpl implements CajaResource {
 		CajaModel cajaModel = cajaProvider.getCajaById(id);
 		
 		BovedaCajaModel model = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);		
-		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
+		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(Jsend.getSuccessJSend(model.getId())).build();
 	}
 
 	@Override
@@ -391,7 +392,7 @@ public class CajaResourceImpl implements CajaResource {
 		String numeroDocumento = trabajadorCajaRepresentation.getNumeroDocumento();
 		
 		TrabajadorCajaModel model = trabajadorCajaProvider.addTrabajadorCaja(cajaModel, tipoDocumento, numeroDocumento);
-		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(model.getId()).build();
+		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(Jsend.getSuccessJSend(model.getId())).build();
 	}
 
 	

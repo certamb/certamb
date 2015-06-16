@@ -99,7 +99,7 @@ public class CajaEntity {
 
 	@NotNull
 	@NotBlank
-	@Size(min = 1, max = 3)
+	@Size(min = 1, max = 200)
 	public String getAgencia() {
 		return agencia;
 	}
