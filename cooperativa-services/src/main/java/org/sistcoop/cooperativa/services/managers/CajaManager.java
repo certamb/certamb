@@ -245,6 +245,13 @@ public class CajaManager {
 			bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);	
 		}		
 	}
+	
+	public void removeBovedas(CajaModel cajaModel, List<BovedaCajaModel> bovedaCajaModels) {
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			bovedaCajaModel.desactivar();
+			bovedaCajaModel.commit();
+		}		
+	}
 
 	public void desactivarBovedaCaja(BovedaCajaModel bovedaCajaModel) {
 		// TODO

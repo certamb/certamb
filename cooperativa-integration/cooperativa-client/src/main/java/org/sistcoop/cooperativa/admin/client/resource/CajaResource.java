@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -29,12 +30,12 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 @Path("/cajas")
 @Api(value = "/cajas", description = "Operaciones sobre caja")
 public interface CajaResource {
 
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	@Path("/{id}")
 	@ApiOperation(value = "Buscar caja por ID", notes = "Busca cajas activas e inactivas")
@@ -45,6 +46,8 @@ public interface CajaResource {
 			@NotNull 
 			@Min(value = 1) Integer id);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@ApiOperation(value = "Crear caja", notes = "Crea una caja en el sistema")
 	@ApiResponse(code = 201, message = "Objeto creado correctamente")
@@ -53,6 +56,8 @@ public interface CajaResource {
 			@NotNull
 			@Valid CajaRepresentation cajaRepresentation);	
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@PUT
 	@Path("/{id}")
 	@ApiOperation(value = "Actualizar caja", notes = "Actualizar los atributos de una caja")
@@ -67,6 +72,8 @@ public interface CajaResource {
 			@NotNull
 			@Valid CajaRepresentation cajaRepresentation);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("/{id}/desactivar")
 	@ApiResponse(code = 201, message = "Objeto desactivado correctamente")
@@ -76,6 +83,8 @@ public interface CajaResource {
 			@NotNull
 			@Min(value = 1) Integer id);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("/{id}/abrir")
 	@ApiOperation(value = "Abrir caja", notes = "Abrir la caja")
@@ -86,6 +95,8 @@ public interface CajaResource {
 			@NotNull
 			@Min(value = 1) Integer id);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("/{id}/cerrar")
 	@ApiOperation(value = "Cerrar caja", notes = "Cerrar la caja")
@@ -100,6 +111,8 @@ public interface CajaResource {
 			@NotNull
 			@Valid List<MonedaRepresentation> monedas);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("/{id}/congelar")
 	@ApiOperation(value = "Congelar caja", notes = "Congelar la caja")
@@ -110,6 +123,8 @@ public interface CajaResource {
 			@NotNull
 			@Min(value = 1) Integer id);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("/{id}/descongelar")
 	@ApiOperation(value = "Descongelar caja", notes = "Descongelar la caja")
@@ -120,6 +135,8 @@ public interface CajaResource {
 			@NotNull
 			@Min(value = 1) Integer id);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	@Path("/{id}/detalle")	
 	@ApiOperation(value = "Retorna detalle de MONEDA Y DETALLE (VALOR,CANTIDAD) de Caja", notes = "Retorna una List<{moneda, {Valor,Cantidad}}>")
@@ -130,6 +147,8 @@ public interface CajaResource {
 			@NotNull
 			@Min(value = 1) Integer id);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	@ApiOperation(value = "Buscar cajas", notes = "Buscar cajas segun parametros")
 	@ApiResponse(code = 200, message = "Operacion terminada satisfactoriamente")
@@ -157,6 +176,8 @@ public interface CajaResource {
 	 ** Historial caja
 	 ***/
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	@Path("/{id}/historiales")
 	@ApiOperation(value = "Buscar historiales de caja", notes = "Busca los historiales de una caja")
@@ -188,6 +209,8 @@ public interface CajaResource {
 	 ** Boveda Caja
 	 ***/
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("/{id}/bovedaCajas")
 	@ApiOperation(value = "crear BovedaCaja", notes = "Vincula una caja a una Boveda")
@@ -202,6 +225,8 @@ public interface CajaResource {
 			@NotNull
 			@Valid List<BovedaCajaRepresentation> bovedaCajaRepresentations);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	@Path("/{id}/bovedaCajas")
 	@ApiOperation(value = "Retorna las BovedaCajas de una caja", notes = "Retorna todas las bovedas relacionadas a la caja")
@@ -211,11 +236,27 @@ public interface CajaResource {
 			@PathParam("id") 
 			@NotNull
 			@Min(value = 1) Integer id);
+		
+	@DELETE
+	@Path("/{id}/bovedaCajas/{idBovedaCaja}")
+	@ApiOperation(value = "Desactiva las bovedas cajas enviadas", notes = "Desactiva pero no elimina")
+	@ApiResponse(code = 200, message = "Operacion terminada satisfactoriamente")
+	public void desactivarBovedaCaja (
+			@ApiParam(value = "ID de objeto", required = true)
+			@PathParam("id") 
+			@NotNull
+			@Min(value = 1) Integer id,
+			
+			@ApiParam(value = "ID de objeto", required = true)
+			@PathParam("idBovedaCaja") 
+			@NotNull
+			@Min(value = 1) Integer idBovedaCaja);
 	
 	/*
 	 ** Trabajador Caja
 	 ***/
-	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("/{id}/trabajadorCajas")
 	@ApiOperation(value = "Crea un TrabajadorCaja", notes = "Vincula un Trabajador a una Caja")	
@@ -230,6 +271,8 @@ public interface CajaResource {
 			@NotNull
 			@Valid TrabajadorCajaRepresentation trabajadorCajaRepresentation);
 	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	@Path("/{id}/trabajadorCajas")	
 	@ApiOperation(value = "Retorna los TrabajadorCajas de una caja", notes = "Retorna todas los trabajadores relacionadas a la caja")

@@ -17,6 +17,7 @@ import javax.ws.rs.core.UriInfo;
 import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.CajaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
+import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
@@ -48,6 +49,9 @@ public class CajaResourceImpl implements CajaResource {
 	
 	@Inject
 	private BovedaProvider bovedaProvider;
+	
+	@Inject
+	private BovedaCajaProvider bovedaCajaProvider;
 	
 	@Inject
 	private TrabajadorCajaProvider trabajadorCajaProvider;
@@ -384,6 +388,31 @@ public class CajaResourceImpl implements CajaResource {
 		return result;
 	}
 
+	@Override
+	public void desactivarBovedaCaja(Integer id, Integer idBovedaCaja) {
+		
+		CajaModel cajaModel = cajaProvider.getCajaById(id);
+		//validar caja cerrada	
+		if (cajaModel.isAbierto()) {
+			throw new BadRequestException("La caja debe estar cerrada");
+		}
+			
+		BovedaCajaModel bovedaCajaModel = bovedaCajaProvider.getBovedaCajaById(idBovedaCaja);	
+		//validar boveda cerrada
+		BovedaModel bovedaModel = bovedaCajaModel.getBoveda();		
+		if (bovedaModel.isAbierto()) {
+			throw new BadRequestException("La boveda debe estar cerrada");
+		}
+		//Caja debe tener saldo 0.00 en todas sus bovedas asignadas		
+		BigDecimal saldo = bovedaCajaModel.getSaldo();
+		if(saldo.compareTo(BigDecimal.ZERO) != 0) {
+			throw new BadRequestException("Caja/Boveda debe tener saldo 0.00");
+		}	
+		
+		bovedaCajaModel.desactivar();
+		bovedaCajaModel.commit();
+		
+	}
 	@Override
 	public Response addTrabajadorCaja(Integer id, TrabajadorCajaRepresentation trabajadorCajaRepresentation) {
 		CajaModel cajaModel = cajaProvider.getCajaById(id);
