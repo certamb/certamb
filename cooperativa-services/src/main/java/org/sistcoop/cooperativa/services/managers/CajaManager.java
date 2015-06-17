@@ -240,9 +240,10 @@ public class CajaManager {
 		model.commit();
 	}	
 	
-	public BovedaCajaModel addBoveda(CajaModel cajaModel, BovedaModel bovedaModel) {
-		BovedaCajaModel bovedaCajaModel = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
-		return bovedaCajaModel;
+	public void addBovedas(CajaModel cajaModel, List<BovedaModel> bovedaModels) {
+		for (BovedaModel bovedaModel : bovedaModels) {
+			bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);	
+		}		
 	}
 
 	public void desactivarBovedaCaja(BovedaCajaModel bovedaCajaModel) {

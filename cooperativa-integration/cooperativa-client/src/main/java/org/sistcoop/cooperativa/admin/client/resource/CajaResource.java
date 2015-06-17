@@ -192,7 +192,7 @@ public interface CajaResource {
 	@Path("/{id}/bovedaCajas")
 	@ApiOperation(value = "crear BovedaCaja", notes = "Vincula una caja a una Boveda")
 	@ApiResponse(code = 201, message = "Objeto creado satisfactoriamente")
-	public Response addBovedaCaja (
+	public void addBovedaCaja (
 			@ApiParam(value = "ID de objeto", required = true)
 			@PathParam("id") 
 			@NotNull
@@ -200,7 +200,7 @@ public interface CajaResource {
 			
 			@ApiParam(value = "BovedaCaja a crear", required = true)
 			@NotNull
-			@Valid BovedaCajaRepresentation bovedaCajaRepresentation);
+			@Valid List<BovedaCajaRepresentation> bovedaCajaRepresentations);
 	
 	@GET
 	@Path("/{id}/bovedaCajas")

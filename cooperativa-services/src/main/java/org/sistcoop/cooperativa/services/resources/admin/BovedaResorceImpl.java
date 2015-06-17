@@ -280,11 +280,9 @@ public class BovedaResorceImpl implements BovedaResource {
 			if (maxResults == null) {
 				maxResults = -1;
 			}
-			list = bovedaProvider.getBovedas(agencia, true, filterText,
-					firstResult, maxResults);
+			list = bovedaProvider.getBovedas(agencia, true, filterText, firstResult, maxResults);
 		} else {
-			list = bovedaProvider.getBovedas(agencia, estado, filterText,
-					firstResult, maxResults);
+			list = bovedaProvider.getBovedas(agencia, estado, filterText, firstResult, maxResults);
 		}
 
 		List<BovedaRepresentation> result = new ArrayList<BovedaRepresentation>();

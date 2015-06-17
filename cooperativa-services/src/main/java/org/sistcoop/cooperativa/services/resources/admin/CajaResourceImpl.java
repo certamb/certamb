@@ -17,7 +17,6 @@ import javax.ws.rs.core.UriInfo;
 import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.CajaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
-import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
@@ -49,9 +48,6 @@ public class CajaResourceImpl implements CajaResource {
 	
 	@Inject
 	private BovedaProvider bovedaProvider;
-	
-	@Inject
-	private BovedaCajaProvider bovedaCajaProvider;
 	
 	@Inject
 	private TrabajadorCajaProvider trabajadorCajaProvider;
@@ -362,16 +358,19 @@ public class CajaResourceImpl implements CajaResource {
 	}
 
 	@Override
-	public Response addBovedaCaja(Integer id,
-			BovedaCajaRepresentation bovedaCajaRepresentation) {
-		
-		BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();	
-		
-		BovedaModel bovedaModel = bovedaProvider.getBovedaById(bovedaRepresentation.getId());
+	public void addBovedaCaja(Integer id, List<BovedaCajaRepresentation> bovedaCajaRepresentations) {
+				
 		CajaModel cajaModel = cajaProvider.getCajaById(id);
 		
-		BovedaCajaModel model = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);		
-		return Response.created(uriInfo.getAbsolutePathBuilder().path(model.getId().toString()).build()).header("Access-Control-Expose-Headers", "Location").entity(Jsend.getSuccessJSend(model.getId())).build();
+		List<BovedaModel> bovedaModels = new ArrayList<>();
+		for (BovedaCajaRepresentation bovedaCajaRepresentation : bovedaCajaRepresentations) {
+			BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();	
+			BovedaModel bovedaModel = bovedaProvider.getBovedaById(bovedaRepresentation.getId());
+			bovedaModels.add(bovedaModel);
+		}
+		
+		cajaManager.addBovedas(cajaModel, bovedaModels);
+				
 	}
 
 	@Override
