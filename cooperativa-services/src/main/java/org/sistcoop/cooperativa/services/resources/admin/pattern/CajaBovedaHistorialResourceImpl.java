@@ -4,31 +4,48 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ws.rs.BadRequestException;
 
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialTransaccionesResource;
+import org.sistcoop.cooperativa.models.BovedaCajaModel;
+import org.sistcoop.cooperativa.models.BovedaModel;
+import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
+import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 
 @Stateless
 public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResource {
 
+	private CajaModel cajaModel;
+	private BovedaModel bovedaModel;
+	private BovedaCajaModel bovedaCajaModel;
+	private HistorialBovedaCajaModel historialBovedaCajaModel;
+	
+	public CajaBovedaHistorialResourceImpl(CajaModel cajaModel,
+			BovedaModel bovedaModel, BovedaCajaModel bovedaCajaModel,
+			HistorialBovedaCajaModel historialBovedaCajaModel) {
+		this.cajaModel = cajaModel;
+		this.bovedaModel = bovedaModel;
+		this.bovedaCajaModel = bovedaCajaModel;
+		this.historialBovedaCajaModel = historialBovedaCajaModel;
+	}
+
 	@Override
 	public HistorialBovedaCajaRepresentation historial() {
-		// TODO Auto-generated method stub
-		return null;
+		return ModelToRepresentation.toRepresentation(historialBovedaCajaModel);
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		throw new BadRequestException();
 	}
 
 	@Override
 	public void remove() {
-		// TODO Auto-generated method stub
-		
+		throw new BadRequestException();
 	}
 
 	@Override
@@ -63,10 +80,8 @@ public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResou
 
 	@Override
 	public CajaBovedaHistorialTransaccionesResource transacciones() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CajaBovedaHistorialTransaccionesResourceImpl(cajaModel,
+				bovedaModel, bovedaCajaModel, historialBovedaCajaModel);
 	}
-
-	
 
 }

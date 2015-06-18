@@ -15,6 +15,7 @@ import org.sistcoop.cooperativa.admin.client.resource.CajaBovedasResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
+import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
@@ -25,6 +26,9 @@ public class CajaBovedasResourceImpl implements CajaBovedasResource {
 
 	private CajaModel cajaModel;
 
+	@Inject
+	private BovedaProvider bovedaProvider;
+	
 	@Inject
 	private BovedaCajaProvider bovedaCajaProvider;
 	
@@ -39,8 +43,15 @@ public class CajaBovedasResourceImpl implements CajaBovedasResource {
 	}
 
 	@Override
-	public CajaBovedaResource boveda(String boveda) {		
-		return new CajaBovedaResourceImpl(cajaModel);
+	public CajaBovedaResource boveda(String boveda) {	
+		BovedaModel bovedaModel = bovedaProvider.getBovedaById(boveda);
+		List<BovedaCajaModel> bovedaCajaModels = cajaModel.getBovedaCajas();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			if(bovedaModel.equals(bovedaCajaModel.getBoveda())) {
+				return new CajaBovedaResourceImpl(cajaModel, bovedaModel, bovedaCajaModel);
+			}
+		}		
+		return null;
 	}
 
 	@Override
