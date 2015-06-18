@@ -1,36 +1,37 @@
 package org.sistcoop.cooperativa.services.resources.admin.pattern;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedasResource;
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialResource;
-import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialResource;
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialesResource;
-import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialesResource;
+import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.CajaTrabajadorResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaTrabajadoresResource;
-import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
+import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
+import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
-import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
+import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorRepresentation;
 
 @Stateless
 public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 
 	private CajaModel cajaModel;
+	
+	@Inject
+	private TrabajadorCajaProvider trabajadorCajaProvider;
+	
+	@Inject
+	private RepresentationToModel representationToModel;
+
+	@Context
+	protected UriInfo uriInfo;
 
 	public CajaTrabajadoresResourceImpl(CajaModel cajaModel) {
 		this.cajaModel = cajaModel;
@@ -38,21 +39,27 @@ public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 
 	@Override
 	public CajaTrabajadorResource trabajador(String trabajador) {
-		// TODO Auto-generated method stub
-		return null;
+		TrabajadorCajaModel trabajadorCajaModel = trabajadorCajaProvider.getTrabajadorCajaById(cajaModel, trabajador);		
+		return new CajaTrabajadorResourceImpl(trabajadorCajaModel);
 	}
 
 	@Override
 	public Response create(TrabajadorRepresentation trabajadorRepresentation) {
-		// TODO Auto-generated method stub
-		return null;
+		TrabajadorCajaModel trabajadorCajaModel = representationToModel.createTrabajadorCaja(trabajadorRepresentation, trabajadorCajaProvider);
+		return Response.created(uriInfo.getAbsolutePathBuilder()
+				.path(trabajadorCajaModel.getId()).build())
+				.header("Access-Control-Expose-Headers", "Location")
+				.entity(Jsend.getSuccessJSend(trabajadorCajaModel.getId())).build();
 	}
 
 	@Override
 	public List<TrabajadorRepresentation> search() {
-		// TODO Auto-generated method stub
-		return null;
+		List<TrabajadorCajaModel> trabajadorCajaModels = cajaModel.getTrabajadorCajas();
+		List<TrabajadorRepresentation> result = new ArrayList<>();
+		for (TrabajadorCajaModel trabajadorCajaModel : trabajadorCajaModels) {	
+			result.add(ModelToRepresentation.toRepresentation(trabajadorCajaModel));
+		}
+		return result;
 	}
 
-	
 }

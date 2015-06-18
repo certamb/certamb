@@ -12,6 +12,7 @@ import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TrabajadorRepresentation;
 
 public class ModelToRepresentation {
 
@@ -117,12 +118,12 @@ public class ModelToRepresentation {
 		return rep;
 	}
 
-	public static TrabajadorCajaRepresentation toRepresentation(TrabajadorCajaModel model) {
+	public static TrabajadorRepresentation toRepresentation(TrabajadorCajaModel model) {
 		
 		if(model == null)
 			return null;
 		
-		TrabajadorCajaRepresentation rep = new TrabajadorCajaRepresentation();
+		TrabajadorRepresentation rep = new TrabajadorRepresentation();
 		rep.setId(model.getId());
 		rep.setTipoDocumento(model.getTipoDocumento());
 		rep.setNumeroDocumento(model.getNumeroDocumento());
