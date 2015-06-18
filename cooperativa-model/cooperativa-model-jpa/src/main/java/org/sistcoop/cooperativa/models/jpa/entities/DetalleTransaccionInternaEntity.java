@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "DETALLE_TRANSACCION_INTERNA")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -29,7 +31,7 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected Long id;
+	protected String id;
 	protected BigDecimal valor;
 	protected int cantidad;
 
@@ -42,12 +44,14 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Long getId() {
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "ID")
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -55,6 +59,7 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 	@Min(value = 0)
 	@Max(value = 1000)
 	@Digits(integer = 4, fraction = 2)
+	@Column(name = "VALOR")
 	public BigDecimal getValor() {
 		return valor;
 	}
@@ -66,6 +71,7 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 	@NotNull
 	@Min(value = 0)
 	@Digits(integer = 18, fraction = 2)
+	@Column(name = "CANTIDAD")
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -84,6 +90,7 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
 	}
 
 	@Formula("cantidad * valor ")
+	@Column(name = "SUBTOTALf")
 	public BigDecimal getSubtotal() {
 		return subtotal;
 	}

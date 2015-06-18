@@ -3,12 +3,12 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,6 +16,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.NaturalId;
@@ -23,9 +24,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "TRABAJADOR_CAJA", indexes = { @Index(columnList = "id") })
-@NamedQueries(value = {		
-		@NamedQuery(name = TrabajadorCajaEntity.findByTipoAndNumeroDocumento, query = "SELECT t FROM TrabajadorCajaEntity t WHERE t.tipoDocumento = :tipoDocumento AND t.numeroDocumento = :numeroDocumento AND t.estado = TRUE")})
+@Table(name = "TRABAJADOR_CAJA")
+@NamedQueries(value = { @NamedQuery(name = TrabajadorCajaEntity.findByTipoAndNumeroDocumento, query = "SELECT t FROM TrabajadorCajaEntity t WHERE t.tipoDocumento = :tipoDocumento AND t.numeroDocumento = :numeroDocumento AND t.estado = TRUE") })
 public class TrabajadorCajaEntity implements Serializable {
 
 	/**
@@ -33,9 +33,10 @@ public class TrabajadorCajaEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	public final static String base = "org.sistcoop.cooperativa.models.jpa.entities.TrabajadorCajaEntity.";
-	public final static String findByTipoAndNumeroDocumento = base + "findByTipoAndNumeroDocumento";
-	
-	private Integer id;
+	public final static String findByTipoAndNumeroDocumento = base
+			+ "findByTipoAndNumeroDocumento";
+
+	private String id;
 	private String tipoDocumento;
 	private String numeroDocumento;
 	private CajaEntity caja;
@@ -44,18 +45,21 @@ public class TrabajadorCajaEntity implements Serializable {
 	private Timestamp optlk;
 
 	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Integer getId() {
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "ID")
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	@NotNull
 	@Size(min = 1, max = 20)
 	@NotBlank
+	@Column(name = "TIPO_DOCUMENTO")
 	public String getTipoDocumento() {
 		return tipoDocumento;
 	}
@@ -67,6 +71,7 @@ public class TrabajadorCajaEntity implements Serializable {
 	@NotNull
 	@Size(min = 1, max = 20)
 	@NotBlank
+	@Column(name = "NUMERO_DOCUMENTO")
 	public String getNumeroDocumento() {
 		return numeroDocumento;
 	}
@@ -79,6 +84,7 @@ public class TrabajadorCajaEntity implements Serializable {
 	@NaturalId
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
+	@Column(name = "ID_CAJA")
 	public CajaEntity getCaja() {
 		return caja;
 	}
@@ -89,6 +95,7 @@ public class TrabajadorCajaEntity implements Serializable {
 
 	@NotNull
 	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ESTADO")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -112,8 +119,10 @@ public class TrabajadorCajaEntity implements Serializable {
 		int result = 1;
 		result = prime * result + ((caja == null) ? 0 : caja.hashCode());
 		result = prime * result + (estado ? 1231 : 1237);
-		result = prime * result + ((numeroDocumento == null) ? 0 : numeroDocumento.hashCode());
-		result = prime * result + ((tipoDocumento == null) ? 0 : tipoDocumento.hashCode());
+		result = prime * result
+				+ ((numeroDocumento == null) ? 0 : numeroDocumento.hashCode());
+		result = prime * result
+				+ ((tipoDocumento == null) ? 0 : tipoDocumento.hashCode());
 		return result;
 	}
 

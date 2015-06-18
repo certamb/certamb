@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -12,18 +13,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "HISTORIAL_BOVEDA")
-@NamedQueries(value = { 
+@NamedQueries(value = {
 		@NamedQuery(name = HistorialBovedaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaEntity s WHERE s.boveda.id = :idBoveda AND s.estado = :estado"),
 		@NamedQuery(name = HistorialBovedaEntity.findByBoveda, query = "SELECT s FROM HistorialBovedaEntity s WHERE s.boveda.id = :idBoveda"),
 		@NamedQuery(name = HistorialBovedaEntity.findByBovedaDesdeHasta, query = "SELECT h FROM HistorialBovedaEntity h WHERE h.boveda.id = :idBoveda AND h.fechaApertura < :desde AND h.fechaCierre > :hasta") })
-public class HistorialBovedaEntity extends HistorialEntity implements Serializable {
+public class HistorialBovedaEntity extends HistorialEntity implements
+		Serializable {
 
 	/**
 	 * 
@@ -33,7 +34,8 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
 	public final static String base = "org.softgreen.sistcoop.organizacion.ejb.models.jpa.entities.HistorialBovedaEntity.";
 	public final static String findByEstado = base + "findByEstado";
 	public final static String findByBoveda = base + "findByBoveda";
-	public final static String findByBovedaDesdeHasta = base + "findByBovedaDesdeHasta";
+	public final static String findByBovedaDesdeHasta = base
+			+ "findByBovedaDesdeHasta";
 
 	private BovedaEntity boveda;
 	private Set<DetalleHistorialBovedaEntity> detalle = new HashSet<DetalleHistorialBovedaEntity>();
@@ -41,6 +43,7 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
+	@Column(name = "ID_BOVEDA")
 	public BovedaEntity getBoveda() {
 		return boveda;
 	}
@@ -49,7 +52,6 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
 		this.boveda = boveda;
 	}
 
-	@XmlTransient
 	@OneToMany(mappedBy = "historial", fetch = FetchType.LAZY)
 	public Set<DetalleHistorialBovedaEntity> getDetalle() {
 		return detalle;
@@ -64,8 +66,10 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((boveda == null) ? 0 : boveda.hashCode());
-		result = prime * result + ((fechaApertura == null) ? 0 : fechaApertura.hashCode());
-		result = prime * result + ((horaApertura == null) ? 0 : horaApertura.hashCode());
+		result = prime * result
+				+ ((fechaApertura == null) ? 0 : fechaApertura.hashCode());
+		result = prime * result
+				+ ((horaApertura == null) ? 0 : horaApertura.hashCode());
 		return result;
 	}
 

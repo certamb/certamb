@@ -42,7 +42,7 @@ public class BovedaCajaAdapter implements BovedaCajaModel {
 	}
 
 	@Override
-	public Integer getId() {
+	public String getId() {
 		return bovedaCajaEntity.getId();
 	}
 

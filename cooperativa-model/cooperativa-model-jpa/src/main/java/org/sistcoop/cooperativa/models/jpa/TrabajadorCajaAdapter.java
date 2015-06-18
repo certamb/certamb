@@ -35,7 +35,7 @@ public class TrabajadorCajaAdapter implements TrabajadorCajaModel {
 	}
 
 	@Override
-	public Integer getId() {
+	public String getId() {
 		return trabajadorCajaEntity.getId();
 	}
 

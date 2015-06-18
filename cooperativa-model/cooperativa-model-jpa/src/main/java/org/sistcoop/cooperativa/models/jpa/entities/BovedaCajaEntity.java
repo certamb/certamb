@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -20,6 +21,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -31,7 +33,7 @@ public class BovedaCajaEntity implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	private String id;
 	private BigDecimal saldo;
 	private boolean estado;
 
@@ -45,12 +47,14 @@ public class BovedaCajaEntity implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Integer getId() {
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "ID")
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -58,6 +62,7 @@ public class BovedaCajaEntity implements java.io.Serializable {
 	@Min(value = 0)
 	@DecimalMin(value = "0")
 	@Digits(integer = 18, fraction = 2)
+	@Column(name = "SALDO")
 	public BigDecimal getSaldo() {
 		return saldo;
 	}
@@ -68,6 +73,7 @@ public class BovedaCajaEntity implements java.io.Serializable {
 
 	@NotNull
 	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ESTADO")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -79,6 +85,7 @@ public class BovedaCajaEntity implements java.io.Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
+	@Column(name = "ID_CAJA")
 	public CajaEntity getCaja() {
 		return caja;
 	}
@@ -90,6 +97,7 @@ public class BovedaCajaEntity implements java.io.Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
+	@Column(name = "ID_BOVEDA")
 	public BovedaEntity getBoveda() {
 		return boveda;
 	}

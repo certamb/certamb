@@ -3,6 +3,7 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -10,34 +11,39 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlTransient;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @MappedSuperclass
 public abstract class HistorialEntity {
 
-	protected Long id;
+	protected String id;
 	protected Date fechaApertura;
 	protected Date fechaCierre;
 	protected Date horaApertura;
 	protected Date horaCierre;
+	protected boolean abierto;
+	protected boolean estadoMovimiento;
 	protected boolean estado;
 
 	private Timestamp optlk;
 
 	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Long getId() {
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "ID")
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
+	@Column(name = "FECHA_APERTURA")
 	public Date getFechaApertura() {
 		return fechaApertura;
 	}
@@ -47,6 +53,7 @@ public abstract class HistorialEntity {
 	}
 
 	@Temporal(TemporalType.DATE)
+	@Column(name = "FECHA_CIERRE")
 	public Date getFechaCierre() {
 		return fechaCierre;
 	}
@@ -57,6 +64,7 @@ public abstract class HistorialEntity {
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "HORA_APERTURA")
 	public Date getHoraApertura() {
 		return horaApertura;
 	}
@@ -66,6 +74,7 @@ public abstract class HistorialEntity {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "HORA_CIERRE")
 	public Date getHoraCierre() {
 		return horaCierre;
 	}
@@ -76,6 +85,29 @@ public abstract class HistorialEntity {
 
 	@NotNull
 	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ABIERTO")
+	public boolean isAbierto() {
+		return abierto;
+	}
+
+	public void setAbierto(boolean abierto) {
+		this.abierto = abierto;
+	}
+
+	@NotNull
+	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ESTADO_MOVIMIENTO")
+	public boolean isEstadoMovimiento() {
+		return estadoMovimiento;
+	}
+
+	public void setEstadoMovimiento(boolean estadoMovimiento) {
+		this.estadoMovimiento = estadoMovimiento;
+	}
+	
+	@NotNull
+	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ESTADO")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -84,7 +116,6 @@ public abstract class HistorialEntity {
 		this.estado = estado;
 	}
 
-	@XmlTransient
 	@Version
 	public Timestamp getOptlk() {
 		return optlk;

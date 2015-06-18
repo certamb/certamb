@@ -43,7 +43,7 @@ public class TransaccionCajaCajaAdapter implements TransaccionCajaCajaModel {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return transaccionCajaCajaEntity.getId();
 	}	
 

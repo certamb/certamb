@@ -4,39 +4,38 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "CAJA", indexes = { @Index(columnList = "id") })
-@NamedQueries({		
+@Table(name = "CAJA")
+@NamedQueries({
 		@NamedQuery(name = CajaEntity.findByAgencia, query = "SELECT c FROM CajaEntity c WHERE c.agencia = :agencia"),
 		@NamedQuery(name = CajaEntity.findByAgenciaAndFilterText, query = "SELECT c FROM CajaEntity c WHERE c.agencia = :agencia AND c.denominacion LIKE :filterText") })
 public class CajaEntity {
 
 	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.CajaEntity.";
 	public static final String findByAgencia = base + "findByAgencia";
-	public static final String findByAgenciaAndFilterText = base + "findByAgenciaAndFilterText";
+	public static final String findByAgenciaAndFilterText = base
+			+ "findByAgenciaAndFilterText";
 
-	private Integer id;
+	private String id;
 	private String denominacion;
 	private boolean estado;
-	private boolean abierto;
-	private boolean estadoMovimiento;
 
 	private String agencia;
 
@@ -46,19 +45,21 @@ public class CajaEntity {
 	private Timestamp optlk;
 
 	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Integer getId() {
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "ID")
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	@NotNull
 	@Size(min = 1, max = 20)
 	@NotBlank
-	@NotEmpty
+	@Column(name = "DENOMINACION")
 	public String getDenominacion() {
 		return denominacion;
 	}
@@ -69,6 +70,7 @@ public class CajaEntity {
 
 	@NotNull
 	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ESTADO")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -78,28 +80,9 @@ public class CajaEntity {
 	}
 
 	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	public boolean isAbierto() {
-		return abierto;
-	}
-
-	public void setAbierto(boolean abierto) {
-		this.abierto = abierto;
-	}
-
-	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	public boolean isEstadoMovimiento() {
-		return estadoMovimiento;
-	}
-
-	public void setEstadoMovimiento(boolean estadoMovimiento) {
-		this.estadoMovimiento = estadoMovimiento;
-	}
-
-	@NotNull
 	@NotBlank
 	@Size(min = 1, max = 200)
+	@Column(name = "AGENCIA")
 	public String getAgencia() {
 		return agencia;
 	}
@@ -140,7 +123,8 @@ public class CajaEntity {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((agencia == null) ? 0 : agencia.hashCode());
-		result = prime * result + ((denominacion == null) ? 0 : denominacion.hashCode());
+		result = prime * result
+				+ ((denominacion == null) ? 0 : denominacion.hashCode());
 		return result;
 	}
 

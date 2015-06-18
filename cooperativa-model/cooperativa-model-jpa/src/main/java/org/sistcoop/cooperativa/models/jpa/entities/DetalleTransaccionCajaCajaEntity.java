@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +13,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue(value = "caja-caja")
-public class DetalleTransaccionCajaCajaEntity extends DetalleTransaccionInternaEntity implements Serializable {
+public class DetalleTransaccionCajaCajaEntity extends
+		DetalleTransaccionInternaEntity implements Serializable {
 
 	/**
 	 * 
@@ -28,11 +30,13 @@ public class DetalleTransaccionCajaCajaEntity extends DetalleTransaccionInternaE
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
+	@Column(name = "ID_TRANSACCION_CAJA_CAJA")
 	public TransaccionCajaCajaEntity getTransaccionCajaCaja() {
 		return transaccionCajaCaja;
 	}
 
-	public void setTransaccionCajaCaja(TransaccionCajaCajaEntity transaccionCajaCaja) {
+	public void setTransaccionCajaCaja(
+			TransaccionCajaCajaEntity transaccionCajaCaja) {
 		this.transaccionCajaCaja = transaccionCajaCaja;
 	}
 }

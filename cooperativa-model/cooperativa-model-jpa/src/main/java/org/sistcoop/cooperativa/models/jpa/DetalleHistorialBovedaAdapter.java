@@ -37,7 +37,7 @@ public class DetalleHistorialBovedaAdapter implements DetalleHistorialBovedaMode
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return detalleHistorialBovedaEntity.getId();
 	}
 

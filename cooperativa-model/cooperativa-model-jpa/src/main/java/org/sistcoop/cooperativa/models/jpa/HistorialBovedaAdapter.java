@@ -42,7 +42,7 @@ public class HistorialBovedaAdapter implements HistorialBovedaModel {
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return historialBovedaEntity.getId();
 	}
 
@@ -76,6 +76,26 @@ public class HistorialBovedaAdapter implements HistorialBovedaModel {
 		historialBovedaEntity.setHoraCierre(horaCierre);
 	}
 
+	@Override
+	public boolean isAbierto() {
+		return historialBovedaEntity.isAbierto();
+	}
+
+	@Override
+	public void setAbierto(boolean abierto) {
+		historialBovedaEntity.setAbierto(abierto);
+	}
+
+	@Override
+	public boolean getEstadoMovimiento() {
+		return historialBovedaEntity.isEstadoMovimiento();
+	}
+
+	@Override
+	public void setEstadoMovimiento(boolean estadoMovimiento) {
+		historialBovedaEntity.setEstadoMovimiento(estadoMovimiento);
+	}
+	
 	@Override
 	public boolean getEstado() {
 		return historialBovedaEntity.isEstado();

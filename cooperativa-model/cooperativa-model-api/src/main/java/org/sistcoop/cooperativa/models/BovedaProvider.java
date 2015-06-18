@@ -16,6 +16,8 @@ public interface BovedaProvider extends Provider {
 	
 	BovedaModel getBovedaById(String id);
 
+	boolean removeBoveda(BovedaModel bovedaModel);
+	
 	List<BovedaModel> getBovedas();
 
 	List<BovedaModel> getBovedas(String agencia);

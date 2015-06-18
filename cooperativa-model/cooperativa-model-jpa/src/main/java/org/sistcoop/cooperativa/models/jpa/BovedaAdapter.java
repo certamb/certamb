@@ -63,26 +63,6 @@ public class BovedaAdapter implements BovedaModel {
 	}
 
 	@Override
-	public boolean isAbierto() {
-		return bovedaEntity.isAbierto();
-	}
-
-	@Override
-	public void setAbierto(boolean abierto) {
-		bovedaEntity.setAbierto(abierto);
-	}
-
-	@Override
-	public boolean getEstadoMovimiento() {
-		return bovedaEntity.isEstadoMovimiento();
-	}
-
-	@Override
-	public void setEstadoMovimiento(boolean estadoMovimiento) {
-		bovedaEntity.setEstadoMovimiento(estadoMovimiento);
-	}
-
-	@Override
 	public boolean getEstado() {
 		return bovedaEntity.isEstado();
 	}

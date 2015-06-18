@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public interface BovedaCajaModel extends Model {
 
-	Integer getId();
+	String getId();
 
 	BigDecimal getSaldo();
 
@@ -19,4 +19,5 @@ public interface BovedaCajaModel extends Model {
 	BovedaModel getBoveda();
 
 	HistorialBovedaCajaModel getHistorialActivo();
+	
 }

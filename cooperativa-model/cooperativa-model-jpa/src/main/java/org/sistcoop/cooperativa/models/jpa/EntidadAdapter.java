@@ -34,7 +34,7 @@ public class EntidadAdapter implements EntidadModel {
 	}
 
 	@Override
-	public Integer getId() {
+	public String getId() {
 		return entidadEntity.getId();
 	}
 

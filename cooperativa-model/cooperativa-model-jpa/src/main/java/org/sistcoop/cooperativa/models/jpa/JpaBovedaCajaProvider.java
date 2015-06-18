@@ -49,9 +49,17 @@ public class JpaBovedaCajaProvider implements BovedaCajaProvider {
 	}
 
 	@Override
-	public BovedaCajaModel getBovedaCajaById(Integer id) {
+	public BovedaCajaModel getBovedaCajaById(String id) {
 		BovedaCajaEntity bovedaCajaEntity = this.em.find(BovedaCajaEntity.class, id);
 		return bovedaCajaEntity != null ? new BovedaCajaAdapter(em, bovedaCajaEntity) : null;
+	}
+
+	@Override
+	public boolean removeBovedaCaja(BovedaCajaModel bovedaCajaModel) {
+		BovedaCajaEntity bovedaCajaEntity = em.find(BovedaCajaEntity.class, bovedaCajaModel.getId());
+		if (bovedaCajaEntity == null) return false;
+		em.remove(bovedaCajaEntity);
+		return true;   
 	}
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TransaccionCajaCajaModel extends Model {
 
-	Long getId();
+	String getId();
 
 	HistorialBovedaCajaModel getHistorialBovedaCajaOrigen();
 

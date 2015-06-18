@@ -17,18 +17,18 @@ public class TrabajadorCajaRepresentation implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	private String id;
 	private String tipoDocumento;
 	private String numeroDocumento;
 	private boolean estado;
 	private CajaRepresentation caja;
 
 	@ApiModelProperty(value = "ID", required = false)
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

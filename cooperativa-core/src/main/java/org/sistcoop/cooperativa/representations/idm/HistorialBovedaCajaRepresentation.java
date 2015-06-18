@@ -8,7 +8,7 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "historialBovedaCaja", description = "Historial de una BovedaCaja producto de una apertura o cierre de caja")
 public class HistorialBovedaCajaRepresentation {
 
-	private Long id;
+	private String id;
 	private Date fechaApertura;
 	private Date fechaCierre;
 	private Date horaApertura;
@@ -18,11 +18,11 @@ public class HistorialBovedaCajaRepresentation {
 	private BovedaRepresentation boveda;
 
 	@ApiModelProperty(value = "ID", required = false)
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

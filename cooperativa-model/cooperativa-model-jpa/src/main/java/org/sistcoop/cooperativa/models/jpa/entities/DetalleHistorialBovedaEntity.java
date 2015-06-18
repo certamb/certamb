@@ -3,46 +3,52 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
-@Table(name = "DETALLE_HISTORIAL_BOVEDA", indexes = { @Index(columnList = "id") })
-public class DetalleHistorialBovedaEntity extends DetalleHistorialEntity implements Serializable {
+@Table(name = "DETALLE_HISTORIAL_BOVEDA")
+public class DetalleHistorialBovedaEntity extends DetalleHistorialEntity
+		implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private String id;
 
 	private HistorialBovedaEntity historial;
 
 	private Timestamp optlk;
 
 	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Long getId() {
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "ID")
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
+	@Column(name = "ID_HISTORIAL_BOVEDA")
 	public HistorialBovedaEntity getHistorial() {
 		return historial;
 	}
@@ -64,7 +70,8 @@ public class DetalleHistorialBovedaEntity extends DetalleHistorialEntity impleme
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((historial == null) ? 0 : historial.hashCode());
+		result = prime * result
+				+ ((historial == null) ? 0 : historial.hashCode());
 		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
 		result = prime * result + cantidad;
 		return result;

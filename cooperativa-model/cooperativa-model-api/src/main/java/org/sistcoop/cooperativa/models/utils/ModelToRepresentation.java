@@ -25,9 +25,7 @@ public class ModelToRepresentation {
 		rep.setId(model.getId());
 		rep.setAgencia(model.getAgencia());
 		rep.setDenominacion(model.getDenominacion());
-		rep.setMoneda(model.getMoneda());
-		rep.setAbierto(model.isAbierto());
-		rep.setEstadoMovimiento(model.getEstadoMovimiento());
+		rep.setMoneda(model.getMoneda());		
 		rep.setEstado(model.getEstado());
 		
 		return rep;
@@ -41,9 +39,7 @@ public class ModelToRepresentation {
 		CajaRepresentation rep = new CajaRepresentation();
 		rep.setId(model.getId());
 		rep.setDenominacion(model.getDenominacion());
-		rep.setAgencia(model.getAgencia());
-		rep.setAbierto(model.isAbierto());
-		rep.setEstadoMovimiento(model.getEstadoMovimiento());
+		rep.setAgencia(model.getAgencia());		
 		rep.setEstado(model.getEstado());
 		
 		return rep;

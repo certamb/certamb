@@ -11,7 +11,9 @@ public interface CajaProvider extends Provider {
 
 	CajaModel addCaja(String agencia, String denominacion);	
 
-	CajaModel getCajaById(Integer id);
+	CajaModel getCajaById(String id);
+	
+	boolean removeCaja(CajaModel cajaModel);
 
 	List<CajaModel> getCajas();
 

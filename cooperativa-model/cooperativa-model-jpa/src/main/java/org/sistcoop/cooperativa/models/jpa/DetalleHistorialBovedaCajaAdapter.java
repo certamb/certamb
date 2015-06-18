@@ -37,7 +37,7 @@ public class DetalleHistorialBovedaCajaAdapter implements DetalleHistorialBoveda
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return detalleHistorialBovedaCajaEntity.getId();
 	}
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -12,18 +13,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "HISTORIAL_BOVEDA_CAJA")
-@NamedQueries({ 			
-	@NamedQuery(name = HistorialBovedaCajaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja AND s.estado = :estado"),
-	@NamedQuery(name = HistorialBovedaCajaEntity.findByBovedaCaja, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja"),
-	@NamedQuery(name = HistorialBovedaCajaEntity.findByBovedaCajaDesdeHasta, query = "SELECT h FROM HistorialBovedaCajaEntity h WHERE h.bovedaCaja.id = :idBovedaCaja AND h.fechaApertura < :desde AND h.fechaCierre > :hasta")})
-public class HistorialBovedaCajaEntity extends HistorialEntity implements Serializable {
+@NamedQueries({
+		@NamedQuery(name = HistorialBovedaCajaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja AND s.estado = :estado"),
+		@NamedQuery(name = HistorialBovedaCajaEntity.findByBovedaCaja, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja"),
+		@NamedQuery(name = HistorialBovedaCajaEntity.findByBovedaCajaDesdeHasta, query = "SELECT h FROM HistorialBovedaCajaEntity h WHERE h.bovedaCaja.id = :idBovedaCaja AND h.fechaApertura < :desde AND h.fechaCierre > :hasta") })
+public class HistorialBovedaCajaEntity extends HistorialEntity implements
+		Serializable {
 
 	/**
 	 * 
@@ -33,7 +34,8 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
 	public final static String base = "org.softgreen.sistcoop.organizacion.ejb.models.jpa.entities.HistorialCajaEntity.";
 	public final static String findByEstado = base + "findByEstado";
 	public final static String findByBovedaCaja = base + "findByBovedaCaja";
-	public final static String findByBovedaCajaDesdeHasta = base + "findByBovedaCajaDesdeHasta";
+	public final static String findByBovedaCajaDesdeHasta = base
+			+ "findByBovedaCajaDesdeHasta";
 
 	private BovedaCajaEntity bovedaCaja;
 	private Set<DetalleHistorialBovedaCajaEntity> detalle = new HashSet<DetalleHistorialBovedaCajaEntity>();
@@ -41,6 +43,7 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
+	@Column(name = "ID_BOVEDA_CAJA")
 	public BovedaCajaEntity getBovedaCaja() {
 		return bovedaCaja;
 	}
@@ -49,7 +52,6 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
 		this.bovedaCaja = bovedaCaja;
 	}
 
-	@XmlTransient
 	@OneToMany(mappedBy = "historial", fetch = FetchType.LAZY)
 	public Set<DetalleHistorialBovedaCajaEntity> getDetalle() {
 		return detalle;
@@ -63,9 +65,12 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((bovedaCaja == null) ? 0 : bovedaCaja.hashCode());
-		result = prime * result + ((fechaApertura == null) ? 0 : fechaApertura.hashCode());
-		result = prime * result + ((horaApertura == null) ? 0 : horaApertura.hashCode());
+		result = prime * result
+				+ ((bovedaCaja == null) ? 0 : bovedaCaja.hashCode());
+		result = prime * result
+				+ ((fechaApertura == null) ? 0 : fechaApertura.hashCode());
+		result = prime * result
+				+ ((horaApertura == null) ? 0 : horaApertura.hashCode());
 		return result;
 	}
 

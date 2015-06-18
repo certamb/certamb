@@ -37,7 +37,7 @@ public class DetalleTransaccionClienteAdapter implements DetalleTransaccionClien
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return detalleTransaccionClienteEntity.getId();
 	}
 

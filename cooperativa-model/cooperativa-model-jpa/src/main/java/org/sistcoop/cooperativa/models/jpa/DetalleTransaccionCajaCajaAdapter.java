@@ -37,7 +37,7 @@ public class DetalleTransaccionCajaCajaAdapter implements DetalleTransaccionCaja
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return detalleTransaccionCajaCajaEntity.getId();
 	}
 

@@ -2,7 +2,7 @@ package org.sistcoop.cooperativa.models;
 
 public interface EntidadModel extends Model {
 
-	Integer getId();
+	String getId();
 
 	String getDenominacion();
 

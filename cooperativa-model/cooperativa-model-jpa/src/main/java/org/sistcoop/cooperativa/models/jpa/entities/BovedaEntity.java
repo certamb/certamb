@@ -33,8 +33,6 @@ public class BovedaEntity implements Serializable {
 	private String id;
 	private String moneda;
 	private String denominacion;
-	private boolean abierto;
-	private boolean estadoMovimiento;
 	private boolean estado;
 
 	private String agencia;
@@ -91,28 +89,6 @@ public class BovedaEntity implements Serializable {
 
 	public void setDenominacion(String denominacion) {
 		this.denominacion = denominacion;
-	}
-
-	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	@Column(name = "ABIERTO")
-	public boolean isAbierto() {
-		return abierto;
-	}
-
-	public void setAbierto(boolean abierto) {
-		this.abierto = abierto;
-	}
-
-	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	@Column(name = "ESTADO_MOVIMIENTO")
-	public boolean isEstadoMovimiento() {
-		return estadoMovimiento;
-	}
-
-	public void setEstadoMovimiento(boolean estadoMovimiento) {
-		this.estadoMovimiento = estadoMovimiento;
 	}
 
 	@NotNull

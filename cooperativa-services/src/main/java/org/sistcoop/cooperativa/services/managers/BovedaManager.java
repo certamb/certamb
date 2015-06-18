@@ -112,10 +112,13 @@ public class BovedaManager {
 		bovedaModel.commit();
 	}
 	
+	public boolean activarBoveda(BovedaModel model) {	
+		return false;
+	}
+	
 	public boolean desactivarBoveda(BovedaModel model) {	
 		//desactivar bovedas
-		model.desactivar();
-		model.setEstadoMovimiento(false);
+		model.desactivar();		
 		model.commit();
 		
 		//desactivar boveda-cajas

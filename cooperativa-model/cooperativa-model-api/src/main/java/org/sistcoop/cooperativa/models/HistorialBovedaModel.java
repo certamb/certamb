@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface HistorialBovedaModel extends Model {
 
-	Long getId();
+	String getId();
 
 	Date getFechaApertura();
 
@@ -19,6 +19,14 @@ public interface HistorialBovedaModel extends Model {
 
 	void setHoraCierre(Date horaCierre);
 
+	boolean isAbierto();
+
+	void setAbierto(boolean abierto);
+
+	boolean getEstadoMovimiento();
+
+	void setEstadoMovimiento(boolean estadoMovimiento);
+	
 	boolean getEstado();
 
 	void desactivar();

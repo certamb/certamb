@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -20,9 +20,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "DETALLE_TRANSACCION_CLIENTE", indexes = { @Index(columnList = "id") })
+@Table(name = "DETALLE_TRANSACCION_CLIENTE")
 public class DetalleTransaccionClienteEntity implements Serializable {
 
 	/**
@@ -30,7 +31,7 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private String id;
 	private BigDecimal valor;
 	private int cantidad;
 
@@ -45,12 +46,14 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Long getId() {
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "ID")
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -58,6 +61,7 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	@Min(value = 0)
 	@Max(value = 1000)
 	@Digits(integer = 4, fraction = 2)
+	@Column(name = "VALOR")
 	public BigDecimal getValor() {
 		return valor;
 	}
@@ -69,6 +73,7 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	@NotNull
 	@Min(value = 0)
 	@Digits(integer = 18, fraction = 2)
+	@Column(name = "CANTIDAD")
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -80,11 +85,13 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
+	@Column(name = "ID_TRANSACCION_CLIENTE")
 	public TransaccionClienteEntity getTransaccionCliente() {
 		return transaccionCliente;
 	}
 
-	public void setTransaccionCliente(TransaccionClienteEntity transaccionCliente) {
+	public void setTransaccionCliente(
+			TransaccionClienteEntity transaccionCliente) {
 		this.transaccionCliente = transaccionCliente;
 	}
 
@@ -98,6 +105,7 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	}
 
 	@Formula("cantidad * valor ")
+	@Column(name = "SUBTOTAL")
 	public BigDecimal getSubtotal() {
 		return subtotal;
 	}
@@ -110,7 +118,10 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((transaccionCliente == null) ? 0 : transaccionCliente.hashCode());
+		result = prime
+				* result
+				+ ((transaccionCliente == null) ? 0 : transaccionCliente
+						.hashCode());
 		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
 		return result;
 	}

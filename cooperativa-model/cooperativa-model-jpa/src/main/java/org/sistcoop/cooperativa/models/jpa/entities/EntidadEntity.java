@@ -3,21 +3,22 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "ENTIDAD", indexes = { @Index(columnList = "id") })
+@Table(name = "ENTIDAD")
 public class EntidadEntity implements Serializable {
 
 	/**
@@ -25,7 +26,7 @@ public class EntidadEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	private String id;
 	private String denominacion;
 	private String abreviatura;
 	private boolean estado;
@@ -33,12 +34,14 @@ public class EntidadEntity implements Serializable {
 	private Timestamp optlk;
 
 	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Integer getId() {
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "ID")
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -46,6 +49,7 @@ public class EntidadEntity implements Serializable {
 	@Size(min = 1, max = 60)
 	@NotBlank
 	@NaturalId
+	@Column(name = "DENOMINACION")
 	public String getDenominacion() {
 		return denominacion;
 	}
@@ -57,6 +61,7 @@ public class EntidadEntity implements Serializable {
 	@NotNull
 	@Size(min = 1, max = 20)
 	@NotBlank
+	@Column(name = "ABREVIATURA")
 	public String getAbreviatura() {
 		return abreviatura;
 	}
@@ -67,6 +72,7 @@ public class EntidadEntity implements Serializable {
 
 	@NotNull
 	@Type(type = "org.hibernate.type.TrueFalseType")
+	@Column(name = "ESTADO")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -88,7 +94,8 @@ public class EntidadEntity implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((denominacion == null) ? 0 : denominacion.hashCode());
+		result = prime * result
+				+ ((denominacion == null) ? 0 : denominacion.hashCode());
 		return result;
 	}
 

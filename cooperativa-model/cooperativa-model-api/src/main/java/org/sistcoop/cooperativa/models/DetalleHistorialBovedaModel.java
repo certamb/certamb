@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public interface DetalleHistorialBovedaModel extends Model {
 
-	Long getId();
+	String getId();
 
 	HistorialBovedaModel getHistorial();
 

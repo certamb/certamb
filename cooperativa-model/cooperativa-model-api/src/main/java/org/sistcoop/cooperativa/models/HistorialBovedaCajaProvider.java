@@ -12,15 +12,17 @@ public interface HistorialBovedaCajaProvider extends Provider {
 
 	HistorialBovedaCajaModel addHistorialBovedaCajaModel(BovedaCajaModel bovedaCajaModel);
 
-	HistorialBovedaCajaModel getHistorialBovedaCajaById(Long id);
+	HistorialBovedaCajaModel getHistorialBovedaCajaById(BovedaCajaModel bovedaCajaModel, String id);
 
 	List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(
 			BovedaCajaModel bovedaCajaModel,
+			
 			int firstResult, 
 			int maxResults);
 	
 	List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(
 			BovedaCajaModel bovedaCajaModel,
+			
 			Date desde, 
 			Date hasta,
 			int firstResult, 

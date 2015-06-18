@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CajaModel extends Model{
 
-	Integer getId();
+	String getId();
 
 	String getDenominacion();
 
@@ -13,14 +13,6 @@ public interface CajaModel extends Model{
 	boolean getEstado();
 
 	void desactivar();
-
-	boolean isAbierto();
-
-	void setAbierto(boolean abierto);
-
-	boolean getEstadoMovimiento();
-
-	void setEstadoMovimiento(boolean estadoMovimiento);
 
 	String getAgencia();
 

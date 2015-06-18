@@ -10,15 +10,7 @@ public interface BovedaModel extends Model {
 
 	String getDenominacion();
 
-	void setDenominacion(String denominacion);
-
-	boolean isAbierto();
-
-	void setAbierto(boolean abierto);
-
-	boolean getEstadoMovimiento();
-
-	void setEstadoMovimiento(boolean estadoMovimiento);
+	void setDenominacion(String denominacion);	
 
 	boolean getEstado();
 
@@ -31,4 +23,5 @@ public interface BovedaModel extends Model {
 	List<HistorialBovedaModel> getHistoriales();
 
 	List<BovedaCajaModel> getBovedaCajas();
+	
 }

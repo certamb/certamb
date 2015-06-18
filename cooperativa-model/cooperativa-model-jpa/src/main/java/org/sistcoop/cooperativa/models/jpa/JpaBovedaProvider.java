@@ -53,8 +53,6 @@ public class JpaBovedaProvider implements BovedaProvider {
 		bovedaEntity.setAgencia(agencia);
 		bovedaEntity.setDenominacion(denominacion);
 		bovedaEntity.setMoneda(moneda);
-		bovedaEntity.setAbierto(false);
-		bovedaEntity.setEstadoMovimiento(false);
 		bovedaEntity.setEstado(true);
 
 		em.persist(bovedaEntity);
@@ -67,6 +65,14 @@ public class JpaBovedaProvider implements BovedaProvider {
 		return BovedaEntity != null ? new BovedaAdapter(em, BovedaEntity) : null;
 	}
 
+	@Override
+	public boolean removeBoveda(BovedaModel bovedaModel) {
+		BovedaEntity bovedaEntity = em.find(BovedaEntity.class, bovedaModel.getId());
+		if (bovedaEntity == null) return false;
+		em.remove(bovedaEntity);
+		return true;   
+	}
+	
 	@Override
 	public List<BovedaModel> getBovedas() {
 		return getBovedas(true);

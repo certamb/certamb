@@ -10,7 +10,10 @@ import org.sistcoop.cooperativa.provider.Provider;
 public interface DetalleHistorialBovedaProvider extends Provider {	
 	
 	DetalleHistorialBovedaModel addDetalleHistorialBoveda(
+			BovedaModel bovedaModel,
+			
 			HistorialBovedaModel historialBovedaModel,
+			
 			BigDecimal valor,
 			int cantidad);
 		

@@ -42,7 +42,7 @@ public class CajaAdapter implements CajaModel {
 	}
 
 	@Override
-	public Integer getId() {
+	public String getId() {
 		return cajaEntity.getId();
 	}
 
@@ -64,26 +64,6 @@ public class CajaAdapter implements CajaModel {
 	@Override
 	public void desactivar() {
 		cajaEntity.setEstado(false);
-	}
-
-	@Override
-	public boolean isAbierto() {
-		return cajaEntity.isAbierto();
-	}
-
-	@Override
-	public void setAbierto(boolean abierto) {
-		cajaEntity.setAbierto(abierto);
-	}
-
-	@Override
-	public boolean getEstadoMovimiento() {
-		return cajaEntity.isEstadoMovimiento();
-	}
-
-	@Override
-	public void setEstadoMovimiento(boolean estadoMovimiento) {
-		cajaEntity.setEstadoMovimiento(estadoMovimiento);
 	}
 
 	@Override

@@ -37,8 +37,6 @@ public class JpaCajaProvider implements CajaProvider {
 
 		cajaEntity.setAgencia(agencia);
 		cajaEntity.setDenominacion(denominacion);
-		cajaEntity.setAbierto(false);
-		cajaEntity.setEstadoMovimiento(false);
 		cajaEntity.setEstado(true);
 
 		em.persist(cajaEntity);
@@ -46,11 +44,19 @@ public class JpaCajaProvider implements CajaProvider {
 	}
 
 	@Override
-	public CajaModel getCajaById(Integer id) {
+	public CajaModel getCajaById(String id) {
 		CajaEntity cajaEntity = this.em.find(CajaEntity.class, id);
 		return cajaEntity != null ? new CajaAdapter(em, cajaEntity) : null;
 	}
 
+	@Override
+	public boolean removeCaja(CajaModel cajaModel) {
+		CajaEntity cajaEntity = em.find(CajaEntity.class, cajaModel.getId());
+		if (cajaEntity == null) return false;
+		em.remove(cajaEntity);
+		return true;  
+	}
+	
 	@Override
 	public List<CajaModel> getCajas() {
 		return getCajas(true);

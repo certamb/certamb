@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public interface DetalleTransaccionCajaCajaModel extends Model {
 
-	Long getId();
+	String getId();
 
 	BigDecimal getValor();
 

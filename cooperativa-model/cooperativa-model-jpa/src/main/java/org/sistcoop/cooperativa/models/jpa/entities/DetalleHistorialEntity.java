@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
@@ -22,6 +23,7 @@ public abstract class DetalleHistorialEntity {
 	@Min(value = 0)
 	@Max(value = 1000)
 	@Digits(integer = 4, fraction = 2)
+	@Column(name = "VALOR")
 	public BigDecimal getValor() {
 		return valor;
 	}
@@ -33,6 +35,7 @@ public abstract class DetalleHistorialEntity {
 	@NotNull
 	@Min(value = 0)
 	@Digits(integer = 18, fraction = 2)
+	@Column(name = "CANTIDAD")
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -42,6 +45,7 @@ public abstract class DetalleHistorialEntity {
 	}
 
 	@Formula("cantidad * valor ")
+	@Column(name = "SUBTOTAL")
 	public BigDecimal getSubtotal() {
 		return subtotal;
 	}
