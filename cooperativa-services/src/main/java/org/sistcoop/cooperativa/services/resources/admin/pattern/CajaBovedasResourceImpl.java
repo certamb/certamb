@@ -1,12 +1,10 @@
 package org.sistcoop.cooperativa.services.resources.admin.pattern;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -14,21 +12,13 @@ import javax.ws.rs.core.UriInfo;
 import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedasResource;
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialResource;
-import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialResource;
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialesResource;
-import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialesResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
 @Stateless
 public class CajaBovedasResourceImpl implements CajaBovedasResource {
@@ -50,7 +40,7 @@ public class CajaBovedasResourceImpl implements CajaBovedasResource {
 
 	@Override
 	public CajaBovedaResource boveda(String boveda) {		
-		return null;
+		return new CajaBovedaResourceImpl(cajaModel);
 	}
 
 	@Override

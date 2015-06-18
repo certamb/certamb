@@ -40,9 +40,11 @@ public interface BovedaHistorialResource {
 	public void cerrar();
 
 	@POST
+	@Path("/congelar")
 	public void congelar();
 
 	@POST
+	@Path("/descongelar")
 	public void descongelar();
 
 	@GET

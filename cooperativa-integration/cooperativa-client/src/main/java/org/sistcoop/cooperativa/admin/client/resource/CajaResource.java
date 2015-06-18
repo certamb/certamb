@@ -32,9 +32,11 @@ public interface CajaResource {
 	public CajaTrabajadoresResource trabajadores();
 
 	@POST
+	@Path("/enable")
 	public void enable();
 
 	@POST
+	@Path("/disable")
 	public void disable();
 
 	@DELETE

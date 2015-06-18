@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
-@ApiModel(value = "trabajadorCaja", description = "TrabajadorCaja")
+@ApiModel(value = "trabajador", description = "Trabajador")
 public class TrabajadorRepresentation implements Serializable {
 
 	/**
@@ -21,7 +21,6 @@ public class TrabajadorRepresentation implements Serializable {
 	private String tipoDocumento;
 	private String numeroDocumento;
 	private boolean estado;
-	private CajaRepresentation caja;
 
 	@ApiModelProperty(value = "ID", required = false)
 	public String getId() {
@@ -61,15 +60,6 @@ public class TrabajadorRepresentation implements Serializable {
 
 	public void setEstado(boolean estado) {
 		this.estado = estado;
-	}
-
-	@ApiModelProperty(value = "Caja asociada al objeto", required = false)
-	public CajaRepresentation getCaja() {
-		return caja;
-	}
-
-	public void setCaja(CajaRepresentation caja) {
-		this.caja = caja;
 	}
 
 }

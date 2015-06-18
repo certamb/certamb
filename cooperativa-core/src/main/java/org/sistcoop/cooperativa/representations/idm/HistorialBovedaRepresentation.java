@@ -13,6 +13,8 @@ public class HistorialBovedaRepresentation {
 	private Date fechaCierre;
 	private Date horaApertura;
 	private Date horaCierre;
+	private boolean abierto;
+	private boolean estadoMovimiento;
 	private boolean estado;
 
 	@ApiModelProperty(value = "ID", required = false)
@@ -60,6 +62,24 @@ public class HistorialBovedaRepresentation {
 		this.horaCierre = horaCierre;
 	}
 
+	@ApiModelProperty(value = "estado ABIERTO de caja", required = false, allowableValues = "true,false")
+	public boolean isAbierto() {
+		return abierto;
+	}
+
+	public void setAbierto(boolean abierto) {
+		this.abierto = abierto;
+	}
+
+	@ApiModelProperty(value = "ESTADOMOVIMIENTO de caja", required = false, allowableValues = "true,false")
+	public boolean isEstadoMovimiento() {
+		return estadoMovimiento;
+	}
+
+	public void setEstadoMovimiento(boolean estadoMovimiento) {
+		this.estadoMovimiento = estadoMovimiento;
+	}
+	
 	@ApiModelProperty(value = "estado", required = false)
 	public boolean isEstado() {
 		return estado;

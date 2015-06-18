@@ -23,14 +23,16 @@ public interface BovedaResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void update(BovedaRepresentation bovedaRepresentation);
-
+	
 	@Path("/historiales")
 	public BovedaHistorialesResource historiales();
 
 	@POST
+	@Path("/enable")
 	public void enable();
 
 	@POST
+	@Path("/disable")
 	public void disable();
 
 	@DELETE

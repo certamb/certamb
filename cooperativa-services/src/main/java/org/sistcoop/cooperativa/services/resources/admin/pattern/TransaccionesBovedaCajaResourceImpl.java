@@ -8,6 +8,7 @@ import org.sistcoop.cooperativa.admin.client.resource.TransaccionBovedaCajaResou
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
+import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 
 public class TransaccionesBovedaCajaResourceImpl implements
 		TransaccionesBovedaCajaResource {
@@ -24,15 +25,18 @@ public class TransaccionesBovedaCajaResourceImpl implements
 	}
 
 	@Override
-	public Response create(Object transaccionBovedaCaja) {
+	public Response create(
+			TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Object> search() {
+	public List<TransaccionBovedaCajaRepresentation> search() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

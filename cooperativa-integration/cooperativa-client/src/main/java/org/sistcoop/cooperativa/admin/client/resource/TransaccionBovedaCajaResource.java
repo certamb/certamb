@@ -9,6 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
+
 /**
  * @author carlosthe19916@gmail.com
  */
@@ -17,11 +19,11 @@ public interface TransaccionBovedaCajaResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Object transaccion();
+	public TransaccionBovedaCajaRepresentation transaccion();
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void update(Object bovedaRepresentation);
+	public void update(TransaccionBovedaCajaRepresentation bovedaRepresentation);
 
 	@POST
 	@Path("/confirmar")

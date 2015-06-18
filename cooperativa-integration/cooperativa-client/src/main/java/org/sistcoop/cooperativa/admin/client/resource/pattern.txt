@@ -1,29 +1,26 @@
-/bovedas
-/bovedas/{boveda}
-/bovedas/{boveda}/enable
-/bovedas/{boveda}/disable
-/bovedas/{boveda}/historiales
-/bovedas/{boveda}/historiales/{historial}
-/bovedas/{boveda}/historiales/{historial}/abrir
-/bovedas/{boveda}/historiales/{historial}/cerrar
-/bovedas/{boveda}/historiales/{historial}/congelar
-/bovedas/{boveda}/historiales/{historial}/descongelar
-/bovedas/{boveda}/historiales/{historial}/detalle
-/bovedas/{boveda}/historiales/{historial}/transacciones/bovedas
-/bovedas/{boveda}/historiales/{historial}/transacciones/bovedas/{transaccion}
-/bovedas/{boveda}/historiales/{historial}/transacciones/bovedas/{transaccion}/detalle
-/bovedas/{boveda}/historiales/{historial}/transacciones/cajas
-/bovedas/{boveda}/historiales/{historial}/transacciones/cajas/{transaccion}
-/bovedas/{boveda}/historiales/{historial}/transacciones/cajas/{transaccion}/detalle
+/bovedas																				OK	
+/bovedas/{boveda}																		OK	
+/bovedas/{boveda}/enable																OK
+/bovedas/{boveda}/disable																OK
+/bovedas/{boveda}/historiales															OK
+/bovedas/{boveda}/historiales/{historial}												OK
+/bovedas/{boveda}/historiales/{historial}/abrir											OK
+/bovedas/{boveda}/historiales/{historial}/cerrar										OK
+/bovedas/{boveda}/historiales/{historial}/congelar										OK
+/bovedas/{boveda}/historiales/{historial}/descongelar									OK
+/bovedas/{boveda}/historiales/{historial}/detalle										OK
+/bovedas/{boveda}/historiales/{historial}/transacciones/cajas							OK
+/bovedas/{boveda}/historiales/{historial}/transacciones/cajas/{transaccion}				OK
+/bovedas/{boveda}/historiales/{historial}/transacciones/cajas/{transaccion}/detalle		OK
 
-/cajas
-/cajas/{caja}
-/cajas/{caja}/enable
-/cajas/{caja}/disable
-/cajas/{caja}/trabajadores
-/cajas/{caja}/trabajadores/{trabajador}
-/cajas/{caja}/bovedas
-/cajas/{caja}/bovedas/{boveda}
+/cajas																					OK
+/cajas/{caja}																			OK
+/cajas/{caja}/enable																	OK
+/cajas/{caja}/disable																	OK
+/cajas/{caja}/trabajadores																OK
+/cajas/{caja}/trabajadores/{trabajador}													OK
+/cajas/{caja}/bovedas																	OK
+/cajas/{caja}/bovedas/{boveda}															OK
 /cajas/{caja}/bovedas/{boveda}/historiales
 /cajas/{caja}/bovedas/{boveda}/historiales/{historial}
 /cajas/{caja}/bovedas/{boveda}/historiales/{historial}/abrir

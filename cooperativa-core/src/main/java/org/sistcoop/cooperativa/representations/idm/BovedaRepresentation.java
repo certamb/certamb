@@ -20,8 +20,6 @@ public class BovedaRepresentation implements Serializable {
 	private String id;
 	private String moneda;
 	private String denominacion;
-	private boolean abierto;
-	private boolean estadoMovimiento;
 	private boolean estado;
 
 	private String agencia;
@@ -55,24 +53,6 @@ public class BovedaRepresentation implements Serializable {
 
 	public void setDenominacion(String denominacion) {
 		this.denominacion = denominacion;
-	}
-
-	@ApiModelProperty(value = "abierto", required = false)
-	public boolean isAbierto() {
-		return abierto;
-	}
-
-	public void setAbierto(boolean abierto) {
-		this.abierto = abierto;
-	}
-
-	@ApiModelProperty(value = "estadoMovimiento", required = false)
-	public boolean isEstadoMovimiento() {
-		return estadoMovimiento;
-	}
-
-	public void setEstadoMovimiento(boolean estadoMovimiento) {
-		this.estadoMovimiento = estadoMovimiento;
 	}
 
 	@ApiModelProperty(value = "estado", required = false)

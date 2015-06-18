@@ -10,16 +10,20 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
+
 public interface TransaccionesCajaCajaResource {
 
 	@Path("/{transaccion}")
-	public TransaccionCajaCajaResource boveda(@PathParam("transaccion") String transaccion);
+	public TransaccionCajaCajaResource boveda(
+			@PathParam("transaccion") String transaccion);
 
 	@POST
-	public Response create(Object transaccionBovedaCaja);
+	public Response create(
+			TransaccionCajaCajaRepresentation transaccionCajaCajaRepresentation);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> search();
+	public List<TransaccionCajaCajaRepresentation> search();
 
 }
