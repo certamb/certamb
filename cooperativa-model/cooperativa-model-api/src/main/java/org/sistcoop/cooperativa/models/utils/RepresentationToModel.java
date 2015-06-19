@@ -29,7 +29,7 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.TrabajadorRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
 
@@ -59,7 +59,7 @@ public class RepresentationToModel {
 	}
 
 	public TrabajadorCajaModel createTrabajadorCaja(
-			TrabajadorRepresentation trabajadorRepresentation,
+			TrabajadorCajaRepresentation trabajadorRepresentation,
 			TrabajadorCajaProvider trabajadorCajaProvider) {
 		// TODO Auto-generated method stub
 		return null;

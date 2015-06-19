@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.sistcoop.cooperativa.representations.idm.TrabajadorRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 
 public interface CajaTrabajadoresResource {
 
@@ -20,10 +20,10 @@ public interface CajaTrabajadoresResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(TrabajadorRepresentation trabajadorRepresentation);
+	public Response create(TrabajadorCajaRepresentation trabajadorCajaRepresentation);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<TrabajadorRepresentation> search();
+	public List<TrabajadorCajaRepresentation> search();
 
 }

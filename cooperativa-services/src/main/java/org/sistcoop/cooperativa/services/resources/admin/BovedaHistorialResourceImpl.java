@@ -9,14 +9,14 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 
 import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialResource;
-import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialTransaccionesResource;
+import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
-import org.sistcoop.cooperativa.services.managers.BovedaManager;
+import org.sistcoop.cooperativa.services.managers.HistorialBovedaManager;
 
 @Stateless
 public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
@@ -25,9 +25,9 @@ public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
 	private HistorialBovedaModel historialBovedaModel;
 
 	@Inject
-	private BovedaManager bovedaManager;
+	private HistorialBovedaManager historialBovedaManager;
 
-	public BovedaHistorialResourceImpl(BovedaModel bovedaModel2, HistorialBovedaModel historialBovedaModel) {
+	public BovedaHistorialResourceImpl(HistorialBovedaModel historialBovedaModel) {
 		this.historialBovedaModel = historialBovedaModel;
 	}
 
@@ -48,12 +48,12 @@ public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
 
 	@Override
 	public void abrir(BigDecimal[] denominaciones) {
-		bovedaManager.abrirBoveda(bovedaModel, denominaciones);		
+		historialBovedaManager.abrirBoveda(bovedaModel, denominaciones);		
 	}
 
 	@Override
 	public void cerrar() {
-		bovedaManager.cerrarBoveda(bovedaModel);
+		historialBovedaManager.cerrarBoveda(bovedaModel);
 	}
 
 	@Override
@@ -86,8 +86,8 @@ public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
 	}
 
 	@Override
-	public BovedaHistorialTransaccionesResource transacciones() {
-		return new BovedaHistorialTransaccionesResourceImpl(bovedaModel, historialBovedaModel);
+	public TransaccionesBovedaCajaResource transacciones() {
+		return new TransaccionesBovedaCajaResourceImpl(historialBovedaModel);
 	}
 
 }

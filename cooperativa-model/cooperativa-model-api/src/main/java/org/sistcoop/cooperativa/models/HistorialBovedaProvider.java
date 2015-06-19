@@ -14,10 +14,10 @@ public interface HistorialBovedaProvider extends Provider {
 
 	HistorialBovedaModel getHistorialBovedaById(String id);
 
-	List<HistorialBovedaModel> getHistorialesBoveda(int firstResult,
-			int maxResults);
-
-	List<HistorialBovedaModel> getHistorialesBoveda(Date desde, Date hasta,
+	List<HistorialBovedaModel> getHistorialesBoveda(BovedaModel bovedaModel,
 			int firstResult, int maxResults);
+
+	List<HistorialBovedaModel> getHistorialesBoveda(BovedaModel bovedaModel,
+			Date desde, Date hasta, int firstResult, int maxResults);
 
 }

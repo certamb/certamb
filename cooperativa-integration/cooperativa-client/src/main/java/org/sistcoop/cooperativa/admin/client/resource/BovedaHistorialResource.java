@@ -51,7 +51,7 @@ public interface BovedaHistorialResource {
 	@Path("/detalle")
 	public List<DetalleMonedaRepresentation> detalle();
 
-	@Path("/transacciones")
-	public BovedaHistorialTransaccionesResource transacciones();
+	@Path("/transaccionesBovedaCaja")
+	public TransaccionesBovedaCajaResource transacciones();
 
 }

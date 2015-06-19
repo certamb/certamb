@@ -17,7 +17,7 @@ import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.TrabajadorRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
 
@@ -125,12 +125,12 @@ public class ModelToRepresentation {
 		return rep;
 	}
 
-	public static TrabajadorRepresentation toRepresentation(TrabajadorCajaModel model) {
+	public static TrabajadorCajaRepresentation toRepresentation(TrabajadorCajaModel model) {
 		
 		if(model == null)
 			return null;
 		
-		TrabajadorRepresentation rep = new TrabajadorRepresentation();
+		TrabajadorCajaRepresentation rep = new TrabajadorCajaRepresentation();
 		rep.setId(model.getId());
 		rep.setTipoDocumento(model.getTipoDocumento());
 		rep.setNumeroDocumento(model.getNumeroDocumento());

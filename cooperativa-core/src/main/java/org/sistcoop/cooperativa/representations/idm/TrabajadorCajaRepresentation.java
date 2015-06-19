@@ -10,7 +10,7 @@ import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "trabajador", description = "Trabajador")
-public class TrabajadorRepresentation implements Serializable {
+public class TrabajadorCajaRepresentation implements Serializable {
 
 	/**
 	 * 

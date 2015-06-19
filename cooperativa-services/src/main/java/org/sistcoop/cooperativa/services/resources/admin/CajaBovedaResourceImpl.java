@@ -8,40 +8,34 @@ import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialesResou
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
-import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 
 @Stateless
 public class CajaBovedaResourceImpl implements CajaBovedaResource {
 
-	private CajaModel cajaModel;
-	private BovedaModel bovedaModel;
 	private BovedaCajaModel bovedaCajaModel;	
 	
 	@Inject
 	private BovedaCajaProvider bovedaCajaProvider;
 	
-	public CajaBovedaResourceImpl(CajaModel cajaModel, BovedaModel bovedaModel, BovedaCajaModel bovedaCajaModel) {
-		this.cajaModel = cajaModel;
-		this.bovedaModel = bovedaModel;
+	public CajaBovedaResourceImpl(BovedaCajaModel bovedaCajaModel) {		
 		this.bovedaCajaModel = bovedaCajaModel;
 	}
 
 	@Override
-	public BovedaRepresentation boveda() {
-		return ModelToRepresentation.toRepresentation(bovedaModel);
+	public BovedaCajaRepresentation boveda() {
+		return ModelToRepresentation.toRepresentation(bovedaCajaModel);
 	}
 
 	@Override
-	public void update(BovedaRepresentation bovedaRepresentation) {
+	public void update(BovedaCajaRepresentation bovedaCajaRepresentation) {
 		throw new BadRequestException();
 	}
 
 	@Override
 	public CajaBovedaHistorialesResource historiales() {
-		return new CajaBovedaHistorialesResourceImpl(cajaModel, bovedaModel ,bovedaCajaModel);
+		return new CajaBovedaHistorialesResourceImpl(bovedaCajaModel);
 	}
 
 	@Override

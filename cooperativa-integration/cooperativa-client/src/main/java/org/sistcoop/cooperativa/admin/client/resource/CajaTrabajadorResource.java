@@ -7,17 +7,17 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.sistcoop.cooperativa.representations.idm.TrabajadorRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 
 public interface CajaTrabajadorResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public TrabajadorRepresentation trabajador();
+	public TrabajadorCajaRepresentation trabajador();
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void update(TrabajadorRepresentation trabajadorRepresentation);
+	public void update(TrabajadorCajaRepresentation trabajadorCajaRepresentation);
 
 	@DELETE
 	public void remove();

@@ -48,7 +48,7 @@ public class CajaBovedasResourceImpl implements CajaBovedasResource {
 		List<BovedaCajaModel> bovedaCajaModels = cajaModel.getBovedaCajas();
 		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
 			if(bovedaModel.equals(bovedaCajaModel.getBoveda())) {
-				return new CajaBovedaResourceImpl(cajaModel, bovedaModel, bovedaCajaModel);
+				return new CajaBovedaResourceImpl(bovedaCajaModel);
 			}
 		}		
 		return null;

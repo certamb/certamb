@@ -49,7 +49,10 @@ public interface CajaBovedaHistorialResource {
 	@Path("/detalle")
 	public List<DetalleMonedaRepresentation> detalle();
 
-	@Path("/transacciones")
-	public CajaBovedaHistorialTransaccionesResource transacciones();
+	@Path("/transaccionesBovedaCaja")
+	public TransaccionesCajaCajaResource transaccionesCaja();
 
+	@Path("/transaccionesCajaCaja")
+	public TransaccionesBovedaCajaResource transaccionesBoveda();
+	
 }

@@ -31,8 +31,8 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 
 	@Override
 	public BovedaHistorialResource get(String historial) {
-		HistorialBovedaModel historialBovedaModel = historialBovedaProvider.getHistorialBovedaById(bovedaModel, historial);
-		return new BovedaHistorialResourceImpl(bovedaModel, historialBovedaModel);
+		HistorialBovedaModel historialBovedaModel = historialBovedaProvider.getHistorialBovedaById(historial);
+		return new BovedaHistorialResourceImpl(historialBovedaModel);
 	}
 
 	@Override

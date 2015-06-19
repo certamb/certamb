@@ -14,36 +14,32 @@ import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaProvider;
+import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class BovedaManager {
+public class HistorialBovedaCajaManager {
 
 	@Inject
 	private HistorialBovedaProvider historialBovedaProvider;
 
 	@Inject
 	private DetalleHistorialBovedaProvider detalleHistorialBovedaProvider;
-	
-	public boolean activarBoveda(BovedaModel model) {	
-		return false;
-	}
-	
-	public boolean desactivarBoveda(BovedaModel model) {	
-		//desactivar bovedas
-		model.desactivar();		
-		model.commit();
+
+	public void abrirHistorialBovedaCaja(
+			HistorialBovedaCajaModel historialBovedaCajaModel,
+			BigDecimal[] denominaciones) {
+		// TODO Auto-generated method stub
 		
-		//desactivar boveda-cajas
-		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
-		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-			bovedaCajaModel.desactivar();
-			bovedaCajaModel.commit();
-		}
-		
-		return true;
 	}
 
+	public void cerrarHistorialBovedaCaja(
+			HistorialBovedaCajaModel historialBovedaCajaModel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

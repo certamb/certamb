@@ -17,7 +17,7 @@ import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
-import org.sistcoop.cooperativa.representations.idm.TrabajadorRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 
 @Stateless
 public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
@@ -44,7 +44,7 @@ public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 	}
 
 	@Override
-	public Response create(TrabajadorRepresentation trabajadorRepresentation) {
+	public Response create(TrabajadorCajaRepresentation trabajadorRepresentation) {
 		TrabajadorCajaModel trabajadorCajaModel = representationToModel.createTrabajadorCaja(trabajadorRepresentation, trabajadorCajaProvider);
 		return Response.created(uriInfo.getAbsolutePathBuilder()
 				.path(trabajadorCajaModel.getId()).build())
@@ -53,9 +53,9 @@ public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 	}
 
 	@Override
-	public List<TrabajadorRepresentation> search() {
+	public List<TrabajadorCajaRepresentation> search() {
 		List<TrabajadorCajaModel> trabajadorCajaModels = cajaModel.getTrabajadorCajas();
-		List<TrabajadorRepresentation> result = new ArrayList<>();
+		List<TrabajadorCajaRepresentation> result = new ArrayList<>();
 		for (TrabajadorCajaModel trabajadorCajaModel : trabajadorCajaModels) {	
 			result.add(ModelToRepresentation.toRepresentation(trabajadorCajaModel));
 		}

@@ -40,12 +40,12 @@ public class CajaResourceImpl implements CajaResource {
 	}
 
 	@Override
-	public CajaBovedasResource bovedas() {
+	public CajaBovedasResource bovedasCaja() {
 		return new CajaBovedasResourceImpl(cajaModel);
 	}
 
 	@Override
-	public CajaTrabajadoresResource trabajadores() {
+	public CajaTrabajadoresResource trabajadoresCaja() {
 		return new CajaTrabajadoresResourceImpl(cajaModel);
 	}
 

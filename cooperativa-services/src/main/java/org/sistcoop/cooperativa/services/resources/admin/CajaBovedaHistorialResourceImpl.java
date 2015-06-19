@@ -1,35 +1,32 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialResource;
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialTransaccionesResource;
-import org.sistcoop.cooperativa.models.BovedaCajaModel;
-import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
+import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCajaCajaResource;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
+import org.sistcoop.cooperativa.services.managers.HistorialBovedaCajaManager;
 
 @Stateless
 public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResource {
 
-	private CajaModel cajaModel;
-	private BovedaModel bovedaModel;
-	private BovedaCajaModel bovedaCajaModel;
 	private HistorialBovedaCajaModel historialBovedaCajaModel;
 	
-	public CajaBovedaHistorialResourceImpl(CajaModel cajaModel,
-			BovedaModel bovedaModel, BovedaCajaModel bovedaCajaModel,
-			HistorialBovedaCajaModel historialBovedaCajaModel) {
-		this.cajaModel = cajaModel;
-		this.bovedaModel = bovedaModel;
-		this.bovedaCajaModel = bovedaCajaModel;
+	@Inject
+	private HistorialBovedaCajaManager historialBovedaCajaManager;
+	
+	public CajaBovedaHistorialResourceImpl(HistorialBovedaCajaModel historialBovedaCajaModel) {
 		this.historialBovedaCajaModel = historialBovedaCajaModel;
 	}
 
@@ -50,38 +47,51 @@ public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResou
 
 	@Override
 	public void abrir(BigDecimal[] denominaciones) {
-		// TODO Auto-generated method stub
-		
+		historialBovedaCajaManager.abrirHistorialBovedaCaja(historialBovedaCajaModel, denominaciones);
 	}
 
 	@Override
 	public void cerrar() {
-		// TODO Auto-generated method stub
-		
+		historialBovedaCajaManager.cerrarHistorialBovedaCaja(historialBovedaCajaModel);
 	}
 
 	@Override
 	public void congelar() {
-		// TODO Auto-generated method stub
-		
+		historialBovedaCajaModel.setEstadoMovimiento(false);
+		historialBovedaCajaModel.commit();
 	}
 
 	@Override
 	public void descongelar() {
-		// TODO Auto-generated method stub
-		
+		historialBovedaCajaModel.setEstadoMovimiento(true);
+		historialBovedaCajaModel.commit();
 	}
 
 	@Override
 	public List<DetalleMonedaRepresentation> detalle() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DetalleHistorialBovedaCajaModel> detalle = historialBovedaCajaModel.getDetalle();
+		List<DetalleMonedaRepresentation> result = new ArrayList<DetalleMonedaRepresentation>();
+		for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaModel : detalle) {
+			int cantidad = detalleHistorialBovedaModel.getCantidad();
+			BigDecimal valor = detalleHistorialBovedaModel.getValor();
+
+			DetalleMonedaRepresentation rep = new DetalleMonedaRepresentation();
+			rep.setCantidad(cantidad);
+			rep.setValor(valor);
+
+			result.add(rep);
+		}
+		return result;
 	}
 
 	@Override
-	public CajaBovedaHistorialTransaccionesResource transacciones() {
-		return new CajaBovedaHistorialTransaccionesResourceImpl(cajaModel,
-				bovedaModel, bovedaCajaModel, historialBovedaCajaModel);
+	public TransaccionesCajaCajaResource transaccionesCaja() {
+		return new TransaccionesCajaCajaResourceImpl(historialBovedaCajaModel);
+	}
+
+	@Override
+	public TransaccionesBovedaCajaResource transaccionesBoveda() {
+		return new TransaccionesBovedaCajaResourceImpl(historialBovedaCajaModel);
 	}
 
 }

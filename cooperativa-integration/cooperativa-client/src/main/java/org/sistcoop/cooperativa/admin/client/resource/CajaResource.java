@@ -25,11 +25,11 @@ public interface CajaResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void update(CajaRepresentation cajaRepresentation);
 
-	@Path("/bovedas")
-	public CajaBovedasResource bovedas();
+	@Path("/bovedasCaja")
+	public CajaBovedasResource bovedasCaja();
 
-	@Path("/trabajadores")
-	public CajaTrabajadoresResource trabajadores();
+	@Path("/trabajadoresCaja")
+	public CajaTrabajadoresResource trabajadoresCaja();
 
 	@POST
 	@Path("/enable")
