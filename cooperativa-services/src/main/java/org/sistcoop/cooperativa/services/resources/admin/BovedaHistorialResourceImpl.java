@@ -48,12 +48,12 @@ public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
 
 	@Override
 	public void abrir(BigDecimal[] denominaciones) {
-		historialBovedaManager.abrirBoveda(bovedaModel, denominaciones);		
+		historialBovedaManager.abrirHistorialBoveda(bovedaModel, denominaciones);		
 	}
 
 	@Override
 	public void cerrar() {
-		historialBovedaManager.cerrarBoveda(bovedaModel);
+		historialBovedaManager.cerrarHistorialBoveda(bovedaModel);
 	}
 
 	@Override

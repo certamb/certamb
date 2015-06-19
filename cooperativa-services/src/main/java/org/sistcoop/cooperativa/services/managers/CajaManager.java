@@ -42,219 +42,43 @@ public class CajaManager {
 	@Inject
 	protected DetalleHistorialBovedaCajaProvider detalleHistorialBovedaCajaProvider;
 
-	public boolean abrirCaja(CajaModel cajaModel) {		
-		List<BovedaCajaModel> bovedaCajaModels = cajaModel.getBovedaCajas();		
-
-		List<HistorialBovedaCajaModel> historialesActivos = new ArrayList<HistorialBovedaCajaModel>();
-		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-			HistorialBovedaCajaModel historialModel = bovedaCajaModel.getHistorialActivo();
-			if (historialModel != null)
-				historialesActivos.add(historialModel);
-		}
-
-		boolean firstTime;
-		if (historialesActivos.size() == 0) {
-			firstTime = true;
-		} else if (historialesActivos.size() == bovedaCajaModels.size()) {
-			firstTime = false;
-		} else {
-			throw new EJBException("Error interno, existen cajas que no tienen historiales. Pongase en contacto con el area de sistemas.");
-		}
-
-		Calendar calendar = Calendar.getInstance();
-		if (firstTime) {
-			for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-				HistorialBovedaCajaModel historialModel = historialBovedaCajaProvider.addHistorialBovedaCajaModel(bovedaCajaModel);
-
-				BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
-				HistorialBovedaModel historialBovedaModel = bovedaModel.getHistorialActivo();
-				List<DetalleHistorialBovedaModel> detalleHistorialBovedaModels = historialBovedaModel.getDetalle();								
-				for (DetalleHistorialBovedaModel detalleHistorialBovedaModel : detalleHistorialBovedaModels) {
-					int cantidad = 0;
-					BigDecimal valor = detalleHistorialBovedaModel.getValor();
-					detalleHistorialBovedaCajaProvider.addDetalleHistorialBovedaCaja(historialModel, valor, cantidad);
-				}
-			}
-		} else {
-			for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-				HistorialBovedaCajaModel historialActivoModel = bovedaCajaModel.getHistorialActivo();
-
-				List<DetalleHistorialBovedaCajaModel> detalleHistorialActivoModels = historialActivoModel.getDetalle();
-
-				historialActivoModel.desactivar();
-				historialActivoModel.setFechaCierre(calendar.getTime());
-				historialActivoModel.setHoraCierre(calendar.getTime());
-
-				HistorialBovedaCajaModel historialNewModel = historialBovedaCajaProvider.addHistorialBovedaCajaModel(bovedaCajaModel);
-				for (DetalleHistorialBovedaCajaModel detalleHistorialActivoModel : detalleHistorialActivoModels) {
-					int cantidad = detalleHistorialActivoModel.getCantidad();
-					BigDecimal valor = detalleHistorialActivoModel.getValor();
-					detalleHistorialBovedaCajaProvider.addDetalleHistorialBovedaCaja(historialNewModel, valor, cantidad);
-				}
-
-				historialActivoModel.commit();
-			}
-		}
-
-		cajaModel.setAbierto(true);
-		cajaModel.setEstadoMovimiento(false);
-		cajaModel.commit();
-		
-		return true;
-	}
-	
-	public boolean cerrarCaja(CajaModel cajaModel, List<MonedaRepresentation> monedas) {
-		List<BovedaCajaModel> bovedaCajaModels = cajaModel.getBovedaCajas();
-		List<HistorialBovedaCajaModel> historialesActivos = new ArrayList<HistorialBovedaCajaModel>();
-		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-			HistorialBovedaCajaModel historialBovedaCajaModel = bovedaCajaModel.getHistorialActivo();
-			if (historialBovedaCajaModel != null)
-				historialesActivos.add(historialBovedaCajaModel);
-		}
-
-		if (historialesActivos.size() != bovedaCajaModels.size()) {
-			throw new EJBException("Error interno, boveda_caja no tiene historiales que cerrar. Pongase en contacto con el area de sistemas");
-		}
-
-		// verificar que los saldos coincidan
-		for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesActivos) {
-			BovedaCajaModel bovedaCajaModel = historialBovedaCajaModel.getBovedaCaja();
-			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
-			
-			String moneda = bovedaModel.getMoneda();
-			BigDecimal saldoSistema = BigDecimal.ZERO;
-			BigDecimal saldoUsuario = BigDecimal.ZERO;
-			
-			List<DetalleHistorialBovedaCajaModel> detalleHistorialBovedaCajaModels = historialBovedaCajaModel.getDetalle();
-			List<DetalleMonedaRepresentation> detalleMonedaRepresentations = null;
-			
-			//obteniendo saldo todal del sistema			
-			for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaCajaModel : detalleHistorialBovedaCajaModels) {				
-				BigDecimal subtotal = detalleHistorialBovedaCajaModel.getSubtotal();
-				saldoSistema = saldoSistema.add(subtotal);
-			}
-			
-			//obteniendo saldo total del usuario			
-			for (MonedaRepresentation monedaRepresentation : monedas) {
-				if(moneda.equals(monedaRepresentation.getMoneda())){
-					detalleMonedaRepresentations =  monedaRepresentation.getDetalle();
-				}
-			}
-			if(detalleMonedaRepresentations == null){
-				throw new EJBException("No se encontro el detalle de una de las bovedas asignadas a la caja");
-			}
-			for (DetalleMonedaRepresentation detalleMonedaRepresentation : detalleMonedaRepresentations) {
-				int cantidad = detalleMonedaRepresentation.getCantidad();
-				BigDecimal valor = detalleMonedaRepresentation.getValor();
-				BigDecimal subtotal = valor.multiply(new BigDecimal(cantidad));
-				saldoUsuario = saldoUsuario.add(subtotal);
-			}
-			
-			//comparando saldos
-			if (saldoSistema.compareTo(saldoUsuario) != 0) {
-				throw new EJBException("Error interno, el saldo enviado no coincide con el saldo del sistema.");
-			}
-			//comparando denominaciones
-			if(detalleHistorialBovedaCajaModels.size() != detalleMonedaRepresentations.size()){
-				throw new EJBException("Cantidad de denominaciones no coinciden con las denominaciones del sistema");
-			}
-		}
-		
-		// Escribir el nuevo historial
-		for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesActivos) {
-			BovedaCajaModel bovedaCajaModel = historialBovedaCajaModel.getBovedaCaja();
-			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
-			
-			String moneda = bovedaModel.getMoneda();
-			List<DetalleHistorialBovedaCajaModel> detalleHistorialBovedaCajaModels = historialBovedaCajaModel.getDetalle();
-			List<DetalleMonedaRepresentation> detalleMonedaRepresentations = null;
-			
-			//extraer detalle adecuado
-			for (MonedaRepresentation monedaRepresentation : monedas) {
-				if(moneda.equals(monedaRepresentation.getMoneda())){
-					detalleMonedaRepresentations =  monedaRepresentation.getDetalle();
-				}
-			}			
-			
-			for (DetalleHistorialBovedaCajaModel detalleHistorialActivoModel : detalleHistorialBovedaCajaModels) {
-				BigDecimal valor = detalleHistorialActivoModel.getValor();						
-				int cantidadNueva = -1;
-				for (DetalleMonedaRepresentation detalleMonedaRepresentation : detalleMonedaRepresentations) {
-					if(valor.compareTo(detalleMonedaRepresentation.getValor()) == 0){
-						cantidadNueva = detalleMonedaRepresentation.getCantidad();
-					}
-				}
-				
-				if(cantidadNueva == -1)
-					throw new EJBException("Error interno, no se pudo encontrar la denominacion especificada");
-				
-				detalleHistorialActivoModel.setCantidad(cantidadNueva);
-				detalleHistorialActivoModel.commit();
-			}
-			
-			//poner fechas y horas pero no desactivar historial, porque todavia es el historial activo
-			Calendar calendar = Calendar.getInstance();
-			historialBovedaCajaModel.setFechaCierre(calendar.getTime());
-			historialBovedaCajaModel.setHoraCierre(calendar.getTime());
-			historialBovedaCajaModel.commit();
-		}
-		
-		//cerrar caja
-		cajaModel.setAbierto(false);
-		cajaModel.setEstadoMovimiento(false);
-		cajaModel.commit();		
-		
-		return true;
-	}
-	
-	public boolean desactivarCaja(CajaModel model) {		
-		//desactivar caja
+	public boolean desactivarCaja(CajaModel model) {
+		throw new EJBException();
+		/*// desactivar caja
 		model.desactivar();
 		model.setEstadoMovimiento(false);
 		model.commit();
 
-		//desactivar boveda-cajas
+		// desactivar boveda-cajas
 		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
 		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
 			bovedaCajaModel.desactivar();
 			bovedaCajaModel.commit();
 		}
-		
-		//desactivar trabajador-caja
-		List<TrabajadorCajaModel> trabajadorCajaModels = model.getTrabajadorCajas();
+
+		// desactivar trabajador-caja
+		List<TrabajadorCajaModel> trabajadorCajaModels = model
+				.getTrabajadorCajas();
 		for (TrabajadorCajaModel trabajadorCajaModel : trabajadorCajaModels) {
 			trabajadorCajaModel.desactivar();
 			trabajadorCajaModel.commit();
 		}
-				
-		return true;
-	}	
 
-	public void congelar(CajaModel model) {
-		model.setEstadoMovimiento(false);
-		model.commit();
+		return true;*/
 	}
 
-	public void descongelar(CajaModel model) {
-		model.setEstadoMovimiento(true);
-		model.commit();
-	}	
-	
-	public void addBovedas(CajaModel cajaModel, List<BovedaModel> bovedaModels) {
+	/*public void addBovedas(CajaModel cajaModel, List<BovedaModel> bovedaModels) {
 		for (BovedaModel bovedaModel : bovedaModels) {
-			bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);	
-		}		
+			bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
+		}
 	}
-	
-	public void removeBovedas(CajaModel cajaModel, List<BovedaCajaModel> bovedaCajaModels) {
+
+	public void removeBovedas(CajaModel cajaModel,
+			List<BovedaCajaModel> bovedaCajaModels) {
 		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
 			bovedaCajaModel.desactivar();
 			bovedaCajaModel.commit();
-		}		
-	}
-
-	public void desactivarBovedaCaja(BovedaCajaModel bovedaCajaModel) {
-		// TODO
-	}
+		}
+	}*/
 
 }

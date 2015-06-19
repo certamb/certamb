@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.services.resources.admin;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 
 import org.sistcoop.cooperativa.admin.client.resource.BovedaResource;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialesResource;
@@ -44,7 +45,7 @@ public class BovedaResourceImpl implements BovedaResource {
 
 	@Override
 	public void enable() {
-		bovedaManager.activarBoveda(bovedaModel);
+		throw new BadRequestException();
 	}
 
 	@Override
