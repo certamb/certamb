@@ -10,22 +10,16 @@ import org.sistcoop.cooperativa.provider.Provider;
 @Local
 public interface HistorialBovedaCajaProvider extends Provider {
 
-	HistorialBovedaCajaModel addHistorialBovedaCajaModel(BovedaCajaModel bovedaCajaModel);
+	HistorialBovedaCajaModel addHistorialBovedaCajaModel(
+			BovedaCajaModel bovedaCajaModel);
 
-	HistorialBovedaCajaModel getHistorialBovedaCajaById(BovedaCajaModel bovedaCajaModel, String id);
+	HistorialBovedaCajaModel getHistorialBovedaCajaById(String id);
+
+	List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(int firstResult,
+			int maxResults);
 
 	List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(
-			BovedaCajaModel bovedaCajaModel,
-			
-			int firstResult, 
-			int maxResults);
-	
-	List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(
-			BovedaCajaModel bovedaCajaModel,
-			
-			Date desde, 
-			Date hasta,
-			int firstResult, 
-			int maxResults);
-	
+
+	Date desde, Date hasta, int firstResult, int maxResults);
+
 }

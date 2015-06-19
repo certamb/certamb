@@ -1,8 +1,9 @@
-package org.sistcoop.cooperativa.services.resources.admin.pattern;
+package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 
@@ -13,13 +14,18 @@ import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
+import org.sistcoop.cooperativa.services.managers.TransaccionBovedaCajaManager;
 
+@Stateless
 public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaResource {
 
 	private TransaccionBovedaCajaModel transaccionBovedaCajaModel;
 	
 	@Inject
 	private TransaccionBovedaCajaProvider transaccionBovedaCajaProvider;
+	
+	@Inject
+	private TransaccionBovedaCajaManager transaccionBovedaCajaManager;
 	
 	public TransaccionBovedaCajaResourceImpl(TransaccionBovedaCajaModel transaccionBovedaCajaModel) {
 		this.transaccionBovedaCajaModel = transaccionBovedaCajaModel;
@@ -37,14 +43,12 @@ public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaR
 
 	@Override
 	public void confirmar() {
-		transaccionBovedaCajaModel.setEstadoConfirmacion(true);		
-		transaccionBovedaCajaModel.commit();
+		transaccionBovedaCajaManager.confirmarTransaccion(transaccionBovedaCajaModel);
 	}
 
 	@Override
 	public void cancelar() {		
-		transaccionBovedaCajaModel.setEstadoSolicitud(false);		
-		transaccionBovedaCajaModel.commit();
+		transaccionBovedaCajaManager.cancelarTransaccion(transaccionBovedaCajaModel);
 	}
 
 	@Override

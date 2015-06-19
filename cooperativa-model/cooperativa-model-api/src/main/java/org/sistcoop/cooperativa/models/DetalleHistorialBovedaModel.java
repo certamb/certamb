@@ -9,8 +9,10 @@ public interface DetalleHistorialBovedaModel extends Model {
 	HistorialBovedaModel getHistorial();
 
 	BigDecimal getValor();
-
+	
 	int getCantidad();
+	
+	void setCantidad(int cantidad);
 
 	BigDecimal getSubtotal();
 }

@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NamedQueries;
@@ -38,6 +42,7 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements
 			+ "findByBovedaCajaDesdeHasta";
 
 	private BovedaCajaEntity bovedaCaja;
+	private BigDecimal saldo;
 	private Set<DetalleHistorialBovedaCajaEntity> detalle = new HashSet<DetalleHistorialBovedaCajaEntity>();
 
 	@NotNull
@@ -52,6 +57,19 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements
 		this.bovedaCaja = bovedaCaja;
 	}
 
+	@NotNull
+	@Min(value = 0)
+	@DecimalMin(value = "0")
+	@Digits(integer = 18, fraction = 2)
+	@Column(name = "SALDO")
+	public BigDecimal getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(BigDecimal saldo) {
+		this.saldo = saldo;
+	}
+	
 	@OneToMany(mappedBy = "historial", fetch = FetchType.LAZY)
 	public Set<DetalleHistorialBovedaCajaEntity> getDetalle() {
 		return detalle;

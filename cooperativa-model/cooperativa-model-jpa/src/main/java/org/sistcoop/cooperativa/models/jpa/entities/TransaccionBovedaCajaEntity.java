@@ -21,8 +21,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "TRANSACCION_BOVEDA_CAJA")
-public class TransaccionBovedaCajaEntity extends TransaccionInternaEntity
-		implements java.io.Serializable {
+public class TransaccionBovedaCajaEntity extends TransaccionInternaEntity implements java.io.Serializable {
 
 	/**
 	 * 
@@ -38,6 +37,7 @@ public class TransaccionBovedaCajaEntity extends TransaccionInternaEntity
 	private Set<DetalleTransaccionBovedaCajaEntity> detalle = new HashSet<DetalleTransaccionBovedaCajaEntity>();
 
 	public TransaccionBovedaCajaEntity() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Id

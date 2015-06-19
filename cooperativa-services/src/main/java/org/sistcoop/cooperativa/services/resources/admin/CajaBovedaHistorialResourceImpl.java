@@ -1,4 +1,4 @@
-package org.sistcoop.cooperativa.services.resources.admin.pattern;
+package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
 import java.util.List;

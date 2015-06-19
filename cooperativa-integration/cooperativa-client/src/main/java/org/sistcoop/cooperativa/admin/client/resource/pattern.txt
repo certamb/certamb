@@ -9,9 +9,9 @@
 /bovedas/{boveda}/historiales/{historial}/congelar										OK
 /bovedas/{boveda}/historiales/{historial}/descongelar									OK
 /bovedas/{boveda}/historiales/{historial}/detalle										OK
-/bovedas/{boveda}/historiales/{historial}/transacciones/cajas							OK
-/bovedas/{boveda}/historiales/{historial}/transacciones/cajas/{transaccion}				OK
-/bovedas/{boveda}/historiales/{historial}/transacciones/cajas/{transaccion}/detalle		OK
+/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja							OK
+/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}				OK
+/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}/detalle		OK
 
 /cajas																					OK
 /cajas/{caja}																			OK
@@ -20,20 +20,20 @@
 /cajas/{caja}/trabajadores																OK
 /cajas/{caja}/trabajadores/{trabajador}													OK
 /cajas/{caja}/bovedas																	OK
-/cajas/{caja}/bovedas/{boveda}															OK
-/cajas/{caja}/bovedas/{boveda}/historiales
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/abrir
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/cerrar
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/congelar
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/descongelar
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/detalle
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/transacciones/bovedas
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/transacciones/bovedas/{transaccion}
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/transacciones/bovedas/{transaccion}/detalle
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/transacciones/cajas
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/transacciones/cajas/{transaccion}
-/cajas/{caja}/bovedas/{boveda}/historiales/{historial}/transacciones/cajas/{transaccion}/detalle
+/cajas/{caja}/bovedasCaja/{bovedaCaja}															OK
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/abrir
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/cerrar
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/congelar
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/descongelar
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/detalle
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transaccionesBovedaCaja
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}/detalle
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transaccionesCajaCaja
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transaccionesCajaCaja/{transaccion}
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transaccionesCajaCaja/{transaccion}/detalle
 
 /transacciones/aportes
 /transacciones/aportes/{transaccion}

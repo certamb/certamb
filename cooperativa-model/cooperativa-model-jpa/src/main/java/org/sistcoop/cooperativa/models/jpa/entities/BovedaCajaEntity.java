@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.models.jpa.entities;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,9 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -34,7 +30,6 @@ public class BovedaCajaEntity implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	private BigDecimal saldo;
 	private boolean estado;
 
 	private CajaEntity caja;
@@ -56,19 +51,6 @@ public class BovedaCajaEntity implements java.io.Serializable {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	@NotNull
-	@Min(value = 0)
-	@DecimalMin(value = "0")
-	@Digits(integer = 18, fraction = 2)
-	@Column(name = "SALDO")
-	public BigDecimal getSaldo() {
-		return saldo;
-	}
-
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
 	}
 
 	@NotNull

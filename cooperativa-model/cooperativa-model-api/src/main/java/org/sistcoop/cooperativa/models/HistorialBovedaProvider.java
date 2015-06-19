@@ -12,23 +12,12 @@ public interface HistorialBovedaProvider extends Provider {
 
 	HistorialBovedaModel addHistorialBoveda(BovedaModel bovedaModel);
 
-	HistorialBovedaModel getHistorialBovedaById(
-			BovedaModel bovedaModel, 
-			
-			String id);
-	
-	List<HistorialBovedaModel> getHistorialesBoveda(
-			BovedaModel bovedaModel,
-			
-			int firstResult, 
+	HistorialBovedaModel getHistorialBovedaById(String id);
+
+	List<HistorialBovedaModel> getHistorialesBoveda(int firstResult,
 			int maxResults);
-	
-	List<HistorialBovedaModel> getHistorialesBoveda(
-			BovedaModel bovedaModel,
-			
-			Date desde, 
-			Date hasta,
-			int firstResult, 
-			int maxResults);
-	
+
+	List<HistorialBovedaModel> getHistorialesBoveda(Date desde, Date hasta,
+			int firstResult, int maxResults);
+
 }
