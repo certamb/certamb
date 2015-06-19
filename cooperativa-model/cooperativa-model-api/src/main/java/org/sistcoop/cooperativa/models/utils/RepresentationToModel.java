@@ -18,6 +18,7 @@ import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
+import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
@@ -29,6 +30,7 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
@@ -128,6 +130,20 @@ public class RepresentationToModel {
 		}
 		
 		return transaccionCajaCajaModel;
+	}
+
+	public HistorialBovedaModel createHistorialBoveda(
+			HistorialBovedaRepresentation historialBovedaRepresentation,
+			HistorialBovedaProvider historialBovedaProvider) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public HistorialBovedaCajaModel createHistorialBovedaCaja(
+			HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation,
+			HistorialBovedaCajaProvider historialBovedaCajaProvider) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

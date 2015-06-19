@@ -6,15 +6,18 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
+import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialesResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
+import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 
 @Stateless
@@ -24,6 +27,12 @@ public class CajaBovedaHistorialesResourceImpl implements CajaBovedaHistorialesR
 	
 	@Inject
 	private HistorialBovedaCajaProvider historialBovedaCajaProvider;
+	
+	@Inject
+	private RepresentationToModel representationToModel;
+	
+	@Context
+	private UriInfo uriInfo;
 	
 	public CajaBovedaHistorialesResourceImpl(BovedaCajaModel bovedaCajaModel) {		
 		this.bovedaCajaModel = bovedaCajaModel;
@@ -37,7 +46,26 @@ public class CajaBovedaHistorialesResourceImpl implements CajaBovedaHistorialesR
 
 	@Override
 	public Response create(HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation) {
-		throw new BadRequestException();
+		HistorialBovedaCajaModel historialBovedaCajaModel = representationToModel.createHistorialBovedaCaja(historialBovedaCajaRepresentation, historialBovedaCajaProvider);
+		return Response.created(uriInfo.getAbsolutePathBuilder()
+				.path(historialBovedaCajaModel.getId()).build())
+				.header("Access-Control-Expose-Headers", "Location")
+				.entity(Jsend.getSuccessJSend(historialBovedaCajaModel.getId())).build();
+	}
+
+	@Override
+	public List<HistorialBovedaCajaRepresentation> search(boolean estado) {
+		List<HistorialBovedaCajaRepresentation> result = new ArrayList<>();
+		if(estado) {
+			HistorialBovedaCajaModel historialBovedaCajaModel = bovedaCajaModel.getHistorialActivo();
+			result.add(ModelToRepresentation.toRepresentation(historialBovedaCajaModel));
+		} else {
+			List<HistorialBovedaCajaModel> historialBovedaCajaModels = historialBovedaCajaProvider.getHistorialesBovedaCaja(bovedaCajaModel, -1, -1);
+			for (HistorialBovedaCajaModel historialBovedaCajaModel : historialBovedaCajaModels) {
+				result.add(ModelToRepresentation.toRepresentation(historialBovedaCajaModel));
+			}
+		}
+		return result;
 	}
 
 	@Override

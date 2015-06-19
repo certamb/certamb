@@ -6,15 +6,18 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
+import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialResource;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialesResource;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
+import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
 @Stateless
@@ -24,7 +27,13 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 
 	@Inject
 	private HistorialBovedaProvider historialBovedaProvider;
-
+	
+	@Inject
+	private RepresentationToModel representationToModel;
+	
+	@Context
+	private UriInfo uriInfo;
+	
 	public BovedaHistorialesResourceImpl(BovedaModel bovedaModel) {
 		this.bovedaModel = bovedaModel;
 	}
@@ -37,9 +46,28 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 
 	@Override
 	public Response create(HistorialBovedaRepresentation historialBovedaRepresentation) {
-		throw new BadRequestException();
+		HistorialBovedaModel historialBovedaModel = representationToModel.createHistorialBoveda(historialBovedaRepresentation, historialBovedaProvider);
+		return Response.created(uriInfo.getAbsolutePathBuilder()
+				.path(historialBovedaModel.getId()).build())
+				.header("Access-Control-Expose-Headers", "Location")
+				.entity(Jsend.getSuccessJSend(historialBovedaModel.getId())).build();
 	}
 
+	@Override
+	public List<HistorialBovedaRepresentation> search(boolean estado) {
+		List<HistorialBovedaRepresentation> result = new ArrayList<>();
+		if(estado) {
+			HistorialBovedaModel historialBovedaModel = bovedaModel.getHistorialActivo();
+			result.add(ModelToRepresentation.toRepresentation(historialBovedaModel));
+		} else {
+			List<HistorialBovedaModel> historialBovedaModels = historialBovedaProvider.getHistorialesBoveda(bovedaModel, -1, -1);
+			for (HistorialBovedaModel historialBovedaModel : historialBovedaModels) {
+				result.add(ModelToRepresentation.toRepresentation(historialBovedaModel));
+			}
+		}
+		return result;
+	}
+	
 	@Override
 	public List<HistorialBovedaRepresentation> search(Date desde, Date hasta,
 			Integer firstResult, Integer maxResults) {
