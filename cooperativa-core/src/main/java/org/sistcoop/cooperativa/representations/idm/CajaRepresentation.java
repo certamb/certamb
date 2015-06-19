@@ -1,13 +1,9 @@
 package org.sistcoop.cooperativa.representations.idm;
 
 import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
+import java.util.List;
 
 import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "caja", description = "Caja de agencia")
 public class CajaRepresentation implements Serializable {
@@ -20,12 +16,12 @@ public class CajaRepresentation implements Serializable {
 	private String id;
 	private String denominacion;
 	private boolean estado;
-	private boolean abierto;
-	private boolean estadoMovimiento;
 
 	private String agencia;
 
-	@ApiModelProperty(value = "ID de caja", required = false)
+	private List<BovedaCajaRepresentation> bovedaCajas;
+	private List<TrabajadorCajaRepresentation> trabajadorCajas;
+
 	public String getId() {
 		return id;
 	}
@@ -34,9 +30,6 @@ public class CajaRepresentation implements Serializable {
 		this.id = id;
 	}
 
-	@NotNull
-	@NotBlank
-	@ApiModelProperty(value = "DENOMINACION de caja", required = true)
 	public String getDenominacion() {
 		return denominacion;
 	}
@@ -45,7 +38,6 @@ public class CajaRepresentation implements Serializable {
 		this.denominacion = denominacion;
 	}
 
-	@ApiModelProperty(value = "ESTADO de caja", required = false, allowableValues = "true,false")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -54,33 +46,29 @@ public class CajaRepresentation implements Serializable {
 		this.estado = estado;
 	}
 
-	@ApiModelProperty(value = "estado ABIERTO de caja", required = false, allowableValues = "true,false")
-	public boolean isAbierto() {
-		return abierto;
-	}
-
-	public void setAbierto(boolean abierto) {
-		this.abierto = abierto;
-	}
-
-	@ApiModelProperty(value = "ESTADOMOVIMIENTO de caja", required = false, allowableValues = "true,false")
-	public boolean isEstadoMovimiento() {
-		return estadoMovimiento;
-	}
-
-	public void setEstadoMovimiento(boolean estadoMovimiento) {
-		this.estadoMovimiento = estadoMovimiento;
-	}
-
-	@NotNull
-	@NotBlank
-	@ApiModelProperty(value = "CODIGO de agencia", required = true)
 	public String getAgencia() {
 		return agencia;
 	}
 
 	public void setAgencia(String agencia) {
 		this.agencia = agencia;
+	}
+
+	public List<BovedaCajaRepresentation> getBovedaCajas() {
+		return bovedaCajas;
+	}
+
+	public void setBovedaCajas(List<BovedaCajaRepresentation> bovedaCajas) {
+		this.bovedaCajas = bovedaCajas;
+	}
+
+	public List<TrabajadorCajaRepresentation> getTrabajadorCajas() {
+		return trabajadorCajas;
+	}
+
+	public void setTrabajadorCajas(
+			List<TrabajadorCajaRepresentation> trabajadorCajas) {
+		this.trabajadorCajas = trabajadorCajas;
 	}
 
 }

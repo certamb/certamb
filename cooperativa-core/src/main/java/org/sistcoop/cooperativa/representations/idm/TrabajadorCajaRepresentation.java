@@ -2,12 +2,7 @@ package org.sistcoop.cooperativa.representations.idm;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-
 import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "trabajador", description = "Trabajador")
 public class TrabajadorCajaRepresentation implements Serializable {
@@ -22,7 +17,8 @@ public class TrabajadorCajaRepresentation implements Serializable {
 	private String numeroDocumento;
 	private boolean estado;
 
-	@ApiModelProperty(value = "ID", required = false)
+	private CajaRepresentation caja;
+
 	public String getId() {
 		return id;
 	}
@@ -31,9 +27,6 @@ public class TrabajadorCajaRepresentation implements Serializable {
 		this.id = id;
 	}
 
-	@NotNull
-	@NotBlank
-	@ApiModelProperty(value = "abreviatura de un Tipo de Documento", required = true)
 	public String getTipoDocumento() {
 		return tipoDocumento;
 	}
@@ -42,9 +35,6 @@ public class TrabajadorCajaRepresentation implements Serializable {
 		this.tipoDocumento = tipoDocumento;
 	}
 
-	@NotNull
-	@NotBlank
-	@ApiModelProperty(value = "Numero de Documento", required = true)
 	public String getNumeroDocumento() {
 		return numeroDocumento;
 	}
@@ -53,13 +43,20 @@ public class TrabajadorCajaRepresentation implements Serializable {
 		this.numeroDocumento = numeroDocumento;
 	}
 
-	@ApiModelProperty(value = "estado", required = false)
 	public boolean isEstado() {
 		return estado;
 	}
 
 	public void setEstado(boolean estado) {
 		this.estado = estado;
+	}
+
+	public CajaRepresentation getCaja() {
+		return caja;
+	}
+
+	public void setCaja(CajaRepresentation caja) {
+		this.caja = caja;
 	}
 
 }

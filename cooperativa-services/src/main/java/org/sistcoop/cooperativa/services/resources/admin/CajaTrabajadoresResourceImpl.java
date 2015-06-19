@@ -39,13 +39,17 @@ public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 
 	@Override
 	public CajaTrabajadorResource trabajador(String trabajador) {
-		TrabajadorCajaModel trabajadorCajaModel = trabajadorCajaProvider.getTrabajadorCajaById(cajaModel, trabajador);		
+		TrabajadorCajaModel trabajadorCajaModel = trabajadorCajaProvider.getTrabajadorCajaById(trabajador);		
 		return new CajaTrabajadorResourceImpl(trabajadorCajaModel);
 	}
 
 	@Override
 	public Response create(TrabajadorCajaRepresentation trabajadorRepresentation) {
-		TrabajadorCajaModel trabajadorCajaModel = representationToModel.createTrabajadorCaja(trabajadorRepresentation, trabajadorCajaProvider);
+		TrabajadorCajaModel trabajadorCajaModel = representationToModel.createTrabajadorCaja(
+				trabajadorRepresentation, 
+				cajaModel,
+				trabajadorCajaProvider);
+		
 		return Response.created(uriInfo.getAbsolutePathBuilder()
 				.path(trabajadorCajaModel.getId()).build())
 				.header("Access-Control-Expose-Headers", "Location")

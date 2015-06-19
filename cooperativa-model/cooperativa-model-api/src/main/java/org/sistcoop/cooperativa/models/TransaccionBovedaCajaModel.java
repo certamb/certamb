@@ -3,7 +3,7 @@ package org.sistcoop.cooperativa.models;
 import java.util.Date;
 import java.util.List;
 
-import org.sistcoop.cooperativa.models.enums.ORIGEN_TRANSACCION_BOVEDACAJA;
+import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 
 public interface TransaccionBovedaCajaModel extends Model {
 
@@ -13,7 +13,7 @@ public interface TransaccionBovedaCajaModel extends Model {
 
 	HistorialBovedaCajaModel getHistorialBovedaCaja();
 
-	ORIGEN_TRANSACCION_BOVEDACAJA getOrigen();
+	OrigenTransaccionBovedaCaja getOrigen();
 
 	List<DetalleTransaccionBovedaCajaModel> getDetalle();
 

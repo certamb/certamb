@@ -1,13 +1,9 @@
 package org.sistcoop.cooperativa.representations.idm;
 
 import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
+import java.util.List;
 
 import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "boveda", description = "Una boveda es un almacen de dinero para una agencia")
 public class BovedaRepresentation implements Serializable {
@@ -24,7 +20,9 @@ public class BovedaRepresentation implements Serializable {
 
 	private String agencia;
 
-	@ApiModelProperty(value = "ID", required = false)
+	private List<HistorialBovedaRepresentation> historiales;
+	private List<BovedaCajaRepresentation> bovedaCajas;
+
 	public String getId() {
 		return id;
 	}
@@ -33,9 +31,6 @@ public class BovedaRepresentation implements Serializable {
 		this.id = id;
 	}
 
-	@NotNull
-	@NotBlank
-	@ApiModelProperty(value = "Alpha3Code de moneda", required = true)
 	public String getMoneda() {
 		return moneda;
 	}
@@ -44,9 +39,6 @@ public class BovedaRepresentation implements Serializable {
 		this.moneda = moneda;
 	}
 
-	@NotNull
-	@NotBlank
-	@ApiModelProperty(value = "denominacion de boveda", required = true)
 	public String getDenominacion() {
 		return denominacion;
 	}
@@ -55,7 +47,6 @@ public class BovedaRepresentation implements Serializable {
 		this.denominacion = denominacion;
 	}
 
-	@ApiModelProperty(value = "estado", required = false)
 	public boolean isEstado() {
 		return estado;
 	}
@@ -64,15 +55,28 @@ public class BovedaRepresentation implements Serializable {
 		this.estado = estado;
 	}
 
-	@NotNull
-	@NotBlank
-	@ApiModelProperty(value = "codigode AGENCIA", required = true)
 	public String getAgencia() {
 		return agencia;
 	}
 
 	public void setAgencia(String agencia) {
 		this.agencia = agencia;
+	}
+
+	public List<HistorialBovedaRepresentation> getHistoriales() {
+		return historiales;
+	}
+
+	public void setHistoriales(List<HistorialBovedaRepresentation> historiales) {
+		this.historiales = historiales;
+	}
+
+	public List<BovedaCajaRepresentation> getBovedaCajas() {
+		return bovedaCajas;
+	}
+
+	public void setBovedaCajas(List<BovedaCajaRepresentation> bovedaCajas) {
+		this.bovedaCajas = bovedaCajas;
 	}
 
 }

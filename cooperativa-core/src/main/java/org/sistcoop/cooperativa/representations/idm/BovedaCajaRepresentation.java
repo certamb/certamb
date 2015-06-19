@@ -1,10 +1,9 @@
 package org.sistcoop.cooperativa.representations.idm;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.List;
 
 import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "bovedaCaja", description = "Vinculo entre una Caja y Boveda")
 public class BovedaCajaRepresentation implements Serializable {
@@ -15,13 +14,12 @@ public class BovedaCajaRepresentation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	private BigDecimal saldo;
 	private boolean estado;
 
 	private CajaRepresentation caja;
 	private BovedaRepresentation boveda;
+	private List<HistorialBovedaCajaRepresentation> historiales;
 
-	@ApiModelProperty(value = "ID de BovedaCaja", required = false)
 	public String getId() {
 		return id;
 	}
@@ -30,16 +28,6 @@ public class BovedaCajaRepresentation implements Serializable {
 		this.id = id;
 	}
 
-	@ApiModelProperty(value = "SALDO de BovedaCaja", required = false)
-	public BigDecimal getSaldo() {
-		return saldo;
-	}
-
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
-	}
-
-	@ApiModelProperty(value = "ESTADO", required = false, allowableValues = "true, false")
 	public boolean isEstado() {
 		return estado;
 	}
@@ -48,7 +36,6 @@ public class BovedaCajaRepresentation implements Serializable {
 		this.estado = estado;
 	}
 
-	@ApiModelProperty(value = "CAJA de BovedaCaja", required = false)
 	public CajaRepresentation getCaja() {
 		return caja;
 	}
@@ -57,13 +44,21 @@ public class BovedaCajaRepresentation implements Serializable {
 		this.caja = caja;
 	}
 
-	@ApiModelProperty(value = "BOVEDA de BovedaCaja", required = false)
 	public BovedaRepresentation getBoveda() {
 		return boveda;
 	}
 
 	public void setBoveda(BovedaRepresentation boveda) {
 		this.boveda = boveda;
+	}
+
+	public List<HistorialBovedaCajaRepresentation> getHistoriales() {
+		return historiales;
+	}
+
+	public void setHistoriales(
+			List<HistorialBovedaCajaRepresentation> historiales) {
+		this.historiales = historiales;
 	}
 
 }

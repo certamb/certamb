@@ -10,18 +10,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 
 public interface CajaBovedasResource {
 
-	@Path("/{boveda}")
-	public CajaBovedaResource boveda(@PathParam("boveda") String boveda);
+	@Path("/{bovedaCaja}")
+	public CajaBovedaResource boveda(@PathParam("bovedaCaja") String bovedaCaja);
 
 	@POST
-	public Response create(BovedaRepresentation bovedaRepresentation);
+	public Response create(BovedaCajaRepresentation bovedaCajaRepresentation);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<BovedaRepresentation> search();
+	public List<BovedaCajaRepresentation> search();
 
 }

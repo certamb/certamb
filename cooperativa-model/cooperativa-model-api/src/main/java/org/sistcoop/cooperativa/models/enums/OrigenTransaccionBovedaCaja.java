@@ -1,6 +1,6 @@
 package org.sistcoop.cooperativa.models.enums;
 
-public enum ORIGEN_TRANSACCION_BOVEDACAJA {
+public enum OrigenTransaccionBovedaCaja {
 	/**
 	 * Cuando la Boveda genera la transaccion
 	 */

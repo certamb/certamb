@@ -1,23 +1,33 @@
 package org.sistcoop.cooperativa.representations.idm;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "historialBovedaCaja", description = "Historial de una BovedaCaja producto de una apertura o cierre de caja")
-public class HistorialBovedaCajaRepresentation {
+public class HistorialBovedaCajaRepresentation implements Serializable {
 
-	private String id;
-	private Date fechaApertura;
-	private Date fechaCierre;
-	private Date horaApertura;
-	private Date horaCierre;
-	private boolean estado;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	private BovedaRepresentation boveda;
+	protected String id;
+	protected Date fechaApertura;
+	protected Date fechaCierre;
+	protected Date horaApertura;
+	protected Date horaCierre;
+	protected boolean abierto;
+	protected boolean estadoMovimiento;
+	protected boolean estado;
 
-	@ApiModelProperty(value = "ID", required = false)
+	private BovedaCajaRepresentation bovedaCaja;
+	private BigDecimal saldo;
+	private List<DetalleMonedaRepresentation> detalle;
+
 	public String getId() {
 		return id;
 	}
@@ -26,7 +36,6 @@ public class HistorialBovedaCajaRepresentation {
 		this.id = id;
 	}
 
-	@ApiModelProperty(value = "Fecha de apertura", required = false)
 	public Date getFechaApertura() {
 		return fechaApertura;
 	}
@@ -35,7 +44,6 @@ public class HistorialBovedaCajaRepresentation {
 		this.fechaApertura = fechaApertura;
 	}
 
-	@ApiModelProperty(value = "Fecha de cierre", required = false)
 	public Date getFechaCierre() {
 		return fechaCierre;
 	}
@@ -44,7 +52,6 @@ public class HistorialBovedaCajaRepresentation {
 		this.fechaCierre = fechaCierre;
 	}
 
-	@ApiModelProperty(value = "Hora de apertura", required = false)
 	public Date getHoraApertura() {
 		return horaApertura;
 	}
@@ -53,7 +60,6 @@ public class HistorialBovedaCajaRepresentation {
 		this.horaApertura = horaApertura;
 	}
 
-	@ApiModelProperty(value = "Hora de cierre", required = false)
 	public Date getHoraCierre() {
 		return horaCierre;
 	}
@@ -62,7 +68,22 @@ public class HistorialBovedaCajaRepresentation {
 		this.horaCierre = horaCierre;
 	}
 
-	@ApiModelProperty(value = "estado", required = false, allowableValues = "true, false")
+	public boolean isAbierto() {
+		return abierto;
+	}
+
+	public void setAbierto(boolean abierto) {
+		this.abierto = abierto;
+	}
+
+	public boolean isEstadoMovimiento() {
+		return estadoMovimiento;
+	}
+
+	public void setEstadoMovimiento(boolean estadoMovimiento) {
+		this.estadoMovimiento = estadoMovimiento;
+	}
+
 	public boolean isEstado() {
 		return estado;
 	}
@@ -71,13 +92,28 @@ public class HistorialBovedaCajaRepresentation {
 		this.estado = estado;
 	}
 
-	@ApiModelProperty(value = "Boveda del historial", required = false)
-	public BovedaRepresentation getBoveda() {
-		return boveda;
+	public BovedaCajaRepresentation getBovedaCaja() {
+		return bovedaCaja;
 	}
 
-	public void setBoveda(BovedaRepresentation boveda) {
-		this.boveda = boveda;
+	public void setBovedaCaja(BovedaCajaRepresentation bovedaCaja) {
+		this.bovedaCaja = bovedaCaja;
+	}
+
+	public BigDecimal getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(BigDecimal saldo) {
+		this.saldo = saldo;
+	}
+
+	public List<DetalleMonedaRepresentation> getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(List<DetalleMonedaRepresentation> detalle) {
+		this.detalle = detalle;
 	}
 
 }

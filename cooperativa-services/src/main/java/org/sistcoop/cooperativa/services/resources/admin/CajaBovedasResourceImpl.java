@@ -14,18 +14,17 @@ import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedasResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
-import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
-import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 
 @Stateless
 public class CajaBovedasResourceImpl implements CajaBovedasResource {
 
 	private CajaModel cajaModel;
-
+	
 	@Inject
 	private BovedaProvider bovedaProvider;
 	
@@ -43,20 +42,19 @@ public class CajaBovedasResourceImpl implements CajaBovedasResource {
 	}
 
 	@Override
-	public CajaBovedaResource boveda(String boveda) {	
-		BovedaModel bovedaModel = bovedaProvider.getBovedaById(boveda);
-		List<BovedaCajaModel> bovedaCajaModels = cajaModel.getBovedaCajas();
-		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-			if(bovedaModel.equals(bovedaCajaModel.getBoveda())) {
-				return new CajaBovedaResourceImpl(bovedaCajaModel);
-			}
-		}		
-		return null;
+	public CajaBovedaResource boveda(String bovedaCaja) {	
+		BovedaCajaModel bovedaCajaModel = bovedaCajaProvider.getBovedaCajaById(bovedaCaja);
+		return new CajaBovedaResourceImpl(bovedaCajaModel);
 	}
 
 	@Override
-	public Response create(BovedaRepresentation bovedaRepresentation) {
-		BovedaCajaModel bovedaCajaModel = representationToModel.createBovedaCaja(bovedaRepresentation, cajaModel, bovedaCajaProvider);
+	public Response create(BovedaCajaRepresentation bovedaCajaRepresentation) {
+		BovedaCajaModel bovedaCajaModel = representationToModel.createBovedaCaja(
+				bovedaCajaRepresentation, 
+				cajaModel, 
+				bovedaProvider,
+				bovedaCajaProvider);
+		
 		return Response.created(uriInfo.getAbsolutePathBuilder()
 				.path(bovedaCajaModel.getId()).build())
 				.header("Access-Control-Expose-Headers", "Location")
@@ -64,12 +62,11 @@ public class CajaBovedasResourceImpl implements CajaBovedasResource {
 	}
 
 	@Override
-	public List<BovedaRepresentation> search() {
+	public List<BovedaCajaRepresentation> search() {
 		List<BovedaCajaModel> bovedaCajaModels = cajaModel.getBovedaCajas();
-		List<BovedaRepresentation> result = new ArrayList<>();
-		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-			BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
-			result.add(ModelToRepresentation.toRepresentation(bovedaModel));
+		List<BovedaCajaRepresentation> result = new ArrayList<>();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {			
+			result.add(ModelToRepresentation.toRepresentation(bovedaCajaModel));
 		}
 		return result;
 	}

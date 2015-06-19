@@ -14,6 +14,7 @@ import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialResource;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialesResource;
 import org.sistcoop.cooperativa.models.BovedaModel;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
@@ -27,6 +28,9 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 
 	@Inject
 	private HistorialBovedaProvider historialBovedaProvider;
+	
+	@Inject
+	private DetalleHistorialBovedaProvider detalleHistorialBovedaProvider;
 	
 	@Inject
 	private RepresentationToModel representationToModel;
@@ -46,7 +50,12 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 
 	@Override
 	public Response create(HistorialBovedaRepresentation historialBovedaRepresentation) {
-		HistorialBovedaModel historialBovedaModel = representationToModel.createHistorialBoveda(historialBovedaRepresentation, historialBovedaProvider);
+		HistorialBovedaModel historialBovedaModel = representationToModel.createHistorialBoveda(
+				historialBovedaRepresentation, 
+				bovedaModel, 
+				historialBovedaProvider,
+				detalleHistorialBovedaProvider);
+		
 		return Response.created(uriInfo.getAbsolutePathBuilder()
 				.path(historialBovedaModel.getId()).build())
 				.header("Access-Control-Expose-Headers", "Location")

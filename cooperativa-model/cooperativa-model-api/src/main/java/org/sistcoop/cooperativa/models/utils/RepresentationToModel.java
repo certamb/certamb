@@ -13,6 +13,10 @@ import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaProvider;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
@@ -25,7 +29,8 @@ import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaProvider;
-import org.sistcoop.cooperativa.models.enums.ORIGEN_TRANSACCION_BOVEDACAJA;
+import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
+import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
@@ -39,20 +44,16 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresent
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class RepresentationToModel {
 
-	public BovedaModel createBoveda(BovedaRepresentation bovedaRepresentation, BovedaProvider bovedaProvider) {
-		
+	public BovedaModel createBoveda(BovedaRepresentation bovedaRepresentation, BovedaProvider bovedaProvider) {	
 		BovedaModel bovedaModel = bovedaProvider.addBoveda(
 				bovedaRepresentation.getAgencia(), 
 				bovedaRepresentation.getMoneda(),
 				bovedaRepresentation.getDenominacion());
 		
 		return bovedaModel;
-		
 	}
 
-	public CajaModel createCaja(CajaRepresentation cajaRepresentation,
-			CajaProvider cajaProvider) {
-		
+	public CajaModel createCaja(CajaRepresentation cajaRepresentation, CajaProvider cajaProvider) {
 		CajaModel cajaModel = cajaProvider.addCaja(
 				cajaRepresentation.getAgencia(), 
 				cajaRepresentation.getDenominacion());
@@ -60,25 +61,112 @@ public class RepresentationToModel {
 		return cajaModel;
 	}
 
-	public TrabajadorCajaModel createTrabajadorCaja(
-			TrabajadorCajaRepresentation trabajadorRepresentation,
-			TrabajadorCajaProvider trabajadorCajaProvider) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public BovedaCajaModel createBovedaCaja(
-			BovedaRepresentation bovedaRepresentation, CajaModel cajaModel,
+			BovedaCajaRepresentation bovedaCajaRepresentation,
+			CajaModel cajaModel, BovedaProvider bovedaProvider,
 			BovedaCajaProvider bovedaCajaProvider) {
-		// TODO Auto-generated method stub
-		return null;
+
+		BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();
+		BovedaModel bovedaModel = bovedaProvider.getBovedaById(bovedaRepresentation.getId());
+		
+		return bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
 	}
 
+	/**
+	 * Abrir boveda
+	 */
+	public HistorialBovedaModel createHistorialBoveda(
+			HistorialBovedaRepresentation historialBovedaRepresentation,
+			BovedaModel bovedaModel,
+			HistorialBovedaProvider historialBovedaProvider,
+			DetalleHistorialBovedaProvider detalleHistorialBovedaProvider) {
+
+		List<DetalleMonedaRepresentation> detalleMonedaRepresentations = historialBovedaRepresentation.getDetalle();
+		
+		HistorialBovedaModel historialActivoModel = bovedaModel.getHistorialActivo();
+		if (historialActivoModel == null) {
+			historialActivoModel = historialBovedaProvider.addHistorialBoveda(bovedaModel);
+			for (DetalleMonedaRepresentation detalleMonedaRepresentation : detalleMonedaRepresentations) {
+				int cantidad = 0;
+				BigDecimal valor = detalleMonedaRepresentation.getValor();
+				detalleHistorialBovedaProvider.addDetalleHistorialBoveda(historialActivoModel, valor, cantidad);
+			}
+			
+			return historialActivoModel;
+			
+		} else {
+			historialActivoModel.desactivar();
+			historialActivoModel.commit();
+
+			List<DetalleHistorialBovedaModel> detalleHistorialActivoModels = historialActivoModel.getDetalle();
+			HistorialBovedaModel historialActivoNuevoModel = historialBovedaProvider.addHistorialBoveda(bovedaModel);
+			for (DetalleHistorialBovedaModel detalleHistorialActivoModel : detalleHistorialActivoModels) {
+				int cantidad = detalleHistorialActivoModel.getCantidad();
+				BigDecimal valor = detalleHistorialActivoModel.getValor();
+				detalleHistorialBovedaProvider.addDetalleHistorialBoveda(historialActivoNuevoModel, valor, cantidad);
+			}
+
+			// anadir denominaciones que no existen actualmente en el historial
+			// pero que si existen en la moneda
+			for (DetalleMonedaRepresentation detalleMonedaRepresentation : detalleMonedaRepresentations) {
+				BigDecimal valorPorRegistrar = detalleMonedaRepresentation.getValor();
+				boolean exists = false;
+				for (DetalleHistorialBovedaModel detalleHistorialBovedaModel : detalleHistorialActivoModels) {
+					BigDecimal valorRegistrado = detalleHistorialBovedaModel.getValor();
+					if (valorRegistrado.compareTo(valorPorRegistrar) == 0) {
+						exists = true;
+					}
+				}
+				if (!exists) {
+					detalleHistorialBovedaProvider.addDetalleHistorialBoveda(historialActivoNuevoModel, valorPorRegistrar, 0);
+				}
+			}
+
+			return historialActivoNuevoModel;
+		}
+	}
+
+	public HistorialBovedaCajaModel createHistorialBovedaCaja(
+			HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation,
+			BovedaCajaModel bovedaCajaModel,
+			HistorialBovedaCajaProvider historialBovedaCajaProvider,
+			DetalleHistorialBovedaCajaProvider detalleHistorialBovedaCajaProvider) {
+
+		BovedaModel bovedaModel = bovedaCajaModel.getBoveda();
+		HistorialBovedaModel historialBovedaModel = bovedaModel.getHistorialActivo();		
+		List<DetalleHistorialBovedaModel> detalleHistorialBovedaModels = historialBovedaModel.getDetalle();
+		
+		HistorialBovedaCajaModel historialActivoModel = bovedaCajaModel.getHistorialActivo();
+		if (historialActivoModel == null) {
+			historialActivoModel = historialBovedaCajaProvider.addHistorialBovedaCajaModel(bovedaCajaModel);
+			for (DetalleHistorialBovedaModel detalleHistorialBovedaModel : detalleHistorialBovedaModels) {
+				int cantidad = 0;
+				BigDecimal valor = detalleHistorialBovedaModel.getValor();
+				detalleHistorialBovedaCajaProvider.addDetalleHistorialBovedaCaja(historialActivoModel, valor, cantidad);
+			}
+			
+			return historialActivoModel;
+		} else {
+			historialActivoModel.desactivar();
+			historialActivoModel.commit();
+
+			List<DetalleHistorialBovedaCajaModel> detalleHistorialActivoModels = historialActivoModel.getDetalle();
+			HistorialBovedaCajaModel historialActivoNuevoModel = historialBovedaCajaProvider.addHistorialBovedaCajaModel(bovedaCajaModel);
+			for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaCajaModel : detalleHistorialActivoModels) {
+				int cantidad = detalleHistorialBovedaCajaModel.getCantidad();
+				BigDecimal valor = detalleHistorialBovedaCajaModel.getValor();
+				detalleHistorialBovedaCajaProvider.addDetalleHistorialBovedaCaja(historialActivoNuevoModel, valor, cantidad);
+			}
+
+			return historialActivoNuevoModel;
+		}
+	}
+	
 	public TransaccionBovedaCajaModel createTransaccionBovedaCaja(
 			TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation,
 			HistorialBovedaModel historialBovedaModel,
 			HistorialBovedaCajaModel historialBovedaCajaModel, 
-			ORIGEN_TRANSACCION_BOVEDACAJA origen,
+			OrigenTransaccionBovedaCaja origen,
 			TransaccionBovedaCajaProvider transaccionBovedaCajaProvider,
 			DetalleTransaccionBovedaCajaProvider detalleTransaccionBovedaCajaProvider) {
 
@@ -132,18 +220,19 @@ public class RepresentationToModel {
 		return transaccionCajaCajaModel;
 	}
 
-	public HistorialBovedaModel createHistorialBoveda(
-			HistorialBovedaRepresentation historialBovedaRepresentation,
-			HistorialBovedaProvider historialBovedaProvider) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
-	public HistorialBovedaCajaModel createHistorialBovedaCaja(
-			HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation,
-			HistorialBovedaCajaProvider historialBovedaCajaProvider) {
-		// TODO Auto-generated method stub
-		return null;
+	public TrabajadorCajaModel createTrabajadorCaja(
+			TrabajadorCajaRepresentation trabajadorRepresentation,
+			CajaModel cajaModel,
+			TrabajadorCajaProvider trabajadorCajaProvider) {
+		
+		TrabajadorCajaModel trabajadorCajaModel = trabajadorCajaProvider.addTrabajadorCaja(
+				cajaModel, 
+				trabajadorRepresentation.getTipoDocumento(), 
+				trabajadorRepresentation.getNumeroDocumento());
+		
+		return trabajadorCajaModel;
 	}
-
+	
 }

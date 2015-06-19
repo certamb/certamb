@@ -7,14 +7,10 @@ import javax.ejb.Local;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
-public interface DetalleHistorialBovedaCajaProvider extends Provider {	
-	
+public interface DetalleHistorialBovedaCajaProvider extends Provider {
+
 	DetalleHistorialBovedaCajaModel addDetalleHistorialBovedaCaja(
-			BovedaCajaModel bovedaCajaModel,
-			
 			HistorialBovedaCajaModel historialBovedaCajaModel,
-			
-			BigDecimal valor,
-			int cantidad);
-	
+			BigDecimal valor, int cantidad);
+
 }

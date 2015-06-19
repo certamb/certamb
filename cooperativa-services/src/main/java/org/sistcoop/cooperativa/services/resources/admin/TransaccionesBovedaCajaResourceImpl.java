@@ -20,7 +20,7 @@ import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
-import org.sistcoop.cooperativa.models.enums.ORIGEN_TRANSACCION_BOVEDACAJA;
+import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
@@ -30,7 +30,7 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaReprese
 @Stateless
 public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaCajaResource {
 
-	private ORIGEN_TRANSACCION_BOVEDACAJA origen;
+	private OrigenTransaccionBovedaCaja origen;
 	
 	private HistorialBovedaCajaModel historialBovedaCajaModel;	
 	private HistorialBovedaModel historialBovedaModel;
@@ -54,12 +54,12 @@ public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaC
 	protected UriInfo uriInfo;
 	
 	public TransaccionesBovedaCajaResourceImpl(HistorialBovedaModel historialBovedaModel) {
-		origen = ORIGEN_TRANSACCION_BOVEDACAJA.BOVEDA;
+		origen = OrigenTransaccionBovedaCaja.BOVEDA;
 		this.historialBovedaModel = historialBovedaModel;
 	}
 	
 	public TransaccionesBovedaCajaResourceImpl(HistorialBovedaCajaModel historialBovedaCajaModel) {
-		origen = ORIGEN_TRANSACCION_BOVEDACAJA.CAJA;
+		origen = OrigenTransaccionBovedaCaja.CAJA;
 		this.historialBovedaCajaModel = historialBovedaCajaModel;
 	}
 
