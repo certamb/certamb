@@ -46,11 +46,6 @@ public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResou
 	}
 
 	@Override
-	public void abrir(BigDecimal[] denominaciones) {
-		historialBovedaCajaManager.abrirHistorialBovedaCaja(historialBovedaCajaModel, denominaciones);
-	}
-
-	@Override
 	public void cerrar() {
 		historialBovedaCajaManager.cerrarHistorialBovedaCaja(historialBovedaCajaModel);
 	}

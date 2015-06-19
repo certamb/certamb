@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -30,10 +29,6 @@ public interface BovedaHistorialResource {
 
 	@DELETE
 	public void remove();
-
-	@POST
-	@Path("/abrir")
-	public void abrir(BigDecimal[] denominaciones);
 
 	@POST
 	@Path("/cerrar")
