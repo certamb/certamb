@@ -32,7 +32,7 @@ public interface CajaBovedaHistorialResource {
 
 	@POST
 	@Path("/cerrar")
-	public void cerrar();
+	public void cerrar(List<DetalleMonedaRepresentation> detalle);
 
 	@POST
 	public void congelar();

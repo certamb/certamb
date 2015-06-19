@@ -46,8 +46,8 @@ public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResou
 	}
 
 	@Override
-	public void cerrar() {
-		historialBovedaCajaManager.cerrarHistorialBovedaCaja(historialBovedaCajaModel);
+	public void cerrar(List<DetalleMonedaRepresentation> detalle) {
+		historialBovedaCajaManager.cerrarHistorialBovedaCaja(historialBovedaCajaModel, detalle);
 	}
 
 	@Override

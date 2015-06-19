@@ -10,7 +10,6 @@ import javax.ws.rs.BadRequestException;
 
 import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
-import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
@@ -21,7 +20,6 @@ import org.sistcoop.cooperativa.services.managers.HistorialBovedaManager;
 @Stateless
 public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
 
-	private BovedaModel bovedaModel;
 	private HistorialBovedaModel historialBovedaModel;
 
 	@Inject
@@ -48,7 +46,7 @@ public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
 
 	@Override
 	public void cerrar() {
-		historialBovedaManager.cerrarHistorialBoveda(bovedaModel);
+		historialBovedaManager.cerrarHistorialBoveda(historialBovedaModel);
 	}
 
 	@Override
