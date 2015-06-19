@@ -20,8 +20,7 @@ public interface TrabajadorCajaProvider extends Provider {
 
 	boolean removeTrabajadorCaja(TrabajadorCajaModel trabajadorCajaModel);
 
-	List<HistorialBovedaModel> getTrabajadoresCaja(BovedaModel bovedaModel,
-
-	int firstResult, int maxResults);
+	List<HistorialBovedaModel> getTrabajadoresCaja(CajaModel cajaModel,
+			int firstResult, int maxResults);
 
 }

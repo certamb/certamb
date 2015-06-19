@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -51,6 +52,40 @@ public class JpaTransaccionCajaCajaProvider implements TransaccionCajaCajaProvid
 
 		em.persist(transaccionCajaCajaEntity);
 		return new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity);
+	}
+
+	@Override
+	public TransaccionCajaCajaModel getTransaccionCajaCajaById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TransaccionCajaCajaModel> getTransaccionesCajaCaja(
+			HistorialBovedaCajaModel historialBovedaCajaModel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TransaccionCajaCajaModel> getTransaccionesCajaCajaEnviados(
+			HistorialBovedaCajaModel historialBovedaCajaModel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TransaccionCajaCajaModel> getTransaccionesCajaCajaRecibidos(
+			HistorialBovedaCajaModel historialBovedaCajaModel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeTransaccionCajaCaja(
+			TransaccionCajaCajaModel transaccionCajaCajaModel) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

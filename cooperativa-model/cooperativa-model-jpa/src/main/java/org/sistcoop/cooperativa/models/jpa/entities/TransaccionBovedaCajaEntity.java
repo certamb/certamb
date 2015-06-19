@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -14,10 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.NotBlank;
+import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 
 @Entity
 @Table(name = "TRANSACCION_BOVEDA_CAJA")
@@ -32,7 +33,7 @@ public class TransaccionBovedaCajaEntity extends TransaccionInternaEntity implem
 	private HistorialBovedaEntity historialBoveda;
 	private HistorialBovedaCajaEntity historialBovedaCaja;
 
-	private String origen;
+	private OrigenTransaccionBovedaCaja origen;
 
 	private Set<DetalleTransaccionBovedaCajaEntity> detalle = new HashSet<DetalleTransaccionBovedaCajaEntity>();
 
@@ -77,14 +78,13 @@ public class TransaccionBovedaCajaEntity extends TransaccionInternaEntity implem
 	}
 
 	@NotNull
-	@Size(min = 1, max = 10)
-	@NotBlank
+	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "ORIGEN")
-	public String getOrigen() {
+	public OrigenTransaccionBovedaCaja getOrigen() {
 		return origen;
 	}
 
-	public void setOrigen(String origen) {
+	public void setOrigen(OrigenTransaccionBovedaCaja origen) {
 		this.origen = origen;
 	}
 

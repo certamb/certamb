@@ -1,7 +1,5 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.math.BigDecimal;
-
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -41,7 +39,6 @@ public class JpaBovedaCajaProvider implements BovedaCajaProvider {
 
 		bovedaCajaEntity.setBoveda(bovedaEntity);
 		bovedaCajaEntity.setCaja(cajaEntity);
-		bovedaCajaEntity.setSaldo(BigDecimal.ZERO);
 		bovedaCajaEntity.setEstado(true);
 
 		em.persist(bovedaCajaEntity);

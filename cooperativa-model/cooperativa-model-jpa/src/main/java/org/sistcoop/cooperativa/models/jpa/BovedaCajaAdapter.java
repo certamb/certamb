@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -44,16 +43,6 @@ public class BovedaCajaAdapter implements BovedaCajaModel {
 	@Override
 	public String getId() {
 		return bovedaCajaEntity.getId();
-	}
-
-	@Override
-	public BigDecimal getSaldo() {
-		return bovedaCajaEntity.getSaldo();
-	}
-
-	@Override
-	public void setSaldo(BigDecimal saldo) {
-		bovedaCajaEntity.setSaldo(saldo);
 	}
 
 	@Override

@@ -76,7 +76,7 @@ public class CajaModelTest {
 	public void commit() {
 		CajaModel model1 = cajaProvider.addCaja("01", "Caja-01");		
 						
-		Integer id = model1.getId();
+		String id = model1.getId();
 		
 		String denominacionNueva = "Nuevo";
 		model1.setDenominacion(denominacionNueva);		

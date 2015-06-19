@@ -1,14 +1,6 @@
 package org.sistcoop.cooperativa.services.managers;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
-
 import java.io.File;
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -17,13 +9,10 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
-import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaProvider;
-import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.BovedaAdapter;
 import org.sistcoop.cooperativa.models.jpa.DetalleHistorialBovedaAdapter;
@@ -41,12 +30,6 @@ import org.slf4j.LoggerFactory;
 public class BovedaManagerTest {
 
 	Logger log = LoggerFactory.getLogger(BovedaManagerTest.class);	
-	
-	@Inject
-	private BovedaProvider bovedaProvider;
-	
-	@Inject
-	private BovedaManager bovedaManager;
 	
 	@Deployment
 	public static WebArchive createDeployment() {
@@ -87,7 +70,7 @@ public class BovedaManagerTest {
 		return war;
 	}			
 	   
-	@Test
+	/*@Test
 	public void abrirBoveda() {
 		BovedaModel bovedaModel = bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
 		BigDecimal[] denominaciones = { BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN };
@@ -101,6 +84,6 @@ public class BovedaManagerTest {
 		assertThat(historialBovedaModel.getEstado(), is(true));
 		assertThat(detalle, is(notNullValue()));
 		assertThat(detalle.size(), is(3));
-	}	
+	}	*/
 	
 }

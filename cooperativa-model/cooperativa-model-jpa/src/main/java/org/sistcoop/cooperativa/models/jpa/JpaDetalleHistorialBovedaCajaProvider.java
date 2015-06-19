@@ -10,7 +10,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
@@ -32,7 +31,7 @@ public class JpaDetalleHistorialBovedaCajaProvider implements DetalleHistorialBo
 	}
 
 	@Override
-	public DetalleHistorialBovedaCajaModel addDetalleHistorialBovedaCaja(BovedaCajaModel bovedaCajaModel, HistorialBovedaCajaModel historialBovedaCajaModel, BigDecimal valor, int cantidad) {
+	public DetalleHistorialBovedaCajaModel addDetalleHistorialBovedaCaja(HistorialBovedaCajaModel historialBovedaCajaModel, BigDecimal valor, int cantidad) {
 		HistorialBovedaCajaEntity historialBovedaCajaEntity = HistorialBovedaCajaAdapter.toHistorialBovedaCajaEntity(historialBovedaCajaModel, em);
 
 		DetalleHistorialBovedaCajaEntity detalleHistorialBovedaCajaEntity = new DetalleHistorialBovedaCajaEntity();

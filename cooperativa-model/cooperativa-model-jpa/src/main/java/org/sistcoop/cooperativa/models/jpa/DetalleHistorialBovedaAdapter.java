@@ -57,6 +57,11 @@ public class DetalleHistorialBovedaAdapter implements DetalleHistorialBovedaMode
 	}
 
 	@Override
+	public void setCantidad(int cantidad) {
+		detalleHistorialBovedaEntity.setCantidad(cantidad);
+	}
+	
+	@Override
 	public BigDecimal getSubtotal() {
 		return detalleHistorialBovedaEntity.getSubtotal();
 	}

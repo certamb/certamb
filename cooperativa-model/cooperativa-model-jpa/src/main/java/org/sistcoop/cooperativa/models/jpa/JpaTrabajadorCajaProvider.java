@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
@@ -45,7 +46,7 @@ public class JpaTrabajadorCajaProvider implements TrabajadorCajaProvider {
 	}
 
 	@Override
-	public TrabajadorCajaModel getTrabajadorCajaById(CajaModel cajaModel, String id) {
+	public TrabajadorCajaModel getTrabajadorCajaById(String id) {
 		TrabajadorCajaEntity trabajadorCajaEntity = this.em.find(TrabajadorCajaEntity.class, id);
 		return trabajadorCajaEntity != null ? new TrabajadorCajaAdapter(em, trabajadorCajaEntity) : null;
 	}
@@ -61,6 +62,21 @@ public class JpaTrabajadorCajaProvider implements TrabajadorCajaProvider {
 		if (results.size() == 0)
 			return null;
 		return new TrabajadorCajaAdapter(em, results.get(0));
+	}
+
+	@Override
+	public boolean removeTrabajadorCaja(TrabajadorCajaModel trabajadorCajaModel) {
+		TrabajadorCajaEntity trabajadorCajaEntity = em.find(TrabajadorCajaEntity.class, trabajadorCajaModel.getId());
+		if (trabajadorCajaEntity == null) return false;
+		em.remove(trabajadorCajaEntity);
+		return true;   
+	}
+
+	@Override
+	public List<HistorialBovedaModel> getTrabajadoresCaja(
+			CajaModel cajaModel, int firstResult, int maxResults) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

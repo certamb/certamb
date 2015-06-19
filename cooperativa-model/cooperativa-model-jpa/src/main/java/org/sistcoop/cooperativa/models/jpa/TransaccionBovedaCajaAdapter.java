@@ -11,6 +11,7 @@ import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
+import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleTransaccionBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionBovedaCajaEntity;
 
@@ -58,7 +59,7 @@ public class TransaccionBovedaCajaAdapter implements TransaccionBovedaCajaModel 
 	}
 
 	@Override
-	public String getOrigen() {
+	public OrigenTransaccionBovedaCaja getOrigen() {
 		return transaccionBovedaCajaEntity.getOrigen();
 	}
 

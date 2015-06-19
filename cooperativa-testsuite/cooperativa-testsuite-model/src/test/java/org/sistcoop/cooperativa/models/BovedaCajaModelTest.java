@@ -1,14 +1,8 @@
 package org.sistcoop.cooperativa.models;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.io.File;
-import java.math.BigDecimal;
 
 import javax.annotation.Resource;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
@@ -20,7 +14,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sistcoop.cooperativa.models.jpa.BovedaAdapter;
 import org.sistcoop.cooperativa.models.jpa.BovedaCajaAdapter;
@@ -44,15 +37,6 @@ public class BovedaCajaModelTest {
 
 	@Resource           
 	private UserTransaction utx; 
-	
-	@Inject
-	private BovedaProvider bovedaProvider;	
-	
-	@Inject
-	private CajaProvider cajaProvider;
-	
-	@Inject
-	private BovedaCajaProvider bovedaCajaProvider;
 	
 	@Deployment
 	public static WebArchive createDeployment() {
@@ -89,20 +73,5 @@ public class BovedaCajaModelTest {
 
 		return war;
 	}				
-		
-	
-	@Test
-	public void commit() {
-		BovedaModel bovedaModel = bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
-		CajaModel cajaModel = cajaProvider.addCaja("01", "Caja-01");
-		
-		BovedaCajaModel model1 = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
-		
-		BigDecimal saldoNuevo = BigDecimal.TEN;
-		model1.setSaldo(saldoNuevo);
-		model1.commit();						
-		
-		assertThat(model1.getSaldo(), is(equalTo(saldoNuevo)));
-	}	
 		
 }

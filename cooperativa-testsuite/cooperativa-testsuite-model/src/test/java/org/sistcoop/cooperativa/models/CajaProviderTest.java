@@ -76,7 +76,7 @@ public class CajaProviderTest {
 	public void getCajaById() {
 		CajaModel model1 = cajaProvider.addCaja("01", "Caja-01");
 		
-		Integer id = model1.getId();		
+		String id = model1.getId();		
 		CajaModel model2 = cajaProvider.getCajaById(id);
 				
 		assertThat(model1, is(equalTo(model2)));
