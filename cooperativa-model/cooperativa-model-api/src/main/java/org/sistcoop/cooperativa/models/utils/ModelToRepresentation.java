@@ -3,16 +3,20 @@ package org.sistcoop.cooperativa.models.utils;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
+import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 
 public class ModelToRepresentation {
 
@@ -138,6 +142,18 @@ public class ModelToRepresentation {
 		rep.setCaja(cajaRepresentation);
 		
 		return rep;
+	}
+
+	public static TransaccionBovedaCajaRepresentation toRepresentation(
+			TransaccionBovedaCajaModel transaccionBovedaCajaModel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static DetalleMonedaRepresentation toRepresentation(
+			DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCajaModel) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

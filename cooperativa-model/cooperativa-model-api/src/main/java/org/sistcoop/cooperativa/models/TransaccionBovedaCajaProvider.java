@@ -1,5 +1,7 @@
 package org.sistcoop.cooperativa.models;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import org.sistcoop.cooperativa.provider.Provider;
@@ -12,5 +14,14 @@ public interface TransaccionBovedaCajaProvider extends Provider {
 			HistorialBovedaCajaModel historialBovedaCajaModel,
 			String origen,
 			String observacion);
+
+	TransaccionBovedaCajaModel getTransaccionBovedaCajaById(String id);
+	
+	void removeTransaccionBovedaCaja(
+			TransaccionBovedaCajaModel transaccionBovedaCajaModel);
+	
+	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(HistorialBovedaModel historialBovedaModel);
+	
+	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(HistorialBovedaCajaModel historialBovedaCajaModel);
 	
 }

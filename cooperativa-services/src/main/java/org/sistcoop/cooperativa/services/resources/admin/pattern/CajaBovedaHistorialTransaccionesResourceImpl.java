@@ -35,7 +35,7 @@ public class CajaBovedaHistorialTransaccionesResourceImpl implements
 
 	@Override
 	public TransaccionesBovedaCajaResource transaccionesBoveda() {
-		return new TransaccionesBovedaCajaResourceImpl(cajaModel, bovedaModel, bovedaCajaModel, historialBovedaCajaModel);
+		return new TransaccionesBovedaCajaResourceImpl(historialBovedaCajaModel);
 	}
 
 }
