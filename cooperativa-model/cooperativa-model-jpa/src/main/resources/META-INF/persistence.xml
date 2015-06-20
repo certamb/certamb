@@ -18,6 +18,8 @@
 		<mapping-file>META-INF/hql/HistorialBoveda.xml</mapping-file>
 		<mapping-file>META-INF/hql/HistorialBovedaCaja.xml</mapping-file>
 		<mapping-file>META-INF/hql/TrabajadorCaja.xml</mapping-file>
+		<mapping-file>META-INF/hql/TransaccionBovedaCaja.xml</mapping-file>
+		<mapping-file>META-INF/hql/TransaccionesCajaCaja.xml</mapping-file>
 
 	</persistence-unit>
 </persistence>

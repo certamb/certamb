@@ -72,8 +72,8 @@ public class JpaTransaccionCajaCajaProvider implements TransaccionCajaCajaProvid
 
 	@Override
 	public List<TransaccionCajaCajaModel> getTransaccionesCajaCaja(HistorialBovedaCajaModel historialBovedaCajaModel) {
-		TypedQuery<TransaccionCajaCajaEntity> query = em.createNamedQuery("TransaccionCajaCaja.getByIdHistorialBovedaCajaModel", TransaccionCajaCajaEntity.class);
-		query.setParameter("idHistorialBovedaCajaModel", historialBovedaCajaModel.getId());
+		TypedQuery<TransaccionCajaCajaEntity> query = em.createNamedQuery("TransaccionCajaCaja.getByIdHistorialBovedaCaja", TransaccionCajaCajaEntity.class);
+		query.setParameter("idHistorialBovedaCaja", historialBovedaCajaModel.getId());
 		List<TransaccionCajaCajaEntity> list = query.getResultList();
 
 		List<TransaccionCajaCajaModel> result = new ArrayList<TransaccionCajaCajaModel>();
@@ -84,17 +84,29 @@ public class JpaTransaccionCajaCajaProvider implements TransaccionCajaCajaProvid
 	}
 
 	@Override
-	public List<TransaccionCajaCajaModel> getTransaccionesCajaCajaEnviados(
-			HistorialBovedaCajaModel historialBovedaCajaModel) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TransaccionCajaCajaModel> getTransaccionesCajaCajaEnviados(HistorialBovedaCajaModel historialBovedaCajaModel) {
+		TypedQuery<TransaccionCajaCajaEntity> query = em.createNamedQuery("TransaccionCajaCaja.getByIdHistorialBovedaCajaOrigen", TransaccionCajaCajaEntity.class);
+		query.setParameter("idHistorialBovedaCajaOrigen", historialBovedaCajaModel.getId());
+		List<TransaccionCajaCajaEntity> list = query.getResultList();
+
+		List<TransaccionCajaCajaModel> result = new ArrayList<TransaccionCajaCajaModel>();
+		for (TransaccionCajaCajaEntity transaccionCajaCajaEntity : list) {			
+			result.add(new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity));
+		}
+		return result;
 	}
 
 	@Override
-	public List<TransaccionCajaCajaModel> getTransaccionesCajaCajaRecibidos(
-			HistorialBovedaCajaModel historialBovedaCajaModel) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TransaccionCajaCajaModel> getTransaccionesCajaCajaRecibidos(HistorialBovedaCajaModel historialBovedaCajaModel) {
+		TypedQuery<TransaccionCajaCajaEntity> query = em.createNamedQuery("TransaccionCajaCaja.getByIdHistorialBovedaCajaDestino", TransaccionCajaCajaEntity.class);
+		query.setParameter("idHistorialBovedaCajaDestino", historialBovedaCajaModel.getId());
+		List<TransaccionCajaCajaEntity> list = query.getResultList();
+
+		List<TransaccionCajaCajaModel> result = new ArrayList<TransaccionCajaCajaModel>();
+		for (TransaccionCajaCajaEntity transaccionCajaCajaEntity : list) {			
+			result.add(new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity));
+		}
+		return result;
 	}
 	
 }
