@@ -19,8 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "DETALLE_HISTORIAL_BOVEDA")
-public class DetalleHistorialBovedaEntity extends DetalleHistorialEntity
-		implements Serializable {
+public class DetalleHistorialBovedaEntity extends DetalleHistorialEntity implements Serializable {
 
 	/**
 	 * 

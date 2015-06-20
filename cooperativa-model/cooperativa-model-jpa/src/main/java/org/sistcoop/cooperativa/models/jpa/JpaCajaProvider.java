@@ -86,7 +86,7 @@ public class JpaCajaProvider implements CajaProvider {
 
 	@Override
 	public List<CajaModel> getCajas(String agencia, boolean estado) {
-		TypedQuery<CajaEntity> query = em.createNamedQuery(CajaEntity.findByAgencia, CajaEntity.class);
+		TypedQuery<CajaEntity> query = em.createNamedQuery("Caja.getByAgencia", CajaEntity.class);
 		query.setParameter("agencia", agencia);
 		List<CajaEntity> list = query.getResultList();
 
@@ -104,7 +104,7 @@ public class JpaCajaProvider implements CajaProvider {
 	public List<CajaModel> getCajas(String agencia, boolean estado,
 			String filterText, int firstResult, int maxResults) {
 		
-		TypedQuery<CajaEntity> query = em.createNamedQuery(CajaEntity.findByAgenciaAndFilterText, CajaEntity.class);
+		TypedQuery<CajaEntity> query = em.createNamedQuery("Caja.getByAgenciaFilterText", CajaEntity.class);
 		query.setParameter("agencia", agencia);
 		query.setParameter("filterText", "%" + filterText + "%");
 		if (firstResult != -1) {

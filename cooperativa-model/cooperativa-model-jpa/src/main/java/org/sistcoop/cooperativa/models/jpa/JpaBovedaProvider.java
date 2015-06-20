@@ -35,7 +35,7 @@ public class JpaBovedaProvider implements BovedaProvider {
 	@Override
 	public BovedaModel addBoveda(String agencia, String moneda, String denominacion) {
 		//Solo debe haber una boveda/moneda por agencia
-		TypedQuery<BovedaEntity> query = em.createQuery("SELECT b FROM BovedaEntity b WHERE b.agencia = :agencia", BovedaEntity.class);
+		TypedQuery<BovedaEntity> query = em.createNamedQuery("Boveda.getByAgencia", BovedaEntity.class);
 		query.setParameter("agencia", agencia);
 		List<BovedaEntity> list = query.getResultList();
 		for (BovedaEntity bovedaEntity : list) {
@@ -102,7 +102,7 @@ public class JpaBovedaProvider implements BovedaProvider {
 
 	@Override
 	public List<BovedaModel> getBovedas(String agencia, boolean estado) {
-		TypedQuery<BovedaEntity> query = em.createQuery("SELECT b FROM BovedaEntity b WHERE b.agencia = :agencia", BovedaEntity.class);
+		TypedQuery<BovedaEntity> query = em.createNamedQuery("Boveda.getByAgencia", BovedaEntity.class);
 		query.setParameter("agencia", agencia);
 		List<BovedaEntity> list = query.getResultList();
 
@@ -117,7 +117,7 @@ public class JpaBovedaProvider implements BovedaProvider {
 
 	@Override
 	public List<BovedaModel> getBovedas(String agencia, boolean estado, String filterText, int firstResult, int maxResults) {
-		TypedQuery<BovedaEntity> query = em.createQuery("SELECT b FROM BovedaEntity b WHERE b.agencia = :agencia AND b.denominacion LIKE :filterText", BovedaEntity.class);
+		TypedQuery<BovedaEntity> query = em.createNamedQuery("Boveda.getByAgenciaFilterText", BovedaEntity.class);
 		query.setParameter("agencia", agencia);
 		query.setParameter("filterText", "%" + filterText + "%");
 		if (firstResult != -1) {

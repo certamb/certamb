@@ -14,28 +14,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
-
 @Entity
 @Table(name = "HISTORIAL_BOVEDA")
-@NamedQueries(value = {
-		@NamedQuery(name = HistorialBovedaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaEntity s WHERE s.boveda.id = :idBoveda AND s.estado = :estado"),
-		@NamedQuery(name = HistorialBovedaEntity.findByBoveda, query = "SELECT s FROM HistorialBovedaEntity s WHERE s.boveda.id = :idBoveda"),
-		@NamedQuery(name = HistorialBovedaEntity.findByBovedaDesdeHasta, query = "SELECT h FROM HistorialBovedaEntity h WHERE h.boveda.id = :idBoveda AND h.fechaApertura < :desde AND h.fechaCierre > :hasta") })
-public class HistorialBovedaEntity extends HistorialEntity implements
-		Serializable {
+public class HistorialBovedaEntity extends HistorialEntity implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public final static String base = "org.softgreen.sistcoop.organizacion.ejb.models.jpa.entities.HistorialBovedaEntity.";
-	public final static String findByEstado = base + "findByEstado";
-	public final static String findByBoveda = base + "findByBoveda";
-	public final static String findByBovedaDesdeHasta = base
-			+ "findByBovedaDesdeHasta";
 
 	private BovedaEntity boveda;
 	private Set<DetalleHistorialBovedaEntity> detalle = new HashSet<DetalleHistorialBovedaEntity>();

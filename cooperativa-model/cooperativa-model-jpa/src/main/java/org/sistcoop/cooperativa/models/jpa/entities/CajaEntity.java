@@ -16,22 +16,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "CAJA")
-@NamedQueries({
-		@NamedQuery(name = CajaEntity.findByAgencia, query = "SELECT c FROM CajaEntity c WHERE c.agencia = :agencia"),
-		@NamedQuery(name = CajaEntity.findByAgenciaAndFilterText, query = "SELECT c FROM CajaEntity c WHERE c.agencia = :agencia AND c.denominacion LIKE :filterText") })
+@Table(name = "CAJA")	
 public class CajaEntity {
-
-	public static final String base = "org.sistcoop.cooperativa.models.jpa.entities.CajaEntity.";
-	public static final String findByAgencia = base + "findByAgencia";
-	public static final String findByAgenciaAndFilterText = base
-			+ "findByAgenciaAndFilterText";
 
 	private String id;
 	private String denominacion;
