@@ -13,9 +13,11 @@
 		</properties>
 
 		<!-- Named JPQL queries per entity -->
-		<mapping-file>META-INF/hql/boveda.xml</mapping-file>
-		<mapping-file>META-INF/hql/caja.xml</mapping-file>
-		<mapping-file>META-INF/hql/historialBoveda.xml</mapping-file>
+		<mapping-file>META-INF/hql/Boveda.xml</mapping-file>
+		<mapping-file>META-INF/hql/Caja.xml</mapping-file>
+		<mapping-file>META-INF/hql/HistorialBoveda.xml</mapping-file>
+		<mapping-file>META-INF/hql/HistorialBovedaCaja.xml</mapping-file>
+		<mapping-file>META-INF/hql/TrabajadorCaja.xml</mapping-file>
 
 	</persistence-unit>
 </persistence>

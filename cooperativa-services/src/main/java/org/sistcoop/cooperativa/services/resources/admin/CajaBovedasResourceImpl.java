@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -44,6 +45,9 @@ public class CajaBovedasResourceImpl implements CajaBovedasResource {
 	@Override
 	public CajaBovedaResource boveda(String bovedaCaja) {	
 		BovedaCajaModel bovedaCajaModel = bovedaCajaProvider.getBovedaCajaById(bovedaCaja);
+		if(!cajaModel.equals(bovedaCajaModel.getCaja())) {
+			throw new BadRequestException();
+		}
 		return new CajaBovedaResourceImpl(bovedaCajaModel);
 	}
 

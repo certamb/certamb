@@ -20,7 +20,8 @@
 		<query>
 			SELECT h FROM HistorialBovedaEntity h 
 			WHERE h.boveda.id = :idBoveda
-			AND h.fechaApertura < :desde AND h.fechaCierre > :hasta
+			AND h.fechaApertura < :desde 
+			AND h.fechaCierre > :hasta
 		</query>
 	</named-query>
 

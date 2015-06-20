@@ -13,13 +13,16 @@ import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 
+/**
+ * @author carlosthe19916@gmail.com
+ */
+@Consumes(MediaType.APPLICATION_JSON)
 public interface CajaTrabajadoresResource {
 
 	@Path("/{trabajador}")
 	public CajaTrabajadorResource trabajador(@PathParam("trabajador") String trabajador);
 
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(TrabajadorCajaRepresentation trabajadorCajaRepresentation);
 
 	@GET

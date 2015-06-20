@@ -18,28 +18,14 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
-
 @Entity
 @Table(name = "HISTORIAL_BOVEDA_CAJA")
-@NamedQueries({
-		@NamedQuery(name = HistorialBovedaCajaEntity.findByEstado, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja AND s.estado = :estado"),
-		@NamedQuery(name = HistorialBovedaCajaEntity.findByBovedaCaja, query = "SELECT s FROM HistorialBovedaCajaEntity s WHERE s.bovedaCaja.id = :idBovedaCaja"),
-		@NamedQuery(name = HistorialBovedaCajaEntity.findByBovedaCajaDesdeHasta, query = "SELECT h FROM HistorialBovedaCajaEntity h WHERE h.bovedaCaja.id = :idBovedaCaja AND h.fechaApertura < :desde AND h.fechaCierre > :hasta") })
-public class HistorialBovedaCajaEntity extends HistorialEntity implements
-		Serializable {
+public class HistorialBovedaCajaEntity extends HistorialEntity implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public final static String base = "org.softgreen.sistcoop.organizacion.ejb.models.jpa.entities.HistorialCajaEntity.";
-	public final static String findByEstado = base + "findByEstado";
-	public final static String findByBovedaCaja = base + "findByBovedaCaja";
-	public final static String findByBovedaCajaDesdeHasta = base
-			+ "findByBovedaCajaDesdeHasta";
 
 	private BovedaCajaEntity bovedaCaja;
 	private BigDecimal saldo;

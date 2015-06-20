@@ -40,16 +40,6 @@ public class CajaResourceImpl implements CajaResource {
 	}
 
 	@Override
-	public CajaBovedasResource bovedasCaja() {
-		return new CajaBovedasResourceImpl(cajaModel);
-	}
-
-	@Override
-	public CajaTrabajadoresResource trabajadoresCaja() {
-		return new CajaTrabajadoresResourceImpl(cajaModel);
-	}
-
-	@Override
 	public void enable() {
 		throw new BadRequestException();
 	}
@@ -64,4 +54,14 @@ public class CajaResourceImpl implements CajaResource {
 		cajaProvider.removeCaja(cajaModel);
 	}
 
+	@Override
+	public CajaBovedasResource bovedasCaja() {
+		return new CajaBovedasResourceImpl(cajaModel);
+	}
+
+	@Override
+	public CajaTrabajadoresResource trabajadoresCaja() {
+		return new CajaTrabajadoresResourceImpl(cajaModel);
+	}
+	
 }

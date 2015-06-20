@@ -14,7 +14,6 @@ import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 /**
  * @author carlosthe19916@gmail.com
  */
-@Path("/cajas")
 public interface CajaResource {
 
 	@GET
@@ -24,12 +23,6 @@ public interface CajaResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void update(CajaRepresentation cajaRepresentation);
-
-	@Path("/bovedasCaja")
-	public CajaBovedasResource bovedasCaja();
-
-	@Path("/trabajadoresCaja")
-	public CajaTrabajadoresResource trabajadoresCaja();
 
 	@POST
 	@Path("/enable")
@@ -41,5 +34,11 @@ public interface CajaResource {
 
 	@DELETE
 	public void remove();
+
+	@Path("/bovedasCaja")
+	public CajaBovedasResource bovedasCaja();
+
+	@Path("/trabajadoresCaja")
+	public CajaTrabajadoresResource trabajadoresCaja();
 
 }

@@ -55,7 +55,7 @@ public class JpaTrabajadorCajaProvider implements TrabajadorCajaProvider {
 	public TrabajadorCajaModel getTrabajadorCajaByTipoNumeroDocumento(
 			String tipoDocumento, String numeroDocumento) {
 		
-		TypedQuery<TrabajadorCajaEntity> query = em.createNamedQuery(TrabajadorCajaEntity.findByTipoAndNumeroDocumento, TrabajadorCajaEntity.class);
+		TypedQuery<TrabajadorCajaEntity> query = em.createNamedQuery("Trabajador.getByTipoNumeroDocumento", TrabajadorCajaEntity.class);
 		query.setParameter("tipoDocumento", tipoDocumento);
 		query.setParameter("numeroDocumento", numeroDocumento);
 		List<TrabajadorCajaEntity> results = query.getResultList();

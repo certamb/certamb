@@ -3,6 +3,7 @@ package org.sistcoop.cooperativa.admin.client.resource;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,7 +32,7 @@ public interface BovedasResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<BovedaRepresentation> search(
 			@QueryParam("agencia") String agencia,
-			@QueryParam("estado") Boolean estado,
+			@QueryParam("estado") @DefaultValue(value = "true") boolean estado,
 			@QueryParam("filterText") String filterText,
 			@QueryParam("firstResult") Integer firstResult,
 			@QueryParam("maxResults") Integer maxResults);

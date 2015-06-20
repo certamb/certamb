@@ -17,14 +17,14 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentatio
 /**
  * @author carlosthe19916@gmail.com
  */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public interface BovedaHistorialResource {
 
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	public HistorialBovedaRepresentation historial();
 
 	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
 	public void update();
 
 	@DELETE
@@ -44,6 +44,7 @@ public interface BovedaHistorialResource {
 
 	@GET
 	@Path("/detalle")
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<DetalleMonedaRepresentation> detalle();
 
 	@Path("/transaccionesBovedaCaja")

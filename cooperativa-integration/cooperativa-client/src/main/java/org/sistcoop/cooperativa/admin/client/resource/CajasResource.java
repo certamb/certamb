@@ -18,13 +18,13 @@ import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
  * @author carlosthe19916@gmail.com
  */
 @Path("/cajas")
+@Consumes(MediaType.APPLICATION_JSON)
 public interface CajasResource {
 
 	@Path("/{caja}")
 	public CajaResource caja(@PathParam("caja") String caja);
 
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(CajaRepresentation cajaRepresentation);
 
 	@GET

@@ -16,23 +16,27 @@ import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
+/**
+ * @author carlosthe19916@gmail.com
+ */
+@Consumes(MediaType.APPLICATION_JSON)
 public interface BovedaHistorialesResource {
 
 	@Path("/{historial}")
-	BovedaHistorialResource get(@PathParam("historial") String historial);
+	public BovedaHistorialResource historial(@PathParam("historial") String historial);
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	Response create(HistorialBovedaRepresentation historialBovedaRepresentation);
+	@POST	
+	public Response create(HistorialBovedaRepresentation historialBovedaRepresentation);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	List<HistorialBovedaRepresentation> search(
+	public List<HistorialBovedaRepresentation> search(
 			@QueryParam("estado") @DefaultValue(value = "true") boolean estado);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	List<HistorialBovedaRepresentation> search(@QueryParam("desde") Date desde,
+	public List<HistorialBovedaRepresentation> search(
+			@QueryParam("desde") Date desde,
 			@QueryParam("hasta") Date hasta,
 			@QueryParam("firstResult") Integer firstResult,
 			@QueryParam("maxResults") Integer maxResults);

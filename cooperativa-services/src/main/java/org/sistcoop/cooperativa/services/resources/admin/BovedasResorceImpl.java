@@ -30,19 +30,18 @@ public class BovedasResorceImpl implements BovedasResource {
 	@Context
 	protected UriInfo uriInfo;
 	
-	@Inject
-	private BovedaResource bovedaResource;
-	
 	@Override
 	public BovedaResource boveda(String boveda) {
 		BovedaModel bovedaModel = bovedaProvider.getBovedaById(boveda);
-		bovedaResource.boveda();
 		return new BovedaResourceImpl(bovedaModel);		
 	}
 
 	@Override
 	public Response create(BovedaRepresentation bovedaRepresentation) {
-		BovedaModel bovedaModel = representationToModel.createBoveda(bovedaRepresentation, bovedaProvider);
+		BovedaModel bovedaModel = representationToModel.createBoveda(
+				bovedaRepresentation, 
+				bovedaProvider);
+		
 		return Response.created(uriInfo.getAbsolutePathBuilder()
 								.path(bovedaModel.getId()).build())
 								.header("Access-Control-Expose-Headers", "Location")
@@ -50,25 +49,20 @@ public class BovedasResorceImpl implements BovedasResource {
 	}
 
 	@Override
-	public List<BovedaRepresentation> search(String agencia, Boolean estado,
+	public List<BovedaRepresentation> search(String agencia, boolean estado,
 			String filterText, Integer firstResult, Integer maxResults) {
 
-		List<BovedaModel> list;
-		if (estado == null) {
-			if (filterText == null) {
-				filterText = "";
-			}
-			if (firstResult == null) {
-				firstResult = -1;
-			}
-			if (maxResults == null) {
-				maxResults = -1;
-			}
-			list = bovedaProvider.getBovedas(agencia, true, filterText, firstResult, maxResults);
-		} else {
-			list = bovedaProvider.getBovedas(agencia, estado, filterText, firstResult, maxResults);
+		if (filterText == null) {
+			filterText = "";
 		}
-
+		if (firstResult == null) {
+			firstResult = -1;
+		}
+		if (maxResults == null) {
+			maxResults = -1;
+		}
+		
+		List<BovedaModel> list = bovedaProvider.getBovedas(agencia, estado, filterText, firstResult, maxResults);		
 		List<BovedaRepresentation> result = new ArrayList<BovedaRepresentation>();
 		for (BovedaModel bovedaModel : list) {
 			result.add(ModelToRepresentation.toRepresentation(bovedaModel));

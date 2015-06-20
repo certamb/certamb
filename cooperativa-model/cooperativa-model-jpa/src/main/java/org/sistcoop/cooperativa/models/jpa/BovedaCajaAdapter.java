@@ -16,8 +16,8 @@ public class BovedaCajaAdapter implements BovedaCajaModel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected BovedaCajaEntity bovedaCajaEntity;
-	protected EntityManager em;
+	private BovedaCajaEntity bovedaCajaEntity;
+	private EntityManager em;
 
 	public BovedaCajaAdapter(EntityManager em, BovedaCajaEntity bovedaCajaEntity) {
 		this.em = em;
@@ -67,7 +67,7 @@ public class BovedaCajaAdapter implements BovedaCajaModel {
 
 	@Override
 	public HistorialBovedaCajaModel getHistorialActivo() {
-		TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery(HistorialBovedaCajaEntity.findByEstado, HistorialBovedaCajaEntity.class);
+		TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery("HistorialBovedaCaja.getByIdBovedaCajaEstado", HistorialBovedaCajaEntity.class);
 		query.setParameter("idBovedaCaja", getId());
 		query.setParameter("estado", true);
 		List<HistorialBovedaCajaEntity> list = query.getResultList();

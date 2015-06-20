@@ -9,6 +9,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 
+/**
+ * @author carlosthe19916@gmail.com
+ */
 public interface CajaTrabajadorResource {
 
 	@GET

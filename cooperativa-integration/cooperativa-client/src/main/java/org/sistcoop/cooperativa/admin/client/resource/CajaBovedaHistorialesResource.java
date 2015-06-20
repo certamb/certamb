@@ -16,6 +16,10 @@ import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 
+/**
+ * @author carlosthe19916@gmail.com
+ */
+@Consumes(MediaType.APPLICATION_JSON)
 public interface CajaBovedaHistorialesResource {
 
 	@Path("/{historial}")
@@ -23,7 +27,6 @@ public interface CajaBovedaHistorialesResource {
 			@PathParam("historial") String historial);
 
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(
 			HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation);
 

@@ -17,7 +17,6 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaReprese
 /**
  * @author carlosthe19916@gmail.com
  */
-
 public interface TransaccionBovedaCajaResource {
 
 	@GET
@@ -38,6 +37,7 @@ public interface TransaccionBovedaCajaResource {
 	
 	@GET
 	@Path("/detalle")
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<DetalleMonedaRepresentation> detalle();
 	
 	@DELETE

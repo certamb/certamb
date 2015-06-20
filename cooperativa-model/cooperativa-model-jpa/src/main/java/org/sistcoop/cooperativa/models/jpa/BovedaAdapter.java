@@ -18,8 +18,8 @@ public class BovedaAdapter implements BovedaModel {
 
 	private static final long serialVersionUID = 1L;
 
-	protected BovedaEntity bovedaEntity;
-	protected EntityManager em;
+	private BovedaEntity bovedaEntity;
+	private EntityManager em;
 
 	public BovedaAdapter(EntityManager em, BovedaEntity bovedaEntity) {
 		this.em = em;

@@ -59,7 +59,7 @@ public class JpaHistorialBovedaCajaProvider implements HistorialBovedaCajaProvid
 	@Override
 	public List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(BovedaCajaModel bovedaCajaModel, int firstResult, int maxResults) {
 		
-		TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery(HistorialBovedaCajaEntity.findByBovedaCaja, HistorialBovedaCajaEntity.class);
+		TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery("HistorialBovedaCaja.getByIdBovedaCaja", HistorialBovedaCajaEntity.class);
 		query.setParameter("idBovedaCaja", bovedaCajaModel.getId());
 		if (firstResult != -1) {
 			query.setFirstResult(firstResult);
@@ -81,7 +81,7 @@ public class JpaHistorialBovedaCajaProvider implements HistorialBovedaCajaProvid
 	@Override
 	public List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(BovedaCajaModel bovedaCajaModel, Date desde, Date hasta, int firstResult, int maxResults) {
 		
-		TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery(HistorialBovedaCajaEntity.findByBovedaCajaDesdeHasta, HistorialBovedaCajaEntity.class);
+		TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery("HistorialBovedaCaja.getByIdBovedaCajaEstado", HistorialBovedaCajaEntity.class);
 		query.setParameter("idBovedaCaja", bovedaCajaModel.getId());
 		query.setParameter("desde", desde);
 		query.setParameter("hasta", hasta);

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -43,11 +44,14 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 	}
 
 	@Override
-	public BovedaHistorialResource get(String historial) {
+	public BovedaHistorialResource historial(String historial) {		
 		HistorialBovedaModel historialBovedaModel = historialBovedaProvider.getHistorialBovedaById(historial);
+		if(!bovedaModel.equals(historialBovedaModel.getBoveda())) {
+			throw new BadRequestException();
+		}
 		return new BovedaHistorialResourceImpl(historialBovedaModel);
 	}
-
+	
 	@Override
 	public Response create(HistorialBovedaRepresentation historialBovedaRepresentation) {
 		HistorialBovedaModel historialBovedaModel = representationToModel.createHistorialBoveda(

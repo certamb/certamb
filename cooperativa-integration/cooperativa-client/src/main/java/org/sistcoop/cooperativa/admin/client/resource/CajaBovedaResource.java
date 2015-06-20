@@ -11,6 +11,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 
+/**
+ * @author carlosthe19916@gmail.com
+ */
 public interface CajaBovedaResource {
 
 	@GET
@@ -21,9 +24,6 @@ public interface CajaBovedaResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void update(BovedaCajaRepresentation bovedaRepresentation);
 
-	@Path("/historiales")
-	public CajaBovedaHistorialesResource historiales();
-
 	@POST
 	public void enable();
 
@@ -32,5 +32,8 @@ public interface CajaBovedaResource {
 
 	@DELETE
 	public void remove();
+
+	@Path("/historiales")
+	public CajaBovedaHistorialesResource historiales();
 
 }

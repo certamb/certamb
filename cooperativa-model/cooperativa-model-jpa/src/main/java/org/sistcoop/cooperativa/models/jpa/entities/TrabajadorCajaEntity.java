@@ -17,25 +17,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "TRABAJADOR_CAJA")
-@NamedQueries(value = { @NamedQuery(name = TrabajadorCajaEntity.findByTipoAndNumeroDocumento, query = "SELECT t FROM TrabajadorCajaEntity t WHERE t.tipoDocumento = :tipoDocumento AND t.numeroDocumento = :numeroDocumento AND t.estado = TRUE") })
 public class TrabajadorCajaEntity implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public final static String base = "org.sistcoop.cooperativa.models.jpa.entities.TrabajadorCajaEntity.";
-	public final static String findByTipoAndNumeroDocumento = base
-			+ "findByTipoAndNumeroDocumento";
-
+	
 	private String id;
 	private String tipoDocumento;
 	private String numeroDocumento;

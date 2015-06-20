@@ -39,11 +39,6 @@ public class BovedaResourceImpl implements BovedaResource {
 	}
 
 	@Override
-	public BovedaHistorialesResource historiales() {
-		return new BovedaHistorialesResourceImpl(bovedaModel);
-	}
-
-	@Override
 	public void enable() {
 		throw new BadRequestException();
 	}
@@ -58,4 +53,9 @@ public class BovedaResourceImpl implements BovedaResource {
 		bovedaProvider.removeBoveda(bovedaModel);
 	}
 
+	@Override
+	public BovedaHistorialesResource historiales() {
+		return new BovedaHistorialesResourceImpl(bovedaModel);
+	}
+	
 }
