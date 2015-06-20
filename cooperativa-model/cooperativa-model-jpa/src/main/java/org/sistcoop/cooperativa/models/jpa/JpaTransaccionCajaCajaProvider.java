@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
@@ -56,15 +58,29 @@ public class JpaTransaccionCajaCajaProvider implements TransaccionCajaCajaProvid
 
 	@Override
 	public TransaccionCajaCajaModel getTransaccionCajaCajaById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		TransaccionCajaCajaEntity transaccionCajaCajaEntity = this.em.find(TransaccionCajaCajaEntity.class, id);
+		return transaccionCajaCajaEntity != null ? new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity) : null;
 	}
 
 	@Override
-	public List<TransaccionCajaCajaModel> getTransaccionesCajaCaja(
-			HistorialBovedaCajaModel historialBovedaCajaModel) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean removeTransaccionCajaCaja(TransaccionCajaCajaModel transaccionCajaCajaModel) {
+		TransaccionCajaCajaEntity transaccionCajaCajaEntity = em.find(TransaccionCajaCajaEntity.class, transaccionCajaCajaModel.getId());
+		if (transaccionCajaCajaEntity == null) return false;
+		em.remove(transaccionCajaCajaEntity);
+		return true; 
+	}
+
+	@Override
+	public List<TransaccionCajaCajaModel> getTransaccionesCajaCaja(HistorialBovedaCajaModel historialBovedaCajaModel) {
+		TypedQuery<TransaccionCajaCajaEntity> query = em.createNamedQuery("TransaccionCajaCaja.getByIdHistorialBovedaCajaModel", TransaccionCajaCajaEntity.class);
+		query.setParameter("idHistorialBovedaCajaModel", historialBovedaCajaModel.getId());
+		List<TransaccionCajaCajaEntity> list = query.getResultList();
+
+		List<TransaccionCajaCajaModel> result = new ArrayList<TransaccionCajaCajaModel>();
+		for (TransaccionCajaCajaEntity transaccionCajaCajaEntity : list) {			
+			result.add(new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity));
+		}
+		return result;
 	}
 
 	@Override
@@ -80,12 +96,5 @@ public class JpaTransaccionCajaCajaProvider implements TransaccionCajaCajaProvid
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void removeTransaccionCajaCaja(
-			TransaccionCajaCajaModel transaccionCajaCajaModel) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }

@@ -3,18 +3,16 @@
 	xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd ">
 
-	<named-query name="Trabajador.getByTipoNumeroDocumento">
+	<named-query name="TransaccionBovedaCaja.getByIdHistorialBoveda">
 		<query>
-			SELECT t FROM TrabajadorCajaEntity t 
-			WHERE t.tipoDocumento = :tipoDocumento 
-			AND t.numeroDocumento = :numeroDocumento 
-			AND t.estado = TRUE
+			SELECT t FROM TransaccionBovedaCajaEntity t 
+			WHERE t.historialBoveda.id = :idHistorialBoveda
 		</query>
 	</named-query>
-	<named-query name="Trabajador.getByIdCaja">
+	<named-query name="TransaccionBovedaCaja.getByIdHistorialBovedaCaja">
 		<query>
-			SELECT t FROM TrabajadorCajaEntity t 
-			WHERE t.caja.id = :idCaja
+			SELECT t FROM TransaccionBovedaCajaEntity t 
+			WHERE t.historialBovedaCaja.id = :idHistorialBovedaCaja
 		</query>
 	</named-query>
 

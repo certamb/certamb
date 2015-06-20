@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -12,7 +13,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.CajaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
@@ -73,10 +73,17 @@ public class JpaTrabajadorCajaProvider implements TrabajadorCajaProvider {
 	}
 
 	@Override
-	public List<HistorialBovedaModel> getTrabajadoresCaja(
+	public List<TrabajadorCajaModel> getTrabajadoresCaja(
 			CajaModel cajaModel, int firstResult, int maxResults) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		TypedQuery<TrabajadorCajaEntity> query = em.createNamedQuery("Trabajador.getByIdCaja", TrabajadorCajaEntity.class);
+		query.setParameter("idCaja", cajaModel.getId());
+		List<TrabajadorCajaEntity> trabajadorCajaEntities = query.getResultList();
+		List<TrabajadorCajaModel> result = new ArrayList<>();
+		for (TrabajadorCajaEntity trabajadorCajaEntity : trabajadorCajaEntities) {
+			result.add(new TrabajadorCajaAdapter(em, trabajadorCajaEntity));
+		}
+		return result;
 	}
 
 }

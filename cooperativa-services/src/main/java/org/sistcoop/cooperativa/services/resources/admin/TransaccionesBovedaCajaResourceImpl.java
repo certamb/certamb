@@ -114,9 +114,9 @@ public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaC
 			if(enviados && recibidos) {
 				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(historialBovedaCajaModel);
 			} else if(enviados) {
-				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCajaEnviados(historialBovedaCajaModel);
+				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(historialBovedaCajaModel, OrigenTransaccionBovedaCaja.CAJA);
 			} else if(recibidos) {
-				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCajaRecibidos(historialBovedaCajaModel);
+				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(historialBovedaCajaModel, OrigenTransaccionBovedaCaja.BOVEDA);
 			} else {
 				transaccionBovedaCajaModels = new ArrayList<>();
 			}			
@@ -125,9 +125,9 @@ public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaC
 			if(enviados && recibidos) {
 				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(historialBovedaModel);
 			} else if(enviados) {
-				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCajaEnviados(historialBovedaModel);
+				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(historialBovedaModel, OrigenTransaccionBovedaCaja.BOVEDA);
 			} else if(recibidos) {
-				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCajaRecibidos(historialBovedaModel);
+				transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(historialBovedaModel, OrigenTransaccionBovedaCaja.CAJA);
 			} else {
 				transaccionBovedaCajaModels = new ArrayList<>();
 			}

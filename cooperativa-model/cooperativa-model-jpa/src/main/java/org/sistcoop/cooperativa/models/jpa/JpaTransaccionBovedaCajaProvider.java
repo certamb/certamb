@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
@@ -63,57 +65,72 @@ public class JpaTransaccionBovedaCajaProvider implements TransaccionBovedaCajaPr
 
 	@Override
 	public TransaccionBovedaCajaModel getTransaccionBovedaCajaById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		TransaccionBovedaCajaEntity transaccionBovedaCajaEntity = this.em.find(TransaccionBovedaCajaEntity.class, id);
+		return transaccionBovedaCajaEntity != null ? new TransaccionBovedaCajaAdapter(em, transaccionBovedaCajaEntity) : null;
 	}
 
 	@Override
-	public void removeTransaccionBovedaCaja(
-			TransaccionBovedaCajaModel transaccionBovedaCajaModel) {
-		// TODO Auto-generated method stub
-		
+	public boolean removeTransaccionBovedaCaja(TransaccionBovedaCajaModel transaccionBovedaCajaModel) {
+		TransaccionBovedaCajaEntity transaccionBovedaCajaEntity = em.find(TransaccionBovedaCajaEntity.class, transaccionBovedaCajaModel.getId());
+		if (transaccionBovedaCajaEntity == null) return false;
+		em.remove(transaccionBovedaCajaEntity);
+		return true; 
 	}
 
 	@Override
-	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(
-			HistorialBovedaModel historialBovedaModel) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(HistorialBovedaModel historialBovedaModel) {
+		TypedQuery<TransaccionBovedaCajaEntity> query = em.createNamedQuery("TransaccionBovedaCaja.getByIdHistorialBoveda", TransaccionBovedaCajaEntity.class);
+		query.setParameter("idHistorialBoveda", historialBovedaModel.getId());
+		List<TransaccionBovedaCajaEntity> list = query.getResultList();
+
+		List<TransaccionBovedaCajaModel> result = new ArrayList<TransaccionBovedaCajaModel>();
+		for (TransaccionBovedaCajaEntity transaccionBovedaCajaEntity : list) {			
+			result.add(new TransaccionBovedaCajaAdapter(em, transaccionBovedaCajaEntity));
+		}
+		return result;
 	}
 
 	@Override
-	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCajaEnviados(
-			HistorialBovedaModel historialBovedaModel) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(HistorialBovedaModel historialBovedaModel, OrigenTransaccionBovedaCaja origen) {
+		TypedQuery<TransaccionBovedaCajaEntity> query = em.createNamedQuery("TransaccionBovedaCaja.getByIdHistorialBoveda", TransaccionBovedaCajaEntity.class);
+		query.setParameter("idHistorialBoveda", historialBovedaModel.getId());
+		List<TransaccionBovedaCajaEntity> list = query.getResultList();
+
+		List<TransaccionBovedaCajaModel> result = new ArrayList<TransaccionBovedaCajaModel>();
+		for (TransaccionBovedaCajaEntity transaccionBovedaCajaEntity : list) {			
+			if(transaccionBovedaCajaEntity.getOrigen().equals(origen)) {
+				result.add(new TransaccionBovedaCajaAdapter(em, transaccionBovedaCajaEntity));
+			}
+		}
+		return result;
 	}
 
 	@Override
-	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCajaRecibidos(
-			HistorialBovedaModel historialBovedaModel) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(HistorialBovedaCajaModel historialBovedaCajaModel) {
+		TypedQuery<TransaccionBovedaCajaEntity> query = em.createNamedQuery("TransaccionBovedaCaja.getByIdHistorialBovedaCaja", TransaccionBovedaCajaEntity.class);
+		query.setParameter("idHistorialBovedaCaja", historialBovedaCajaModel.getId());
+		List<TransaccionBovedaCajaEntity> list = query.getResultList();
+
+		List<TransaccionBovedaCajaModel> result = new ArrayList<TransaccionBovedaCajaModel>();
+		for (TransaccionBovedaCajaEntity transaccionBovedaCajaEntity : list) {			
+			result.add(new TransaccionBovedaCajaAdapter(em, transaccionBovedaCajaEntity));
+		}
+		return result;
 	}
 
 	@Override
-	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(
-			HistorialBovedaCajaModel historialBovedaCajaModel) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(HistorialBovedaCajaModel historialBovedaCajaModel, OrigenTransaccionBovedaCaja origen) {
+		TypedQuery<TransaccionBovedaCajaEntity> query = em.createNamedQuery("TransaccionBovedaCaja.getByIdHistorialBovedaCaja", TransaccionBovedaCajaEntity.class);
+		query.setParameter("idHistorialBovedaCaja", historialBovedaCajaModel.getId());
+		List<TransaccionBovedaCajaEntity> list = query.getResultList();
 
-	@Override
-	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCajaEnviados(
-			HistorialBovedaCajaModel historialBovedaCajaModel) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<TransaccionBovedaCajaModel> getTransaccionesBovedaCajaRecibidos(
-			HistorialBovedaCajaModel historialBovedaCajaModel) {
-		// TODO Auto-generated method stub
-		return null;
+		List<TransaccionBovedaCajaModel> result = new ArrayList<TransaccionBovedaCajaModel>();
+		for (TransaccionBovedaCajaEntity transaccionBovedaCajaEntity : list) {			
+			if(transaccionBovedaCajaEntity.getOrigen().equals(origen)) {
+				result.add(new TransaccionBovedaCajaAdapter(em, transaccionBovedaCajaEntity));
+			}
+		}
+		return result;
 	}
 
 }

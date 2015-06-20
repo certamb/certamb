@@ -16,6 +16,9 @@ public interface TransaccionCajaCajaProvider extends Provider {
 			BigDecimal monto, String observacion);
 
 	TransaccionCajaCajaModel getTransaccionCajaCajaById(String id);
+
+	boolean removeTransaccionCajaCaja(
+			TransaccionCajaCajaModel transaccionCajaCajaModel);
 	
 	List<TransaccionCajaCajaModel> getTransaccionesCajaCaja(
 			HistorialBovedaCajaModel historialBovedaCajaModel);
@@ -26,6 +29,4 @@ public interface TransaccionCajaCajaProvider extends Provider {
 	List<TransaccionCajaCajaModel> getTransaccionesCajaCajaRecibidos(
 			HistorialBovedaCajaModel historialBovedaCajaModel);
 
-	void removeTransaccionCajaCaja(
-			TransaccionCajaCajaModel transaccionCajaCajaModel);
 }

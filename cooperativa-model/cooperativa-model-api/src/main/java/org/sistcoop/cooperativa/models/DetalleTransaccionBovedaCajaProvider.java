@@ -7,11 +7,10 @@ import javax.ejb.Local;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
-public interface DetalleTransaccionBovedaCajaProvider extends Provider {	
-	
+public interface DetalleTransaccionBovedaCajaProvider extends Provider {
+
 	DetalleTransaccionBovedaCajaModel addDetalleTransaccionBovedaCajaModel(
 			TransaccionBovedaCajaModel transaccionBovedaCajaModel,
-			BigDecimal valor,
-			int cantidad);	
-	
+			BigDecimal valor, int cantidad);
+
 }

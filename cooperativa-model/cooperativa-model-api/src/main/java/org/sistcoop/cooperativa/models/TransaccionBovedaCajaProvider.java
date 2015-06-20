@@ -17,25 +17,21 @@ public interface TransaccionBovedaCajaProvider extends Provider {
 
 	TransaccionBovedaCajaModel getTransaccionBovedaCajaById(String id);
 
-	void removeTransaccionBovedaCaja(
+	boolean removeTransaccionBovedaCaja(
 			TransaccionBovedaCajaModel transaccionBovedaCajaModel);
 
 	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(
 			HistorialBovedaModel historialBovedaModel);
 
-	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCajaEnviados(
-			HistorialBovedaModel historialBovedaModel);
-
-	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCajaRecibidos(
-			HistorialBovedaModel historialBovedaModel);
+	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(
+			HistorialBovedaModel historialBovedaModel,
+			OrigenTransaccionBovedaCaja origen);
 
 	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(
 			HistorialBovedaCajaModel historialBovedaCajaModel);
 
-	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCajaEnviados(
-			HistorialBovedaCajaModel historialBovedaCajaModel);
-
-	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCajaRecibidos(
-			HistorialBovedaCajaModel historialBovedaCajaModel);
+	List<TransaccionBovedaCajaModel> getTransaccionesBovedaCaja(
+			HistorialBovedaCajaModel historialBovedaCajaModel,
+			OrigenTransaccionBovedaCaja origen);
 
 }

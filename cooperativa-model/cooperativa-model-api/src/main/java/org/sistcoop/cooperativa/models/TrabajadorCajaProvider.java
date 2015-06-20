@@ -10,8 +10,7 @@ import org.sistcoop.cooperativa.provider.Provider;
 public interface TrabajadorCajaProvider extends Provider {
 
 	TrabajadorCajaModel addTrabajadorCaja(CajaModel cajaModel,
-
-	String tipoDocumento, String numeroDocumento);
+			String tipoDocumento, String numeroDocumento);
 
 	TrabajadorCajaModel getTrabajadorCajaById(String id);
 
@@ -20,7 +19,7 @@ public interface TrabajadorCajaProvider extends Provider {
 
 	boolean removeTrabajadorCaja(TrabajadorCajaModel trabajadorCajaModel);
 
-	List<HistorialBovedaModel> getTrabajadoresCaja(CajaModel cajaModel,
+	List<TrabajadorCajaModel> getTrabajadoresCaja(CajaModel cajaModel,
 			int firstResult, int maxResults);
 
 }
