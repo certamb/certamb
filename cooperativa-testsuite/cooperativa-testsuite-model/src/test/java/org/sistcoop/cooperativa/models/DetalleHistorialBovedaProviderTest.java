@@ -18,6 +18,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.jpa.BovedaAdapter;
 import org.sistcoop.cooperativa.models.jpa.DetalleHistorialBovedaAdapter;
 import org.sistcoop.cooperativa.models.jpa.HistorialBovedaAdapter;
@@ -58,6 +59,8 @@ public class DetalleHistorialBovedaProviderTest {
 				.addClass(DetalleHistorialBovedaProvider.class)
 				
 				.addPackage(DetalleHistorialBovedaModel.class.getPackage())				
+				
+				.addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
 				
 				/**persona-model-jpa**/
 				.addClass(JpaBovedaProvider.class)

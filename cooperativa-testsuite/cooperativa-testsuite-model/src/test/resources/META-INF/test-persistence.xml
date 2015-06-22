@@ -10,5 +10,10 @@
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.id.new_generator_mappings" value="true" />
 		</properties>
+		
+		<!-- Named JPQL queries per entity -->
+		<mapping-file>META-INF/hql/Boveda.xml</mapping-file>
+		
+		
 	</persistence-unit>
 </persistence>

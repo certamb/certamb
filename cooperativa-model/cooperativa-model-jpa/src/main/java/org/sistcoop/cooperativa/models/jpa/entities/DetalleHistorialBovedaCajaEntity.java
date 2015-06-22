@@ -47,7 +47,6 @@ public class DetalleHistorialBovedaCajaEntity extends DetalleHistorialEntity imp
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
-	@Column(name = "ID_HISTORIAL_BOVEDA_CAJA")
 	public HistorialBovedaCajaEntity getHistorial() {
 		return historial;
 	}

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -28,8 +27,7 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey)
-	@Column(name = "ID_BOVEDA")
+	@JoinColumn(foreignKey = @ForeignKey)	
 	public BovedaEntity getBoveda() {
 		return boveda;
 	}

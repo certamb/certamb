@@ -19,6 +19,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.jpa.CajaAdapter;
 import org.sistcoop.cooperativa.models.jpa.JpaCajaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
@@ -47,6 +48,8 @@ public class CajaProviderTest {
 				.addClass(CajaProvider.class)
 				
 				.addPackage(CajaModel.class.getPackage())				
+				
+				.addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
 				
 				/**persona-model-jpa**/
 				.addClass(JpaCajaProvider.class)

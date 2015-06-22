@@ -85,7 +85,6 @@ public class DetalleTransaccionClienteEntity implements Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
-	@Column(name = "ID_TRANSACCION_CLIENTE")
 	public TransaccionClienteEntity getTransaccionCliente() {
 		return transaccionCliente;
 	}

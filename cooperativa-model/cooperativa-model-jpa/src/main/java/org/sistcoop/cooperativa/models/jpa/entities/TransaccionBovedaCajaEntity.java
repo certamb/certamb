@@ -56,7 +56,6 @@ public class TransaccionBovedaCajaEntity extends TransaccionInternaEntity implem
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
-	@Column(name = "ID_HISTORIAL_BOVEDA")
 	public HistorialBovedaEntity getHistorialBoveda() {
 		return historialBoveda;
 	}
@@ -68,7 +67,6 @@ public class TransaccionBovedaCajaEntity extends TransaccionInternaEntity implem
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
-	@Column(name = "ID_HISTORIAL_BOVEDA_CAJA")
 	public HistorialBovedaCajaEntity getHistorialBovedaCaja() {
 		return historialBovedaCaja;
 	}

@@ -78,7 +78,6 @@ public class TrabajadorCajaEntity implements Serializable {
 	@NaturalId
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(foreignKey = @ForeignKey)
-	@Column(name = "ID_CAJA")
 	public CajaEntity getCaja() {
 		return caja;
 	}
