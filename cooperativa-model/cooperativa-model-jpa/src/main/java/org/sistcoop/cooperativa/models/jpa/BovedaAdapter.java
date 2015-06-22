@@ -125,7 +125,7 @@ public class BovedaAdapter implements BovedaModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BovedaEntity other = (BovedaEntity) obj;
+		BovedaModel other = (BovedaModel) obj;
 		if (getId() == null) {
 			if (other.getId() != null)
 				return false;

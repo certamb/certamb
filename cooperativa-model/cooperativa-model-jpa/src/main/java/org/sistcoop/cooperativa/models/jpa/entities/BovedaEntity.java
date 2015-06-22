@@ -19,7 +19,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Table(name = "BOVEDA")
@@ -29,7 +28,7 @@ public class BovedaEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String id;
 	private String moneda;
 	private String denominacion;
@@ -66,9 +65,8 @@ public class BovedaEntity implements Serializable {
 		this.moneda = moneda;
 	}
 
-	@URL
-	@NotNull	
-	@NotBlank	
+	@NotNull
+	@NotBlank
 	@Size(min = 1, max = 200)
 	@Column(name = "AGENCIA")
 	public String getAgencia() {
@@ -79,7 +77,7 @@ public class BovedaEntity implements Serializable {
 		this.agencia = agencia;
 	}
 
-	@NotNull	
+	@NotNull
 	@NotBlank
 	@Size(min = 1, max = 60)
 	@Column(name = "DENOMINACION")

@@ -83,15 +83,15 @@ public class BovedaCajaProviderTest {
 	}			
 	   
 	@Test
-	public void addBoveda() {	
-		BovedaModel bovedaModel = bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
-		CajaModel cajaModel = cajaProvider.addCaja("01", "Caja-01");
+	public void addBoveda() {			
+		BovedaModel bovedaModel = bovedaProvider.addBoveda("agencia01", "PEN", "Boveda nuevos soles");
+		CajaModel cajaModel = cajaProvider.addCaja("agencia01", "Caja-01");
 		
 		BovedaCajaModel model = bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
 					
 		assertThat(model, is(notNullValue()));
 		assertThat(model.getId(), is(notNullValue()));		
 		assertThat(model.getEstado(), is(true));	
-	}		
+	}
 	
 }

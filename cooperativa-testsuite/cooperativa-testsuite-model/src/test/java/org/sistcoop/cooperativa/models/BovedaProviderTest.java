@@ -3,6 +3,7 @@ package org.sistcoop.cooperativa.models;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -68,7 +69,7 @@ public class BovedaProviderTest {
 	   
 	@Test
 	public void addBoveda() {
-		BovedaModel model = bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
+		BovedaModel model = bovedaProvider.addBoveda("agencia01", "PEN", "Boveda nuevos soles");
 					
 		assertThat(model, is(notNullValue()));
 		assertThat(model.getId(), is(notNullValue()));		
@@ -77,7 +78,7 @@ public class BovedaProviderTest {
 
 	@Test
 	public void getBovedaById() {
-		BovedaModel model1 = bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
+		BovedaModel model1 = bovedaProvider.addBoveda("agencia01", "PEN", "Boveda nuevos soles");
 										
 		String id = model1.getId();		
 		BovedaModel model2 = bovedaProvider.getBovedaById(id);
@@ -99,13 +100,13 @@ public class BovedaProviderTest {
 	}
 	
 	@Test
-	public void getBovedasByAgencia() {	
-		bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
-		bovedaProvider.addBoveda("02", "PEN", "Boveda nuevos soles");
+	public void getBovedasByAgencia() {			
+		bovedaProvider.addBoveda("agencia01", "PEN", "Boveda nuevos soles");
+		bovedaProvider.addBoveda("agencia02", "PEN", "Boveda nuevos soles");
 		
-		List<BovedaModel> models = bovedaProvider.getBovedas("01");
+		List<BovedaModel> models = bovedaProvider.getBovedas("agencia01");
 		for (BovedaModel bovedaModel : models) {			
-			assertThat(bovedaModel.getAgencia(), is(equalTo("01")));
+			assertThat(bovedaModel.getAgencia(), is(equalTo("agencia01")));
 			assertThat(bovedaModel.getEstado(), is(true));
 		}
 		
@@ -114,7 +115,7 @@ public class BovedaProviderTest {
 	
 	@Test
 	public void getBovedasByEstado() {	
-		bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
+		bovedaProvider.addBoveda("agencia01", "PEN", "Boveda nuevos soles");
 		
 		List<BovedaModel> models = bovedaProvider.getBovedas(true);
 		for (BovedaModel bovedaModel : models) {			
@@ -126,16 +127,28 @@ public class BovedaProviderTest {
 	
 	@Test
 	public void getBovedasByAgenciaEstado() {	
-		bovedaProvider.addBoveda("01", "PEN", "Boveda nuevos soles");
-		bovedaProvider.addBoveda("02", "PEN", "Boveda nuevos soles");
+		bovedaProvider.addBoveda("agencia01", "PEN", "Boveda nuevos soles");
+		bovedaProvider.addBoveda("agencia02", "PEN", "Boveda nuevos soles");
 		
-		List<BovedaModel> models = bovedaProvider.getBovedas("01", true);
+		List<BovedaModel> models = bovedaProvider.getBovedas("agencia01", true);
 		for (BovedaModel bovedaModel : models) {			
-			assertThat(bovedaModel.getAgencia(), is(equalTo("01")));
+			assertThat(bovedaModel.getAgencia(), is(equalTo("agencia01")));
 			assertThat(bovedaModel.getEstado(), is(true));
 		}
 		
 		assertThat(models.size(), is(equalTo(1)));
+	}
+	
+	@Test
+	public void removeAgencia() {	
+		BovedaModel model = bovedaProvider.addBoveda("agencia01", "PEN", "Boveda nuevos soles");				
+		String id = model.getId();					
+		boolean result = bovedaProvider.removeBoveda(model);
+		
+		model = bovedaProvider.getBovedaById(id);
+				
+		assertThat(result, is(true));
+		assertThat(model, is(nullValue()));
 	}
 	
 }

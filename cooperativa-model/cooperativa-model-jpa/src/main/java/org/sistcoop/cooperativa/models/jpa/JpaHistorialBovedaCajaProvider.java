@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,6 +43,7 @@ public class JpaHistorialBovedaCajaProvider implements HistorialBovedaCajaProvid
 
 		HistorialBovedaCajaEntity historialBovedaCajaEntity = new HistorialBovedaCajaEntity();
 		historialBovedaCajaEntity.setBovedaCaja(bovedaCajaEntity);
+		historialBovedaCajaEntity.setSaldo(BigDecimal.ZERO);
 		historialBovedaCajaEntity.setEstado(true);
 		historialBovedaCajaEntity.setFechaApertura(calendar.getTime());
 		historialBovedaCajaEntity.setHoraApertura(calendar.getTime());
