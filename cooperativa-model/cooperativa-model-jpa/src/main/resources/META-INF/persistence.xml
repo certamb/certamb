@@ -11,15 +11,5 @@
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.id.new_generator_mappings" value="true" />
 		</properties>
-
-		<!-- Named JPQL queries per entity -->
-		<mapping-file>META-INF/hql/Boveda.xml</mapping-file>
-		<mapping-file>META-INF/hql/Caja.xml</mapping-file>
-		<mapping-file>META-INF/hql/HistorialBoveda.xml</mapping-file>
-		<mapping-file>META-INF/hql/HistorialBovedaCaja.xml</mapping-file>
-		<mapping-file>META-INF/hql/TrabajadorCaja.xml</mapping-file>
-		<mapping-file>META-INF/hql/TransaccionBovedaCaja.xml</mapping-file>
-		<mapping-file>META-INF/hql/TransaccionCajaCaja.xml</mapping-file>
-
 	</persistence-unit>
 </persistence>

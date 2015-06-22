@@ -64,7 +64,7 @@ public class HistorialBovedaProviderTest {
 				
 				.addPackage(HistorialBovedaEntity.class.getPackage())
 				
-				.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+				.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")			
 				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
 				.addAsWebInfResource("test-ds.xml");
 
