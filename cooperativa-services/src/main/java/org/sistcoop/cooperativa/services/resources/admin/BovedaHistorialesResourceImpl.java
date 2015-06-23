@@ -39,6 +39,10 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 	@Context
 	private UriInfo uriInfo;
 	
+	public BovedaHistorialesResourceImpl() {
+		
+	}
+	
 	public BovedaHistorialesResourceImpl(BovedaModel bovedaModel) {
 		this.bovedaModel = bovedaModel;
 	}

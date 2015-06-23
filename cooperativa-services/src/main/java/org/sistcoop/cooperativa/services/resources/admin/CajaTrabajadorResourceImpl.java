@@ -18,6 +18,10 @@ public class CajaTrabajadorResourceImpl implements CajaTrabajadorResource {
 	@Inject
 	private TrabajadorCajaProvider trabajadorCajaProvider;
 
+	public CajaTrabajadorResourceImpl() {
+
+	}
+	
 	public CajaTrabajadorResourceImpl(TrabajadorCajaModel trabajadorCajaModel) {
 		this.trabajadorCajaModel = trabajadorCajaModel;
 	}

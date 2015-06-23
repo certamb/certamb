@@ -23,6 +23,10 @@ public class BovedaResourceImpl implements BovedaResource {
 	@Inject
 	private BovedaProvider bovedaProvider;
 
+	public BovedaResourceImpl() {
+		
+	}
+	
 	public BovedaResourceImpl(BovedaModel bovedaModel) {
 		this.bovedaModel = bovedaModel;
 	}

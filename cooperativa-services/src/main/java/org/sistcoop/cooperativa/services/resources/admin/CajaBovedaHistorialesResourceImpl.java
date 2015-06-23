@@ -38,6 +38,10 @@ public class CajaBovedaHistorialesResourceImpl implements CajaBovedaHistorialesR
 	@Context
 	private UriInfo uriInfo;
 	
+	public CajaBovedaHistorialesResourceImpl() {		
+
+	}
+	
 	public CajaBovedaHistorialesResourceImpl(BovedaCajaModel bovedaCajaModel) {		
 		this.bovedaCajaModel = bovedaCajaModel;
 	}

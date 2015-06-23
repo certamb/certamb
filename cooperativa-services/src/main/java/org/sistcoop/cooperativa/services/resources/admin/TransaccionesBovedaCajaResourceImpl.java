@@ -53,6 +53,10 @@ public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaC
 	@Context
 	protected UriInfo uriInfo;
 	
+	public TransaccionesBovedaCajaResourceImpl() {
+		
+	}
+	
 	public TransaccionesBovedaCajaResourceImpl(HistorialBovedaModel historialBovedaModel) {
 		origen = OrigenTransaccionBovedaCaja.BOVEDA;
 		this.historialBovedaModel = historialBovedaModel;

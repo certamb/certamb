@@ -33,6 +33,10 @@ public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 	@Context
 	protected UriInfo uriInfo;
 
+	public CajaTrabajadoresResourceImpl() {
+	
+	}
+	
 	public CajaTrabajadoresResourceImpl(CajaModel cajaModel) {
 		this.cajaModel = cajaModel;
 	}

@@ -24,6 +24,10 @@ public class CajaResourceImpl implements CajaResource {
 	@Inject
 	private CajaProvider cajaProvider;
 
+	public CajaResourceImpl() {
+		
+	}
+	
 	public CajaResourceImpl(CajaModel cajaModel) {
 		this.cajaModel = cajaModel;
 	}

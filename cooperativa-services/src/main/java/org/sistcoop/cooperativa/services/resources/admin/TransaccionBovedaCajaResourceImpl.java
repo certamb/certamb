@@ -27,6 +27,10 @@ public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaR
 	@Inject
 	private TransaccionBovedaCajaManager transaccionBovedaCajaManager;
 	
+	public TransaccionBovedaCajaResourceImpl() {
+
+	}
+	
 	public TransaccionBovedaCajaResourceImpl(TransaccionBovedaCajaModel transaccionBovedaCajaModel) {
 		this.transaccionBovedaCajaModel = transaccionBovedaCajaModel;
 	}

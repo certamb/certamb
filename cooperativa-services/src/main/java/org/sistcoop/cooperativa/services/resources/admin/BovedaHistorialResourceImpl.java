@@ -25,6 +25,10 @@ public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
 	@Inject
 	private HistorialBovedaManager historialBovedaManager;
 
+	public BovedaHistorialResourceImpl() {
+		
+	}
+	
 	public BovedaHistorialResourceImpl(HistorialBovedaModel historialBovedaModel) {
 		this.historialBovedaModel = historialBovedaModel;
 	}

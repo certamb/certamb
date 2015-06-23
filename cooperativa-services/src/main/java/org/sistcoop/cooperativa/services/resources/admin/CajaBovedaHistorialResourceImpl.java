@@ -26,6 +26,10 @@ public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResou
 	@Inject
 	private HistorialBovedaCajaManager historialBovedaCajaManager;
 	
+	public CajaBovedaHistorialResourceImpl() {
+
+	}
+	
 	public CajaBovedaHistorialResourceImpl(HistorialBovedaCajaModel historialBovedaCajaModel) {
 		this.historialBovedaCajaModel = historialBovedaCajaModel;
 	}

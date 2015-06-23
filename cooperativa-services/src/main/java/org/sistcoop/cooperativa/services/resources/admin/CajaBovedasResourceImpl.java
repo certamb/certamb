@@ -38,6 +38,10 @@ public class CajaBovedasResourceImpl implements CajaBovedasResource {
 	@Context
 	protected UriInfo uriInfo;
 	
+	public CajaBovedasResourceImpl() {
+
+	}
+	
 	public CajaBovedasResourceImpl(CajaModel cajaModel) {
 		this.cajaModel = cajaModel;
 	}

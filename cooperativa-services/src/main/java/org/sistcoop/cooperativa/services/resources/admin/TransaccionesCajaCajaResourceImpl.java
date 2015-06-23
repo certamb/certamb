@@ -41,6 +41,10 @@ public class TransaccionesCajaCajaResourceImpl implements TransaccionesCajaCajaR
 	@Context
 	protected UriInfo uriInfo;
 	
+	public TransaccionesCajaCajaResourceImpl() {		
+
+	}
+	
 	public TransaccionesCajaCajaResourceImpl(HistorialBovedaCajaModel historialBovedaCajaModel) {		
 		this.historialBovedaCajaModel = historialBovedaCajaModel;
 	}

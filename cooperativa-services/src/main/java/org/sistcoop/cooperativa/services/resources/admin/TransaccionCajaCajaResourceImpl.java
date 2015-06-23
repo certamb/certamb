@@ -27,8 +27,10 @@ public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResou
 	@Inject
 	private TransaccionCajaCajaManager transaccionCajaCajaManager;
 
-	public TransaccionCajaCajaResourceImpl(
-			TransaccionCajaCajaModel transaccionCajaCajaModel) {
+	public TransaccionCajaCajaResourceImpl() {
+	}
+	
+	public TransaccionCajaCajaResourceImpl(TransaccionCajaCajaModel transaccionCajaCajaModel) {
 		this.transaccionCajaCajaModel = transaccionCajaCajaModel;
 	}
 

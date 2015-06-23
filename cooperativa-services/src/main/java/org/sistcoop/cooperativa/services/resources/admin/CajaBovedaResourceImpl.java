@@ -19,6 +19,10 @@ public class CajaBovedaResourceImpl implements CajaBovedaResource {
 	@Inject
 	private BovedaCajaProvider bovedaCajaProvider;
 	
+	public CajaBovedaResourceImpl() {		
+
+	}
+	
 	public CajaBovedaResourceImpl(BovedaCajaModel bovedaCajaModel) {		
 		this.bovedaCajaModel = bovedaCajaModel;
 	}
