@@ -3,9 +3,11 @@ package org.sistcoop.cooperativa.services.resources.admin;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
-import org.sistcoop.cooperativa.admin.client.resource.BovedaResource;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialesResource;
+import org.sistcoop.cooperativa.admin.client.resource.BovedaResource;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
@@ -23,8 +25,11 @@ public class BovedaResourceImpl implements BovedaResource {
 	@Inject
 	private BovedaProvider bovedaProvider;
 
+	@Context
+	private UriInfo uriInfo;
+	
 	public BovedaResourceImpl() {
-		
+		// TODO Auto-generated constructor stub
 	}
 	
 	public BovedaResourceImpl(BovedaModel bovedaModel) {
@@ -37,9 +42,8 @@ public class BovedaResourceImpl implements BovedaResource {
 	}
 
 	@Override
-	public void update(BovedaRepresentation bovedaRepresentation) {		
-		bovedaModel.setDenominacion(bovedaRepresentation.getDenominacion());
-		bovedaModel.commit();
+	public void update(BovedaRepresentation bovedaRepresentation) {	
+		bovedaManager.updateBoveda(bovedaModel, bovedaRepresentation);
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class BovedaResourceImpl implements BovedaResource {
 
 	@Override
 	public void disable() {								
-		bovedaManager.desactivarBoveda(bovedaModel);
+		bovedaManager.disableBoveda(bovedaModel);
 	}
 
 	@Override

@@ -26,14 +26,14 @@ public class BovedasResorceImpl implements BovedasResource {
 
 	@Inject
 	private RepresentationToModel representationToModel;
-
+	
 	@Context
 	private UriInfo uriInfo;
 	
 	@Override
-	public BovedaResource boveda(String boveda) {		
+	public BovedaResource boveda(String boveda) {
 		BovedaModel bovedaModel = bovedaProvider.getBovedaById(boveda);
-		return new BovedaResourceImpl(bovedaModel);		
+		return new BovedaResourceImpl(bovedaModel);
 	}
 
 	@Override

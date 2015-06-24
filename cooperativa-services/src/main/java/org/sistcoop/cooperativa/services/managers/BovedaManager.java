@@ -8,12 +8,18 @@ import javax.ejb.TransactionAttributeType;
 
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
+import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class BovedaManager {
 
-	public boolean desactivarBoveda(BovedaModel model) {
+	public void updateBoveda(BovedaModel model, BovedaRepresentation rep) {
+		model.setDenominacion(rep.getDenominacion());
+		model.commit();		
+	}
+	
+	public boolean disableBoveda(BovedaModel model) {
 		// desactivar bovedas
 		model.desactivar();
 		model.commit();
