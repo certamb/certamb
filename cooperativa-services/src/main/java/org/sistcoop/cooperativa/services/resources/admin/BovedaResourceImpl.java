@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Context;
@@ -14,7 +13,6 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 
-@Stateless
 public class BovedaResourceImpl implements BovedaResource {
 
 	private BovedaModel bovedaModel;
@@ -27,10 +25,6 @@ public class BovedaResourceImpl implements BovedaResource {
 
 	@Context
 	private UriInfo uriInfo;
-	
-	public BovedaResourceImpl() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	public BovedaResourceImpl(BovedaModel bovedaModel) {
 		this.bovedaModel = bovedaModel;
