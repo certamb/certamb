@@ -1,8 +1,13 @@
 dependencies {
-    compile project(':cooperativa-integration:cooperativa-client')
-	compile project(':cooperativa-services')   
+	compile project(':cooperativa-integration:cooperativa-client')
+	compile project(':cooperativa-services')
 	compile project(':cooperativa-integration:cooperativa-client')
 	compile project(':cooperativa-model:cooperativa-model-api')
-	compile project(':cooperativa-model:cooperativa-model-jpa')		   
+	compile project(':cooperativa-model:cooperativa-model-jpa')
+	
+	testCompile 'com.jayway.restassured:rest-assured:2.4.1'
+	compile 'com.jayway.restassured:json-path:2.4.1'
+	compile 'com.jayway.restassured:xml-path:2.4.1'
+	testCompile 'com.jayway.restassured:json-schema-validator:2.4.1'
+	compile 'com.jayway.restassured.examples:rest-assured-itest-support:1.0'
 }
-
