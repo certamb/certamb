@@ -1,85 +1,45 @@
-apply plugin: 'war'
+apply from: "$rootDir/gradle/envConfig.gradle"
+apply from: "$rootDir/gradle/versioning.gradle"
+apply plugin: 'sonar-runner'
 
-group = 'org.sistcoop.cooperativa'
-version = '1.0.0.Final'
-description = """Cooperativa SistCoopEE Software"""
-
-war {
-	archiveName 'cooperativa.war'
-}
-    
-dependencies {	 
-     compile project(":cooperativa-core")	 
-     compile project(":cooperativa-core-jaxrs")
-     compile project(":cooperativa-integration:cooperativa-client")	 
-     compile project(":cooperativa-services")     	 
-     compile project(":cooperativa-model:cooperativa-model-api")
-     compile project(":cooperativa-model:cooperativa-model-jpa")       
-     
-     providedCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.10.Final'         	
+sonarRunner {
+    sonarProperties {
+        property 'sonar.projectName', 'cooperativa'
+        property 'sonar.projectDescription', 'cooperativa Rest'
+    }
 }
 
-repositories {
-	mavenCentral()       
+allprojects {
+    apply plugin: 'idea'
+    group = 'org.sistcoop.cooperativa'
 }
-    
+
 subprojects {
-	
-	apply plugin: 'java'
-	
-    ext.libraryVersions = [
-            javaee                  	: '7.0',
-            wildfly                 	: '8.1.0.Final',
-            junit                   	: '4.11',
-            arquillian              	: '1.1.5.Final',
-            shrinkWrapResolverGradle	: '2.2.0-beta-1',
-            
-            hamcrest					: '1.3',
-            shrinkWrapResolverApiMaven	: '2.2.0-beta-1',
-            shrinkWrapResolverImplMaven	: '2.2.0-beta-1',
-            arquillianPersistenceApi	: '1.0.0.Alpha7',
-            arquillianPersistenceImpl	: '1.0.0.Alpha6',
-            
-            arquillianRestWarpImplJaxrs2: '1.0.0.Final-SNAPSHOT',
-            arquillianRestClientApi		: '1.0.0.Final-SNAPSHOT',
-            arquillianRestClientImpl	: '1.0.0.Final-SNAPSHOT',
-            resteasyJacksonProvider		: '3.0.10.Final'
-    ]
+    apply plugin: 'java'
+    apply from: "$rootDir/gradle/jacoco.gradle"
 
     repositories {
         mavenCentral()
-        maven { url 'http://repository.jboss.org/nexus/content/groups/public' }
-        maven { url 'http://repository.jboss.org/nexus/content/repositories/deprecated' }
-        maven { url 'http://repo.jfrog.org/artifactory/repo' }
     }
-    
-    dependencies {    	
-	    testCompile "junit:junit:${libraryVersions.junit}"
-	    testCompile "org.jboss.arquillian.junit:arquillian-junit-container:${libraryVersions.arquillian}"
-	    testCompile "org.jboss.arquillian.protocol:arquillian-protocol-servlet:${libraryVersions.arquillian}"
-	    testCompile "org.wildfly:wildfly-arquillian-container-managed:${libraryVersions.wildfly}"
-	    testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-gradle-depchain:${libraryVersions.shrinkWrapResolverGradle}"	    
-	    
-        testCompile "org.hamcrest:hamcrest-all:${libraryVersions.hamcrest}"	    
-	    testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api-maven:${libraryVersions.shrinkWrapResolverApiMaven}"
-	    testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven:${libraryVersions.shrinkWrapResolverImplMaven}"	    	    	    
-	    testCompile "org.jboss.arquillian.extension:arquillian-persistence-api:${libraryVersions.arquillianPersistenceApi}"
-	    testCompile "org.jboss.arquillian.extension:arquillian-persistence-impl:${libraryVersions.arquillianPersistenceImpl}"
-	    
-	    testCompile "org.jboss.arquillian.extension:arquillian-rest-warp-impl-jaxrs-2.0:${libraryVersions.arquillianRestWarpImplJaxrs2}"	    
-	    testCompile "org.jboss.arquillian.extension:arquillian-rest-client-api:${libraryVersions.arquillianRestClientApi}"
-	    testCompile "org.jboss.arquillian.extension:arquillian-rest-client-impl-3x:${libraryVersions.arquillianRestClientImpl}"
-	    testCompile "org.jboss.resteasy:resteasy-jackson-provider:${libraryVersions.resteasyJacksonProvider}"	    	       
-	}
 
     test {
-    	testLogging {
-        	events 'passed', 'skipped', 'failed'
-        	exceptionFormat = 'full'
-    	}
-	}
+        reports.junitXml.destination = file("$reports.junitXml.destination/unit")
+    }
+
+    sonarRunner {
+        sonarProperties {
+            property 'sonar.sourceEncoding', 'UTF-8'
+        }
+    }
+
+    dependencies {
+        compile 'javax:javaee-api:7.0'
+        compile 'org.hibernate:hibernate-entitymanager:4.3.8.Final'
+        compile 'org.hibernate:hibernate-validator:5.1.3.Final'
+    }
+
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '1.7'
 }

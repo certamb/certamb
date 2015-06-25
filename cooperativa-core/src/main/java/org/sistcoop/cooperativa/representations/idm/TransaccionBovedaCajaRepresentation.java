@@ -3,9 +3,6 @@ package org.sistcoop.cooperativa.representations.idm;
 import java.io.Serializable;
 import java.util.List;
 
-import com.wordnik.swagger.annotations.ApiModel;
-
-@ApiModel(value = "transaccionBovedaCaja", description = "Transaccione Boveda Boveda <===> Caja")
 public class TransaccionBovedaCajaRepresentation implements Serializable {
 
 	/**

@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.wordnik.swagger.annotations.ApiModel;
-
-@ApiModel(value = "historialBoveda", description = "Historial de boveda producto de un cierre o apertura de Boveda")
 public class HistorialBovedaRepresentation implements Serializable {
 
 	/**

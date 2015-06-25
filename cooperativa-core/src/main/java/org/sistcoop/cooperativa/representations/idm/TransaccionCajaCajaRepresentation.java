@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.wordnik.swagger.annotations.ApiModel;
-
-@ApiModel(value = "transaccionCajaCaja", description = "Transaccion Boveda Caja <===> Caja")
 public class TransaccionCajaCajaRepresentation implements Serializable {
 
 	/**

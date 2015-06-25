@@ -2,9 +2,6 @@ package org.sistcoop.cooperativa.representations.idm;
 
 import java.io.Serializable;
 
-import com.wordnik.swagger.annotations.ApiModel;
-
-@ApiModel(value = "trabajador", description = "Trabajador")
 public class TrabajadorCajaRepresentation implements Serializable {
 
 	/**

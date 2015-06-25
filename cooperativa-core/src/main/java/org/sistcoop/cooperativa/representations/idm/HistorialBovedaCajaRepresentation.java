@@ -5,9 +5,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.wordnik.swagger.annotations.ApiModel;
-
-@ApiModel(value = "historialBovedaCaja", description = "Historial de una BovedaCaja producto de una apertura o cierre de caja")
 public class HistorialBovedaCajaRepresentation implements Serializable {
 
 	/**
