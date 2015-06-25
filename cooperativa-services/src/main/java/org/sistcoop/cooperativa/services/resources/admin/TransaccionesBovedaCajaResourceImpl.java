@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJBException;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -27,7 +26,6 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresent
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 
-@Stateless
 public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaCajaResource {
 
 	private OrigenTransaccionBovedaCaja origen;
@@ -52,10 +50,6 @@ public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaC
 	
 	@Context
 	protected UriInfo uriInfo;
-	
-	public TransaccionesBovedaCajaResourceImpl() {
-		
-	}
 	
 	public TransaccionesBovedaCajaResourceImpl(HistorialBovedaModel historialBovedaModel) {
 		origen = OrigenTransaccionBovedaCaja.BOVEDA;

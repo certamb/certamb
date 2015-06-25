@@ -3,7 +3,6 @@ package org.sistcoop.cooperativa.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -19,7 +18,6 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 
-@Stateless
 public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 
 	private CajaModel cajaModel;
@@ -33,10 +31,6 @@ public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 	@Context
 	protected UriInfo uriInfo;
 
-	public CajaTrabajadoresResourceImpl() {
-	
-	}
-	
 	public CajaTrabajadoresResourceImpl(CajaModel cajaModel) {
 		this.cajaModel = cajaModel;
 	}

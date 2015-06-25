@@ -3,7 +3,6 @@ package org.sistcoop.cooperativa.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Context;
@@ -21,7 +20,6 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 
-@Stateless
 public class CajaBovedasResourceImpl implements CajaBovedasResource {
 
 	private CajaModel cajaModel;
@@ -37,10 +35,6 @@ public class CajaBovedasResourceImpl implements CajaBovedasResource {
 	
 	@Context
 	protected UriInfo uriInfo;
-	
-	public CajaBovedasResourceImpl() {
-
-	}
 	
 	public CajaBovedasResourceImpl(CajaModel cajaModel) {
 		this.cajaModel = cajaModel;

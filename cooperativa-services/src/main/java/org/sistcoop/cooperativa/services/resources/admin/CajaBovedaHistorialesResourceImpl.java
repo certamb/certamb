@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -21,7 +20,6 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 
-@Stateless
 public class CajaBovedaHistorialesResourceImpl implements CajaBovedaHistorialesResource {
 
 	private BovedaCajaModel bovedaCajaModel;
@@ -37,10 +35,6 @@ public class CajaBovedaHistorialesResourceImpl implements CajaBovedaHistorialesR
 	
 	@Context
 	private UriInfo uriInfo;
-	
-	public CajaBovedaHistorialesResourceImpl() {		
-
-	}
 	
 	public CajaBovedaHistorialesResourceImpl(BovedaCajaModel bovedaCajaModel) {		
 		this.bovedaCajaModel = bovedaCajaModel;

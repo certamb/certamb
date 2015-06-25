@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 
@@ -13,7 +12,6 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.services.managers.CajaManager;
 
-@Stateless
 public class CajaResourceImpl implements CajaResource {
 
 	private CajaModel cajaModel;
@@ -23,10 +21,6 @@ public class CajaResourceImpl implements CajaResource {
 	
 	@Inject
 	private CajaProvider cajaProvider;
-
-	public CajaResourceImpl() {
-		
-	}
 	
 	public CajaResourceImpl(CajaModel cajaModel) {
 		this.cajaModel = cajaModel;

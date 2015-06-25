@@ -3,7 +3,6 @@ package org.sistcoop.cooperativa.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 
@@ -16,7 +15,6 @@ import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
 import org.sistcoop.cooperativa.services.managers.TransaccionCajaCajaManager;
 
-@Stateless
 public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResource {
 
 	private TransaccionCajaCajaModel transaccionCajaCajaModel;
@@ -26,9 +24,6 @@ public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResou
 
 	@Inject
 	private TransaccionCajaCajaManager transaccionCajaCajaManager;
-
-	public TransaccionCajaCajaResourceImpl() {
-	}
 	
 	public TransaccionCajaCajaResourceImpl(TransaccionCajaCajaModel transaccionCajaCajaModel) {
 		this.transaccionCajaCajaModel = transaccionCajaCajaModel;

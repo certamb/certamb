@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 
@@ -17,17 +16,12 @@ import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.HistorialBovedaManager;
 
-@Stateless
 public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
 
 	private HistorialBovedaModel historialBovedaModel;
 
 	@Inject
 	private HistorialBovedaManager historialBovedaManager;
-
-	public BovedaHistorialResourceImpl() {
-		
-	}
 	
 	public BovedaHistorialResourceImpl(HistorialBovedaModel historialBovedaModel) {
 		this.historialBovedaModel = historialBovedaModel;

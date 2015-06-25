@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Context;
@@ -22,7 +21,6 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
-@Stateless
 public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource {
 
 	private BovedaModel bovedaModel;
@@ -38,10 +36,6 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 	
 	@Context
 	private UriInfo uriInfo;
-	
-	public BovedaHistorialesResourceImpl() {
-		
-	}
 	
 	public BovedaHistorialesResourceImpl(BovedaModel bovedaModel) {
 		this.bovedaModel = bovedaModel;
