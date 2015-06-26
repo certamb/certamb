@@ -1,4 +1,4 @@
-include "cooperativa-web"
+//include "cooperativa-web"
 include "cooperativa-core"
 include "cooperativa-core-jaxrs"
 include "cooperativa-services"
