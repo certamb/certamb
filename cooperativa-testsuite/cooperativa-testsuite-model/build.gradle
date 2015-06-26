@@ -1,0 +1,31 @@
+repositories {
+    mavenCentral()
+    maven { url 'http://repository.jboss.org/nexus/content/groups/public' }
+    maven { url 'http://repository.jboss.org/nexus/content/repositories/deprecated' }
+    maven { url 'http://repo.jfrog.org/artifactory/repo' }
+}
+
+dependencies {
+    compile project(':cooperativa-model:cooperativa-model-api')
+    compile project(':cooperativa-model:cooperativa-model-jpa')
+    compile project(':cooperativa-model:cooperativa-model-mongo')
+
+    testCompile "junit:junit:4.11"
+    testCompile "org.jboss.arquillian.junit:arquillian-junit-container:1.1.5.Final"
+    testCompile "org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.5.Final"
+    testCompile "org.wildfly:wildfly-arquillian-container-managed:8.2.0.Final"
+    testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-gradle-depchain:2.2.0-beta-1"
+
+    testCompile "org.hamcrest:hamcrest-all:1.3"
+    testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api-maven:2.2.0-beta-1"
+    testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven:2.2.0-beta-1"
+    testCompile 'org.jboss.arquillian.extension:arquillian-persistence-api:1.0.0.Alpha7'
+    testCompile "org.jboss.arquillian.extension:arquillian-persistence-impl:1.0.0.Alpha6"
+}
+
+test {
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat = 'full'
+    }
+}

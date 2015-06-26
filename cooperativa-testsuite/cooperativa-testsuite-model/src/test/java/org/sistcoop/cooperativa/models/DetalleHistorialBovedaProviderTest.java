@@ -27,15 +27,11 @@ import org.sistcoop.cooperativa.models.jpa.JpaDetalleHistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.JpaHistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleHistorialBovedaEntity;
 import org.sistcoop.cooperativa.provider.Provider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RunWith(Arquillian.class)
 @UsingDataSet("empty.xml")
 public class DetalleHistorialBovedaProviderTest {
 
-	Logger log = LoggerFactory.getLogger(DetalleHistorialBovedaProviderTest.class);	
-	
 	@Inject
 	private BovedaProvider bovedaProvider;
 	

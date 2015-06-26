@@ -4,11 +4,13 @@ apply from: "$rootDir/gradle/envConfig.gradle"
 /**
  * versioning */
 import com.github.moleksyuk.plugin.SemanticVersionPluginExtension
+
 project.extensions.create(SemanticVersionPluginExtension.NAME, SemanticVersionPluginExtension)
 semanticVersion {
     major = 1
     minor = 2
 }
+ext.buildTimestamp = new Date().format('yyyy-MM-dd HH:mm:ss')
 
 apply plugin: 'com.github.moleksyuk.vcs-semantic-version'
 
