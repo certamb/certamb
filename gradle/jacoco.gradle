@@ -1,4 +1,34 @@
-buildscript {
+apply plugin: "application"
+apply plugin: "jacoco"
+
+mainClassName = "org.gradle.MyMain"
+
+jacoco {
+    applyTo run
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/jacocoHtml"
+    }
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpFile = file("$buildDir/jacoco/classpathdumps")
+    }
+}
+
+task applicationCodeCoverageReport(type:JacocoReport){
+    executionData run
+    sourceSets sourceSets.main
+}
+
+/*buildscript {
     repositories {
         mavenCentral()
     }
@@ -12,4 +42,4 @@ apply plugin: org.ajoberstar.gradle.jacoco.plugins.JacocoPlugin
 
 jacoco {
     integrationTestTaskName = 'integrationTest'
-}
+}*/
