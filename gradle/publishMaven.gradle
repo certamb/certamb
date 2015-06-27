@@ -10,12 +10,12 @@ publishing {
     publications {
         toDoWebApp(MavenPublication) {
             from components.web
-            artifactId 'todo-web'
+            artifactId 'cooperativa'
 
             pom.withXml {
                 def root = asNode()
-                root.appendNode('name', 'To Do application')
-                root.appendNode('description', 'A simple task management application.')
+                root.appendNode('name', 'Cooperativa')
+                root.appendNode('description', 'Cooperativa Rest.')
             }
         }
     }
