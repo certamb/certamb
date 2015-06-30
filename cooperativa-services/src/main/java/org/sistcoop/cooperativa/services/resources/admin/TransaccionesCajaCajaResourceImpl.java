@@ -3,7 +3,9 @@ package org.sistcoop.cooperativa.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -20,9 +22,11 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
 
+@Stateless
 public class TransaccionesCajaCajaResourceImpl implements TransaccionesCajaCajaResource {
 
-	private HistorialBovedaCajaModel historialBovedaCajaModel;
+	@PathParam("historial")
+	private String historialBovedaCaja;
 	
 	@Inject
 	private HistorialBovedaCajaProvider historialBovedaCajaProvider;
@@ -37,23 +41,25 @@ public class TransaccionesCajaCajaResourceImpl implements TransaccionesCajaCajaR
 	private RepresentationToModel representationToModel;
 	
 	@Context
-	protected UriInfo uriInfo;
+	private UriInfo uriInfo;
 	
-	public TransaccionesCajaCajaResourceImpl(HistorialBovedaCajaModel historialBovedaCajaModel) {		
-		this.historialBovedaCajaModel = historialBovedaCajaModel;
+	@Inject
+	private TransaccionCajaCajaResource transaccionCajaCajaResource;
+	
+	private HistorialBovedaCajaModel getHistorialBovedaCajaModel(){
+		return historialBovedaCajaProvider.getHistorialBovedaCajaById(historialBovedaCaja);
 	}
 
 	@Override
 	public TransaccionCajaCajaResource boveda(String transaccion) {
-		TransaccionCajaCajaModel transaccionCajaCajaModel = transaccionCajaCajaProvider.getTransaccionCajaCajaById(transaccion);
-		return new TransaccionCajaCajaResourceImpl(transaccionCajaCajaModel);
+		return transaccionCajaCajaResource;
 	}
 
 	@Override
 	public Response create(TransaccionCajaCajaRepresentation transaccionCajaCajaRepresentation) {
 		TransaccionCajaCajaModel transaccionCajaCajaModel = representationToModel.createTransaccionCajaCaja(
 				transaccionCajaCajaRepresentation,
-				historialBovedaCajaModel,
+				getHistorialBovedaCajaModel(),
 				historialBovedaCajaProvider,
 				transaccionCajaCajaProvider,
 				detalleTransaccionCajaCajaProvider);
@@ -70,11 +76,11 @@ public class TransaccionesCajaCajaResourceImpl implements TransaccionesCajaCajaR
 		
 		List<TransaccionCajaCajaModel> transaccionCajaCajaModels = null;
 		if(enviados && recibidos) {
-			transaccionCajaCajaModels = transaccionCajaCajaProvider.getTransaccionesCajaCaja(historialBovedaCajaModel);
+			transaccionCajaCajaModels = transaccionCajaCajaProvider.getTransaccionesCajaCaja(getHistorialBovedaCajaModel());
 		} else if(enviados) {
-			transaccionCajaCajaModels = transaccionCajaCajaProvider.getTransaccionesCajaCajaEnviados(historialBovedaCajaModel);
+			transaccionCajaCajaModels = transaccionCajaCajaProvider.getTransaccionesCajaCajaEnviados(getHistorialBovedaCajaModel());
 		} else if(recibidos) {
-			transaccionCajaCajaModels = transaccionCajaCajaProvider.getTransaccionesCajaCajaRecibidos(historialBovedaCajaModel);
+			transaccionCajaCajaModels = transaccionCajaCajaProvider.getTransaccionesCajaCajaRecibidos(getHistorialBovedaCajaModel());
 		} else {
 			transaccionCajaCajaModels = new ArrayList<>();
 		}

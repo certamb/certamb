@@ -3,8 +3,10 @@ package org.sistcoop.cooperativa.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.PathParam;
 
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionCajaCajaResource;
 import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaModel;
@@ -15,9 +17,11 @@ import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
 import org.sistcoop.cooperativa.services.managers.TransaccionCajaCajaManager;
 
+@Stateless
 public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResource {
 
-	private TransaccionCajaCajaModel transaccionCajaCajaModel;
+	@PathParam("transaccion")
+	private String transaccion;
 
 	@Inject
 	private TransaccionCajaCajaProvider transaccionCajaCajaProvider;
@@ -25,34 +29,33 @@ public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResou
 	@Inject
 	private TransaccionCajaCajaManager transaccionCajaCajaManager;
 	
-	public TransaccionCajaCajaResourceImpl(TransaccionCajaCajaModel transaccionCajaCajaModel) {
-		this.transaccionCajaCajaModel = transaccionCajaCajaModel;
+	private TransaccionCajaCajaModel getTransaccionCajaCajaModel(){
+		return transaccionCajaCajaProvider.getTransaccionCajaCajaById(transaccion);
 	}
 
 	@Override
 	public TransaccionCajaCajaRepresentation transaccion() {
-		return ModelToRepresentation.toRepresentation(transaccionCajaCajaModel);
+		return ModelToRepresentation.toRepresentation(getTransaccionCajaCajaModel());
 	}
 
 	@Override
-	public void update(
-			TransaccionCajaCajaRepresentation transaccionCajaCajaRepresentation) {
+	public void update(TransaccionCajaCajaRepresentation transaccionCajaCajaRepresentation) {
 		throw new BadRequestException();
 	}
 
 	@Override
 	public void confirmar() {
-		transaccionCajaCajaManager.confirmar(transaccionCajaCajaModel);
+		transaccionCajaCajaManager.confirmar(getTransaccionCajaCajaModel());
 	}
 
 	@Override
 	public void cancelar() {
-		transaccionCajaCajaManager.cancelar(transaccionCajaCajaModel);
+		transaccionCajaCajaManager.cancelar(getTransaccionCajaCajaModel());
 	}
 
 	@Override
 	public List<DetalleMonedaRepresentation> detalle() {
-		List<DetalleTransaccionCajaCajaModel> detalleTransaccionCajaCajaModels = transaccionCajaCajaModel.getDetalle();
+		List<DetalleTransaccionCajaCajaModel> detalleTransaccionCajaCajaModels = getTransaccionCajaCajaModel().getDetalle();
 		List<DetalleMonedaRepresentation> result = new ArrayList<>();
 		for (DetalleTransaccionCajaCajaModel detalleTransaccionCajaCajaModel : detalleTransaccionCajaCajaModels) {
 			result.add(ModelToRepresentation.toRepresentation(detalleTransaccionCajaCajaModel));
@@ -62,7 +65,7 @@ public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResou
 
 	@Override
 	public void remove() {
-		transaccionCajaCajaProvider.removeTransaccionCajaCaja(transaccionCajaCajaModel);
+		transaccionCajaCajaProvider.removeTransaccionCajaCaja(getTransaccionCajaCajaModel());
 	}
 
 }

@@ -23,10 +23,12 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentatio
 public interface BovedaHistorialesResource {
 
 	@Path("/{historial}")
-	public BovedaHistorialResource historial(@PathParam("historial") String historial);
+	public BovedaHistorialResource historial(
+			@PathParam("historial") String historial);
 
-	@POST	
-	public Response create(HistorialBovedaRepresentation historialBovedaRepresentation);
+	@POST
+	public Response create(
+			HistorialBovedaRepresentation historialBovedaRepresentation);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -38,7 +40,7 @@ public interface BovedaHistorialesResource {
 	public List<HistorialBovedaRepresentation> search(
 			@QueryParam("desde") Date desde,
 			@QueryParam("hasta") Date hasta,
-			@QueryParam("firstResult") Integer firstResult,
-			@QueryParam("maxResults") Integer maxResults);
+			@QueryParam("firstResult") @DefaultValue(value = "-1") Integer firstResult,
+			@QueryParam("maxResults") @DefaultValue(value = "-1") Integer maxResults);
 
 }

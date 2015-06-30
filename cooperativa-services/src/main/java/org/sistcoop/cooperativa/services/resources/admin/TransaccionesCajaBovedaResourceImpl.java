@@ -23,19 +23,19 @@ import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
-import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
-import org.sistcoop.cooperativa.services.resources.producers.TransaccionBovedaACaja;
+import org.sistcoop.cooperativa.services.resources.producers.TransaccionCajaABoveda;
 
 @Stateless
-@TransaccionBovedaACaja
-public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaCajaResource {
+@TransaccionCajaABoveda
+public class TransaccionesCajaBovedaResourceImpl implements TransaccionesBovedaCajaResource {
 	
 	@PathParam("historial")
 	private String historial;
-	
-	private OrigenTransaccionBovedaCaja origen = OrigenTransaccionBovedaCaja.BOVEDA;
 
+	private OrigenTransaccionBovedaCaja origen = OrigenTransaccionBovedaCaja.CAJA;
+	
 	@Inject
 	private HistorialBovedaProvider historialBovedaProvider;
 	
@@ -52,15 +52,15 @@ public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaC
 	private RepresentationToModel representationToModel;
 	
 	@Context
-	private UriInfo uriInfo;
-
+	protected UriInfo uriInfo;
+	
 	@Inject
 	private TransaccionBovedaCajaResource transaccionBovedaCajaResource;
 	
-	private HistorialBovedaModel getHistorialBovedaModel(){
-		return historialBovedaProvider.getHistorialBovedaById(historial);
+	private HistorialBovedaCajaModel getHistorialBovedaCajaModel() {
+		return historialBovedaCajaProvider.getHistorialBovedaCajaById(historial);
 	}
-	
+
 	@Override
 	public TransaccionBovedaCajaResource boveda(String transaccion) {
 		return transaccionBovedaCajaResource;
@@ -68,13 +68,13 @@ public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaC
 
 	@Override
 	public Response create(TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation) {		
-		HistorialBovedaModel transaccionHistorialBovedaModel = getHistorialBovedaModel();
-		HistorialBovedaCajaModel transaccionHistorialBovedaCajaModel = null;
+		HistorialBovedaModel transaccionHistorialBovedaModel = null;
+		HistorialBovedaCajaModel transaccionHistorialBovedaCajaModel = getHistorialBovedaCajaModel();
 		
-		HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation = transaccionBovedaCajaRepresentation.getHistorialBovedaCaja();		
-		String idHistorialBovedaCajaRepresentation = historialBovedaCajaRepresentation.getId();
-						
-		transaccionHistorialBovedaCajaModel = historialBovedaCajaProvider.getHistorialBovedaCajaById(idHistorialBovedaCajaRepresentation);
+		HistorialBovedaRepresentation historialBovedaRepresentation = transaccionBovedaCajaRepresentation.getHistorialBoveda();
+		String idHistorialBovedaRepresentation = historialBovedaRepresentation.getId();
+		
+		transaccionHistorialBovedaModel = historialBovedaProvider.getHistorialBovedaById(idHistorialBovedaRepresentation);
 		
 		TransaccionBovedaCajaModel transaccionBovedaCajaModel = representationToModel.createTransaccionBovedaCaja(
 						transaccionBovedaCajaRepresentation,
@@ -92,17 +92,15 @@ public class TransaccionesBovedaCajaResourceImpl implements TransaccionesBovedaC
 	@Override
 	public List<TransaccionBovedaCajaRepresentation> search(boolean enviados, boolean recibidos) {
 		List<TransaccionBovedaCajaModel> transaccionBovedaCajaModels = null;
-
 		if(enviados && recibidos) {
-			transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(getHistorialBovedaModel());
+			transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(getHistorialBovedaCajaModel());
 		} else if(enviados) {
-			transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(getHistorialBovedaModel(), OrigenTransaccionBovedaCaja.BOVEDA);
+			transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(getHistorialBovedaCajaModel(), OrigenTransaccionBovedaCaja.BOVEDA);
 		} else if(recibidos) {
-			transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(getHistorialBovedaModel(), OrigenTransaccionBovedaCaja.CAJA);
+			transaccionBovedaCajaModels = transaccionBovedaCajaProvider.getTransaccionesBovedaCaja(getHistorialBovedaCajaModel(), OrigenTransaccionBovedaCaja.CAJA);
 		} else {
 			transaccionBovedaCajaModels = new ArrayList<>();
 		}
-		
 		List<TransaccionBovedaCajaRepresentation> result = new ArrayList<>();
 		for (TransaccionBovedaCajaModel transaccionBovedaCajaModel : transaccionBovedaCajaModels) {
 			result.add(ModelToRepresentation.toRepresentation(transaccionBovedaCajaModel));

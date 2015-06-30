@@ -1,7 +1,9 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.PathParam;
 
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedasResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaResource;
@@ -12,9 +14,11 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.services.managers.CajaManager;
 
+@Stateless
 public class CajaResourceImpl implements CajaResource {
 
-	private CajaModel cajaModel;
+	@PathParam("caja")
+	private String caja;
 
 	@Inject
 	private CajaManager cajaManager;
@@ -22,19 +26,25 @@ public class CajaResourceImpl implements CajaResource {
 	@Inject
 	private CajaProvider cajaProvider;
 	
-	public CajaResourceImpl(CajaModel cajaModel) {
-		this.cajaModel = cajaModel;
+	@Inject
+	private CajaBovedasResource cajaBovedasResource;
+	
+	@Inject
+	private CajaTrabajadoresResource cajaTrabajadoresResource;
+	
+	private CajaModel getCajaModel(){
+		return cajaProvider.getCajaById(caja);
 	}
 
 	@Override
 	public CajaRepresentation caja() {
-		return ModelToRepresentation.toRepresentation(cajaModel);
+		return ModelToRepresentation.toRepresentation(getCajaModel());
 	}
 
 	@Override
 	public void update(CajaRepresentation cajaRepresentation) {	
-		cajaModel.setDenominacion(cajaRepresentation.getDenominacion());
-		cajaModel.commit();	
+		cajaManager.update(getCajaModel(), cajaRepresentation);
+
 	}
 
 	@Override
@@ -44,22 +54,22 @@ public class CajaResourceImpl implements CajaResource {
 
 	@Override
 	public void disable() {
-		cajaManager.desactivarCaja(cajaModel);		
+		cajaManager.desactivarCaja(getCajaModel());		
 	}
 
 	@Override
 	public void remove() {
-		cajaProvider.removeCaja(cajaModel);
+		cajaProvider.removeCaja(getCajaModel());
 	}
 
 	@Override
 	public CajaBovedasResource bovedasCaja() {
-		return new CajaBovedasResourceImpl(cajaModel);
+		return cajaBovedasResource;
 	}
 
 	@Override
 	public CajaTrabajadoresResource trabajadoresCaja() {
-		return new CajaTrabajadoresResourceImpl(cajaModel);
+		return cajaTrabajadoresResource;
 	}
 	
 }

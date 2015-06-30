@@ -3,8 +3,10 @@ package org.sistcoop.cooperativa.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.PathParam;
 
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionBovedaCajaResource;
 import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
@@ -15,27 +17,25 @@ import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.services.managers.TransaccionBovedaCajaManager;
 
+@Stateless
 public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaResource {
 
-	private TransaccionBovedaCajaModel transaccionBovedaCajaModel;
+	@PathParam("transaccion")
+	private String transaccion;
 	
 	@Inject
 	private TransaccionBovedaCajaProvider transaccionBovedaCajaProvider;
 	
 	@Inject
 	private TransaccionBovedaCajaManager transaccionBovedaCajaManager;
-	
-	public TransaccionBovedaCajaResourceImpl() {
 
+	private TransaccionBovedaCajaModel getTransaccionBovedaCajaModel(){
+		return transaccionBovedaCajaProvider.getTransaccionBovedaCajaById(transaccion);
 	}
 	
-	public TransaccionBovedaCajaResourceImpl(TransaccionBovedaCajaModel transaccionBovedaCajaModel) {
-		this.transaccionBovedaCajaModel = transaccionBovedaCajaModel;
-	}
-
 	@Override
 	public TransaccionBovedaCajaRepresentation transaccion() {
-		return ModelToRepresentation.toRepresentation(transaccionBovedaCajaModel);
+		return ModelToRepresentation.toRepresentation(getTransaccionBovedaCajaModel());
 	}
 
 	@Override
@@ -45,17 +45,17 @@ public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaR
 
 	@Override
 	public void confirmar() {
-		transaccionBovedaCajaManager.confirmarTransaccion(transaccionBovedaCajaModel);
+		transaccionBovedaCajaManager.confirmarTransaccion(getTransaccionBovedaCajaModel());
 	}
 
 	@Override
 	public void cancelar() {		
-		transaccionBovedaCajaManager.cancelarTransaccion(transaccionBovedaCajaModel);
+		transaccionBovedaCajaManager.cancelarTransaccion(getTransaccionBovedaCajaModel());
 	}
 
 	@Override
 	public List<DetalleMonedaRepresentation> detalle() {
-		List<DetalleTransaccionBovedaCajaModel> detalleTransaccionBovedaCajaModels = transaccionBovedaCajaModel.getDetalle();
+		List<DetalleTransaccionBovedaCajaModel> detalleTransaccionBovedaCajaModels = getTransaccionBovedaCajaModel().getDetalle();
 		List<DetalleMonedaRepresentation> result = new ArrayList<>();
 		for (DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCajaModel : detalleTransaccionBovedaCajaModels) {
 			result.add(ModelToRepresentation.toRepresentation(detalleTransaccionBovedaCajaModel));
@@ -65,7 +65,7 @@ public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaR
 
 	@Override
 	public void remove() {
-		transaccionBovedaCajaProvider.removeTransaccionBovedaCaja(transaccionBovedaCajaModel);
+		transaccionBovedaCajaProvider.removeTransaccionBovedaCaja(getTransaccionBovedaCajaModel());
 	}
 
 }

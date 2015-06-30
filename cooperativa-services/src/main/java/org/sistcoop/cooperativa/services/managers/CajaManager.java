@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttributeType;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
+import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -34,6 +35,12 @@ public class CajaManager {
 		}
 
 		return true;
+	}
+
+	public void update(CajaModel cajaModel,
+			CajaRepresentation cajaRepresentation) {
+		cajaModel.setDenominacion(cajaRepresentation.getDenominacion());
+		cajaModel.commit();	
 	}
 
 }

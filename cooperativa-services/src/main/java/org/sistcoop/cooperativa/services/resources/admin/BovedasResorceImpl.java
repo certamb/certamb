@@ -51,25 +51,12 @@ public class BovedasResorceImpl implements BovedasResource {
 	}
 
 	@Override
-	public List<BovedaRepresentation> search(String agencia, boolean estado,
-			String filterText, Integer firstResult, Integer maxResults) {
-
-		if (filterText == null) {
-			filterText = "";
-		}
-		if (firstResult == null) {
-			firstResult = -1;
-		}
-		if (maxResults == null) {
-			maxResults = -1;
-		}
-		
+	public List<BovedaRepresentation> search(String agencia, boolean estado, String filterText, Integer firstResult, Integer maxResults) {
 		List<BovedaModel> list = bovedaProvider.getBovedas(agencia, estado, filterText, firstResult, maxResults);		
 		List<BovedaRepresentation> result = new ArrayList<BovedaRepresentation>();
 		for (BovedaModel bovedaModel : list) {
 			result.add(ModelToRepresentation.toRepresentation(bovedaModel));
 		}
-
 		return result;
 	}
 

@@ -4,33 +4,49 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.PathParam;
 
 import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCajaCajaResource;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
+import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.services.managers.HistorialBovedaCajaManager;
+import org.sistcoop.cooperativa.services.resources.producers.TransaccionCajaABoveda;
 
+@Stateless
 public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResource {
 
-	private HistorialBovedaCajaModel historialBovedaCajaModel;
+	@PathParam("historial")
+	private String historial;
 	
 	@Inject
-	private HistorialBovedaCajaManager historialBovedaCajaManager;
-	
-	public CajaBovedaHistorialResourceImpl(HistorialBovedaCajaModel historialBovedaCajaModel) {
-		this.historialBovedaCajaModel = historialBovedaCajaModel;
-	}
+	private HistorialBovedaCajaProvider historialBovedaCajaProvider;
 
+	@Inject
+	private HistorialBovedaCajaManager historialBovedaCajaManager;
+
+	@Inject
+	private TransaccionesCajaCajaResource transaccionesCajaCajaResource;
+	
+	@Inject
+	@TransaccionCajaABoveda
+	private TransaccionesBovedaCajaResource transaccionesBovedaCajaResource;
+	
+	private HistorialBovedaCajaModel getHistorialBovedaCajaModel(){
+		return historialBovedaCajaProvider.getHistorialBovedaCajaById(historial);
+	}
+	
 	@Override
 	public HistorialBovedaCajaRepresentation historial() {
-		return ModelToRepresentation.toRepresentation(historialBovedaCajaModel);
+		return ModelToRepresentation.toRepresentation(getHistorialBovedaCajaModel());
 	}
 
 	@Override
@@ -45,24 +61,22 @@ public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResou
 
 	@Override
 	public void cerrar(List<DetalleMonedaRepresentation> detalle) {
-		historialBovedaCajaManager.cerrarHistorialBovedaCaja(historialBovedaCajaModel, detalle);
+		historialBovedaCajaManager.cerrarHistorialBovedaCaja(getHistorialBovedaCajaModel(), detalle);
 	}
 
 	@Override
 	public void congelar() {
-		historialBovedaCajaModel.setEstadoMovimiento(false);
-		historialBovedaCajaModel.commit();
+		historialBovedaCajaManager.congelar(getHistorialBovedaCajaModel());		
 	}
 
 	@Override
 	public void descongelar() {
-		historialBovedaCajaModel.setEstadoMovimiento(true);
-		historialBovedaCajaModel.commit();
+		historialBovedaCajaManager.descongelar(getHistorialBovedaCajaModel());		
 	}
 
 	@Override
 	public List<DetalleMonedaRepresentation> detalle() {
-		List<DetalleHistorialBovedaCajaModel> detalle = historialBovedaCajaModel.getDetalle();
+		List<DetalleHistorialBovedaCajaModel> detalle = getHistorialBovedaCajaModel().getDetalle();
 		List<DetalleMonedaRepresentation> result = new ArrayList<DetalleMonedaRepresentation>();
 		for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaModel : detalle) {
 			int cantidad = detalleHistorialBovedaModel.getCantidad();
@@ -79,12 +93,12 @@ public class CajaBovedaHistorialResourceImpl implements CajaBovedaHistorialResou
 
 	@Override
 	public TransaccionesCajaCajaResource transaccionesCaja() {
-		return new TransaccionesCajaCajaResourceImpl(historialBovedaCajaModel);
+		return transaccionesCajaCajaResource;
 	}
 
 	@Override
 	public TransaccionesBovedaCajaResource transaccionesBoveda() {
-		return new TransaccionesBovedaCajaResourceImpl(historialBovedaCajaModel);
+		return transaccionesBovedaCajaResource;
 	}
 
 }

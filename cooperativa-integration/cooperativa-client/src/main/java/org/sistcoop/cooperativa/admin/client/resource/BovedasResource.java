@@ -33,8 +33,8 @@ public interface BovedasResource {
 	public List<BovedaRepresentation> search(
 			@QueryParam("agencia") String agencia,
 			@QueryParam("estado") @DefaultValue(value = "true") boolean estado,
-			@QueryParam("filterText") String filterText,
-			@QueryParam("firstResult") Integer firstResult,
-			@QueryParam("maxResults") Integer maxResults);
+			@QueryParam("filterText") @DefaultValue(value = "") String filterText,
+			@QueryParam("firstResult") @DefaultValue(value = "-1") Integer firstResult,
+			@QueryParam("maxResults") @DefaultValue(value = "-1") Integer maxResults);
 
 }

@@ -26,4 +26,14 @@ public class HistorialBovedaManager {
 		return true;
 	}
 
+	public void congelar(HistorialBovedaModel historialBovedaModel) {
+		historialBovedaModel.setEstadoMovimiento(false);
+		historialBovedaModel.commit();
+	}
+
+	public void descongelar(HistorialBovedaModel historialBovedaModel) {
+		historialBovedaModel.setEstadoMovimiento(true);
+		historialBovedaModel.commit();
+	}
+
 }

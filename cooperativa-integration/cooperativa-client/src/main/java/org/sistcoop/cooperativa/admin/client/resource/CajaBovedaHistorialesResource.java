@@ -39,7 +39,7 @@ public interface CajaBovedaHistorialesResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<HistorialBovedaCajaRepresentation> search(
 			@QueryParam("desde") Date desde, @QueryParam("hasta") Date hasta,
-			@QueryParam("firstResult") Integer firstResult,
-			@QueryParam("maxResults") Integer maxResults);
+			@QueryParam("firstResult") @DefaultValue(value="-1") Integer firstResult,
+			@QueryParam("maxResults") @DefaultValue(value="-1") Integer maxResults);
 
 }

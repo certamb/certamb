@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
@@ -21,8 +20,6 @@ public class BovedaResourceImpl implements BovedaResource {
 
 	@PathParam("boveda")
 	private String boveda;
-	
-	private BovedaModel bovedaModel;
 
 	@Inject
 	private BovedaManager bovedaManager;
@@ -33,19 +30,21 @@ public class BovedaResourceImpl implements BovedaResource {
 	@Context
 	private UriInfo uriInfo;
 
-	@PostConstruct
-	private void init() {		
-		this.bovedaModel = bovedaProvider.getBovedaById(boveda);
+	@Inject
+	private BovedaHistorialesResource bovedaHistorialesResource;
+	
+	private BovedaModel getBovedaModel(){
+		return bovedaProvider.getBovedaById(boveda);
 	}
 
 	@Override
 	public BovedaRepresentation boveda() {
-		return ModelToRepresentation.toRepresentation(bovedaModel);
+		return ModelToRepresentation.toRepresentation(getBovedaModel());
 	}
 
 	@Override
 	public void update(BovedaRepresentation bovedaRepresentation) {
-		bovedaManager.updateBoveda(bovedaModel, bovedaRepresentation);
+		bovedaManager.updateBoveda(getBovedaModel(), bovedaRepresentation);
 	}
 
 	@Override
@@ -55,17 +54,17 @@ public class BovedaResourceImpl implements BovedaResource {
 
 	@Override
 	public void disable() {
-		bovedaManager.disableBoveda(bovedaModel);
+		bovedaManager.disableBoveda(getBovedaModel());
 	}
 
 	@Override
 	public void remove() {
-		bovedaProvider.removeBoveda(bovedaModel);
+		bovedaProvider.removeBoveda(getBovedaModel());
 	}
 
 	@Override
 	public BovedaHistorialesResource historiales() {
-		return new BovedaHistorialesResourceImpl(bovedaModel);
+		return bovedaHistorialesResource;
 	}
 
 }
