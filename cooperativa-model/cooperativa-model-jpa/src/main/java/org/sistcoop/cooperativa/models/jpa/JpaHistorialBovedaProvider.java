@@ -58,10 +58,8 @@ public class JpaHistorialBovedaProvider implements HistorialBovedaProvider {
 	}
 
 	@Override
-	public List<HistorialBovedaModel> getHistorialesBoveda(
-			BovedaModel bovedaModel, int firstResult, int maxResults) {
-		
-		TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery("Boveda.getByIdBoveda", HistorialBovedaEntity.class);
+	public List<HistorialBovedaModel> getHistorialesBoveda(BovedaModel bovedaModel, int firstResult, int maxResults) {
+		TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery("HistorialBoveda.getByIdBoveda", HistorialBovedaEntity.class);
 		query.setParameter("idBoveda", bovedaModel.getId());
 		if (firstResult != -1) {
 			query.setFirstResult(firstResult);
@@ -80,11 +78,8 @@ public class JpaHistorialBovedaProvider implements HistorialBovedaProvider {
 	}
 
 	@Override
-	public List<HistorialBovedaModel> getHistorialesBoveda(
-			BovedaModel bovedaModel, Date desde, Date hasta, int firstResult,
-			int maxResults) {
-		
-		TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery("Boveda.getByIdBovedaDesdeHasta", HistorialBovedaEntity.class);
+	public List<HistorialBovedaModel> getHistorialesBoveda(BovedaModel bovedaModel, Date desde, Date hasta, int firstResult, int maxResults) {
+		TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery("HistorialBoveda.getByIdBovedaDesdeHasta", HistorialBovedaEntity.class);
 		query.setParameter("idBoveda", bovedaModel.getId());
 		query.setParameter("desde", desde);
 		query.setParameter("hasta", hasta);

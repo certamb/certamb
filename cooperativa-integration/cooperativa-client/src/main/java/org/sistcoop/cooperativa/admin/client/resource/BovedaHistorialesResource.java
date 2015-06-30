@@ -33,7 +33,7 @@ public interface BovedaHistorialesResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<HistorialBovedaRepresentation> search(
-			@QueryParam("estado") @DefaultValue(value = "true") boolean estado);
+			@QueryParam("estado") boolean estado);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
