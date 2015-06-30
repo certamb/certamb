@@ -1,7 +1,10 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
@@ -13,30 +16,35 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 
+@Stateless
 public class BovedaResourceImpl implements BovedaResource {
 
+	@PathParam("boveda")
+	private String boveda;
+	
 	private BovedaModel bovedaModel;
 
 	@Inject
 	private BovedaManager bovedaManager;
-	
+
 	@Inject
 	private BovedaProvider bovedaProvider;
 
 	@Context
 	private UriInfo uriInfo;
-	
-	public BovedaResourceImpl(BovedaModel bovedaModel) {
-		this.bovedaModel = bovedaModel;
+
+	@PostConstruct
+	private void init() {		
+		this.bovedaModel = bovedaProvider.getBovedaById(boveda);
 	}
-	
+
 	@Override
 	public BovedaRepresentation boveda() {
 		return ModelToRepresentation.toRepresentation(bovedaModel);
 	}
 
 	@Override
-	public void update(BovedaRepresentation bovedaRepresentation) {	
+	public void update(BovedaRepresentation bovedaRepresentation) {
 		bovedaManager.updateBoveda(bovedaModel, bovedaRepresentation);
 	}
 
@@ -46,7 +54,7 @@ public class BovedaResourceImpl implements BovedaResource {
 	}
 
 	@Override
-	public void disable() {								
+	public void disable() {
 		bovedaManager.disableBoveda(bovedaModel);
 	}
 
@@ -59,5 +67,5 @@ public class BovedaResourceImpl implements BovedaResource {
 	public BovedaHistorialesResource historiales() {
 		return new BovedaHistorialesResourceImpl(bovedaModel);
 	}
-	
+
 }

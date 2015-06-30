@@ -3,6 +3,7 @@ package org.sistcoop.cooperativa.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -17,6 +18,7 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 
+@Stateless
 public class BovedasResorceImpl implements BovedasResource {
 
 	@Inject
@@ -28,10 +30,12 @@ public class BovedasResorceImpl implements BovedasResource {
 	@Context
 	private UriInfo uriInfo;
 	
+	@Inject
+	private BovedaResource bovedaResource;
+	
 	@Override
-	public BovedaResource boveda(String boveda) {
-		BovedaModel bovedaModel = bovedaProvider.getBovedaById(boveda);
-		return new BovedaResourceImpl(bovedaModel);
+	public BovedaResource boveda(String boveda) {		
+		return bovedaResource;
 	}
 
 	@Override
