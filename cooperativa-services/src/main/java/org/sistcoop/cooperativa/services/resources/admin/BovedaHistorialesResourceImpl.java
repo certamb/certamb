@@ -75,13 +75,15 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 		List<HistorialBovedaRepresentation> result = new ArrayList<>();
 		if(estado) {
 			HistorialBovedaModel historialBovedaModel = getBovedaModel().getHistorialActivo();
-			result.add(ModelToRepresentation.toRepresentation(historialBovedaModel));
+			if(historialBovedaModel != null) {
+				result.add(ModelToRepresentation.toRepresentation(historialBovedaModel));	
+			}
 		} else {
 			List<HistorialBovedaModel> historialBovedaModels = historialBovedaProvider.getHistorialesBoveda(getBovedaModel(), -1, -1);
 			for (HistorialBovedaModel historialBovedaModel : historialBovedaModels) {
 				result.add(ModelToRepresentation.toRepresentation(historialBovedaModel));
 			}
-		}
+		}		
 		return result;
 	}
 	
