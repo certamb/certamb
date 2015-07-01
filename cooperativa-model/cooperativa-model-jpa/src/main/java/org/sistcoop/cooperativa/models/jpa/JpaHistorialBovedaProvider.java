@@ -48,6 +48,7 @@ public class JpaHistorialBovedaProvider implements HistorialBovedaProvider {
 
 		HistorialBovedaEntity historialBovedaEntity = new HistorialBovedaEntity();
 		historialBovedaEntity.setBoveda(bovedaEntity);
+		historialBovedaEntity.setAbierto(true);
 		historialBovedaEntity.setEstado(true);
 		historialBovedaEntity.setFechaApertura(calendar.getTime());
 		historialBovedaEntity.setHoraApertura(calendar.getTime());

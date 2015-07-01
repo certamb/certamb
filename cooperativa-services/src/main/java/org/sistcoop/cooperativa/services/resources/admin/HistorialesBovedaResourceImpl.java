@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -58,6 +59,14 @@ public class HistorialesBovedaResourceImpl implements HistorialesBovedaResource 
 	
 	@Override
 	public Response create(HistorialBovedaRepresentation historialBovedaRepresentation) {
+		BovedaModel bovedaModel = getBovedaModel();
+		HistorialBovedaModel historialBovedaActivoModel = bovedaModel.getHistorialActivo();
+		if (historialBovedaActivoModel != null) {
+			if (historialBovedaActivoModel.isAbierto()) {
+				throw new BadRequestException("Boveda abierta, no se puede abrir");
+			}
+		}
+		
 		HistorialBovedaModel historialBovedaModel = representationToModel.createHistorialBoveda(
 				historialBovedaRepresentation, 
 				getBovedaModel(), 
