@@ -25,9 +25,11 @@ public interface BovedaCajaResource {
 	public void update(BovedaCajaRepresentation bovedaRepresentation);
 
 	@POST
+	@Path("/enable")
 	public void enable();
 
 	@POST
+	@Path("/disable")
 	public void disable();
 
 	@DELETE
