@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -68,18 +69,32 @@ public class TransaccionesBovedaCajaResourceImpl_Boveda implements Transacciones
 
 	@Override
 	public Response create(TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation) {		
-		HistorialBovedaModel transaccionHistorialBovedaModel = getHistorialBovedaModel();
-		HistorialBovedaCajaModel transaccionHistorialBovedaCajaModel = null;
+		HistorialBovedaModel historialBovedaModel = getHistorialBovedaModel();
+		HistorialBovedaCajaModel historialBovedaCajaModel = null;
 		
 		HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation = transaccionBovedaCajaRepresentation.getHistorialBovedaCaja();		
 		String idHistorialBovedaCajaRepresentation = historialBovedaCajaRepresentation.getId();
 						
-		transaccionHistorialBovedaCajaModel = historialBovedaCajaProvider.getHistorialBovedaCajaById(idHistorialBovedaCajaRepresentation);
+		historialBovedaCajaModel = historialBovedaCajaProvider.getHistorialBovedaCajaById(idHistorialBovedaCajaRepresentation);
+		
+		if(!historialBovedaModel.getEstado()) {
+			throw new BadRequestException("Historial Boveda inactivo, no se puede realizar transacciones");
+		}
+		if(!historialBovedaModel.isAbierto()) {
+			throw new BadRequestException("Historial Boveda cerrado, no se puede realizar transacciones");
+		}
+		
+		if(!historialBovedaCajaModel.getEstado()) {
+			throw new BadRequestException("Historial BovedaCaja inactivo, no se puede realizar transacciones");
+		}
+		if(!historialBovedaCajaModel.isAbierto()) {
+			throw new BadRequestException("Historial BovedaCaja cerrado, no se puede realizar transacciones");
+		}
 		
 		TransaccionBovedaCajaModel transaccionBovedaCajaModel = representationToModel.createTransaccionBovedaCaja(
 						transaccionBovedaCajaRepresentation,
-						transaccionHistorialBovedaModel,
-						transaccionHistorialBovedaCajaModel, origen,
+						historialBovedaModel,
+						historialBovedaCajaModel, origen,
 						transaccionBovedaCajaProvider,
 						detalleTransaccionBovedaCajaProvider);
 		
