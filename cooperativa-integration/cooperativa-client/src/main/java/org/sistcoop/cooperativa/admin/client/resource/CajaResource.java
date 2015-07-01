@@ -36,7 +36,7 @@ public interface CajaResource {
 	public void remove();
 
 	@Path("/bovedasCaja")
-	public CajaBovedasResource bovedasCaja();
+	public BovedaCajasResource bovedasCaja();
 
 	@Path("/trabajadoresCaja")
 	public CajaTrabajadoresResource trabajadoresCaja();

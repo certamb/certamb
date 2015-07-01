@@ -1,26 +1,38 @@
-/bovedas																				OK	
-/bovedas/{boveda}																		OK	
-/bovedas/{boveda}/enable																OK
-/bovedas/{boveda}/disable																OK
-/bovedas/{boveda}/historiales															OK
-/bovedas/{boveda}/historiales/{historial}												OK
-/bovedas/{boveda}/historiales/{historial}/abrir											OK
-/bovedas/{boveda}/historiales/{historial}/cerrar										OK
-/bovedas/{boveda}/historiales/{historial}/congelar										OK
-/bovedas/{boveda}/historiales/{historial}/descongelar									OK
-/bovedas/{boveda}/historiales/{historial}/detalle										OK
-/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja							OK
-/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}				OK
-/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}/detalle		OK
+/bovedas																					
+/bovedas/{boveda}																			
+/bovedas/{boveda}/enable																
+/bovedas/{boveda}/disable																
+/bovedas/{boveda}/historiales															
+/bovedas/{boveda}/historiales/{historial}												
+/bovedas/{boveda}/historiales/{historial}/abrir											
+/bovedas/{boveda}/historiales/{historial}/cerrar										
+/bovedas/{boveda}/historiales/{historial}/congelar										
+/bovedas/{boveda}/historiales/{historial}/descongelar									
+/bovedas/{boveda}/historiales/{historial}/detalle										
+/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja							
+/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}				
+/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}/detalle		
+/bovedas/{boveda}/bovedaCajas
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales/{historial}
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales/{historial}/abrir
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales/{historial}/cerrar
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales/{historial}/congelar
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales/{historial}/descongelar
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales/{historial}/detalle
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales/{historial}/transaccionesBovedaCaja
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}
+/bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}/detalle
 
-/cajas																					OK
-/cajas/{caja}																			OK
-/cajas/{caja}/enable																	OK
-/cajas/{caja}/disable																	OK
-/cajas/{caja}/trabajadores																OK
-/cajas/{caja}/trabajadores/{trabajador}													OK
-/cajas/{caja}/bovedas																	OK
-/cajas/{caja}/bovedasCaja/{bovedaCaja}															OK
+/cajas																					
+/cajas/{caja}																			
+/cajas/{caja}/enable																	
+/cajas/{caja}/disable																	
+/cajas/{caja}/trabajadores																
+/cajas/{caja}/trabajadores/{trabajador}													
+/cajas/{caja}/bovedas																	
+/cajas/{caja}/bovedasCaja/{bovedaCaja}															
 /cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales
 /cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}
 /cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/abrir

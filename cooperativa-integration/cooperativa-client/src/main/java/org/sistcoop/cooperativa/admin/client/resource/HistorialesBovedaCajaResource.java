@@ -20,10 +20,10 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresent
  * @author carlosthe19916@gmail.com
  */
 @Consumes(MediaType.APPLICATION_JSON)
-public interface CajaBovedaHistorialesResource {
+public interface HistorialesBovedaCajaResource {
 
 	@Path("/{historial}")
-	public CajaBovedaHistorialResource historial(
+	public HistorialBovedaCajaResource historial(
 			@PathParam("historial") String historial);
 
 	@POST

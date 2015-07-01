@@ -19,7 +19,7 @@ import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 
 @Stateless
-public class BovedasResorceImpl implements BovedasResource {
+public class BovedasResourceImpl implements BovedasResource {
 
 	@Inject
 	private BovedaProvider bovedaProvider;

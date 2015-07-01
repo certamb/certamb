@@ -12,8 +12,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.sistcoop.cooperativa.Jsend;
-import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialResource;
-import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialesResource;
+import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaResource;
+import org.sistcoop.cooperativa.admin.client.resource.HistorialesBovedaResource;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaProvider;
@@ -24,7 +24,7 @@ import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
 @Stateless
-public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource {
+public class HistorialesBovedaResourceImpl implements HistorialesBovedaResource {
 
 	@PathParam("boveda")
 	private String boveda;
@@ -45,14 +45,14 @@ public class BovedaHistorialesResourceImpl implements BovedaHistorialesResource 
 	private UriInfo uriInfo;
 
 	@Inject
-	private BovedaHistorialResource bovedaHistorialResource;
+	private HistorialBovedaResource bovedaHistorialResource;
 	
 	private BovedaModel getBovedaModel(){
 		return bovedaProvider.getBovedaById(boveda);
 	}
 	
 	@Override
-	public BovedaHistorialResource historial(String historial) {		
+	public HistorialBovedaResource historial(String historial) {		
 		return bovedaHistorialResource;
 	}
 	

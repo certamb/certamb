@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.PathParam;
 
-import org.sistcoop.cooperativa.admin.client.resource.BovedaHistorialResource;
+import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
@@ -18,10 +18,10 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.services.managers.HistorialBovedaManager;
-import org.sistcoop.cooperativa.services.resources.producers.TransaccionBovedaACaja;
+import org.sistcoop.cooperativa.services.resources.producers.TransaccionesBovedaCaja_Boveda;
 
 @Stateless
-public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
+public class HistorialBovedaResourceImpl implements HistorialBovedaResource {
 
 	@PathParam("historial")
 	private String historialBoveda;
@@ -33,7 +33,7 @@ public class BovedaHistorialResourceImpl implements BovedaHistorialResource {
 	private HistorialBovedaManager historialBovedaManager;
 	
 	@Inject
-	@TransaccionBovedaACaja
+	@TransaccionesBovedaCaja_Boveda
 	private TransaccionesBovedaCajaResource transaccionesBovedaCajaResource;
 	
 	private HistorialBovedaModel getHistorialBovedaModel(){

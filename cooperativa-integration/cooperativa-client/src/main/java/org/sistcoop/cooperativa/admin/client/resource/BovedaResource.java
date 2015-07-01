@@ -36,6 +36,9 @@ public interface BovedaResource {
 	public void remove();
 
 	@Path("/historiales")
-	public BovedaHistorialesResource historiales();
+	public HistorialesBovedaResource historiales();
+	
+	@Path("/bovedaCajas")
+	public BovedaCajasResource bovedaCajas();
 	
 }

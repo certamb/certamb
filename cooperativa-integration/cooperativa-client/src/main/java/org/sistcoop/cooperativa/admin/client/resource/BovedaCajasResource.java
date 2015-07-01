@@ -17,10 +17,10 @@ import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
  * @author carlosthe19916@gmail.com
  */
 @Consumes(MediaType.APPLICATION_JSON)
-public interface CajaBovedasResource {
+public interface BovedaCajasResource {
 
 	@Path("/{bovedaCaja}")
-	public CajaBovedaResource boveda(@PathParam("bovedaCaja") String bovedaCaja);
+	public BovedaCajaResource boveda(@PathParam("bovedaCaja") String bovedaCaja);
 
 	@POST
 	public Response create(BovedaCajaRepresentation bovedaCajaRepresentation);

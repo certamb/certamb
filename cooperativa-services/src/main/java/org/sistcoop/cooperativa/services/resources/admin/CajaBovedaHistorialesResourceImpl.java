@@ -12,8 +12,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.sistcoop.cooperativa.Jsend;
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialResource;
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialesResource;
+import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaCajaResource;
+import org.sistcoop.cooperativa.admin.client.resource.HistorialesBovedaCajaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaProvider;
@@ -24,7 +24,7 @@ import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 
 @Stateless
-public class CajaBovedaHistorialesResourceImpl implements CajaBovedaHistorialesResource {
+public class CajaBovedaHistorialesResourceImpl implements HistorialesBovedaCajaResource {
 
 	@PathParam("bovedaCaja")
 	private String bovedaCaja;
@@ -45,14 +45,14 @@ public class CajaBovedaHistorialesResourceImpl implements CajaBovedaHistorialesR
 	private UriInfo uriInfo;
 	
 	@Inject
-	private CajaBovedaHistorialResource cajaBovedaHistorialResource;
+	private HistorialBovedaCajaResource cajaBovedaHistorialResource;
 	
 	private BovedaCajaModel getBovedaCajaModel(){
 		return bovedaCajaProvider.getBovedaCajaById(bovedaCaja);
 	}
 
 	@Override
-	public CajaBovedaHistorialResource historial(String historial) {
+	public HistorialBovedaCajaResource historial(String historial) {
 		return cajaBovedaHistorialResource;
 	}
 

@@ -72,6 +72,17 @@ public class RepresentationToModel {
 		return bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
 	}
 
+	public BovedaCajaModel createBovedaCaja(
+			BovedaCajaRepresentation bovedaCajaRepresentation,
+			BovedaModel bovedaModel, CajaProvider cajaProvider,
+			BovedaCajaProvider bovedaCajaProvider) {
+
+		CajaRepresentation cajaRepresentation = bovedaCajaRepresentation.getCaja();
+		CajaModel cajaModel = cajaProvider.getCajaById(cajaRepresentation.getId());
+		
+		return bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
+	}
+	
 	/**
 	 * Abrir boveda
 	 */
@@ -234,5 +245,7 @@ public class RepresentationToModel {
 		
 		return trabajadorCajaModel;
 	}
+
+	
 	
 }

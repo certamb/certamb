@@ -17,7 +17,7 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentatio
 /**
  * @author carlosthe19916@gmail.com
  */
-public interface BovedaHistorialResource {
+public interface HistorialBovedaResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

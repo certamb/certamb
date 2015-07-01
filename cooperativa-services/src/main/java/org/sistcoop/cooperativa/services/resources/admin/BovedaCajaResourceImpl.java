@@ -5,15 +5,15 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.PathParam;
 
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaHistorialesResource;
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedaResource;
+import org.sistcoop.cooperativa.admin.client.resource.HistorialesBovedaCajaResource;
+import org.sistcoop.cooperativa.admin.client.resource.BovedaCajaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 
 @Stateless
-public class CajaBovedaResourceImpl implements CajaBovedaResource {
+public class BovedaCajaResourceImpl implements BovedaCajaResource {
 
 	@PathParam("bovedaCaja")
 	private String bovedaCaja;	
@@ -22,7 +22,7 @@ public class CajaBovedaResourceImpl implements CajaBovedaResource {
 	private BovedaCajaProvider bovedaCajaProvider;
 	
 	@Inject
-	private CajaBovedaHistorialesResource cajaBovedaHistorialesResource;
+	private HistorialesBovedaCajaResource cajaBovedaHistorialesResource;
 	
 	private BovedaCajaModel getBovedaCajaModel(){
 		return bovedaCajaProvider.getBovedaCajaById(bovedaCaja);
@@ -54,7 +54,7 @@ public class CajaBovedaResourceImpl implements CajaBovedaResource {
 	}
 	
 	@Override
-	public CajaBovedaHistorialesResource historiales() {
+	public HistorialesBovedaCajaResource historiales() {
 		return cajaBovedaHistorialesResource;
 	}
 

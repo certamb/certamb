@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.PathParam;
 
-import org.sistcoop.cooperativa.admin.client.resource.CajaBovedasResource;
+import org.sistcoop.cooperativa.admin.client.resource.BovedaCajasResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaTrabajadoresResource;
 import org.sistcoop.cooperativa.models.CajaModel;
@@ -13,6 +13,7 @@ import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.services.managers.CajaManager;
+import org.sistcoop.cooperativa.services.resources.producers.BovedaCajas_Caja;
 
 @Stateless
 public class CajaResourceImpl implements CajaResource {
@@ -27,7 +28,8 @@ public class CajaResourceImpl implements CajaResource {
 	private CajaProvider cajaProvider;
 	
 	@Inject
-	private CajaBovedasResource cajaBovedasResource;
+	@BovedaCajas_Caja
+	private BovedaCajasResource cajaBovedasResource;
 	
 	@Inject
 	private CajaTrabajadoresResource cajaTrabajadoresResource;
@@ -63,7 +65,7 @@ public class CajaResourceImpl implements CajaResource {
 	}
 
 	@Override
-	public CajaBovedasResource bovedasCaja() {
+	public BovedaCajasResource bovedasCaja() {
 		return cajaBovedasResource;
 	}
 

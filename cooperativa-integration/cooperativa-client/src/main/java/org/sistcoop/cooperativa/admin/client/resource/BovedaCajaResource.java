@@ -14,7 +14,7 @@ import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 /**
  * @author carlosthe19916@gmail.com
  */
-public interface CajaBovedaResource {
+public interface BovedaCajaResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -34,6 +34,6 @@ public interface CajaBovedaResource {
 	public void remove();
 
 	@Path("/historiales")
-	public CajaBovedaHistorialesResource historiales();
+	public HistorialesBovedaCajaResource historiales();
 
 }
