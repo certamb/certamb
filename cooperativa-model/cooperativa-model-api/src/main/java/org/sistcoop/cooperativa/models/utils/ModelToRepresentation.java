@@ -58,6 +58,14 @@ public class ModelToRepresentation {
 		rep.setId(model.getId());		
 		rep.setEstado(model.getEstado());
 
+		BovedaModel bovedaModel = model.getBoveda();
+		BovedaRepresentation bovedaRepresentation = toRepresentation(bovedaModel);
+		rep.setBoveda(bovedaRepresentation);
+		
+		CajaModel cajaModel = model.getCaja();
+		CajaRepresentation cajaRepresentation = toRepresentation(cajaModel);
+		rep.setCaja(cajaRepresentation);
+		
 		return rep;
 	}
 	

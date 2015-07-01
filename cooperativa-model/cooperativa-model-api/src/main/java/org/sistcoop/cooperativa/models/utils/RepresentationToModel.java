@@ -83,6 +83,33 @@ public class RepresentationToModel {
 		return bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
 	}
 	
+	public void createBovedaCaja(
+			BovedaCajaRepresentation[] bovedaCajaRepresentations,
+			BovedaModel bovedaModel, CajaProvider cajaProvider,
+			BovedaCajaProvider bovedaCajaProvider) {
+
+		for (BovedaCajaRepresentation bovedaCajaRepresentation : bovedaCajaRepresentations) {
+			CajaRepresentation cajaRepresentation = bovedaCajaRepresentation.getCaja();
+			CajaModel cajaModel = cajaProvider.getCajaById(cajaRepresentation.getId());
+			bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
+		}
+	
+	}
+	
+	public void createBovedaCaja(
+			BovedaCajaRepresentation[] bovedaCajaRepresentations,
+			CajaModel cajaModel, BovedaProvider bovedaProvider,
+			BovedaCajaProvider bovedaCajaProvider) {
+			
+		for (BovedaCajaRepresentation bovedaCajaRepresentation : bovedaCajaRepresentations) {			
+			BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();
+			BovedaModel bovedaModel = bovedaProvider.getBovedaById(bovedaRepresentation.getId());
+			
+			bovedaCajaProvider.addBovedaCaja(bovedaModel, cajaModel);
+		}
+		
+	}
+	
 	/**
 	 * Abrir boveda
 	 */
@@ -246,6 +273,5 @@ public class RepresentationToModel {
 		return trabajadorCajaModel;
 	}
 
-	
 	
 }

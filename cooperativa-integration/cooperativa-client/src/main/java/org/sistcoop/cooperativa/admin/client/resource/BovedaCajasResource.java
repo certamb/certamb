@@ -22,9 +22,12 @@ public interface BovedaCajasResource {
 	@Path("/{bovedaCaja}")
 	public BovedaCajaResource boveda(@PathParam("bovedaCaja") String bovedaCaja);
 
+	//@POST
+	//public Response create(BovedaCajaRepresentation bovedaCajaRepresentation);
+	
 	@POST
-	public Response create(BovedaCajaRepresentation bovedaCajaRepresentation);
-
+	public Response create(BovedaCajaRepresentation[] bovedaCajaRepresentations);
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<BovedaCajaRepresentation> search();

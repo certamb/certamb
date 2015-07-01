@@ -10,7 +10,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaCajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.BovedaCajasResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
@@ -58,6 +57,17 @@ public class BovedaCajasResourceImpl_Caja implements BovedaCajasResource {
 	}
 
 	@Override
+	public Response create(BovedaCajaRepresentation[] bovedaCajaRepresentations) {
+		representationToModel.createBovedaCaja(
+				bovedaCajaRepresentations, 
+				getCajaModel(), 
+				bovedaProvider,
+				bovedaCajaProvider);
+		
+		return Response.ok().build();
+	}
+	
+	/*@Override
 	public Response create(BovedaCajaRepresentation bovedaCajaRepresentation) {
 		BovedaCajaModel bovedaCajaModel = representationToModel.createBovedaCaja(
 				bovedaCajaRepresentation, 
@@ -69,7 +79,7 @@ public class BovedaCajasResourceImpl_Caja implements BovedaCajasResource {
 				.path(bovedaCajaModel.getId()).build())
 				.header("Access-Control-Expose-Headers", "Location")
 				.entity(Jsend.getSuccessJSend(bovedaCajaModel.getId())).build();
-	}
+	}*/
 
 	@Override
 	public List<BovedaCajaRepresentation> search() {
