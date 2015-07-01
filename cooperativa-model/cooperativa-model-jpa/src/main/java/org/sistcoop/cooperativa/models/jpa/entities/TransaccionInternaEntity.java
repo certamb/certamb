@@ -26,7 +26,6 @@ public abstract class TransaccionInternaEntity implements Serializable {
 
 	protected Date fecha;
 	protected Date hora;
-	protected boolean estado;
 	protected String observacion;
 
 	protected boolean estadoSolicitud;
@@ -52,16 +51,6 @@ public abstract class TransaccionInternaEntity implements Serializable {
 
 	public void setHora(Date hora) {
 		this.hora = hora;
-	}
-
-	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	public boolean isEstado() {
-		return estado;
-	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
 	}
 
 	@NotNull

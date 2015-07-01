@@ -115,6 +115,11 @@ public class ModelToRepresentation {
 		
 		TransaccionBovedaCajaRepresentation rep = new TransaccionBovedaCajaRepresentation();
 		rep.setId(model.getId());
+		rep.setFecha(model.getFecha());
+		rep.setHora(model.getHora());
+		rep.setObservacion(model.getObservacion());
+		rep.setEstadoSolicitud(model.getEstadoSolicitud());
+		rep.setEstadoConfirmacion(model.getEstadoConfirmacion());
 		rep.setOrigen(model.getOrigen().toString());		
 		
 		return rep;

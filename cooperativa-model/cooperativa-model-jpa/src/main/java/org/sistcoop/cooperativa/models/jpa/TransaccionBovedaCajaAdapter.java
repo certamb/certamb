@@ -84,16 +84,6 @@ public class TransaccionBovedaCajaAdapter implements TransaccionBovedaCajaModel 
 	}
 
 	@Override
-	public boolean getEstado() {
-		return transaccionBovedaCajaEntity.isEstado();
-	}
-
-	@Override
-	public void desactivar() {
-		transaccionBovedaCajaEntity.setEstado(false);
-	}
-
-	@Override
 	public String getObservacion() {
 		return transaccionBovedaCajaEntity.getObservacion();
 	}

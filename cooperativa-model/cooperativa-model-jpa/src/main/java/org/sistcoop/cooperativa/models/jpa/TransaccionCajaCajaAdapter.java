@@ -83,16 +83,6 @@ public class TransaccionCajaCajaAdapter implements TransaccionCajaCajaModel {
 	}
 
 	@Override
-	public boolean getEstado() {
-		return transaccionCajaCajaEntity.isEstado();
-	}
-
-	@Override
-	public void desactivar() {
-		transaccionCajaCajaEntity.setEstado(false);
-	}
-
-	@Override
 	public String getObservacion() {
 		return transaccionCajaCajaEntity.getObservacion();
 	}

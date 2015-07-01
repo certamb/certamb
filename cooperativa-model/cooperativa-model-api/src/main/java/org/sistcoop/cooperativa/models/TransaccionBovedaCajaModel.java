@@ -21,10 +21,6 @@ public interface TransaccionBovedaCajaModel extends Model {
 
 	Date getHora();
 
-	boolean getEstado();
-
-	void desactivar();
-
 	String getObservacion();
 
 	void setObservacion(String observacion);

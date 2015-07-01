@@ -49,8 +49,7 @@ public class JpaTransaccionCajaCajaProvider implements TransaccionCajaCajaProvid
 		transaccionCajaCajaEntity.setMonto(monto);
 		transaccionCajaCajaEntity.setObservacion(observacion);
 		transaccionCajaCajaEntity.setEstadoSolicitud(true);
-		transaccionCajaCajaEntity.setEstadoConfirmacion(false);
-		transaccionCajaCajaEntity.setEstado(true);
+		transaccionCajaCajaEntity.setEstadoConfirmacion(false);		
 
 		em.persist(transaccionCajaCajaEntity);
 		return new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity);

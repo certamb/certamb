@@ -56,8 +56,7 @@ public class JpaTransaccionBovedaCajaProvider implements TransaccionBovedaCajaPr
 		transaccionBovedaCajaEntity.setObservacion(observacion);
 		transaccionBovedaCajaEntity.setOrigen(origen);
 		transaccionBovedaCajaEntity.setEstadoSolicitud(true);
-		transaccionBovedaCajaEntity.setEstadoConfirmacion(false);
-		transaccionBovedaCajaEntity.setEstado(true);
+		transaccionBovedaCajaEntity.setEstadoConfirmacion(false);		
 
 		em.persist(transaccionBovedaCajaEntity);
 		return new TransaccionBovedaCajaAdapter(em, transaccionBovedaCajaEntity);
