@@ -11,7 +11,10 @@ import javax.ws.rs.PathParam;
 
 import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
+import org.sistcoop.cooperativa.models.BovedaCajaModel;
+import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
+import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
@@ -57,7 +60,18 @@ public class HistorialBovedaResourceImpl implements HistorialBovedaResource {
 
 	@Override
 	public void cerrar() {
-		historialBovedaManager.cerrarHistorialBoveda(getHistorialBovedaModel());
+		HistorialBovedaModel historialBovedaModel = getHistorialBovedaModel();
+		BovedaModel bovedaModel = historialBovedaModel.getBoveda();
+		
+		List<BovedaCajaModel> bovedaCajaModels = bovedaModel.getBovedaCajas();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+			HistorialBovedaCajaModel historialBovedaCajaModel = bovedaCajaModel.getHistorialActivo();			
+			if (historialBovedaCajaModel.isAbierto()) {
+				throw new BadRequestException("Boveda tiene cajas abiertas, no se puede cerrar");
+			}
+		}
+		
+		historialBovedaManager.cerrarHistorialBoveda(historialBovedaModel);
 	}
 
 	@Override
