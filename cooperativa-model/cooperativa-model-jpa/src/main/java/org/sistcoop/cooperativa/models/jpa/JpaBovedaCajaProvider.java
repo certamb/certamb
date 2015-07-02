@@ -1,5 +1,9 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -7,6 +11,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
@@ -57,6 +62,44 @@ public class JpaBovedaCajaProvider implements BovedaCajaProvider {
 		if (bovedaCajaEntity == null) return false;
 		em.remove(bovedaCajaEntity);
 		return true;   
+	}
+
+	@Override
+	public List<BovedaCajaModel> getBovedaCajas(BovedaModel bovedaModel) {
+		BovedaEntity bovedaEntity = em.find(BovedaEntity.class, bovedaModel.getId());
+		Set<BovedaCajaEntity> bovedaCajaModels = bovedaEntity.getBovedaCajas();
+		
+		List<BovedaCajaModel> result = new ArrayList<>();
+		for (BovedaCajaEntity bovedaCajaEntity : bovedaCajaModels) {
+			result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
+		}
+		return result;
+	}
+
+	@Override
+	public List<BovedaCajaModel> getBovedaCajas(CajaModel cajaModel) {
+		CajaEntity cajaEntity = em.find(CajaEntity.class, cajaModel.getId());
+		Set<BovedaCajaEntity> bovedaCajaModels = cajaEntity.getBovedaCajas();
+		
+		List<BovedaCajaModel> result = new ArrayList<>();
+		for (BovedaCajaEntity bovedaCajaEntity : bovedaCajaModels) {
+			result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
+		}
+		return result;
+	}
+
+	@Override
+	public List<BovedaCajaModel> getBovedaCajas(BovedaModel bovedaModel, CajaModel cajaModel) {
+		TypedQuery<BovedaCajaEntity> query = em.createNamedQuery("BovedaCaja.getByIdBovedaIdCaja", BovedaCajaEntity.class);
+		query.setParameter("idBoveda", bovedaModel.getId());
+		query.setParameter("idCaja", cajaModel.getId());
+		List<BovedaCajaEntity> list = query.getResultList();
+		
+		List<BovedaCajaModel> result = new ArrayList<>();
+		for (BovedaCajaEntity bovedaCajaEntity : list) {
+			result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
+		}
+		return result;
 	}
 
 }
