@@ -16,6 +16,7 @@ import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
+import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
@@ -83,9 +84,21 @@ public class BovedaCajasResourceImpl_Boveda implements BovedaCajasResource {
 	
 	@Override
 	public List<BovedaCajaRepresentation> search() {
-		List<BovedaCajaModel> bovedaCajaModels = getBovedaModel().getBovedaCajas();
+		List<BovedaCajaModel> bovedaCajaModels = bovedaCajaProvider.getBovedaCajas(getBovedaModel());
 		List<BovedaCajaRepresentation> result = new ArrayList<>();
 		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {			
+			result.add(ModelToRepresentation.toRepresentation(bovedaCajaModel));
+		}
+		return result;
+	}
+
+	@Override
+	public List<BovedaCajaRepresentation> search(String boveda, String caja) {
+		CajaModel cajaModel = cajaProvider.getCajaById(caja);
+		
+		List<BovedaCajaModel> bovedaCajaModels = bovedaCajaProvider.getBovedaCajas(getBovedaModel(), cajaModel);
+		List<BovedaCajaRepresentation> result = new ArrayList<>();
+		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
 			result.add(ModelToRepresentation.toRepresentation(bovedaCajaModel));
 		}
 		return result;
