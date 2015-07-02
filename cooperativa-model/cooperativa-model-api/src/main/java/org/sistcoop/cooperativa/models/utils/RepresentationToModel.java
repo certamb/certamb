@@ -164,8 +164,7 @@ public class RepresentationToModel {
 		}
 	}
 
-	public HistorialBovedaCajaModel createHistorialBovedaCaja(
-			HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation,
+	public HistorialBovedaCajaModel createHistorialBovedaCaja(			
 			BovedaCajaModel bovedaCajaModel,
 			HistorialBovedaCajaProvider historialBovedaCajaProvider,
 			DetalleHistorialBovedaCajaProvider detalleHistorialBovedaCajaProvider) {
@@ -182,12 +181,12 @@ public class RepresentationToModel {
 				BigDecimal valor = detalleHistorialBovedaModel.getValor();
 				detalleHistorialBovedaCajaProvider.addDetalleHistorialBovedaCaja(historialActivoModel, valor, cantidad);
 			}
-			
+			System.out.println("tress");
 			return historialActivoModel;
 		} else {
 			historialActivoModel.desactivar();
 			historialActivoModel.commit();
-
+			System.out.println("cuatrooo");
 			List<DetalleHistorialBovedaCajaModel> detalleHistorialActivoModels = historialActivoModel.getDetalle();
 			HistorialBovedaCajaModel historialActivoNuevoModel = historialBovedaCajaProvider.addHistorialBovedaCajaModel(bovedaCajaModel);
 			for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaCajaModel : detalleHistorialActivoModels) {
@@ -195,7 +194,7 @@ public class RepresentationToModel {
 				BigDecimal valor = detalleHistorialBovedaCajaModel.getValor();
 				detalleHistorialBovedaCajaProvider.addDetalleHistorialBovedaCaja(historialActivoNuevoModel, valor, cantidad);
 			}
-
+			System.out.println("cincoooo");
 			return historialActivoNuevoModel;
 		}
 	}

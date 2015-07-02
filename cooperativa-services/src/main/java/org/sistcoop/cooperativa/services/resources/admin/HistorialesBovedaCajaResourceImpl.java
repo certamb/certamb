@@ -24,7 +24,7 @@ import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 
 @Stateless
-public class CajaBovedaHistorialesResourceImpl implements HistorialesBovedaCajaResource {
+public class HistorialesBovedaCajaResourceImpl implements HistorialesBovedaCajaResource {
 
 	@PathParam("bovedaCaja")
 	private String bovedaCaja;
@@ -58,8 +58,7 @@ public class CajaBovedaHistorialesResourceImpl implements HistorialesBovedaCajaR
 
 	@Override
 	public Response create(HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation) {
-		HistorialBovedaCajaModel historialBovedaCajaModel = representationToModel.createHistorialBovedaCaja(
-				historialBovedaCajaRepresentation, 
+		HistorialBovedaCajaModel historialBovedaCajaModel = representationToModel.createHistorialBovedaCaja(				
 				getBovedaCajaModel(),
 				historialBovedaCajaProvider,
 				detalleHistorialBovedaCajaProvider);

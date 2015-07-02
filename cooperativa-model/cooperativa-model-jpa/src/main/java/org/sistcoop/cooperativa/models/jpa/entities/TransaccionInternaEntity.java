@@ -13,8 +13,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @MappedSuperclass
 public abstract class TransaccionInternaEntity implements Serializable {
@@ -53,10 +51,7 @@ public abstract class TransaccionInternaEntity implements Serializable {
 		this.hora = hora;
 	}
 
-	@NotNull
-	@Size(min = 0, max = 60)
-	@NotBlank
-	@NotEmpty
+	@Size(min = 1, max = 60)
 	public String getObservacion() {
 		return observacion;
 	}

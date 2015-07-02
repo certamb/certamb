@@ -128,7 +128,17 @@ public class ModelToRepresentation {
 		rep.setObservacion(model.getObservacion());
 		rep.setEstadoSolicitud(model.getEstadoSolicitud());
 		rep.setEstadoConfirmacion(model.getEstadoConfirmacion());
-		rep.setOrigen(model.getOrigen().toString());		
+		rep.setOrigen(model.getOrigen().toString());	
+		
+		HistorialBovedaModel historialBovedaModel = model.getHistorialBoveda();
+		HistorialBovedaRepresentation historialBovedaRepresentation = new HistorialBovedaRepresentation();
+		historialBovedaRepresentation.setId(historialBovedaModel.getId());
+		rep.setHistorialBoveda(historialBovedaRepresentation);
+		
+		HistorialBovedaCajaModel historialBovedaCajaModel = model.getHistorialBovedaCaja();
+		HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation = new HistorialBovedaCajaRepresentation();
+		historialBovedaCajaRepresentation.setId(historialBovedaCajaModel.getId());
+		rep.setHistorialBovedaCaja(historialBovedaCajaRepresentation);
 		
 		return rep;
 	}

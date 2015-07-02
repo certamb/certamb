@@ -22,7 +22,7 @@ import org.sistcoop.cooperativa.services.managers.HistorialBovedaCajaManager;
 import org.sistcoop.cooperativa.services.resources.producers.TransaccionesBovedaCaja_Caja;
 
 @Stateless
-public class CajaBovedaHistorialResourceImpl implements HistorialBovedaCajaResource {
+public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResource {
 
 	@PathParam("historial")
 	private String historial;
