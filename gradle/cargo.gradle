@@ -1,0 +1,17 @@
+apply from: "$rootDir/gradle/downloadWar.gradle"
+
+apply plugin: 'com.bmuschko.cargo'
+
+cargo {
+    containerId = 'wildfly8x'
+
+    remote {
+        hostname = 'cloud.internal.it'
+        username = 'superuser'
+        password = 'secretpwd'
+    }
+
+    local {
+        homeDir = file(System.getenv("JBOSS_HOME"))
+    }
+}

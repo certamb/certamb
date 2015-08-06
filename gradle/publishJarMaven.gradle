@@ -1,0 +1,27 @@
+apply plugin: 'maven-publish'
+
+ext {
+    artifactoryReleaseRepoUrl = config.binaryRepository.releaseUrl
+    artifactoryUsername = config.binaryRepository.username
+    artifactoryPassword = config.binaryRepository.password
+}
+
+publishing {
+    publications {
+        Jar(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name 'remoteJarArtifactory'
+            url artifactoryReleaseRepoUrl
+
+            credentials {
+                username = artifactoryUsername
+                password = artifactoryPassword
+            }
+        }
+    }
+}
