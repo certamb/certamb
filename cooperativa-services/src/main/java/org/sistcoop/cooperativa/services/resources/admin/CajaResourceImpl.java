@@ -2,7 +2,7 @@ package org.sistcoop.cooperativa.services.resources.admin;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 
 import org.sistcoop.cooperativa.admin.client.resource.BovedaCajasResource;
@@ -18,60 +18,65 @@ import org.sistcoop.cooperativa.services.resources.producers.BovedaCajas_Caja;
 @Stateless
 public class CajaResourceImpl implements CajaResource {
 
-	@PathParam("caja")
-	private String caja;
+    @PathParam("caja")
+    private String caja;
 
-	@Inject
-	private CajaManager cajaManager;
-	
-	@Inject
-	private CajaProvider cajaProvider;
-	
-	@Inject
-	@BovedaCajas_Caja
-	private BovedaCajasResource cajaBovedasResource;
-	
-	@Inject
-	private CajaTrabajadoresResource cajaTrabajadoresResource;
-	
-	private CajaModel getCajaModel(){
-		return cajaProvider.getCajaById(caja);
-	}
+    @Inject
+    private CajaManager cajaManager;
 
-	@Override
-	public CajaRepresentation caja() {
-		return ModelToRepresentation.toRepresentation(getCajaModel());
-	}
+    @Inject
+    private CajaProvider cajaProvider;
 
-	@Override
-	public void update(CajaRepresentation cajaRepresentation) {	
-		cajaManager.update(getCajaModel(), cajaRepresentation);
+    @Inject
+    @BovedaCajas_Caja
+    private BovedaCajasResource cajaBovedasResource;
 
-	}
+    @Inject
+    private CajaTrabajadoresResource cajaTrabajadoresResource;
 
-	@Override
-	public void enable() {
-		throw new BadRequestException();
-	}
+    private CajaModel getCajaModel() {
+        return cajaProvider.findById(caja);
+    }
 
-	@Override
-	public void disable() {
-		cajaManager.desactivarCaja(getCajaModel());		
-	}
+    @Override
+    public CajaRepresentation caja() {
+        CajaRepresentation rep = ModelToRepresentation.toRepresentation(getCajaModel());
+        if (rep != null) {
+            return rep;
+        } else {
+            throw new NotFoundException();
+        }
+    }
 
-	@Override
-	public void remove() {
-		cajaProvider.removeCaja(getCajaModel());
-	}
+    @Override
+    public void update(CajaRepresentation cajaRepresentation) {
+        cajaManager.update(getCajaModel(), cajaRepresentation);
 
-	@Override
-	public BovedaCajasResource bovedasCaja() {
-		return cajaBovedasResource;
-	}
+    }
 
-	@Override
-	public CajaTrabajadoresResource trabajadoresCaja() {
-		return cajaTrabajadoresResource;
-	}
-	
+    @Override
+    public void enable() {
+        throw new NotFoundException();
+    }
+
+    @Override
+    public void disable() {
+        cajaManager.desactivarCaja(getCajaModel());
+    }
+
+    @Override
+    public void remove() {
+        cajaProvider.remove(getCajaModel());
+    }
+
+    @Override
+    public BovedaCajasResource bovedasCaja() {
+        return cajaBovedasResource;
+    }
+
+    @Override
+    public CajaTrabajadoresResource trabajadoresCaja() {
+        return cajaTrabajadoresResource;
+    }
+
 }

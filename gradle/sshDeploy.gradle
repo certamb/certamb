@@ -4,7 +4,7 @@ import com.manning.gia.ssh.SshExec
 apply from: "$rootDir/gradle/downloadWar.gradle"
 
 ext {
-    warFile = configurations.todo.singleFile
+    warFile = configurations.sistcoop.singleFile
     tomcatRemoteDir = '/opt/apache-tomcat-7.0.42'
 
     userHome = System.properties['user.home']

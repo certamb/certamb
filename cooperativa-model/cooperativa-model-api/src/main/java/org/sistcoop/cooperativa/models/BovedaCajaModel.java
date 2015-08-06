@@ -1,18 +1,17 @@
 package org.sistcoop.cooperativa.models;
 
-
 public interface BovedaCajaModel extends Model {
 
-	String getId();
+    String getId();
 
-	boolean getEstado();
+    boolean getEstado();
 
-	void desactivar();
+    void desactivar();
 
-	CajaModel getCaja();
+    CajaModel getCaja();
 
-	BovedaModel getBoveda();
+    BovedaModel getBoveda();
 
-	HistorialBovedaCajaModel getHistorialActivo();
-	
+    HistorialBovedaCajaModel getHistorialActivo();
+
 }

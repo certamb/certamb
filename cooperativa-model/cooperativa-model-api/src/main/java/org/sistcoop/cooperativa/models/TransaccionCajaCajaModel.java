@@ -6,30 +6,30 @@ import java.util.List;
 
 public interface TransaccionCajaCajaModel extends Model {
 
-	String getId();
+    String getId();
 
-	HistorialBovedaCajaModel getHistorialBovedaCajaOrigen();
+    HistorialBovedaCajaModel getHistorialBovedaCajaOrigen();
 
-	HistorialBovedaCajaModel getHistorialBovedaCajaDestino();
+    HistorialBovedaCajaModel getHistorialBovedaCajaDestino();
 
-	BigDecimal getMonto();
+    BigDecimal getMonto();
 
-	List<DetalleTransaccionCajaCajaModel> getDetalle();
+    List<DetalleTransaccionCajaCajaModel> getDetalle();
 
-	Date getFecha();
+    Date getFecha();
 
-	Date getHora();
+    Date getHora();
 
-	String getObservacion();
+    String getObservacion();
 
-	void setObservacion(String observacion);
+    void setObservacion(String observacion);
 
-	boolean getEstadoSolicitud();
+    boolean getEstadoSolicitud();
 
-	void setEstadoSolicitud(boolean estadoSolicitud);
+    void setEstadoSolicitud(boolean estadoSolicitud);
 
-	boolean getEstadoConfirmacion();
+    boolean getEstadoConfirmacion();
 
-	void setEstadoConfirmacion(boolean estadoConfirmacion);
+    void setEstadoConfirmacion(boolean estadoConfirmacion);
 
 }

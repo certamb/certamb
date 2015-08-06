@@ -1,12 +1,11 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 
 import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaCajaResource;
@@ -18,87 +17,95 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.cooperativa.services.managers.HistorialBovedaCajaManager;
 import org.sistcoop.cooperativa.services.resources.producers.TransaccionesBovedaCaja_Caja;
 
 @Stateless
 public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResource {
 
-	@PathParam("historial")
-	private String historial;
-	
-	@Inject
-	private HistorialBovedaCajaProvider historialBovedaCajaProvider;
+    @PathParam("historial")
+    private String historial;
 
-	@Inject
-	private HistorialBovedaCajaManager historialBovedaCajaManager;
+    @Inject
+    private HistorialBovedaCajaProvider historialBovedaCajaProvider;
 
-	@Inject
-	private TransaccionesCajaCajaResource transaccionesCajaCajaResource;
-	
-	@Inject
-	@TransaccionesBovedaCaja_Caja
-	private TransaccionesBovedaCajaResource transaccionesBovedaCajaResource;
-	
-	private HistorialBovedaCajaModel getHistorialBovedaCajaModel(){
-		return historialBovedaCajaProvider.getHistorialBovedaCajaById(historial);
-	}
-	
-	@Override
-	public HistorialBovedaCajaRepresentation historial() {
-		return ModelToRepresentation.toRepresentation(getHistorialBovedaCajaModel());
-	}
+    @Inject
+    private HistorialBovedaCajaManager historialBovedaCajaManager;
 
-	@Override
-	public void update() {
-		throw new BadRequestException();
-	}
+    @Inject
+    private TransaccionesCajaCajaResource transaccionesCajaCajaResource;
 
-	@Override
-	public void remove() {
-		throw new BadRequestException();
-	}
+    @Inject
+    @TransaccionesBovedaCaja_Caja
+    private TransaccionesBovedaCajaResource transaccionesBovedaCajaResource;
 
-	@Override
-	public void cerrar(List<DetalleMonedaRepresentation> detalle) {
-		historialBovedaCajaManager.cerrarHistorialBovedaCaja(getHistorialBovedaCajaModel(), detalle);
-	}
+    private HistorialBovedaCajaModel getHistorialBovedaCajaModel() {
+        return historialBovedaCajaProvider.findById(historial);
+    }
 
-	@Override
-	public void congelar() {
-		historialBovedaCajaManager.congelar(getHistorialBovedaCajaModel());		
-	}
+    @Override
+    public HistorialBovedaCajaRepresentation historial() {
+        HistorialBovedaCajaRepresentation rep = ModelToRepresentation
+                .toRepresentation(getHistorialBovedaCajaModel());
+        if (rep != null) {
+            return rep;
+        } else {
+            throw new NotFoundException();
+        }
+    }
 
-	@Override
-	public void descongelar() {
-		historialBovedaCajaManager.descongelar(getHistorialBovedaCajaModel());		
-	}
+    @Override
+    public void update() {
+        throw new NotFoundException();
+    }
 
-	@Override
-	public List<DetalleMonedaRepresentation> detalle() {
-		List<DetalleHistorialBovedaCajaModel> detalle = getHistorialBovedaCajaModel().getDetalle();
-		List<DetalleMonedaRepresentation> result = new ArrayList<DetalleMonedaRepresentation>();
-		for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaModel : detalle) {
-			int cantidad = detalleHistorialBovedaModel.getCantidad();
-			BigDecimal valor = detalleHistorialBovedaModel.getValor();
+    @Override
+    public void remove() {
+        throw new NotFoundException();
+    }
 
-			DetalleMonedaRepresentation rep = new DetalleMonedaRepresentation();
-			rep.setCantidad(cantidad);
-			rep.setValor(valor);
+    @Override
+    public void cerrar(List<DetalleMonedaRepresentation> detalle) {
+        historialBovedaCajaManager.cerrarHistorialBovedaCaja(getHistorialBovedaCajaModel(), detalle);
+    }
 
-			result.add(rep);
-		}
-		return result;
-	}
+    @Override
+    public void congelar() {
+        historialBovedaCajaManager.congelar(getHistorialBovedaCajaModel());
+    }
 
-	@Override
-	public TransaccionesCajaCajaResource transaccionesCaja() {
-		return transaccionesCajaCajaResource;
-	}
+    @Override
+    public void descongelar() {
+        historialBovedaCajaManager.descongelar(getHistorialBovedaCajaModel());
+    }
 
-	@Override
-	public TransaccionesBovedaCajaResource transaccionesBoveda() {
-		return transaccionesBovedaCajaResource;
-	}
+    @Override
+    public SearchResultsRepresentation<DetalleMonedaRepresentation> detalle() {
+        List<DetalleHistorialBovedaCajaModel> detalle = getHistorialBovedaCajaModel().getDetalle();
+        SearchResultsRepresentation<DetalleMonedaRepresentation> result = new SearchResultsRepresentation<>();
+        for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaModel : detalle) {
+            int cantidad = detalleHistorialBovedaModel.getCantidad();
+            BigDecimal valor = detalleHistorialBovedaModel.getValor();
+
+            DetalleMonedaRepresentation rep = new DetalleMonedaRepresentation();
+            rep.setCantidad(cantidad);
+            rep.setValor(valor);
+
+            result.getItems().add(rep);
+        }
+        result.setTotalSize(result.getItems().size());
+        return result;
+    }
+
+    @Override
+    public TransaccionesCajaCajaResource transaccionesCaja() {
+        return transaccionesCajaCajaResource;
+    }
+
+    @Override
+    public TransaccionesBovedaCajaResource transaccionesBoveda() {
+        return transaccionesBovedaCajaResource;
+    }
 
 }

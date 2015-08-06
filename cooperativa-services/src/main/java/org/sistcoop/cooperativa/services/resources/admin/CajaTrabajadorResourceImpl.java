@@ -2,7 +2,7 @@ package org.sistcoop.cooperativa.services.resources.admin;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 
 import org.sistcoop.cooperativa.admin.client.resource.CajaTrabajadorResource;
@@ -14,29 +14,34 @@ import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation
 @Stateless
 public class CajaTrabajadorResourceImpl implements CajaTrabajadorResource {
 
-	@PathParam("trabajadorCaja")
-	private String trabajadorCaja;
-	
-	@Inject
-	private TrabajadorCajaProvider trabajadorCajaProvider;
+    @PathParam("trabajadorCaja")
+    private String trabajadorCaja;
 
-	private TrabajadorCajaModel getTrabajadorCajaModel(){
-		return trabajadorCajaProvider.getTrabajadorCajaById(trabajadorCaja);
-	}
-	
-	@Override
-	public TrabajadorCajaRepresentation trabajador() {
-		return ModelToRepresentation.toRepresentation(getTrabajadorCajaModel());
-	}
+    @Inject
+    private TrabajadorCajaProvider trabajadorCajaProvider;
 
-	@Override
-	public void update(TrabajadorCajaRepresentation trabajadorCajaRepresentation) {
-		throw new BadRequestException();
-	}
+    private TrabajadorCajaModel getTrabajadorCajaModel() {
+        return trabajadorCajaProvider.findById(trabajadorCaja);
+    }
 
-	@Override
-	public void remove() {
-		trabajadorCajaProvider.removeTrabajadorCaja(getTrabajadorCajaModel());
-	}	
+    @Override
+    public TrabajadorCajaRepresentation cajaTrabajador() {
+        TrabajadorCajaRepresentation rep = ModelToRepresentation.toRepresentation(getTrabajadorCajaModel());
+        if (rep != null) {
+            return rep;
+        } else {
+            throw new NotFoundException();
+        }
+    }
+
+    @Override
+    public void update(TrabajadorCajaRepresentation trabajadorCajaRepresentation) {
+        throw new NotFoundException();
+    }
+
+    @Override
+    public void remove() {
+        trabajadorCajaProvider.remove(getTrabajadorCajaModel());
+    }
 
 }

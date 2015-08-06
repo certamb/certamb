@@ -7,30 +7,30 @@ import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 
 public interface TransaccionBovedaCajaModel extends Model {
 
-	String getId();
+    String getId();
 
-	HistorialBovedaModel getHistorialBoveda();
+    HistorialBovedaModel getHistorialBoveda();
 
-	HistorialBovedaCajaModel getHistorialBovedaCaja();
+    HistorialBovedaCajaModel getHistorialBovedaCaja();
 
-	OrigenTransaccionBovedaCaja getOrigen();
+    OrigenTransaccionBovedaCaja getOrigen();
 
-	List<DetalleTransaccionBovedaCajaModel> getDetalle();
+    List<DetalleTransaccionBovedaCajaModel> getDetalle();
 
-	Date getFecha();
+    Date getFecha();
 
-	Date getHora();
+    Date getHora();
 
-	String getObservacion();
+    String getObservacion();
 
-	void setObservacion(String observacion);
+    void setObservacion(String observacion);
 
-	boolean getEstadoSolicitud();
+    boolean getEstadoSolicitud();
 
-	void setEstadoSolicitud(boolean estadoSolicitud);
+    void setEstadoSolicitud(boolean estadoSolicitud);
 
-	boolean getEstadoConfirmacion();
+    boolean getEstadoConfirmacion();
 
-	void setEstadoConfirmacion(boolean estadoConfirmacion);
+    void setEstadoConfirmacion(boolean estadoConfirmacion);
 
 }

@@ -8,133 +8,126 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
 
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
+import org.sistcoop.cooperativa.models.search.filters.BovedaFilterProvider;
 
 @Named
 @Stateless
 @Local(BovedaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaBovedaProvider implements BovedaProvider {
+public class JpaBovedaProvider extends AbstractHibernateStorage implements BovedaProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Inject
+    private BovedaFilterProvider filterProvider;
 
-	@Override
-	public BovedaModel addBoveda(String agencia, String moneda, String denominacion) {
-		//Solo debe haber una boveda/moneda por agencia
-		TypedQuery<BovedaEntity> query = em.createNamedQuery("Boveda.getByAgencia", BovedaEntity.class);
-		query.setParameter("agencia", agencia);
-		List<BovedaEntity> list = query.getResultList();
-		for (BovedaEntity bovedaEntity : list) {
-			if(agencia.equals(bovedaEntity.getAgencia())){
-				if(moneda.equals(bovedaEntity.getMoneda())){
-					if(bovedaEntity.isEstado()){
-						throw new EJBException("Boveda con moneda " + moneda+ " ya existente");
-					}
-				}
-			}		
-		}
-		
-		//Crear boveda
-		BovedaEntity bovedaEntity = new BovedaEntity();
-		bovedaEntity.setAgencia(agencia);
-		bovedaEntity.setDenominacion(denominacion);
-		bovedaEntity.setMoneda(moneda);
-		bovedaEntity.setEstado(true);
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
-		em.persist(bovedaEntity);
-		return new BovedaAdapter(em, bovedaEntity);
-	}
+    @Override
+    public BovedaModel create(String agencia, String moneda, String denominacion) {
+        // Solo debe haber una boveda/moneda por agencia
+        TypedQuery<BovedaEntity> query = em.createNamedQuery("Boveda.getByAgencia", BovedaEntity.class);
+        query.setParameter("agencia", agencia);
+        List<BovedaEntity> list = query.getResultList();
+        for (BovedaEntity bovedaEntity : list) {
+            if (agencia.equals(bovedaEntity.getAgencia())) {
+                if (moneda.equals(bovedaEntity.getMoneda())) {
+                    if (bovedaEntity.isEstado()) {
+                        throw new EJBException("Boveda con moneda " + moneda + " ya existente");
+                    }
+                }
+            }
+        }
 
-	@Override
-	public BovedaModel getBovedaById(String id) {
-		BovedaEntity BovedaEntity = this.em.find(BovedaEntity.class, id);
-		return BovedaEntity != null ? new BovedaAdapter(em, BovedaEntity) : null;
-	}
+        // Crear boveda
+        BovedaEntity bovedaEntity = new BovedaEntity();
+        bovedaEntity.setAgencia(agencia);
+        bovedaEntity.setDenominacion(denominacion);
+        bovedaEntity.setMoneda(moneda);
+        bovedaEntity.setEstado(true);
 
-	@Override
-	public boolean removeBoveda(BovedaModel bovedaModel) {
-		BovedaEntity bovedaEntity = em.find(BovedaEntity.class, bovedaModel.getId());
-		if (bovedaEntity == null) return false;
-		em.remove(bovedaEntity);
-		return true;   
-	}
-	
-	@Override
-	public List<BovedaModel> getBovedas() {
-		return getBovedas(true);
-	}
+        em.persist(bovedaEntity);
+        return new BovedaAdapter(em, bovedaEntity);
+    }
 
-	@Override
-	public List<BovedaModel> getBovedas(String agencia) {
-		return getBovedas(agencia, true);
-	}
+    @Override
+    public BovedaModel findById(String id) {
+        BovedaEntity BovedaEntity = this.em.find(BovedaEntity.class, id);
+        return BovedaEntity != null ? new BovedaAdapter(em, BovedaEntity) : null;
+    }
 
-	@Override
-	public List<BovedaModel> getBovedas(boolean estado) {
-		List<Object> list = null;
-		CriteriaQuery<Object> cq = this.em.getCriteriaBuilder().createQuery();
-		cq.select(cq.from(BovedaEntity.class));
-		list = this.em.createQuery(cq).getResultList();
+    @Override
+    public boolean remove(BovedaModel bovedaModel) {
+        BovedaEntity bovedaEntity = em.find(BovedaEntity.class, bovedaModel.getId());
+        if (bovedaEntity == null)
+            return false;
+        em.remove(bovedaEntity);
+        return true;
+    }
 
-		List<BovedaModel> result = new ArrayList<BovedaModel>();
-		for (Object object : list) {
-			BovedaEntity bovedaEntity = (BovedaEntity) object;
-			if (bovedaEntity.isEstado() == estado) {
-				result.add(new BovedaAdapter(em, bovedaEntity));
-			}
-		}
-		return result;
-	}
+    @Override
+    public SearchResultsModel<BovedaModel> search() {
+        TypedQuery<BovedaEntity> query = em.createNamedQuery("BovedaEntity.findAll", BovedaEntity.class);
 
-	@Override
-	public List<BovedaModel> getBovedas(String agencia, boolean estado) {
-		TypedQuery<BovedaEntity> query = em.createNamedQuery("Boveda.getByAgencia", BovedaEntity.class);
-		query.setParameter("agencia", agencia);
-		List<BovedaEntity> list = query.getResultList();
+        List<BovedaEntity> entities = query.getResultList();
+        List<BovedaModel> models = new ArrayList<BovedaModel>();
+        for (BovedaEntity personaNaturalEntity : entities) {
+            models.add(new BovedaAdapter(em, personaNaturalEntity));
+        }
 
-		List<BovedaModel> result = new ArrayList<BovedaModel>();
-		for (BovedaEntity bovedaEntity : list) {			
-			if (bovedaEntity.isEstado() == estado) {
-				result.add(new BovedaAdapter(em, bovedaEntity));
-			}
-		}
-		return result;
-	}
+        SearchResultsModel<BovedaModel> result = new SearchResultsModel<>();
+        result.setModels(models);
+        result.setTotalSize(models.size());
+        return result;
+    }
 
-	@Override
-	public List<BovedaModel> getBovedas(String agencia, boolean estado, String filterText, int firstResult, int maxResults) {
-		TypedQuery<BovedaEntity> query = em.createNamedQuery("Boveda.getByAgenciaFilterText", BovedaEntity.class);
-		query.setParameter("agencia", agencia);
-		query.setParameter("filterText", "%" + filterText + "%");
-		if (firstResult != -1) {
-			query.setFirstResult(firstResult);
-		}
-		if (maxResults != -1) {
-			query.setMaxResults(maxResults);
-		}		
-		List<BovedaEntity> list = query.getResultList();
+    @Override
+    public SearchResultsModel<BovedaModel> search(SearchCriteriaModel criteria) {
+        SearchResultsModel<BovedaEntity> entityResult = find(criteria, BovedaEntity.class);
 
-		List<BovedaModel> result = new ArrayList<BovedaModel>();
-		for (BovedaEntity bovedaEntity : list) {			
-			if (bovedaEntity.isEstado() == estado) {
-				result.add(new BovedaAdapter(em, bovedaEntity));
-			}
-		}
-		return result;
-	}
+        SearchResultsModel<BovedaModel> modelResult = new SearchResultsModel<>();
+        List<BovedaModel> list = new ArrayList<>();
+        for (BovedaEntity entity : entityResult.getModels()) {
+            list.add(new BovedaAdapter(em, entity));
+        }
+        modelResult.setTotalSize(entityResult.getTotalSize());
+        modelResult.setModels(list);
+        return modelResult;
+    }
+
+    @Override
+    public SearchResultsModel<BovedaModel> search(SearchCriteriaModel criteria, String filterText) {
+        SearchResultsModel<BovedaEntity> entityResult = findFullText(criteria, BovedaEntity.class,
+                filterText, filterProvider.getDenominacionFilter());
+
+        SearchResultsModel<BovedaModel> modelResult = new SearchResultsModel<>();
+        List<BovedaModel> list = new ArrayList<>();
+        for (BovedaEntity entity : entityResult.getModels()) {
+            list.add(new BovedaAdapter(em, entity));
+        }
+        modelResult.setTotalSize(entityResult.getTotalSize());
+        modelResult.setModels(list);
+        return modelResult;
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
 }

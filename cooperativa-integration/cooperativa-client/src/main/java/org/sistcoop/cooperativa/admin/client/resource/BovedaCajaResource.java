@@ -16,26 +16,26 @@ import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
  */
 public interface BovedaCajaResource {
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public BovedaCajaRepresentation boveda();
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public BovedaCajaRepresentation bovedaCaja();
 
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void update(BovedaCajaRepresentation bovedaRepresentation);
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void update(BovedaCajaRepresentation bovedaRepresentation);
 
-	@POST
-	@Path("/enable")
-	public void enable();
+    @POST
+    @Path("/enable")
+    public void enable();
 
-	@POST
-	@Path("/disable")
-	public void disable();
+    @POST
+    @Path("/disable")
+    public void disable();
 
-	@DELETE
-	public void remove();
+    @DELETE
+    public void remove();
 
-	@Path("/historiales")
-	public HistorialesBovedaCajaResource historiales();
+    @Path("/historiales")
+    public HistorialesBovedaCajaResource historiales();
 
 }

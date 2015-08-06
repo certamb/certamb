@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 
 public interface TransaccionMayorCuantiaModel extends Model {
 
-	Long getId();
+    Long getId();
 
-	BigDecimal getMontoMaximo();
+    BigDecimal getMontoMaximo();
 
-	TransaccionClienteModel getTransaccion();
+    TransaccionClienteModel getTransaccion();
 
 }

@@ -4,17 +4,17 @@ import java.math.BigDecimal;
 
 public interface TransaccionCompraVentaModel extends TransaccionClienteModel {
 
-	String getMonedaRecibida();
+    String getMonedaRecibida();
 
-	String getMonedaEntregada();
+    String getMonedaEntregada();
 
-	BigDecimal getMontoRecibido();
+    BigDecimal getMontoRecibido();
 
-	BigDecimal getMontoEntregado();
+    BigDecimal getMontoEntregado();
 
-	BigDecimal getTipoCambio();
+    BigDecimal getTipoCambio();
 
-	String getCliente();
+    String getCliente();
 
-	String getTipoTransaccion();
+    String getTipoTransaccion();
 }

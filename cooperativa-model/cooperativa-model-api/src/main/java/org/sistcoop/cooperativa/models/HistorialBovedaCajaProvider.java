@@ -1,25 +1,18 @@
 package org.sistcoop.cooperativa.models;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.ejb.Local;
 
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
 public interface HistorialBovedaCajaProvider extends Provider {
 
-	HistorialBovedaCajaModel addHistorialBovedaCajaModel(
-			BovedaCajaModel bovedaCajaModel);
+    HistorialBovedaCajaModel create(BovedaCajaModel bovedaCajaModel);
 
-	HistorialBovedaCajaModel getHistorialBovedaCajaById(String id);
+    HistorialBovedaCajaModel findById(String id);
 
-	List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(
-			BovedaCajaModel bovedaCajaModel, int firstResult, int maxResults);
-
-	List<HistorialBovedaCajaModel> getHistorialesBovedaCaja(
-			BovedaCajaModel bovedaCajaModel, Date desde, Date hasta,
-			int firstResult, int maxResults);
+    SearchResultsModel<HistorialBovedaCajaModel> search(SearchCriteriaModel criteria);
 
 }

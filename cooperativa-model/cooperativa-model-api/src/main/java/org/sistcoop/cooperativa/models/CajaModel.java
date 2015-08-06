@@ -2,22 +2,22 @@ package org.sistcoop.cooperativa.models;
 
 import java.util.List;
 
-public interface CajaModel extends Model{
+public interface CajaModel extends Model {
 
-	String getId();
+    String getId();
 
-	String getDenominacion();
+    String getDenominacion();
 
-	void setDenominacion(String denominacion);
+    void setDenominacion(String denominacion);
 
-	boolean getEstado();
+    boolean getEstado();
 
-	void desactivar();
+    void desactivar();
 
-	String getAgencia();
+    String getAgencia();
 
-	List<BovedaCajaModel> getBovedaCajas();
+    List<BovedaCajaModel> getBovedaCajas();
 
-	List<TrabajadorCajaModel> getTrabajadorCajas();
+    List<TrabajadorCajaModel> getTrabajadorCajas();
 
 }

@@ -5,24 +5,24 @@ import java.util.List;
 
 public interface TransaccionClienteModel extends Model {
 
-	Long getId();
+    Long getId();
 
-	Long getNumeroOperacion();
+    Long getNumeroOperacion();
 
-	Date getFecha();
+    Date getFecha();
 
-	Date getHora();
+    Date getHora();
 
-	boolean getEstado();
+    boolean getEstado();
 
-	void desactivar();
+    void desactivar();
 
-	String getObservacion();
+    String getObservacion();
 
-	void setObservacion(String observacion);
+    void setObservacion(String observacion);
 
-	HistorialBovedaCajaModel getHistorialBovedaCaja();
+    HistorialBovedaCajaModel getHistorialBovedaCaja();
 
-	List<DetalleTransaccionClienteModel> getDetalle();
+    List<DetalleTransaccionClienteModel> getDetalle();
 
 }

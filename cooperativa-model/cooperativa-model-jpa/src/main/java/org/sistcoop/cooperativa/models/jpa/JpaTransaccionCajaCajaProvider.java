@@ -12,100 +12,90 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionCajaCajaEntity;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
 @Named
 @Stateless
 @Local(TransaccionCajaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaTransaccionCajaCajaProvider implements TransaccionCajaCajaProvider {
+public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage implements
+        TransaccionCajaCajaProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public TransaccionCajaCajaModel addTransaccionCajaCaja(HistorialBovedaCajaModel historialBovedaCajaOrigen, HistorialBovedaCajaModel historialBovedaCajaDestino, BigDecimal monto, String observacion) {
-		HistorialBovedaCajaEntity historialBovedaCajaOrigenEntity = HistorialBovedaCajaAdapter.toHistorialBovedaCajaEntity(historialBovedaCajaOrigen, em);
-		HistorialBovedaCajaEntity historialBovedaCajaDestinoEntity = HistorialBovedaCajaAdapter.toHistorialBovedaCajaEntity(historialBovedaCajaDestino, em);
+    @Override
+    public TransaccionCajaCajaModel create(HistorialBovedaCajaModel historialBovedaCajaOrigen,
+            HistorialBovedaCajaModel historialBovedaCajaDestino, BigDecimal monto, String observacion) {
+        HistorialBovedaCajaEntity historialBovedaCajaOrigenEntity = HistorialBovedaCajaAdapter
+                .toHistorialBovedaCajaEntity(historialBovedaCajaOrigen, em);
+        HistorialBovedaCajaEntity historialBovedaCajaDestinoEntity = HistorialBovedaCajaAdapter
+                .toHistorialBovedaCajaEntity(historialBovedaCajaDestino, em);
 
-		Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
 
-		TransaccionCajaCajaEntity transaccionCajaCajaEntity = new TransaccionCajaCajaEntity();
-		transaccionCajaCajaEntity.setHistorialBovedaCajaOrigen(historialBovedaCajaOrigenEntity);
-		transaccionCajaCajaEntity.setHistorialBovedaCajaDestino(historialBovedaCajaDestinoEntity);
-		transaccionCajaCajaEntity.setFecha(calendar.getTime());
-		transaccionCajaCajaEntity.setHora(calendar.getTime());
-		transaccionCajaCajaEntity.setMonto(monto);
-		transaccionCajaCajaEntity.setObservacion(observacion);
-		transaccionCajaCajaEntity.setEstadoSolicitud(true);
-		transaccionCajaCajaEntity.setEstadoConfirmacion(false);		
+        TransaccionCajaCajaEntity transaccionCajaCajaEntity = new TransaccionCajaCajaEntity();
+        transaccionCajaCajaEntity.setHistorialBovedaCajaOrigen(historialBovedaCajaOrigenEntity);
+        transaccionCajaCajaEntity.setHistorialBovedaCajaDestino(historialBovedaCajaDestinoEntity);
+        transaccionCajaCajaEntity.setFecha(calendar.getTime());
+        transaccionCajaCajaEntity.setHora(calendar.getTime());
+        transaccionCajaCajaEntity.setMonto(monto);
+        transaccionCajaCajaEntity.setObservacion(observacion);
+        transaccionCajaCajaEntity.setEstadoSolicitud(true);
+        transaccionCajaCajaEntity.setEstadoConfirmacion(false);
 
-		em.persist(transaccionCajaCajaEntity);
-		return new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity);
-	}
+        em.persist(transaccionCajaCajaEntity);
+        return new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity);
+    }
 
-	@Override
-	public TransaccionCajaCajaModel getTransaccionCajaCajaById(String id) {
-		TransaccionCajaCajaEntity transaccionCajaCajaEntity = this.em.find(TransaccionCajaCajaEntity.class, id);
-		return transaccionCajaCajaEntity != null ? new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity) : null;
-	}
+    @Override
+    public TransaccionCajaCajaModel findById(String id) {
+        TransaccionCajaCajaEntity transaccionCajaCajaEntity = this.em.find(TransaccionCajaCajaEntity.class,
+                id);
+        return transaccionCajaCajaEntity != null ? new TransaccionCajaCajaAdapter(em,
+                transaccionCajaCajaEntity) : null;
+    }
 
-	@Override
-	public boolean removeTransaccionCajaCaja(TransaccionCajaCajaModel transaccionCajaCajaModel) {
-		TransaccionCajaCajaEntity transaccionCajaCajaEntity = em.find(TransaccionCajaCajaEntity.class, transaccionCajaCajaModel.getId());
-		if (transaccionCajaCajaEntity == null) return false;
-		em.remove(transaccionCajaCajaEntity);
-		return true; 
-	}
+    @Override
+    public boolean remove(TransaccionCajaCajaModel transaccionCajaCajaModel) {
+        TransaccionCajaCajaEntity transaccionCajaCajaEntity = em.find(TransaccionCajaCajaEntity.class,
+                transaccionCajaCajaModel.getId());
+        if (transaccionCajaCajaEntity == null)
+            return false;
+        em.remove(transaccionCajaCajaEntity);
+        return true;
+    }
 
-	@Override
-	public List<TransaccionCajaCajaModel> getTransaccionesCajaCaja(HistorialBovedaCajaModel historialBovedaCajaModel) {
-		TypedQuery<TransaccionCajaCajaEntity> query = em.createNamedQuery("TransaccionCajaCaja.getByIdHistorialBovedaCaja", TransaccionCajaCajaEntity.class);
-		query.setParameter("idHistorialBovedaCaja", historialBovedaCajaModel.getId());
-		List<TransaccionCajaCajaEntity> list = query.getResultList();
+    @Override
+    public SearchResultsModel<TransaccionCajaCajaModel> search(SearchCriteriaModel criteria) {
+        SearchResultsModel<TransaccionCajaCajaEntity> entityResult = find(criteria,
+                TransaccionCajaCajaEntity.class);
 
-		List<TransaccionCajaCajaModel> result = new ArrayList<TransaccionCajaCajaModel>();
-		for (TransaccionCajaCajaEntity transaccionCajaCajaEntity : list) {			
-			result.add(new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity));
-		}
-		return result;
-	}
+        SearchResultsModel<TransaccionCajaCajaModel> modelResult = new SearchResultsModel<>();
+        List<TransaccionCajaCajaModel> list = new ArrayList<>();
+        for (TransaccionCajaCajaEntity entity : entityResult.getModels()) {
+            list.add(new TransaccionCajaCajaAdapter(em, entity));
+        }
+        modelResult.setTotalSize(entityResult.getTotalSize());
+        modelResult.setModels(list);
+        return modelResult;
+    }
 
-	@Override
-	public List<TransaccionCajaCajaModel> getTransaccionesCajaCajaEnviados(HistorialBovedaCajaModel historialBovedaCajaModel) {
-		TypedQuery<TransaccionCajaCajaEntity> query = em.createNamedQuery("TransaccionCajaCaja.getByIdHistorialBovedaCajaOrigen", TransaccionCajaCajaEntity.class);
-		query.setParameter("idHistorialBovedaCajaOrigen", historialBovedaCajaModel.getId());
-		List<TransaccionCajaCajaEntity> list = query.getResultList();
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
-		List<TransaccionCajaCajaModel> result = new ArrayList<TransaccionCajaCajaModel>();
-		for (TransaccionCajaCajaEntity transaccionCajaCajaEntity : list) {			
-			result.add(new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity));
-		}
-		return result;
-	}
-
-	@Override
-	public List<TransaccionCajaCajaModel> getTransaccionesCajaCajaRecibidos(HistorialBovedaCajaModel historialBovedaCajaModel) {
-		TypedQuery<TransaccionCajaCajaEntity> query = em.createNamedQuery("TransaccionCajaCaja.getByIdHistorialBovedaCajaDestino", TransaccionCajaCajaEntity.class);
-		query.setParameter("idHistorialBovedaCajaDestino", historialBovedaCajaModel.getId());
-		List<TransaccionCajaCajaEntity> list = query.getResultList();
-
-		List<TransaccionCajaCajaModel> result = new ArrayList<TransaccionCajaCajaModel>();
-		for (TransaccionCajaCajaEntity transaccionCajaCajaEntity : list) {			
-			result.add(new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity));
-		}
-		return result;
-	}
-	
 }

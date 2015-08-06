@@ -2,15 +2,15 @@ package org.sistcoop.cooperativa.models;
 
 public interface TrabajadorCajaModel extends Model {
 
-	String getId();
+    String getId();
 
-	String getTipoDocumento();
+    String getTipoDocumento();
 
-	String getNumeroDocumento();
+    String getNumeroDocumento();
 
-	CajaModel getCaja();
+    CajaModel getCaja();
 
-	boolean getEstado();
+    boolean getEstado();
 
-	void desactivar();
+    void desactivar();
 }

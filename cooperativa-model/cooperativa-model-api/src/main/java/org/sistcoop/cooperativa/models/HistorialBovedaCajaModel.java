@@ -6,37 +6,37 @@ import java.util.List;
 
 public interface HistorialBovedaCajaModel extends Model {
 
-	String getId();
+    String getId();
 
-	BigDecimal getSaldo();
+    BigDecimal getSaldo();
 
-	void setSaldo(BigDecimal saldo);
-	
-	Date getFechaApertura();
+    void setSaldo(BigDecimal saldo);
 
-	Date getFechaCierre();
+    Date getFechaApertura();
 
-	void setFechaCierre(Date fechaCierre);
+    Date getFechaCierre();
 
-	Date getHoraApertura();
+    void setFechaCierre(Date fechaCierre);
 
-	Date getHoraCierre();
+    Date getHoraApertura();
 
-	void setHoraCierre(Date horaCierre);
+    Date getHoraCierre();
 
-	boolean isAbierto();
+    void setHoraCierre(Date horaCierre);
 
-	void setAbierto(boolean abierto);
+    boolean isAbierto();
 
-	boolean getEstadoMovimiento();
+    void setAbierto(boolean abierto);
 
-	void setEstadoMovimiento(boolean estadoMovimiento);
-	
-	boolean getEstado();
+    boolean getEstadoMovimiento();
 
-	void desactivar();
+    void setEstadoMovimiento(boolean estadoMovimiento);
 
-	BovedaCajaModel getBovedaCaja();
+    boolean getEstado();
 
-	List<DetalleHistorialBovedaCajaModel> getDetalle();
+    void desactivar();
+
+    BovedaCajaModel getBovedaCaja();
+
+    List<DetalleHistorialBovedaCajaModel> getDetalle();
 }

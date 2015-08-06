@@ -20,27 +20,34 @@ import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
 @Stateless
 @Local(DetalleHistorialBovedaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleHistorialBovedaProvider implements DetalleHistorialBovedaProvider {
+public class JpaDetalleHistorialBovedaProvider extends AbstractHibernateStorage implements
+        DetalleHistorialBovedaProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public DetalleHistorialBovedaModel addDetalleHistorialBoveda(HistorialBovedaModel historialBovedaModel, BigDecimal valor, int cantidad) {
-		HistorialBovedaEntity historialBovedaEntity = HistorialBovedaAdapter.toHistorialBovedaEntity(historialBovedaModel, em);
+    @Override
+    public DetalleHistorialBovedaModel create(HistorialBovedaModel historialBovedaModel, BigDecimal valor,
+            int cantidad) {
+        HistorialBovedaEntity historialBovedaEntity = HistorialBovedaAdapter.toHistorialBovedaEntity(
+                historialBovedaModel, em);
 
-		DetalleHistorialBovedaEntity detalleHistorialBovedaEntity = new DetalleHistorialBovedaEntity();
-		detalleHistorialBovedaEntity.setCantidad(cantidad);
-		detalleHistorialBovedaEntity.setValor(valor);
-		detalleHistorialBovedaEntity.setHistorial(historialBovedaEntity);
+        DetalleHistorialBovedaEntity detalleHistorialBovedaEntity = new DetalleHistorialBovedaEntity();
+        detalleHistorialBovedaEntity.setCantidad(cantidad);
+        detalleHistorialBovedaEntity.setValor(valor);
+        detalleHistorialBovedaEntity.setHistorial(historialBovedaEntity);
 
-		em.persist(detalleHistorialBovedaEntity);
-		return new DetalleHistorialBovedaAdapter(em, detalleHistorialBovedaEntity);
-	}
+        em.persist(detalleHistorialBovedaEntity);
+        return new DetalleHistorialBovedaAdapter(em, detalleHistorialBovedaEntity);
+    }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }

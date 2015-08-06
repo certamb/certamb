@@ -2,7 +2,6 @@ package org.sistcoop.cooperativa.models.jpa;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -12,92 +11,70 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
 @Named
 @Stateless
 @Local(HistorialBovedaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaHistorialBovedaProvider implements HistorialBovedaProvider {
+public class JpaHistorialBovedaProvider extends AbstractHibernateStorage implements HistorialBovedaProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public HistorialBovedaModel getHistorialBovedaById(String id) {
-		HistorialBovedaEntity historialBovedaEntity = this.em.find(HistorialBovedaEntity.class, id);
-		return historialBovedaEntity != null ? new HistorialBovedaAdapter(em, historialBovedaEntity) : null;
-	}
-	
-	@Override
-	public HistorialBovedaModel addHistorialBoveda(BovedaModel bovedaModel) {
-		BovedaEntity bovedaEntity = BovedaAdapter.toBovedaEntity(bovedaModel, em);
+    @Override
+    public HistorialBovedaModel findById(String id) {
+        HistorialBovedaEntity historialBovedaEntity = this.em.find(HistorialBovedaEntity.class, id);
+        return historialBovedaEntity != null ? new HistorialBovedaAdapter(em, historialBovedaEntity) : null;
+    }
 
-		Calendar calendar = Calendar.getInstance();
+    @Override
+    public HistorialBovedaModel create(BovedaModel bovedaModel) {
+        BovedaEntity bovedaEntity = BovedaAdapter.toBovedaEntity(bovedaModel, em);
 
-		HistorialBovedaEntity historialBovedaEntity = new HistorialBovedaEntity();
-		historialBovedaEntity.setBoveda(bovedaEntity);
-		historialBovedaEntity.setAbierto(true);
-		historialBovedaEntity.setEstado(true);
-		historialBovedaEntity.setFechaApertura(calendar.getTime());
-		historialBovedaEntity.setHoraApertura(calendar.getTime());
+        Calendar calendar = Calendar.getInstance();
 
-		em.persist(historialBovedaEntity);
+        HistorialBovedaEntity historialBovedaEntity = new HistorialBovedaEntity();
+        historialBovedaEntity.setBoveda(bovedaEntity);
+        historialBovedaEntity.setAbierto(true);
+        historialBovedaEntity.setEstado(true);
+        historialBovedaEntity.setFechaApertura(calendar.getTime());
+        historialBovedaEntity.setHoraApertura(calendar.getTime());
 
-		return new HistorialBovedaAdapter(em, historialBovedaEntity);
-	}
+        em.persist(historialBovedaEntity);
 
-	@Override
-	public List<HistorialBovedaModel> getHistorialesBoveda(BovedaModel bovedaModel, int firstResult, int maxResults) {
-		TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery("HistorialBoveda.getByIdBoveda", HistorialBovedaEntity.class);
-		query.setParameter("idBoveda", bovedaModel.getId());
-		if (firstResult != -1) {
-			query.setFirstResult(firstResult);
-		}
-		if (maxResults != -1) {
-			query.setMaxResults(maxResults);
-		}		
-		List<HistorialBovedaEntity> list = query.getResultList();
-		
-		List<HistorialBovedaModel> result = new ArrayList<HistorialBovedaModel>();
-		for (HistorialBovedaEntity historialBovedaEntity : list) {
-			result.add(new HistorialBovedaAdapter(em, historialBovedaEntity));		
-		}
-		
-		return result;
-	}
+        return new HistorialBovedaAdapter(em, historialBovedaEntity);
+    }
 
-	@Override
-	public List<HistorialBovedaModel> getHistorialesBoveda(BovedaModel bovedaModel, Date desde, Date hasta, int firstResult, int maxResults) {
-		TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery("HistorialBoveda.getByIdBovedaDesdeHasta", HistorialBovedaEntity.class);
-		query.setParameter("idBoveda", bovedaModel.getId());
-		query.setParameter("desde", desde);
-		query.setParameter("hasta", hasta);
-		if (firstResult != -1) {
-			query.setFirstResult(firstResult);
-		}
-		if (maxResults != -1) {
-			query.setMaxResults(maxResults);
-		}		
-		List<HistorialBovedaEntity> list = query.getResultList();
-		
-		List<HistorialBovedaModel> result = new ArrayList<HistorialBovedaModel>();
-		for (HistorialBovedaEntity historialBovedaEntity : list) {
-			result.add(new HistorialBovedaAdapter(em, historialBovedaEntity));		
-		}
-		
-		return result;
-	}
+    @Override
+    public SearchResultsModel<HistorialBovedaModel> search(SearchCriteriaModel criteria) {
+        SearchResultsModel<HistorialBovedaEntity> entityResult = find(criteria, HistorialBovedaEntity.class);
+
+        SearchResultsModel<HistorialBovedaModel> modelResult = new SearchResultsModel<>();
+        List<HistorialBovedaModel> list = new ArrayList<>();
+        for (HistorialBovedaEntity entity : entityResult.getModels()) {
+            list.add(new HistorialBovedaAdapter(em, entity));
+        }
+        modelResult.setTotalSize(entityResult.getTotalSize());
+        modelResult.setModels(list);
+        return modelResult;
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
 }

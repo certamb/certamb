@@ -1,9 +1,9 @@
 apply plugin: 'war'
 apply plugin: 'jetty'
-apply from: "$rootDir/gradle/functionalTest.gradle"
-apply from: "$rootDir/gradle/publishMaven.gradle"
-apply from: "$rootDir/gradle/sshDeploy.gradle"
-apply from: "$rootDir/gradle/smokeTest.gradle"
+//apply from: "$rootDir/gradle/functionalTest.gradle"
+apply from: "$rootDir/gradle/publishWarMaven.gradle"
+apply from: "$rootDir/gradle/cargo.gradle"
+//apply from: "$rootDir/gradle/smokeTest.gradle"
 
 dependencies {
     compile project(":cooperativa-core")
@@ -12,9 +12,7 @@ dependencies {
     compile project(":cooperativa-services")
     compile project(":cooperativa-model:cooperativa-model-api")
     compile project(":cooperativa-model:cooperativa-model-jpa")
-    //providedCompile 'javax.servlet:servlet-api:2.5'
-    //runtime 'javax.servlet:jstl:1.1.2'
-    //runtime 'taglibs:standard:1.1.2'
+    providedCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.9.Final'
 }
 
 task createBuildInfoFile << {

@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 
 public interface TransaccionCuentaPersonalModel extends TransaccionClienteModel {
 
-	String getNumeroCuenta();
+    String getNumeroCuenta();
 
-	BigDecimal getMonto();
+    BigDecimal getMonto();
 
-	String getReferencia();
+    String getReferencia();
 
 }

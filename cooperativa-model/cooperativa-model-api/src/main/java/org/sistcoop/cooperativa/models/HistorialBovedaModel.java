@@ -5,33 +5,33 @@ import java.util.List;
 
 public interface HistorialBovedaModel extends Model {
 
-	String getId();
+    String getId();
 
-	Date getFechaApertura();
+    Date getFechaApertura();
 
-	Date getFechaCierre();
+    Date getFechaCierre();
 
-	void setFechaCierre(Date fechaCierre);
+    void setFechaCierre(Date fechaCierre);
 
-	Date getHoraApertura();
+    Date getHoraApertura();
 
-	Date getHoraCierre();
+    Date getHoraCierre();
 
-	void setHoraCierre(Date horaCierre);
+    void setHoraCierre(Date horaCierre);
 
-	boolean isAbierto();
+    boolean isAbierto();
 
-	void setAbierto(boolean abierto);
+    void setAbierto(boolean abierto);
 
-	boolean getEstadoMovimiento();
+    boolean getEstadoMovimiento();
 
-	void setEstadoMovimiento(boolean estadoMovimiento);
-	
-	boolean getEstado();
+    void setEstadoMovimiento(boolean estadoMovimiento);
 
-	void desactivar();
+    boolean getEstado();
 
-	BovedaModel getBoveda();
+    void desactivar();
 
-	List<DetalleHistorialBovedaModel> getDetalle();
+    BovedaModel getBoveda();
+
+    List<DetalleHistorialBovedaModel> getDetalle();
 }

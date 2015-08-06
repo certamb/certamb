@@ -14,15 +14,15 @@ import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation
  */
 public interface CajaTrabajadorResource {
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public TrabajadorCajaRepresentation trabajador();
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public TrabajadorCajaRepresentation cajaTrabajador();
 
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void update(TrabajadorCajaRepresentation trabajadorCajaRepresentation);
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void update(TrabajadorCajaRepresentation trabajadorCajaRepresentation);
 
-	@DELETE
-	public void remove();
+    @DELETE
+    public void remove();
 
 }

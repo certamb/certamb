@@ -1,32 +1,23 @@
 package org.sistcoop.cooperativa.models;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.ejb.Local;
 
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
 public interface TransaccionCajaCajaProvider extends Provider {
 
-	TransaccionCajaCajaModel addTransaccionCajaCaja(
-			HistorialBovedaCajaModel historialBovedaCajaOrigen,
-			HistorialBovedaCajaModel historialBovedaCajaDestino,
-			BigDecimal monto, String observacion);
+    TransaccionCajaCajaModel create(HistorialBovedaCajaModel historialBovedaCajaOrigen,
+            HistorialBovedaCajaModel historialBovedaCajaDestino, BigDecimal monto, String observacion);
 
-	TransaccionCajaCajaModel getTransaccionCajaCajaById(String id);
+    TransaccionCajaCajaModel findById(String id);
 
-	boolean removeTransaccionCajaCaja(
-			TransaccionCajaCajaModel transaccionCajaCajaModel);
-	
-	List<TransaccionCajaCajaModel> getTransaccionesCajaCaja(
-			HistorialBovedaCajaModel historialBovedaCajaModel);
+    boolean remove(TransaccionCajaCajaModel transaccionCajaCajaModel);
 
-	List<TransaccionCajaCajaModel> getTransaccionesCajaCajaEnviados(
-			HistorialBovedaCajaModel historialBovedaCajaModel);
-
-	List<TransaccionCajaCajaModel> getTransaccionesCajaCajaRecibidos(
-			HistorialBovedaCajaModel historialBovedaCajaModel);
+    SearchResultsModel<TransaccionCajaCajaModel> search(SearchCriteriaModel criteria);
 
 }

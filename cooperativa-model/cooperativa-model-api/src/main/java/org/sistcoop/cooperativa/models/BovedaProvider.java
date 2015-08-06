@@ -1,28 +1,24 @@
 package org.sistcoop.cooperativa.models;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
 public interface BovedaProvider extends Provider {
 
-	BovedaModel addBoveda(String agencia, String moneda, String denominacion);
+    BovedaModel create(String agencia, String moneda, String denominacion);
 
-	BovedaModel getBovedaById(String id);
+    BovedaModel findById(String id);
 
-	boolean removeBoveda(BovedaModel bovedaModel);
+    boolean remove(BovedaModel bovedaModel);
 
-	List<BovedaModel> getBovedas();
+    SearchResultsModel<BovedaModel> search();
 
-	List<BovedaModel> getBovedas(String agencia);
+    SearchResultsModel<BovedaModel> search(SearchCriteriaModel criteria);
 
-	List<BovedaModel> getBovedas(boolean estado);
-
-	List<BovedaModel> getBovedas(String agencia, boolean estado);
-
-	List<BovedaModel> getBovedas(String agencia, boolean estado, String filterText, int firstResult, int maxResults);
+    SearchResultsModel<BovedaModel> search(SearchCriteriaModel criteria, String filterText);
 
 }

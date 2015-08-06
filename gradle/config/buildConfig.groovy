@@ -1,8 +1,8 @@
 binaryRepository {
-    baseUrl = 'http://localhost:8081/artifactory'
+    baseUrl = 'https://artifactory-softgreen.rhcloud.com/artifactory'
     releaseUrl = "$baseUrl/libs-release-local"
-    username = 'admin'
-    password = 'password'
+    username = 'carlosthe19916'
+    password = '123456'
 }
 
 environments {

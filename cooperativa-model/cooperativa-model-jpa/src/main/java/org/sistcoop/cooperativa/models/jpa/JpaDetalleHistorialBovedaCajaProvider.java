@@ -20,27 +20,34 @@ import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 @Stateless
 @Local(DetalleHistorialBovedaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleHistorialBovedaCajaProvider implements DetalleHistorialBovedaCajaProvider {
+public class JpaDetalleHistorialBovedaCajaProvider extends AbstractHibernateStorage implements
+        DetalleHistorialBovedaCajaProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public DetalleHistorialBovedaCajaModel addDetalleHistorialBovedaCaja(HistorialBovedaCajaModel historialBovedaCajaModel, BigDecimal valor, int cantidad) {
-		HistorialBovedaCajaEntity historialBovedaCajaEntity = HistorialBovedaCajaAdapter.toHistorialBovedaCajaEntity(historialBovedaCajaModel, em);
+    @Override
+    public DetalleHistorialBovedaCajaModel create(HistorialBovedaCajaModel historialBovedaCajaModel,
+            BigDecimal valor, int cantidad) {
+        HistorialBovedaCajaEntity historialBovedaCajaEntity = HistorialBovedaCajaAdapter
+                .toHistorialBovedaCajaEntity(historialBovedaCajaModel, em);
 
-		DetalleHistorialBovedaCajaEntity detalleHistorialBovedaCajaEntity = new DetalleHistorialBovedaCajaEntity();
-		detalleHistorialBovedaCajaEntity.setCantidad(cantidad);
-		detalleHistorialBovedaCajaEntity.setValor(valor);
-		detalleHistorialBovedaCajaEntity.setHistorial(historialBovedaCajaEntity);
+        DetalleHistorialBovedaCajaEntity detalleHistorialBovedaCajaEntity = new DetalleHistorialBovedaCajaEntity();
+        detalleHistorialBovedaCajaEntity.setCantidad(cantidad);
+        detalleHistorialBovedaCajaEntity.setValor(valor);
+        detalleHistorialBovedaCajaEntity.setHistorial(historialBovedaCajaEntity);
 
-		em.persist(detalleHistorialBovedaCajaEntity);
-		return new DetalleHistorialBovedaCajaAdapter(em, detalleHistorialBovedaCajaEntity);
-	}
+        em.persist(detalleHistorialBovedaCajaEntity);
+        return new DetalleHistorialBovedaCajaAdapter(em, detalleHistorialBovedaCajaEntity);
+    }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }

@@ -1,28 +1,24 @@
 package org.sistcoop.cooperativa.models;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
 public interface CajaProvider extends Provider {
 
-	CajaModel addCaja(String agencia, String denominacion);	
+    CajaModel create(String agencia, String denominacion);
 
-	CajaModel getCajaById(String id);
-	
-	boolean removeCaja(CajaModel cajaModel);
+    CajaModel findById(String id);
 
-	List<CajaModel> getCajas();
+    boolean remove(CajaModel cajaModel);
 
-	List<CajaModel> getCajas(String agencia);
+    SearchResultsModel<CajaModel> search();
 
-	List<CajaModel> getCajas(boolean estado);
+    SearchResultsModel<CajaModel> search(SearchCriteriaModel criteria);
 
-	List<CajaModel> getCajas(String agencia, boolean estado);
-	
-	List<CajaModel> getCajas(String agencia, boolean estado, String filterText, int firstResult, int maxResults);
+    SearchResultsModel<CajaModel> search(SearchCriteriaModel criteria, String filterText);
 
 }

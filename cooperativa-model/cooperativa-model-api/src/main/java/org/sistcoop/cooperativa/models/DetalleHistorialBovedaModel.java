@@ -4,15 +4,15 @@ import java.math.BigDecimal;
 
 public interface DetalleHistorialBovedaModel extends Model {
 
-	String getId();
+    String getId();
 
-	HistorialBovedaModel getHistorial();
+    HistorialBovedaModel getHistorial();
 
-	BigDecimal getValor();
-	
-	int getCantidad();
-	
-	void setCantidad(int cantidad);
+    BigDecimal getValor();
 
-	BigDecimal getSubtotal();
+    int getCantidad();
+
+    void setCantidad(int cantidad);
+
+    BigDecimal getSubtotal();
 }

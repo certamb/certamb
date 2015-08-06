@@ -20,26 +20,34 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransaccionMayorCuantiaEntit
 @Stateless
 @Local(TransaccionMayorCuantiaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaTransaccionMayorCuantiaProvider implements TransaccionMayorCuantiaProvider {
+public class JpaTransaccionMayorCuantiaProvider extends AbstractHibernateStorage implements
+        TransaccionMayorCuantiaProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public TransaccionMayorCuantiaModel addTransaccionMayorCuantia(TransaccionClienteModel transaccionClienteModel, BigDecimal montoMaximo) {
-		TransaccionClienteEntity transaccionClienteEntity = TransaccionClienteAdapter.toTransaccionClienteEntity(transaccionClienteModel, em);
+    @Override
+    public TransaccionMayorCuantiaModel create(TransaccionClienteModel transaccionClienteModel,
+            BigDecimal montoMaximo) {
+        TransaccionClienteEntity transaccionClienteEntity = TransaccionClienteAdapter
+                .toTransaccionClienteEntity(transaccionClienteModel, em);
 
-		TransaccionMayorCuantiaEntity transaccionMayorCuantiaEntity = new TransaccionMayorCuantiaEntity();
-		transaccionMayorCuantiaEntity.setTransaccionCliente(transaccionClienteEntity);
-		transaccionMayorCuantiaEntity.setMontoMaximo(montoMaximo);
+        TransaccionMayorCuantiaEntity transaccionMayorCuantiaEntity = new TransaccionMayorCuantiaEntity();
+        transaccionMayorCuantiaEntity.setTransaccionCliente(transaccionClienteEntity);
+        transaccionMayorCuantiaEntity.setMontoMaximo(montoMaximo);
 
-		em.persist(transaccionMayorCuantiaEntity);
-		return new TransaccionMayorCuantiaAdapter(em, transaccionMayorCuantiaEntity);
-	}
+        em.persist(transaccionMayorCuantiaEntity);
+        return new TransaccionMayorCuantiaAdapter(em, transaccionMayorCuantiaEntity);
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
 }

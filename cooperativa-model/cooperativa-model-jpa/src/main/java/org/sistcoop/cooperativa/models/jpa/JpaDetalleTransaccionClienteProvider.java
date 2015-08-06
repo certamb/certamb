@@ -20,27 +20,34 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransaccionClienteEntity;
 @Stateless
 @Local(DetalleTransaccionClienteProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleTransaccionClienteProvider implements DetalleTransaccionClienteProvider {
+public class JpaDetalleTransaccionClienteProvider extends AbstractHibernateStorage implements
+        DetalleTransaccionClienteProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public DetalleTransaccionClienteModel addDetalleTransaccionClienteModel(TransaccionClienteModel transaccionClienteModel, BigDecimal valor, int cantidad) {
-		TransaccionClienteEntity transaccionClienteEntity = TransaccionClienteAdapter.toTransaccionClienteEntity(transaccionClienteModel, em);
+    @Override
+    public DetalleTransaccionClienteModel create(TransaccionClienteModel transaccionClienteModel,
+            BigDecimal valor, int cantidad) {
+        TransaccionClienteEntity transaccionClienteEntity = TransaccionClienteAdapter
+                .toTransaccionClienteEntity(transaccionClienteModel, em);
 
-		DetalleTransaccionClienteEntity detalleTransaccionClienteEntity = new DetalleTransaccionClienteEntity();
-		detalleTransaccionClienteEntity.setTransaccionCliente(transaccionClienteEntity);
-		detalleTransaccionClienteEntity.setValor(valor);
-		detalleTransaccionClienteEntity.setCantidad(cantidad);
+        DetalleTransaccionClienteEntity detalleTransaccionClienteEntity = new DetalleTransaccionClienteEntity();
+        detalleTransaccionClienteEntity.setTransaccionCliente(transaccionClienteEntity);
+        detalleTransaccionClienteEntity.setValor(valor);
+        detalleTransaccionClienteEntity.setCantidad(cantidad);
 
-		em.persist(detalleTransaccionClienteEntity);
-		return new DetalleTransaccionClienteAdapter(em, detalleTransaccionClienteEntity);
-	}
+        em.persist(detalleTransaccionClienteEntity);
+        return new DetalleTransaccionClienteAdapter(em, detalleTransaccionClienteEntity);
+    }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }

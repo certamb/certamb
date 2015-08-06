@@ -20,27 +20,34 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransaccionCajaCajaEntity;
 @Stateless
 @Local(DetalleTransaccionCajaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleTransaccionCajaCajaProvider implements DetalleTransaccionCajaCajaProvider {
+public class JpaDetalleTransaccionCajaCajaProvider extends AbstractHibernateStorage implements
+        DetalleTransaccionCajaCajaProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public DetalleTransaccionCajaCajaModel addDetalleTransaccionCajaCajaModel(TransaccionCajaCajaModel transaccionCajaCajaModel, BigDecimal valor, int cantidad) {
-		TransaccionCajaCajaEntity transaccionCajaCajaEntity = TransaccionCajaCajaAdapter.toTransaccionCajaCajaEntity(transaccionCajaCajaModel, em);
+    @Override
+    public DetalleTransaccionCajaCajaModel create(TransaccionCajaCajaModel transaccionCajaCajaModel,
+            BigDecimal valor, int cantidad) {
+        TransaccionCajaCajaEntity transaccionCajaCajaEntity = TransaccionCajaCajaAdapter
+                .toTransaccionCajaCajaEntity(transaccionCajaCajaModel, em);
 
-		DetalleTransaccionCajaCajaEntity detalleTransaccionCajaCajaEntity = new DetalleTransaccionCajaCajaEntity();
-		detalleTransaccionCajaCajaEntity.setTransaccionCajaCaja(transaccionCajaCajaEntity);
-		detalleTransaccionCajaCajaEntity.setValor(valor);
-		detalleTransaccionCajaCajaEntity.setCantidad(cantidad);
+        DetalleTransaccionCajaCajaEntity detalleTransaccionCajaCajaEntity = new DetalleTransaccionCajaCajaEntity();
+        detalleTransaccionCajaCajaEntity.setTransaccionCajaCaja(transaccionCajaCajaEntity);
+        detalleTransaccionCajaCajaEntity.setValor(valor);
+        detalleTransaccionCajaCajaEntity.setCantidad(cantidad);
 
-		em.persist(detalleTransaccionCajaCajaEntity);
-		return new DetalleTransaccionCajaCajaAdapter(em, detalleTransaccionCajaCajaEntity);
-	}
+        em.persist(detalleTransaccionCajaCajaEntity);
+        return new DetalleTransaccionCajaCajaAdapter(em, detalleTransaccionCajaCajaEntity);
+    }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }

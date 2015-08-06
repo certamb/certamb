@@ -14,8 +14,8 @@ publishing {
 
             pom.withXml {
                 def root = asNode()
-                root.appendNode('name', 'Cooperativa')
-                root.appendNode('description', 'Cooperativa Rest.')
+                root.appendNode('name', 'cooperativa')
+                root.appendNode('description', 'cooperativa Rest.')
             }
         }
     }

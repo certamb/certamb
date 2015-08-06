@@ -4,16 +4,16 @@ import java.math.BigDecimal;
 
 public interface DetalleHistorialBovedaCajaModel extends Model {
 
-	String getId();
+    String getId();
 
-	HistorialBovedaCajaModel getHistorial();
+    HistorialBovedaCajaModel getHistorial();
 
-	BigDecimal getValor();
+    BigDecimal getValor();
 
-	int getCantidad();
-	
-	void setCantidad(int cantidad);
+    int getCantidad();
 
-	BigDecimal getSubtotal();
+    void setCantidad(int cantidad);
+
+    BigDecimal getSubtotal();
 
 }

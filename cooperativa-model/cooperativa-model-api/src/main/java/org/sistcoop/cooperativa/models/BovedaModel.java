@@ -4,24 +4,24 @@ import java.util.List;
 
 public interface BovedaModel extends Model {
 
-	String getId();
+    String getId();
 
-	String getMoneda();
+    String getMoneda();
 
-	String getDenominacion();
+    String getDenominacion();
 
-	void setDenominacion(String denominacion);	
+    void setDenominacion(String denominacion);
 
-	boolean getEstado();
+    boolean getEstado();
 
-	void desactivar();
+    void desactivar();
 
-	String getAgencia();
+    String getAgencia();
 
-	HistorialBovedaModel getHistorialActivo();
+    HistorialBovedaModel getHistorialActivo();
 
-	List<HistorialBovedaModel> getHistoriales();
+    List<HistorialBovedaModel> getHistoriales();
 
-	List<BovedaCajaModel> getBovedaCajas();
-	
+    List<BovedaCajaModel> getBovedaCajas();
+
 }

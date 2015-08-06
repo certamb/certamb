@@ -1,7 +1,6 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
@@ -15,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com
@@ -22,24 +22,22 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresent
 @Consumes(MediaType.APPLICATION_JSON)
 public interface HistorialesBovedaCajaResource {
 
-	@Path("/{historial}")
-	public HistorialBovedaCajaResource historial(
-			@PathParam("historial") String historial);
+    @Path("/{historial}")
+    public HistorialBovedaCajaResource historial(@PathParam("historial") String historial);
 
-	@POST
-	public Response create(
-			HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation);
+    @POST
+    public Response create(HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation);
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<HistorialBovedaCajaRepresentation> search(
-			@QueryParam("estado") @DefaultValue(value = "true") boolean estado);
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public SearchResultsRepresentation<HistorialBovedaCajaRepresentation> search(
+            @QueryParam("estado") @DefaultValue(value = "true") boolean estado);
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<HistorialBovedaCajaRepresentation> search(
-			@QueryParam("desde") Date desde, @QueryParam("hasta") Date hasta,
-			@QueryParam("firstResult") @DefaultValue(value="-1") Integer firstResult,
-			@QueryParam("maxResults") @DefaultValue(value="-1") Integer maxResults);
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public SearchResultsRepresentation<HistorialBovedaCajaRepresentation> search(
+            @QueryParam("desde") Date desde, @QueryParam("hasta") Date hasta,
+            @QueryParam("page") @DefaultValue(value = "1") Integer page,
+            @QueryParam("pageSize") @DefaultValue(value = "20") Integer pageSize);
 
 }

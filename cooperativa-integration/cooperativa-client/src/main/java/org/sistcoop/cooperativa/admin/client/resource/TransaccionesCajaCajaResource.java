@@ -1,7 +1,5 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -14,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com
@@ -21,18 +20,18 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresent
 @Consumes(MediaType.APPLICATION_JSON)
 public interface TransaccionesCajaCajaResource {
 
-	@Path("/{transaccion}")
-	public TransaccionCajaCajaResource boveda(
-			@PathParam("transaccion") String transaccion);
+    @Path("/{transaccion}")
+    public TransaccionCajaCajaResource transaccion(@PathParam("transaccion") String transaccion);
 
-	@POST
-	public Response create(
-			TransaccionCajaCajaRepresentation transaccionCajaCajaRepresentation);
+    @POST
+    public Response create(TransaccionCajaCajaRepresentation transaccionCajaCajaRepresentation);
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<TransaccionCajaCajaRepresentation> search(
-			@QueryParam("enviados") @DefaultValue(value = "true") boolean enviados,
-			@QueryParam("recibidos") @DefaultValue(value = "true") boolean recibidos);
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public SearchResultsRepresentation<TransaccionCajaCajaRepresentation> search(
+            @QueryParam("enviados") @DefaultValue(value = "true") boolean enviados,
+            @QueryParam("recibidos") @DefaultValue(value = "true") boolean recibidos,
+            @QueryParam("page") @DefaultValue("1") Integer page,
+            @QueryParam("pageSize") @DefaultValue("20") Integer pageSize);
 
 }

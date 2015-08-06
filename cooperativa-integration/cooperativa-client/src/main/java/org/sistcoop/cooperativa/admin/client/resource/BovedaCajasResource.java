@@ -1,7 +1,5 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com
@@ -20,23 +19,23 @@ import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 @Consumes(MediaType.APPLICATION_JSON)
 public interface BovedaCajasResource {
 
-	@Path("/{bovedaCaja}")
-	public BovedaCajaResource boveda(@PathParam("bovedaCaja") String bovedaCaja);
+    @Path("/{bovedaCaja}")
+    public BovedaCajaResource bovedaCaja(@PathParam("bovedaCaja") String bovedaCaja);
 
-	// @POST
-	// public Response create(BovedaCajaRepresentation
-	// bovedaCajaRepresentation);
+    // @POST
+    // public Response create(BovedaCajaRepresentation
+    // bovedaCajaRepresentation);
 
-	@POST
-	public Response create(BovedaCajaRepresentation[] bovedaCajaRepresentations);
+    @POST
+    public Response create(BovedaCajaRepresentation[] bovedaCajaRepresentations);
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<BovedaCajaRepresentation> search();
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public SearchResultsRepresentation<BovedaCajaRepresentation> search(@QueryParam("estado") Boolean estado);
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<BovedaCajaRepresentation> search(
-			@QueryParam("boveda") String boveda, @QueryParam("caja") String caja);
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public SearchResultsRepresentation<BovedaCajaRepresentation> search(@QueryParam("boveda") String boveda,
+            @QueryParam("caja") String caja);
 
 }

@@ -1,9 +1,0 @@
-apply plugin: 'groovy'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.5.2'
-}

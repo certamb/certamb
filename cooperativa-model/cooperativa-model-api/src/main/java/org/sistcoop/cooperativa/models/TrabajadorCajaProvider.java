@@ -1,25 +1,22 @@
 package org.sistcoop.cooperativa.models;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
 public interface TrabajadorCajaProvider extends Provider {
 
-	TrabajadorCajaModel addTrabajadorCaja(CajaModel cajaModel,
-			String tipoDocumento, String numeroDocumento);
+    TrabajadorCajaModel create(CajaModel cajaModel, String tipoDocumento, String numeroDocumento);
 
-	TrabajadorCajaModel getTrabajadorCajaById(String id);
+    TrabajadorCajaModel findById(String id);
 
-	TrabajadorCajaModel getTrabajadorCajaByTipoNumeroDocumento(
-			String tipoDocumento, String numeroDocumento);
+    TrabajadorCajaModel findByTipoNumeroDocumento(String tipoDocumento, String numeroDocumento);
 
-	boolean removeTrabajadorCaja(TrabajadorCajaModel trabajadorCajaModel);
+    boolean remove(TrabajadorCajaModel trabajadorCajaModel);
 
-	List<TrabajadorCajaModel> getTrabajadoresCaja(CajaModel cajaModel,
-			int firstResult, int maxResults);
+    SearchResultsModel<TrabajadorCajaModel> search(SearchCriteriaModel criteria);
 
 }

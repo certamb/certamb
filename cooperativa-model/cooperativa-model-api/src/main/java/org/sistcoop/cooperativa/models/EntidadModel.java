@@ -2,17 +2,17 @@ package org.sistcoop.cooperativa.models;
 
 public interface EntidadModel extends Model {
 
-	String getId();
+    String getId();
 
-	String getDenominacion();
+    String getDenominacion();
 
-	void setDenominacion(String denominacion);
+    void setDenominacion(String denominacion);
 
-	String getAbreviatura();
+    String getAbreviatura();
 
-	void setAbreviatura(String abreviatura);
+    void setAbreviatura(String abreviatura);
 
-	boolean getEstado();
+    boolean getEstado();
 
-	void desactivar();
+    void desactivar();
 }

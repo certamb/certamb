@@ -14,14 +14,18 @@ import org.sistcoop.cooperativa.models.EntidadProvider;
 @Stateless
 @Local(EntidadProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaEntidadProvider implements EntidadProvider {
+public class JpaEntidadProvider extends AbstractHibernateStorage implements EntidadProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }

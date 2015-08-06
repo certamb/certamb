@@ -9,8 +9,7 @@ import org.sistcoop.cooperativa.provider.Provider;
 @Local
 public interface TransaccionMayorCuantiaProvider extends Provider {
 
-	TransaccionMayorCuantiaModel addTransaccionMayorCuantia(
-			TransaccionClienteModel transaccionClienteModel,
-			BigDecimal montoMaximo);
+    TransaccionMayorCuantiaModel create(TransaccionClienteModel transaccionClienteModel,
+            BigDecimal montoMaximo);
 
 }

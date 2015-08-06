@@ -2,7 +2,7 @@
   "realm": "sistcoop",
   "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqb16cd8oUvzs4zzbxpKDMf/U0pOodfK1WFw6DDOeRLzBsrORF7VwjsKP10of2x3rCN4mrsxNa1gLmMVFcsWinjcdZDDymFIqWut8v6PsoxKSoXpeg09LxxJs30eOCAb6LfsTKEPDBeYY9PEkW+Kj1F1tLsr2ScNcVBLttecmXlvjO+20/0cmjsVSf/1V18LnKEEOx61aowYJm/N10HVcqskhwwz6MQTK2T1U8RfgnmOKWmVOfioqiCKRCTVMrCjIB+FQg/LWBw0sHOQf7AI4yHUgq1J0nZZbKDdg4wqzPEwzSQKbeKneMhnwafmCmWuQSTNyKqwMxPANaUTGLR1b/wIDAQAB",
   "bearer-only": true,
-  "auth-server-url": "http://192.168.1.50:8080/auth",
+  "auth-server-url": "https://keycloak-softgreen.rhcloud.com/auth",
   "ssl-required": "external",
   "resource": "cooperativa",
   "use-resource-role-mappings": true,

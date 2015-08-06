@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 
 public interface DetalleTransaccionCajaCajaModel extends Model {
 
-	String getId();
+    String getId();
 
-	BigDecimal getValor();
+    BigDecimal getValor();
 
-	int getCantidad();
+    int getCantidad();
 
-	BigDecimal getSubtotal();
+    BigDecimal getSubtotal();
 
-	TransaccionCajaCajaModel getTransaccionCajaCaja();
+    TransaccionCajaCajaModel getTransaccionCajaCaja();
 }

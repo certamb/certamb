@@ -13,43 +13,44 @@ import javax.ws.rs.core.MediaType;
 
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com
  */
 public interface HistorialBovedaCajaResource {
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public HistorialBovedaCajaRepresentation historial();
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public HistorialBovedaCajaRepresentation historial();
 
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void update();
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void update();
 
-	@DELETE
-	public void remove();
+    @DELETE
+    public void remove();
 
-	@POST
-	@Path("/cerrar")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void cerrar(List<DetalleMonedaRepresentation> detalle);
+    @POST
+    @Path("/cerrar")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void cerrar(List<DetalleMonedaRepresentation> detalle);
 
-	@POST
-	public void congelar();
+    @POST
+    public void congelar();
 
-	@POST
-	public void descongelar();
+    @POST
+    public void descongelar();
 
-	@GET
-	@Path("/detalle")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<DetalleMonedaRepresentation> detalle();
+    @GET
+    @Path("/detalle")
+    @Produces(MediaType.APPLICATION_JSON)
+    public SearchResultsRepresentation<DetalleMonedaRepresentation> detalle();
 
-	@Path("/transaccionesBovedaCaja")
-	public TransaccionesBovedaCajaResource transaccionesBoveda();
+    @Path("/transaccionesBovedaCaja")
+    public TransaccionesBovedaCajaResource transaccionesBoveda();
 
-	@Path("/transaccionesCajaCaja")
-	public TransaccionesCajaCajaResource transaccionesCaja();
-	
+    @Path("/transaccionesCajaCaja")
+    public TransaccionesCajaCajaResource transaccionesCaja();
+
 }

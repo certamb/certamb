@@ -1,4 +1,4 @@
 dependencies {
-	compile project(':cooperativa-core')
-	compile project(':cooperativa-core-jaxrs')
+    compile project(":cooperativa-core")
+    compile project(":cooperativa-core-jaxrs")
 }

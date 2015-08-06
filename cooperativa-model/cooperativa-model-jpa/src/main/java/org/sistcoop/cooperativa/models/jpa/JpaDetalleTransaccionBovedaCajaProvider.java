@@ -20,27 +20,34 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransaccionBovedaCajaEntity;
 @Stateless
 @Local(DetalleTransaccionBovedaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleTransaccionBovedaCajaProvider implements DetalleTransaccionBovedaCajaProvider {
+public class JpaDetalleTransaccionBovedaCajaProvider extends AbstractHibernateStorage implements
+        DetalleTransaccionBovedaCajaProvider {
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 
-	@Override
-	public DetalleTransaccionBovedaCajaModel addDetalleTransaccionBovedaCajaModel(TransaccionBovedaCajaModel transaccionBovedaCajaModel, BigDecimal valor, int cantidad) {
-		TransaccionBovedaCajaEntity transaccionBovedaCajaEntity = TransaccionBovedaCajaAdapter.toTransaccionBovedaCajaEntity(transaccionBovedaCajaModel, em);
+    @Override
+    public DetalleTransaccionBovedaCajaModel create(TransaccionBovedaCajaModel transaccionBovedaCajaModel,
+            BigDecimal valor, int cantidad) {
+        TransaccionBovedaCajaEntity transaccionBovedaCajaEntity = TransaccionBovedaCajaAdapter
+                .toTransaccionBovedaCajaEntity(transaccionBovedaCajaModel, em);
 
-		DetalleTransaccionBovedaCajaEntity detalleTransaccionBovedaCajaEntity = new DetalleTransaccionBovedaCajaEntity();
-		detalleTransaccionBovedaCajaEntity.setTransaccionBovedaCaja(transaccionBovedaCajaEntity);
-		detalleTransaccionBovedaCajaEntity.setValor(valor);
-		detalleTransaccionBovedaCajaEntity.setCantidad(cantidad);
+        DetalleTransaccionBovedaCajaEntity detalleTransaccionBovedaCajaEntity = new DetalleTransaccionBovedaCajaEntity();
+        detalleTransaccionBovedaCajaEntity.setTransaccionBovedaCaja(transaccionBovedaCajaEntity);
+        detalleTransaccionBovedaCajaEntity.setValor(valor);
+        detalleTransaccionBovedaCajaEntity.setCantidad(cantidad);
 
-		em.persist(detalleTransaccionBovedaCajaEntity);
-		return new DetalleTransaccionBovedaCajaAdapter(em, detalleTransaccionBovedaCajaEntity);
-	}
+        em.persist(detalleTransaccionBovedaCajaEntity);
+        return new DetalleTransaccionBovedaCajaAdapter(em, detalleTransaccionBovedaCajaEntity);
+    }
 
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 }
