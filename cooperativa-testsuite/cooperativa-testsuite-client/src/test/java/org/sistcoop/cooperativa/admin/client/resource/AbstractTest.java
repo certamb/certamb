@@ -23,6 +23,7 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.provider.Provider;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
+import org.sistcoop.cooperativa.services.managers.BovedaManager;
 import org.sistcoop.cooperativa.services.messages.Messages;
 import org.sistcoop.cooperativa.services.resources.admin.BovedasResourceImpl;
 import org.slf4j.Logger;
@@ -68,6 +69,7 @@ public abstract class AbstractTest {
                 /** services */
                 .addPackage(Messages.class.getPackage())
                 .addPackage(BovedasResourceImpl.class.getPackage())
+                .addPackage(BovedaManager.class.getPackage())
 
                 /** core */
                 .addPackage(BovedaRepresentation.class.getPackage())
