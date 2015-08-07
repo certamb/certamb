@@ -3,6 +3,7 @@ package org.sistcoop.cooperativa.models.jpa;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -10,6 +11,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
@@ -42,6 +44,19 @@ public class JpaBovedaCajaProvider extends AbstractHibernateStorage implements B
 
     @Override
     public BovedaCajaModel create(BovedaModel bovedaModel, CajaModel cajaModel) {
+        // Solo debe haber una combinacion BovedaCaja
+        TypedQuery<BovedaCajaEntity> query = em.createNamedQuery("BovedaCajaEntity.findByIdBovedaIdCaja",
+                BovedaCajaEntity.class);
+        query.setParameter("idBoveda", bovedaModel.getId());
+        query.setParameter("idCaja", cajaModel.getId());
+        List<BovedaCajaEntity> list = query.getResultList();
+        for (BovedaCajaEntity bovedaCajaEntity : list) {
+            if (bovedaCajaEntity.isEstado()) {
+                throw new EJBException("BovedaCaja ya existente");
+            }
+        }
+
+        // Crear BovedaCaja
         BovedaCajaEntity bovedaCajaEntity = new BovedaCajaEntity();
 
         BovedaEntity bovedaEntity = BovedaAdapter.toBovedaEntity(bovedaModel, em);

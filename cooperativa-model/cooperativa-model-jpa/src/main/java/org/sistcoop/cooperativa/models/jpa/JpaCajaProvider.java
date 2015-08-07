@@ -40,6 +40,7 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
 
     @Override
     public CajaModel create(String agencia, String denominacion) {
+        // Solo debe de haber una caja con denominacion por agencia
         TypedQuery<CajaEntity> query = em.createNamedQuery("CajaEntity.findByAgencia", CajaEntity.class);
         query.setParameter("agencia", agencia);
         List<CajaEntity> list = query.getResultList();
