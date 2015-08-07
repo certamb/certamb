@@ -41,7 +41,7 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
     @Override
     public BovedaModel create(String agencia, String moneda, String denominacion) {
         // Solo debe haber una boveda/moneda por agencia
-        TypedQuery<BovedaEntity> query = em.createNamedQuery("Boveda.getByAgencia", BovedaEntity.class);
+        TypedQuery<BovedaEntity> query = em.createNamedQuery("BovedaEntity.findByAgencia", BovedaEntity.class);
         query.setParameter("agencia", agencia);
         List<BovedaEntity> list = query.getResultList();
         for (BovedaEntity bovedaEntity : list) {
@@ -86,8 +86,10 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
 
         List<BovedaEntity> entities = query.getResultList();
         List<BovedaModel> models = new ArrayList<BovedaModel>();
-        for (BovedaEntity personaNaturalEntity : entities) {
-            models.add(new BovedaAdapter(em, personaNaturalEntity));
+        for (BovedaEntity bovedaEntity : entities) {
+            if (bovedaEntity.isEstado()) {
+                models.add(new BovedaAdapter(em, bovedaEntity));
+            }
         }
 
         SearchResultsModel<BovedaModel> result = new SearchResultsModel<>();

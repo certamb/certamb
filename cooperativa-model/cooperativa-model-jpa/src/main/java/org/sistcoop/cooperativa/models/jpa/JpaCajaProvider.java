@@ -3,6 +3,7 @@ package org.sistcoop.cooperativa.models.jpa;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -39,6 +40,20 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
 
     @Override
     public CajaModel create(String agencia, String denominacion) {
+        TypedQuery<CajaEntity> query = em.createNamedQuery("CajaEntity.findByAgencia", CajaEntity.class);
+        query.setParameter("agencia", agencia);
+        List<CajaEntity> list = query.getResultList();
+        for (CajaEntity cajaEntity : list) {
+            if (agencia.equals(cajaEntity.getAgencia())) {
+                if (denominacion.equals(cajaEntity.getDenominacion())) {
+                    if (cajaEntity.isEstado()) {
+                        throw new EJBException("Caja con denominacion " + denominacion + " ya existente");
+                    }
+                }
+            }
+        }
+
+        // Crear caja
         CajaEntity cajaEntity = new CajaEntity();
 
         cajaEntity.setAgencia(agencia);
@@ -70,8 +85,10 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
 
         List<CajaEntity> entities = query.getResultList();
         List<CajaModel> models = new ArrayList<CajaModel>();
-        for (CajaEntity personaNaturalEntity : entities) {
-            models.add(new CajaAdapter(em, personaNaturalEntity));
+        for (CajaEntity cajaEntity : entities) {
+            if (cajaEntity.isEstado()) {
+                models.add(new CajaAdapter(em, cajaEntity));
+            }
         }
 
         SearchResultsModel<CajaModel> result = new SearchResultsModel<>();
