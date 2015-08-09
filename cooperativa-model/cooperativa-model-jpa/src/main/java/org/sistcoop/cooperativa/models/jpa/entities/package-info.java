@@ -10,10 +10,6 @@
  * NamedQueries 
  * */
 @NamedQueries(value = {
-        @NamedQuery(name = "HistorialBoveda.getByIdBoveda", query = "SELECT h FROM HistorialBovedaEntity h WHERE h.boveda.id = :idBoveda"),
-        @NamedQuery(name = "HistorialBoveda.getByIdBovedaEstado", query = "SELECT h FROM HistorialBovedaEntity h WHERE h.boveda.id = :idBoveda AND h.estado = :estado"),
-        @NamedQuery(name = "HistorialBoveda.getByIdBovedaDesdeHasta", query = "SELECT h FROM HistorialBovedaEntity h WHERE h.boveda.id = :idBoveda AND h.fechaApertura < :desde AND h.fechaCierre > :hasta"),
-
         @NamedQuery(name = "HistorialBovedaCaja.getByIdBovedaCaja", query = "SELECT h FROM HistorialBovedaCajaEntity h WHERE h.bovedaCaja.id = :idBovedaCaja"),
         @NamedQuery(name = "HistorialBovedaCaja.getByIdBovedaCajaEstado", query = "SELECT h FROM HistorialBovedaCajaEntity h WHERE h.bovedaCaja.id = :idBovedaCaja AND h.estado = :estado"),
         @NamedQuery(name = "HistorialBovedaCaja.getByIdBovedaCajaDesdeHasta", query = "SELECT h FROM HistorialBovedaCajaEntity h WHERE h.bovedaCaja.id = :idBovedaCaja AND h.fechaApertura < :desde AND h.fechaCierre > :hasta"),
