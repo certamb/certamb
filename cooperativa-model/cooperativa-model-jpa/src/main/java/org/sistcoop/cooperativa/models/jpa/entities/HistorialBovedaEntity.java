@@ -65,7 +65,7 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
             return true;
         if (!super.equals(obj))
             return false;
-        if (!(obj instanceof HistorialBovedaEntity))
+        if (getClass() != obj.getClass())
             return false;
         HistorialBovedaEntity other = (HistorialBovedaEntity) obj;
         if (boveda == null) {
