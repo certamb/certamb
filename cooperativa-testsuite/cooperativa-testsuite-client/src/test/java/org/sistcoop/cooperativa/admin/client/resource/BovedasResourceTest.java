@@ -3,6 +3,7 @@ package org.sistcoop.cooperativa.admin.client.resource;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
@@ -72,7 +73,8 @@ public class BovedasResourceTest extends AbstractTest {
                 .statusCode(500).log().ifError().when().post(baseURI);
 
         assertThat(repCreated1, is(notNullValue()));
-        assertThat(repCreated2, is(notNullValue()));
+        assertThat(repCreated2.getStatusCode(), is(notNullValue()));
+        assertThat(repCreated2.getStatusCode(), greaterThan(400));
     }
 
 }
