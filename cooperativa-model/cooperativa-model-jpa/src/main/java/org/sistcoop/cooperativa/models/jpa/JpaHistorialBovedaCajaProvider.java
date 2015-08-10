@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -12,6 +13,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
@@ -38,6 +40,17 @@ public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage imp
 
     @Override
     public HistorialBovedaCajaModel create(BovedaCajaModel bovedaCajaModel) {
+        // Solo debe haber un historial activo
+        TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery(
+                "HistorialBovedaCajaEntity.getByIdBovedaCajaEstado", HistorialBovedaCajaEntity.class);
+        query.setParameter("idBovedaCaja", bovedaCajaModel.getId());
+        query.setParameter("estado", true);
+        List<HistorialBovedaCajaEntity> list = query.getResultList();
+        if (!list.isEmpty()) {
+            throw new EJBException("Existe un historial activo, desactivelo antes de crear uno nuevo");
+        }
+
+        // Crear Historial
         BovedaCajaEntity bovedaCajaEntity = BovedaCajaAdapter.toBovedaCajaEntity(bovedaCajaModel, em);
 
         Calendar calendar = Calendar.getInstance();
@@ -78,7 +91,7 @@ public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage imp
 
     @Override
     protected EntityManager getEntityManager() {
-       return em;
+        return em;
     }
 
 }

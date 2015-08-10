@@ -171,4 +171,5 @@ public class HistorialBovedaProviderTest extends AbstractTest {
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
     }
+    
 }
