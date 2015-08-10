@@ -10,24 +10,21 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class EJBExceptionMapper implements ExceptionMapper<javax.ejb.EJBException> {
 
-	@Override
-	public Response toResponse(EJBException e) {			
-		
-		if (e instanceof javax.ejb.EJBAccessException) {
-			JsonObject model = Json.createObjectBuilder()
-					.add("message", "Recurso con acceso no autorizado")
-					.build();
-			
-			return Response.status(403).entity(model).build();
-			
-		} else {
-			JsonObject model = Json.createObjectBuilder()
-					.add("message", "Error interno en el sistema")
-					.build();
-			
-			return Response.status(500).entity(model).build();
-		}	
-				
-	}
+    @Override
+    public Response toResponse(EJBException e) {
 
+        if (e instanceof javax.ejb.EJBAccessException) {
+            JsonObject model = Json.createObjectBuilder().add("message", "Recurso con acceso no autorizado")
+                    .build();
+
+            return Response.status(403).entity(model).build();
+
+        } else {
+            JsonObject model = Json.createObjectBuilder().add("message", "Error interno en el sistema")
+                    .build();
+
+            return Response.status(500).entity(model).build();
+        }
+
+    }
 }

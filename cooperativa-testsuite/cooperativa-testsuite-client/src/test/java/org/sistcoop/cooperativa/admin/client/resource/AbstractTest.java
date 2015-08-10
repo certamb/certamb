@@ -14,6 +14,7 @@ import org.sistcoop.cooperativa.JaxRsActivator;
 import org.sistcoop.cooperativa.admin.client.Config;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
+import org.sistcoop.cooperativa.models.exceptions.ModelException;
 import org.sistcoop.cooperativa.models.jpa.JpaBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.search.filter.JpaBovedaFilterProvider;
@@ -49,6 +50,7 @@ public abstract class AbstractTest {
 
                 /** model-api **/
                 .addPackage(Provider.class.getPackage())
+                .addPackage(ModelException.class.getPackage())
                 .addPackage(BovedaModel.class.getPackage())
 
                 .addPackage(OrigenTransaccionBovedaCaja.class.getPackage())

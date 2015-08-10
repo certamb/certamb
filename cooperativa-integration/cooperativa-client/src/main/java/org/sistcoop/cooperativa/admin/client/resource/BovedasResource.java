@@ -25,6 +25,7 @@ public interface BovedasResource {
     public BovedaResource boveda(@PathParam("boveda") String boveda);
 
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     public Response create(BovedaRepresentation bovedaRepresentation);
 
     @GET

@@ -3,7 +3,6 @@ package org.sistcoop.cooperativa.models.jpa;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -16,6 +15,7 @@ import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
+import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
@@ -41,14 +41,15 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
     @Override
     public BovedaModel create(String agencia, String moneda, String denominacion) {
         // Solo debe haber una boveda/moneda por agencia
-        TypedQuery<BovedaEntity> query = em.createNamedQuery("BovedaEntity.findByAgencia", BovedaEntity.class);
+        TypedQuery<BovedaEntity> query = em
+                .createNamedQuery("BovedaEntity.findByAgencia", BovedaEntity.class);
         query.setParameter("agencia", agencia);
         List<BovedaEntity> list = query.getResultList();
         for (BovedaEntity bovedaEntity : list) {
             if (agencia.equals(bovedaEntity.getAgencia())) {
                 if (moneda.equals(bovedaEntity.getMoneda())) {
                     if (bovedaEntity.isEstado()) {
-                        throw new EJBException("Boveda con moneda " + moneda + " ya existente");
+                        throw new ModelDuplicateException("Boveda con moneda " + moneda + " ya existente");
                     }
                 }
             }

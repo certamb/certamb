@@ -3,7 +3,6 @@ package org.sistcoop.cooperativa.models.jpa;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -16,6 +15,7 @@ import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
+import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
@@ -48,7 +48,8 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
             if (agencia.equals(cajaEntity.getAgencia())) {
                 if (denominacion.equals(cajaEntity.getDenominacion())) {
                     if (cajaEntity.isEstado()) {
-                        throw new EJBException("Caja con denominacion " + denominacion + " ya existente");
+                        throw new ModelDuplicateException("Caja con denominacion " + denominacion
+                                + " ya existente");
                     }
                 }
             }

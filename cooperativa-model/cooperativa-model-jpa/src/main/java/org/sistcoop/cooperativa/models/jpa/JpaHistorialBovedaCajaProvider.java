@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -18,6 +17,7 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
+import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
@@ -47,7 +47,8 @@ public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage imp
         query.setParameter("estado", true);
         List<HistorialBovedaCajaEntity> list = query.getResultList();
         if (!list.isEmpty()) {
-            throw new EJBException("Existe un historial activo, desactivelo antes de crear uno nuevo");
+            throw new ModelDuplicateException(
+                    "Existe un historial activo, desactivelo antes de crear uno nuevo");
         }
 
         // Crear Historial

@@ -11,6 +11,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.runner.RunWith;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
+import org.sistcoop.cooperativa.models.exceptions.ModelException;
 import org.sistcoop.cooperativa.models.jpa.JpaBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.search.filter.JpaBovedaFilterProvider;
@@ -35,6 +36,7 @@ public abstract class AbstractTest {
                 .create(WebArchive.class, "test.war")
                 /** model-api **/
                 .addPackage(Provider.class.getPackage())
+                .addPackage(ModelException.class.getPackage())
                 .addPackage(BovedaModel.class.getPackage())
 
                 .addPackage(OrigenTransaccionBovedaCaja.class.getPackage())

@@ -3,7 +3,6 @@ package org.sistcoop.cooperativa.models.jpa;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.EJBException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -17,6 +16,7 @@ import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
@@ -52,7 +52,7 @@ public class JpaBovedaCajaProvider extends AbstractHibernateStorage implements B
         List<BovedaCajaEntity> list = query.getResultList();
         for (BovedaCajaEntity bovedaCajaEntity : list) {
             if (bovedaCajaEntity.isEstado()) {
-                throw new EJBException("BovedaCaja ya existente");
+                throw new ModelDuplicateException("BovedaCaja ya existente");
             }
         }
 
