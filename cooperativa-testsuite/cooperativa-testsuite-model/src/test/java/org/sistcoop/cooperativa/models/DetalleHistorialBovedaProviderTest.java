@@ -22,9 +22,10 @@ public class DetalleHistorialBovedaProviderTest extends AbstractTest {
     private DetalleHistorialBovedaProvider detalleHistorialBovedaProvider;
 
     @Test
-    public void addDetalleHistorialBovedaModel() {
-        BovedaModel bovedaModel = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+    public void create() {
+        BovedaModel bovedaModel = bovedaProvider.create("Agencia 01", "PEN", "Boveda nuevos soles");
         HistorialBovedaModel historialBovedaModel = historialBovedaProvider.create(bovedaModel);
+
         DetalleHistorialBovedaModel model = detalleHistorialBovedaProvider.create(historialBovedaModel,
                 BigDecimal.TEN, 10000);
 

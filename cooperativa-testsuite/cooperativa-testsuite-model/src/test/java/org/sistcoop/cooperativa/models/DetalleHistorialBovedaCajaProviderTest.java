@@ -28,9 +28,9 @@ public class DetalleHistorialBovedaCajaProviderTest extends AbstractTest {
     private DetalleHistorialBovedaCajaProvider detalleHistorialBovedaCajaProvider;
 
     @Test
-    public void addDetalleHistorialBovedaCaja() {
-        BovedaModel bovedaModel = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
-        CajaModel cajaModel = cajaProvider.create("01", "Caja-01");
+    public void create() {
+        BovedaModel bovedaModel = bovedaProvider.create("Agencia 01", "PEN", "Boveda nuevos soles");
+        CajaModel cajaModel = cajaProvider.create("Agencia 01", "Caja 01");
         BovedaCajaModel bovedaCajaModel = bovedaCajaProvider.create(bovedaModel, cajaModel);
         HistorialBovedaCajaModel historialBovedaCajaModel = historialBovedaCajaProvider
                 .create(bovedaCajaModel);
