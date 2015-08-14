@@ -51,7 +51,6 @@ public class CajaResourceImpl implements CajaResource {
     @Override
     public void update(CajaRepresentation cajaRepresentation) {
         cajaManager.update(getCajaModel(), cajaRepresentation);
-
     }
 
     @Override
