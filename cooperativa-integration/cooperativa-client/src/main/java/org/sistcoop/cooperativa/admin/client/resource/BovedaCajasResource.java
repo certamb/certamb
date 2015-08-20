@@ -34,6 +34,7 @@ public interface BovedaCajasResource {
     public SearchResultsRepresentation<BovedaCajaRepresentation> search(@QueryParam("estado") Boolean estado);
 
     @GET
+    @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<BovedaCajaRepresentation> search(@QueryParam("boveda") String boveda,
             @QueryParam("caja") String caja);

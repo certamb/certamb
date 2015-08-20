@@ -34,6 +34,7 @@ public interface HistorialesBovedaCajaResource {
             @QueryParam("estado") @DefaultValue(value = "true") boolean estado);
 
     @GET
+    @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<HistorialBovedaCajaRepresentation> search(
             @QueryParam("desde") Date desde, @QueryParam("hasta") Date hasta,

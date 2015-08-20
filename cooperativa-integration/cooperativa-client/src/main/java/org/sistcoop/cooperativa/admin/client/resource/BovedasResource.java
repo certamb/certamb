@@ -29,6 +29,8 @@ public interface BovedasResource {
     public Response create(BovedaRepresentation bovedaRepresentation);
 
     @GET
+    @Path("/search")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<BovedaRepresentation> search(@QueryParam("agencia") String agencia,
             @QueryParam("estado") @DefaultValue(value = "true") boolean estado,

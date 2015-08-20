@@ -28,6 +28,7 @@ public interface CajasResource {
     public Response create(CajaRepresentation cajaRepresentation);
 
     @GET
+    @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<CajaRepresentation> search(@QueryParam("agencia") String agencia,
             @QueryParam("estado") @DefaultValue("true") boolean estado,
