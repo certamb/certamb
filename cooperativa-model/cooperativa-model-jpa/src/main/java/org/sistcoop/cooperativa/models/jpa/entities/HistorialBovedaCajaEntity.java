@@ -37,7 +37,7 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey)
+    @JoinColumn(foreignKey = @ForeignKey, name = "BOVEDA_CAJA_ID")
     public BovedaCajaEntity getBovedaCaja() {
         return bovedaCaja;
     }

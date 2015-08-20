@@ -69,7 +69,7 @@ public class BovedaCajaEntity implements java.io.Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey)
+    @JoinColumn(foreignKey = @ForeignKey, name = "CAJA_ID")
     public CajaEntity getCaja() {
         return caja;
     }
@@ -80,7 +80,7 @@ public class BovedaCajaEntity implements java.io.Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey)
+    @JoinColumn(foreignKey = @ForeignKey, name = "BOVEDA_ID")
     public BovedaEntity getBoveda() {
         return boveda;
     }

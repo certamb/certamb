@@ -31,7 +31,7 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey)
+    @JoinColumn(foreignKey = @ForeignKey, name = "BOVEDA_ID")
     public BovedaEntity getBoveda() {
         return boveda;
     }
