@@ -45,7 +45,7 @@ public class HistorialBovedaResourceImpl implements HistorialBovedaResource {
     }
 
     @Override
-    public HistorialBovedaRepresentation historial() {
+    public HistorialBovedaRepresentation toRepresentation() {
         HistorialBovedaRepresentation rep = ModelToRepresentation.toRepresentation(getHistorialBovedaModel());
         if (rep != null) {
             return rep;

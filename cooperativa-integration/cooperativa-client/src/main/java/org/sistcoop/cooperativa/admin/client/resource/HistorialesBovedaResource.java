@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
@@ -30,13 +31,13 @@ public interface HistorialesBovedaResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public SearchResultsRepresentation<HistorialBovedaRepresentation> search(
-            @QueryParam("estado") boolean estado);
+    public List<HistorialBovedaRepresentation> getAll();
 
     @GET
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
-    public SearchResultsRepresentation<HistorialBovedaRepresentation> search(@QueryParam("desde") Date desde,
+    public SearchResultsRepresentation<HistorialBovedaRepresentation> search(
+            @QueryParam("estado") boolean estado, @QueryParam("desde") Date desde,
             @QueryParam("hasta") Date hasta, @QueryParam("page") @DefaultValue(value = "1") Integer page,
             @QueryParam("pageSize") @DefaultValue(value = "20") Integer pageSize);
 

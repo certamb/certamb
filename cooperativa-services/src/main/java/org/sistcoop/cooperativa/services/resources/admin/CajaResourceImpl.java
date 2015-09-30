@@ -39,7 +39,7 @@ public class CajaResourceImpl implements CajaResource {
     }
 
     @Override
-    public CajaRepresentation caja() {
+    public CajaRepresentation toRepresentation() {
         CajaRepresentation rep = ModelToRepresentation.toRepresentation(getCajaModel());
         if (rep != null) {
             return rep;

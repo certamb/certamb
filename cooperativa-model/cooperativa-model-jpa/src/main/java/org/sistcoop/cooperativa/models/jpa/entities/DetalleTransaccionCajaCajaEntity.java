@@ -10,31 +10,33 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 @Entity
 @DiscriminatorValue(value = "caja-caja")
-public class DetalleTransaccionCajaCajaEntity extends
-		DetalleTransaccionInternaEntity implements Serializable {
+@NamedQueries(value = { @NamedQuery(name = "DetalleTransaccionCajaCajaEntity.findByIdTransaccionCajaCaja", query = "SELECT d FROM DetalleTransaccionCajaCajaEntity d INNER JOIN d.transaccionCajaCaja tcc WHERE tcc.id = :idTransaccionCajaCaja AND d.valor = :valor") })
+public class DetalleTransaccionCajaCajaEntity extends DetalleTransaccionInternaEntity implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private TransaccionCajaCajaEntity transaccionCajaCaja;
+    private TransaccionCajaCajaEntity transaccionCajaCaja;
 
-	public DetalleTransaccionCajaCajaEntity() {
-		// TODO Auto-generated constructor stub
-	}
+    public DetalleTransaccionCajaCajaEntity() {
+        // TODO Auto-generated constructor stub
+    }
 
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey)
-	public TransaccionCajaCajaEntity getTransaccionCajaCaja() {
-		return transaccionCajaCaja;
-	}
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey)
+    public TransaccionCajaCajaEntity getTransaccionCajaCaja() {
+        return transaccionCajaCaja;
+    }
 
-	public void setTransaccionCajaCaja(
-			TransaccionCajaCajaEntity transaccionCajaCaja) {
-		this.transaccionCajaCaja = transaccionCajaCaja;
-	}
+    public void setTransaccionCajaCaja(TransaccionCajaCajaEntity transaccionCajaCaja) {
+        this.transaccionCajaCaja = transaccionCajaCaja;
+    }
 }

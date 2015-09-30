@@ -38,7 +38,7 @@ public class BovedaCajaResourceImpl implements BovedaCajaResource {
     }
 
     @Override
-    public BovedaCajaRepresentation bovedaCaja() {
+    public BovedaCajaRepresentation toRepresentation() {
         BovedaCajaRepresentation rep = ModelToRepresentation.toRepresentation(getBovedaCajaModel());
         if (rep != null) {
             return rep;

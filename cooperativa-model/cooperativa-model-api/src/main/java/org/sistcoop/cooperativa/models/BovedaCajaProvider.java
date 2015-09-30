@@ -1,20 +1,28 @@
 package org.sistcoop.cooperativa.models;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
-import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
-import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
 public interface BovedaCajaProvider extends Provider {
 
-    BovedaCajaModel create(BovedaModel bovedaModel, CajaModel cajaModel);
+    BovedaCajaModel create(BovedaModel boveda, CajaModel caja);
 
     BovedaCajaModel findById(String id);
 
-    boolean remove(BovedaCajaModel bovedaCajaModel);
+    BovedaCajaModel findByBovedaCaja(BovedaModel boveda, CajaModel caja);
 
-    SearchResultsModel<BovedaCajaModel> search(SearchCriteriaModel criteria);
-   
+    boolean remove(BovedaCajaModel bovedaCaja);
+
+    List<BovedaCajaModel> getAll(BovedaModel boveda);
+
+    List<BovedaCajaModel> getAll(CajaModel caja);
+
+    List<BovedaCajaModel> getAll(BovedaModel boveda, boolean estado);
+
+    List<BovedaCajaModel> getAll(CajaModel caja, boolean estado);
+
 }

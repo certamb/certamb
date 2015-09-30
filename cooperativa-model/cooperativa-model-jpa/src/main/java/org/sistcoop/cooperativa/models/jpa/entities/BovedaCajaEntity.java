@@ -24,7 +24,10 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "BOVEDA_CAJA")
-@NamedQueries(value = { @NamedQuery(name = "BovedaCajaEntity.findByIdBovedaIdCaja", query = "SELECT b FROM BovedaCajaEntity b WHERE b.boveda.id = :idBoveda AND b.caja.id = :idCaja") })
+@NamedQueries(value = {
+        @NamedQuery(name = "BovedaCajaEntity.findByIdBoveda", query = "SELECT bc FROM BovedaCajaEntity bc INNER JOIN bc.boveda b WHERE b.id = :idBoveda"),
+        @NamedQuery(name = "BovedaCajaEntity.findByIdCaja", query = "SELECT bc FROM BovedaCajaEntity bc INNER JOIN bc.caja c WHERE c.id = :idCaja"),
+        @NamedQuery(name = "BovedaCajaEntity.findByIdBovedaIdCaja", query = "SELECT bc FROM BovedaCajaEntity bc INNER JOIN bc.boveda b INNER JOIN bc.caja c WHERE b.id = :idBoveda AND c.id = :idCaja") })
 public class BovedaCajaEntity implements java.io.Serializable {
 
     /**
@@ -32,22 +35,36 @@ public class BovedaCajaEntity implements java.io.Serializable {
 	 */
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "ID")
     private String id;
+
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    @Column(name = "ESTADO")
     private boolean estado;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "CAJA_ID")
     private CajaEntity caja;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "BOVEDA_ID")
     private BovedaEntity boveda;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bovedaCaja")
     private Set<HistorialBovedaCajaEntity> historiales = new HashSet<HistorialBovedaCajaEntity>();
 
+    @Version
     private Timestamp optlk;
 
     public BovedaCajaEntity() {
     }
 
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "ID")
     public String getId() {
         return id;
     }
@@ -56,9 +73,6 @@ public class BovedaCajaEntity implements java.io.Serializable {
         this.id = id;
     }
 
-    @NotNull
-    @Type(type = "org.hibernate.type.TrueFalseType")
-    @Column(name = "ESTADO")
     public boolean isEstado() {
         return estado;
     }
@@ -67,9 +81,6 @@ public class BovedaCajaEntity implements java.io.Serializable {
         this.estado = estado;
     }
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey, name = "CAJA_ID")
     public CajaEntity getCaja() {
         return caja;
     }
@@ -78,9 +89,6 @@ public class BovedaCajaEntity implements java.io.Serializable {
         this.caja = caja;
     }
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey, name = "BOVEDA_ID")
     public BovedaEntity getBoveda() {
         return boveda;
     }
@@ -89,7 +97,6 @@ public class BovedaCajaEntity implements java.io.Serializable {
         this.boveda = boveda;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bovedaCaja")
     public Set<HistorialBovedaCajaEntity> getHistoriales() {
         return historiales;
     }
@@ -98,7 +105,6 @@ public class BovedaCajaEntity implements java.io.Serializable {
         this.historiales = historiales;
     }
 
-    @Version
     public Timestamp getOptlk() {
         return optlk;
     }

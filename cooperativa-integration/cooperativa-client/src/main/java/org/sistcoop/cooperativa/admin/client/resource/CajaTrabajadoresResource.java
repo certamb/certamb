@@ -1,5 +1,7 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -27,6 +29,11 @@ public interface CajaTrabajadoresResource {
     public Response create(TrabajadorCajaRepresentation trabajadorCajaRepresentation);
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TrabajadorCajaRepresentation> getAll();
+
+    @GET
+    @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<TrabajadorCajaRepresentation> search(
             @QueryParam("estado") @DefaultValue("true") boolean estado,

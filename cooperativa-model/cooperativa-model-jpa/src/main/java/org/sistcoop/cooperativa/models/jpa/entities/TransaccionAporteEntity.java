@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -17,58 +18,65 @@ import org.hibernate.validator.constraints.NotBlank;
 @PrimaryKeyJoinColumn
 public class TransaccionAporteEntity extends TransaccionClienteEntity {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String numeroCuenta;
-	private int anio;
-	private int mes;
-	private BigDecimal monto;
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 20)
+    @Column(name = "NUMERO_CUENTA")
+    private String numeroCuenta;
 
-	public TransaccionAporteEntity() {
-		// TODO Auto-generated constructor stub
-	}
+    @NotNull
+    @Min(value = 2000)
+    @Column(name = "ANIO")
+    private int anio;
 
-	@NotNull
-	@NotBlank
-	@Size(min = 1, max = 20)
-	public String getNumeroCuenta() {
-		return numeroCuenta;
-	}
+    @Min(value = 0)
+    @Max(value = 11)
+    @Column(name = "MES")
+    private int mes;
 
-	public void setNumeroCuenta(String numeroCuenta) {
-		this.numeroCuenta = numeroCuenta;
-	}
+    @NotNull
+    @Column(name = "MONTO")
+    private BigDecimal monto;
 
-	@NotNull
-	@Min(value = 2000)
-	public int getAnio() {
-		return anio;
-	}
+    public TransaccionAporteEntity() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setAnio(int anio) {
-		this.anio = anio;
-	}
+    public String getNumeroCuenta() {
+        return numeroCuenta;
+    }
 
-	@Min(value = 0)
-	@Max(value = 11)
-	public int getMes() {
-		return mes;
-	}
+    public void setNumeroCuenta(String numeroCuenta) {
+        this.numeroCuenta = numeroCuenta;
+    }
 
-	public void setMes(int mes) {
-		this.mes = mes;
-	}
+    public int getAnio() {
+        return anio;
+    }
 
-	@NotNull
-	public BigDecimal getMonto() {
-		return monto;
-	}
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
+    public int getMes() {
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
 
 }

@@ -18,7 +18,7 @@ public interface BovedaResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public BovedaRepresentation boveda();
+	public BovedaRepresentation toRepresentation();
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

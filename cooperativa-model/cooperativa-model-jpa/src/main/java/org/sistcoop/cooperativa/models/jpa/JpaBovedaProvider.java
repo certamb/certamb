@@ -7,7 +7,6 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,10 +15,12 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
-import org.sistcoop.cooperativa.models.search.filters.BovedaFilterProvider;
 
 @Named
 @Stateless
@@ -28,10 +29,7 @@ import org.sistcoop.cooperativa.models.search.filters.BovedaFilterProvider;
 public class JpaBovedaProvider extends AbstractHibernateStorage implements BovedaProvider {
 
     @PersistenceContext
-    protected EntityManager em;
-
-    @Inject
-    private BovedaFilterProvider filterProvider;
+    private EntityManager em;
 
     @Override
     public void close() {
@@ -39,20 +37,30 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
     }
 
     @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    @Override
     public BovedaModel create(String agencia, String moneda, String denominacion) {
-        // Solo debe haber una boveda/moneda por agencia
-        TypedQuery<BovedaEntity> query = em
-                .createNamedQuery("BovedaEntity.findByAgencia", BovedaEntity.class);
-        query.setParameter("agencia", agencia);
-        List<BovedaEntity> list = query.getResultList();
-        for (BovedaEntity bovedaEntity : list) {
-            if (agencia.equals(bovedaEntity.getAgencia())) {
-                if (moneda.equals(bovedaEntity.getMoneda())) {
-                    if (bovedaEntity.isEstado()) {
-                        throw new ModelDuplicateException("Boveda con moneda " + moneda + " ya existente");
-                    }
-                }
-            }
+        SearchCriteriaModel criteria1 = new SearchCriteriaModel();
+        criteria1.addFilter("agencia", agencia, SearchCriteriaFilterOperator.eq);
+        criteria1.addFilter("denominacion", denominacion, SearchCriteriaFilterOperator.eq);
+        criteria1.addFilter("estado", true, SearchCriteriaFilterOperator.bool_eq);
+        if (search(criteria1).getTotalSize() != 0) {
+            throw new ModelDuplicateException(
+                    "BovedaEntity activos (estado = true) agencia y denominacion debe ser unico, se encontro otra entidad con agencia="
+                            + agencia + " y denominacion=" + denominacion);
+        }
+
+        SearchCriteriaModel criteria2 = new SearchCriteriaModel();
+        criteria2.addFilter("agencia", agencia, SearchCriteriaFilterOperator.eq);
+        criteria2.addFilter("moneda", denominacion, SearchCriteriaFilterOperator.eq);
+        criteria2.addFilter("estado", true, SearchCriteriaFilterOperator.bool_eq);
+        if (search(criteria2).getTotalSize() != 0) {
+            throw new ModelDuplicateException(
+                    "BovedaEntity activos (estado = true) agencia y moneda debe ser unico, se encontro otra entidad con agencia="
+                            + agencia + " y moneda=" + moneda);
         }
 
         // Crear boveda
@@ -74,28 +82,37 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
 
     @Override
     public boolean remove(BovedaModel bovedaModel) {
-        BovedaEntity bovedaEntity = em.find(BovedaEntity.class, bovedaModel.getId());
-        if (bovedaEntity == null)
+        TypedQuery<HistorialBovedaEntity> query1 = em.createNamedQuery(
+                "HistorialBovedaEntity.findByIdBoveda", HistorialBovedaEntity.class);
+        query1.setParameter("idBoveda", bovedaModel.getId());
+        query1.setMaxResults(1);
+        if (!query1.getResultList().isEmpty()) {
             return false;
+        }
+
+        TypedQuery<BovedaCajaEntity> query2 = em.createNamedQuery("BovedaCajaEntity.findByIdBoveda",
+                BovedaCajaEntity.class);
+        query2.setParameter("idBoveda", bovedaModel.getId());
+        query2.setMaxResults(1);
+        if (!query2.getResultList().isEmpty()) {
+            return false;
+        }
+
+        BovedaEntity bovedaEntity = em.find(BovedaEntity.class, bovedaModel.getId());
         em.remove(bovedaEntity);
         return true;
     }
 
     @Override
-    public SearchResultsModel<BovedaModel> search() {
+    public List<BovedaModel> getAll() {
         TypedQuery<BovedaEntity> query = em.createNamedQuery("BovedaEntity.findAll", BovedaEntity.class);
-
         List<BovedaEntity> entities = query.getResultList();
-        List<BovedaModel> models = new ArrayList<BovedaModel>();
+        List<BovedaModel> result = new ArrayList<BovedaModel>();
         for (BovedaEntity bovedaEntity : entities) {
             if (bovedaEntity.isEstado()) {
-                models.add(new BovedaAdapter(em, bovedaEntity));
+                result.add(new BovedaAdapter(em, bovedaEntity));
             }
         }
-
-        SearchResultsModel<BovedaModel> result = new SearchResultsModel<>();
-        result.setModels(models);
-        result.setTotalSize(models.size());
         return result;
     }
 
@@ -116,7 +133,7 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
     @Override
     public SearchResultsModel<BovedaModel> search(SearchCriteriaModel criteria, String filterText) {
         SearchResultsModel<BovedaEntity> entityResult = findFullText(criteria, BovedaEntity.class,
-                filterText, filterProvider.getDenominacionFilter());
+                filterText, "denominacion", "moneda");
 
         SearchResultsModel<BovedaModel> modelResult = new SearchResultsModel<>();
         List<BovedaModel> list = new ArrayList<>();
@@ -126,11 +143,6 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
         modelResult.setTotalSize(entityResult.getTotalSize());
         modelResult.setModels(list);
         return modelResult;
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
     }
 
 }

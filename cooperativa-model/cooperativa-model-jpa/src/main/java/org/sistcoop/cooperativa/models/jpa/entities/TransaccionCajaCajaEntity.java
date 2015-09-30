@@ -19,134 +19,133 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "TRANSACCION_CAJA_CAJA")
-public class TransaccionCajaCajaEntity extends TransaccionInternaEntity
-		implements java.io.Serializable {
+@NamedQueries(value = {
+        @NamedQuery(name = "TransaccionCajaCajaEntity.findByIdHistorialBovedaCaja", query = "SELECT t FROM TransaccionCajaCajaEntity t INNER JOIN t.historialBovedaCajaOrigen hbco INNER JOIN t.historialBovedaCajaDestino hbcd WHERE hbco.id = :idHistorialBovedaCaja OR hbcd.id = :idHistorialBovedaCaja"),
+        @NamedQuery(name = "TransaccionCajaCajaEntity.findByIdHistorialBovedaCajaOrigen", query = "SELECT t FROM TransaccionCajaCajaEntity t INNER JOIN t.historialBovedaCajaOrigen hbco WHERE hbco.id = :idHistorialBovedaCaja"),
+        @NamedQuery(name = "TransaccionCajaCajaEntity.findByIdHistorialBovedaCajaDestino", query = "SELECT t FROM TransaccionCajaCajaEntity t INNER JOIN t.historialBovedaCajaDestino hbcd WHERE hbcd.id = :idHistorialBovedaCaja") })
+public class TransaccionCajaCajaEntity extends TransaccionInternaEntity implements java.io.Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String id;
-	private HistorialBovedaCajaEntity historialBovedaCajaDestino;
-	private HistorialBovedaCajaEntity historialBovedaCajaOrigen;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "ID")
+    private String id;
 
-	private BigDecimal monto;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "HISTORIAL_BOVEDA_CAJA_ORIGEN_ID")
+    private HistorialBovedaCajaEntity historialBovedaCajaOrigen;
 
-	private Set<DetalleTransaccionCajaCajaEntity> detalle = new HashSet<DetalleTransaccionCajaCajaEntity>();
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "HISTORIAL_BOVEDA_CAJA_DESTINO_ID")
+    private HistorialBovedaCajaEntity historialBovedaCajaDestino;
 
-	public TransaccionCajaCajaEntity() {
-	}
+    @NotNull
+    @Min(value = 0)
+    @Digits(integer = 18, fraction = 2)
+    @Column(name = "MONTO")
+    private BigDecimal monto;
 
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(name = "ID")
-	public String getId() {
-		return id;
-	}
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionCajaCaja")
+    private Set<DetalleTransaccionCajaCajaEntity> detalle = new HashSet<DetalleTransaccionCajaCajaEntity>();
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public TransaccionCajaCajaEntity() {
+    }
 
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey)
-	public HistorialBovedaCajaEntity getHistorialBovedaCajaDestino() {
-		return historialBovedaCajaDestino;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setHistorialBovedaCajaDestino(
-			HistorialBovedaCajaEntity historialBovedaCajaDestino) {
-		this.historialBovedaCajaDestino = historialBovedaCajaDestino;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey)
-	public HistorialBovedaCajaEntity getHistorialBovedaCajaOrigen() {
-		return historialBovedaCajaOrigen;
-	}
+    public HistorialBovedaCajaEntity getHistorialBovedaCajaDestino() {
+        return historialBovedaCajaDestino;
+    }
 
-	public void setHistorialBovedaCajaOrigen(
-			HistorialBovedaCajaEntity historialBovedaCajaOrigen) {
-		this.historialBovedaCajaOrigen = historialBovedaCajaOrigen;
-	}
+    public void setHistorialBovedaCajaDestino(HistorialBovedaCajaEntity historialBovedaCajaDestino) {
+        this.historialBovedaCajaDestino = historialBovedaCajaDestino;
+    }
 
-	@NotNull
-	@Min(value = 0)
-	@Digits(integer = 18, fraction = 2)
-	@Column(name = "MONTO")
-	public BigDecimal getMonto() {
-		return monto;
-	}
+    public HistorialBovedaCajaEntity getHistorialBovedaCajaOrigen() {
+        return historialBovedaCajaOrigen;
+    }
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
+    public void setHistorialBovedaCajaOrigen(HistorialBovedaCajaEntity historialBovedaCajaOrigen) {
+        this.historialBovedaCajaOrigen = historialBovedaCajaOrigen;
+    }
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionCajaCaja")
-	public Set<DetalleTransaccionCajaCajaEntity> getDetalle() {
-		return detalle;
-	}
+    public BigDecimal getMonto() {
+        return monto;
+    }
 
-	public void setDetalle(Set<DetalleTransaccionCajaCajaEntity> detalle) {
-		this.detalle = detalle;
-	}
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime
-				* result
-				+ ((historialBovedaCajaDestino == null) ? 0
-						: historialBovedaCajaDestino.hashCode());
-		result = prime
-				* result
-				+ ((historialBovedaCajaOrigen == null) ? 0
-						: historialBovedaCajaOrigen.hashCode());
-		result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
-		result = prime * result + ((hora == null) ? 0 : hora.hashCode());
-		return result;
-	}
+    public Set<DetalleTransaccionCajaCajaEntity> getDetalle() {
+        return detalle;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (!(obj instanceof TransaccionCajaCajaEntity))
-			return false;
-		TransaccionCajaCajaEntity other = (TransaccionCajaCajaEntity) obj;
-		if (historialBovedaCajaDestino == null) {
-			if (other.historialBovedaCajaDestino != null)
-				return false;
-		} else if (!historialBovedaCajaDestino
-				.equals(other.historialBovedaCajaDestino))
-			return false;
-		if (historialBovedaCajaOrigen == null) {
-			if (other.historialBovedaCajaOrigen != null)
-				return false;
-		} else if (!historialBovedaCajaOrigen
-				.equals(other.historialBovedaCajaOrigen))
-			return false;
-		if (fecha == null) {
-			if (other.fecha != null)
-				return false;
-		} else if (!fecha.equals(other.fecha))
-			return false;
-		if (hora == null) {
-			if (other.hora != null)
-				return false;
-		} else if (!hora.equals(other.hora))
-			return false;
-		return true;
-	}
+    public void setDetalle(Set<DetalleTransaccionCajaCajaEntity> detalle) {
+        this.detalle = detalle;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result
+                + ((historialBovedaCajaDestino == null) ? 0 : historialBovedaCajaDestino.hashCode());
+        result = prime * result
+                + ((historialBovedaCajaOrigen == null) ? 0 : historialBovedaCajaOrigen.hashCode());
+        result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
+        result = prime * result + ((hora == null) ? 0 : hora.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (!(obj instanceof TransaccionCajaCajaEntity))
+            return false;
+        TransaccionCajaCajaEntity other = (TransaccionCajaCajaEntity) obj;
+        if (historialBovedaCajaDestino == null) {
+            if (other.historialBovedaCajaDestino != null)
+                return false;
+        } else if (!historialBovedaCajaDestino.equals(other.historialBovedaCajaDestino))
+            return false;
+        if (historialBovedaCajaOrigen == null) {
+            if (other.historialBovedaCajaOrigen != null)
+                return false;
+        } else if (!historialBovedaCajaOrigen.equals(other.historialBovedaCajaOrigen))
+            return false;
+        if (fecha == null) {
+            if (other.fecha != null)
+                return false;
+        } else if (!fecha.equals(other.fecha))
+            return false;
+        if (hora == null) {
+            if (other.hora != null)
+                return false;
+        } else if (!hora.equals(other.hora))
+            return false;
+        return true;
+    }
 
 }

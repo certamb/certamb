@@ -26,125 +26,123 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "DETALLE_TRANSACCION_CLIENTE")
 public class DetalleTransaccionClienteEntity implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String id;
-	private BigDecimal valor;
-	private int cantidad;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "ID")
+    private String id;
 
-	private BigDecimal subtotal;
+    @NotNull
+    @Min(value = 0)
+    @Max(value = 1000)
+    @Digits(integer = 4, fraction = 2)
+    @Column(name = "VALOR")
+    private BigDecimal valor;
 
-	private TransaccionClienteEntity transaccionCliente;
+    @NotNull
+    @Min(value = 0)
+    @Digits(integer = 18, fraction = 2)
+    @Column(name = "CANTIDAD")
+    private int cantidad;
 
-	private Timestamp optlk;
+    @Formula("cantidad * valor")
+    @Column(name = "SUBTOTAL")
+    private BigDecimal subtotal;
 
-	public DetalleTransaccionClienteEntity() {
-		// TODO Auto-generated constructor stub
-	}
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "TRANSACCION_CLIENTE_ID")
+    private TransaccionClienteEntity transaccionCliente;
 
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(name = "ID")
-	public String getId() {
-		return id;
-	}
+    @Version
+    private Timestamp optlk;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public DetalleTransaccionClienteEntity() {
+        // TODO Auto-generated constructor stub
+    }
 
-	@NotNull
-	@Min(value = 0)
-	@Max(value = 1000)
-	@Digits(integer = 4, fraction = 2)
-	@Column(name = "VALOR")
-	public BigDecimal getValor() {
-		return valor;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	@NotNull
-	@Min(value = 0)
-	@Digits(integer = 18, fraction = 2)
-	@Column(name = "CANTIDAD")
-	public int getCantidad() {
-		return cantidad;
-	}
+    public BigDecimal getValor() {
+        return valor;
+    }
 
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
-	}
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
 
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey)
-	public TransaccionClienteEntity getTransaccionCliente() {
-		return transaccionCliente;
-	}
+    public int getCantidad() {
+        return cantidad;
+    }
 
-	public void setTransaccionCliente(
-			TransaccionClienteEntity transaccionCliente) {
-		this.transaccionCliente = transaccionCliente;
-	}
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
 
-	@Version
-	public Timestamp getOptlk() {
-		return optlk;
-	}
+    public TransaccionClienteEntity getTransaccionCliente() {
+        return transaccionCliente;
+    }
 
-	public void setOptlk(Timestamp optlk) {
-		this.optlk = optlk;
-	}
+    public void setTransaccionCliente(TransaccionClienteEntity transaccionCliente) {
+        this.transaccionCliente = transaccionCliente;
+    }
 
-	@Formula("cantidad * valor ")
-	@Column(name = "SUBTOTAL")
-	public BigDecimal getSubtotal() {
-		return subtotal;
-	}
+    public Timestamp getOptlk() {
+        return optlk;
+    }
 
-	public void setSubtotal(BigDecimal subtotal) {
-		this.subtotal = subtotal;
-	}
+    public void setOptlk(Timestamp optlk) {
+        this.optlk = optlk;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ((transaccionCliente == null) ? 0 : transaccionCliente
-						.hashCode());
-		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
-		return result;
-	}
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof DetalleTransaccionClienteEntity))
-			return false;
-		DetalleTransaccionClienteEntity other = (DetalleTransaccionClienteEntity) obj;
-		if (transaccionCliente == null) {
-			if (other.transaccionCliente != null)
-				return false;
-		} else if (!transaccionCliente.equals(other.transaccionCliente))
-			return false;
-		if (valor == null) {
-			if (other.valor != null)
-				return false;
-		} else if (!valor.equals(other.valor))
-			return false;
-		return true;
-	}
+    public void setSubtotal(BigDecimal subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((transaccionCliente == null) ? 0 : transaccionCliente.hashCode());
+        result = prime * result + ((valor == null) ? 0 : valor.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof DetalleTransaccionClienteEntity))
+            return false;
+        DetalleTransaccionClienteEntity other = (DetalleTransaccionClienteEntity) obj;
+        if (transaccionCliente == null) {
+            if (other.transaccionCliente != null)
+                return false;
+        } else if (!transaccionCliente.equals(other.transaccionCliente))
+            return false;
+        if (valor == null) {
+            if (other.valor != null)
+                return false;
+        } else if (!valor.equals(other.valor))
+            return false;
+        return true;
+    }
 
 }

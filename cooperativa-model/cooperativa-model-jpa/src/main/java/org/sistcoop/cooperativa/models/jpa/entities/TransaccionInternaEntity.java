@@ -10,115 +10,116 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Type;
 
 @MappedSuperclass
 public abstract class TransaccionInternaEntity implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected Date fecha;
-	protected Date hora;
-	protected String observacion;
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    protected Date fecha;
 
-	protected boolean estadoSolicitud;
-	protected boolean estadoConfirmacion;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    protected Date hora;
 
-	protected Timestamp optlk;
+    @Size(min = 1, max = 60)
+    protected String observacion;
 
-	@NotNull
-	@Temporal(TemporalType.DATE)
-	public Date getFecha() {
-		return fecha;
-	}
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    protected boolean estadoSolicitud;
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    protected boolean estadoConfirmacion;
 
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getHora() {
-		return hora;
-	}
+    @Version
+    protected Timestamp optlk;
 
-	public void setHora(Date hora) {
-		this.hora = hora;
-	}
+    public Date getFecha() {
+        return fecha;
+    }
 
-	@Size(min = 1, max = 60)
-	public String getObservacion() {
-		return observacion;
-	}
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
-	public void setObservacion(String observacion) {
-		this.observacion = observacion;
-	}
+    public Date getHora() {
+        return hora;
+    }
 
-	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	public boolean isEstadoSolicitud() {
-		return estadoSolicitud;
-	}
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
 
-	public void setEstadoSolicitud(boolean estadoSolicitud) {
-		this.estadoSolicitud = estadoSolicitud;
-	}
+    public String getObservacion() {
+        return observacion;
+    }
 
-	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	public boolean isEstadoConfirmacion() {
-		return estadoConfirmacion;
-	}
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
 
-	public void setEstadoConfirmacion(boolean estadoConfirmacion) {
-		this.estadoConfirmacion = estadoConfirmacion;
-	}
+    public boolean isEstadoSolicitud() {
+        return estadoSolicitud;
+    }
 
-	@XmlTransient
-	@Version
-	public Timestamp getOptlk() {
-		return optlk;
-	}
+    public void setEstadoSolicitud(boolean estadoSolicitud) {
+        this.estadoSolicitud = estadoSolicitud;
+    }
 
-	public void setOptlk(Timestamp optlk) {
-		this.optlk = optlk;
-	}
+    public boolean isEstadoConfirmacion() {
+        return estadoConfirmacion;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
-		result = prime * result + ((hora == null) ? 0 : hora.hashCode());
-		return result;
-	}
+    public void setEstadoConfirmacion(boolean estadoConfirmacion) {
+        this.estadoConfirmacion = estadoConfirmacion;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof TransaccionInternaEntity))
-			return false;
-		TransaccionInternaEntity other = (TransaccionInternaEntity) obj;
-		if (fecha == null) {
-			if (other.fecha != null)
-				return false;
-		} else if (!fecha.equals(other.fecha))
-			return false;
-		if (hora == null) {
-			if (other.hora != null)
-				return false;
-		} else if (!hora.equals(other.hora))
-			return false;
-		return true;
-	}
+    public Timestamp getOptlk() {
+        return optlk;
+    }
+
+    public void setOptlk(Timestamp optlk) {
+        this.optlk = optlk;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
+        result = prime * result + ((hora == null) ? 0 : hora.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof TransaccionInternaEntity))
+            return false;
+        TransaccionInternaEntity other = (TransaccionInternaEntity) obj;
+        if (fecha == null) {
+            if (other.fecha != null)
+                return false;
+        } else if (!fecha.equals(other.fecha))
+            return false;
+        if (hora == null) {
+            if (other.hora != null)
+                return false;
+        } else if (!hora.equals(other.hora))
+            return false;
+        return true;
+    }
 
 }

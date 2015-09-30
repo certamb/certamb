@@ -1,5 +1,7 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -27,6 +29,11 @@ public interface TransaccionesBovedaCajaResource {
     public Response create(TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation);
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TransaccionBovedaCajaRepresentation> getAll();
+
+    @GET
+    @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> search(
             @QueryParam("enviados") @DefaultValue(value = "true") boolean enviados,

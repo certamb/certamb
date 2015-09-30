@@ -79,15 +79,19 @@ public class BovedaAdapter implements BovedaModel {
 
     @Override
     public HistorialBovedaModel getHistorialActivo() {
-        TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery("HistorialBoveda.getByIdBovedaEstado",
-                HistorialBovedaEntity.class);
+        TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery(
+                "HistorialBovedaEntity.findByIdBovedaEstado", HistorialBovedaEntity.class);
         query.setParameter("idBoveda", getId());
         query.setParameter("estado", true);
-        List<HistorialBovedaEntity> list = query.getResultList();
-        if (list.size() > 0)
-            return new HistorialBovedaAdapter(em, list.get(0));
-        else
+        List<HistorialBovedaEntity> results = query.getResultList();
+        if (results.isEmpty()) {
             return null;
+        } else if (results.size() > 1) {
+            throw new IllegalStateException("Mas de un HistorialBovedaEntity con idBoveda=" + getId()
+                    + " y estado=" + true + ", results=" + results);
+        } else {
+            return new HistorialBovedaAdapter(em, results.get(0));
+        }
     }
 
     @Override

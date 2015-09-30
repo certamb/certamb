@@ -13,107 +13,115 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "ENTIDAD")
+@NamedQueries(value = {
+        @NamedQuery(name = "EntidadEntity.findAll", query = "SELECT e FROM EntidadEntity e"),
+        @NamedQuery(name = "EntidadEntity.findByDenominacion", query = "SELECT e FROM EntidadEntity e WHERE e.denominacion = :denominacion"),
+        @NamedQuery(name = "EntidadEntity.findByAbreviatura", query = "SELECT e FROM EntidadEntity e WHERE e.abreviatura = :abreviatura") })
 public class EntidadEntity implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String id;
-	private String denominacion;
-	private String abreviatura;
-	private boolean estado;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "ID")
+    private String id;
 
-	private Timestamp optlk;
+    @NotNull
+    @Size(min = 1, max = 60)
+    @NotBlank
+    @NaturalId
+    @Column(name = "DENOMINACION")
+    private String denominacion;
 
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(name = "ID")
-	public String getId() {
-		return id;
-	}
+    @NotNull
+    @Size(min = 1, max = 20)
+    @NotBlank
+    @Column(name = "ABREVIATURA")
+    private String abreviatura;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    @Column(name = "ESTADO")
+    private boolean estado;
 
-	@NotNull
-	@Size(min = 1, max = 60)
-	@NotBlank
-	@NaturalId
-	@Column(name = "DENOMINACION")
-	public String getDenominacion() {
-		return denominacion;
-	}
+    @Version
+    private Timestamp optlk;
 
-	public void setDenominacion(String denominacion) {
-		this.denominacion = denominacion;
-	}
+    public String getId() {
+        return id;
+    }
 
-	@NotNull
-	@Size(min = 1, max = 20)
-	@NotBlank
-	@Column(name = "ABREVIATURA")
-	public String getAbreviatura() {
-		return abreviatura;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setAbreviatura(String abreviatura) {
-		this.abreviatura = abreviatura;
-	}
+    public String getDenominacion() {
+        return denominacion;
+    }
 
-	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	@Column(name = "ESTADO")
-	public boolean isEstado() {
-		return estado;
-	}
+    public void setDenominacion(String denominacion) {
+        this.denominacion = denominacion;
+    }
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
+    public String getAbreviatura() {
+        return abreviatura;
+    }
 
-	@Version
-	public Timestamp getOptlk() {
-		return optlk;
-	}
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
+    }
 
-	public void setOptlk(Timestamp optlk) {
-		this.optlk = optlk;
-	}
+    public boolean isEstado() {
+        return estado;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((denominacion == null) ? 0 : denominacion.hashCode());
-		return result;
-	}
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof EntidadEntity))
-			return false;
-		EntidadEntity other = (EntidadEntity) obj;
-		if (denominacion == null) {
-			if (other.denominacion != null)
-				return false;
-		} else if (!denominacion.equals(other.denominacion))
-			return false;
-		return true;
-	}
+    public Timestamp getOptlk() {
+        return optlk;
+    }
+
+    public void setOptlk(Timestamp optlk) {
+        this.optlk = optlk;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((denominacion == null) ? 0 : denominacion.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof EntidadEntity))
+            return false;
+        EntidadEntity other = (EntidadEntity) obj;
+        if (denominacion == null) {
+            if (other.denominacion != null)
+                return false;
+        } else if (!denominacion.equals(other.denominacion))
+            return false;
+        return true;
+    }
 
 }

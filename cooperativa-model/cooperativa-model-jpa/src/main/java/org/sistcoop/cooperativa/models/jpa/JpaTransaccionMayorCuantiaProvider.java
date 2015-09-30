@@ -24,7 +24,7 @@ public class JpaTransaccionMayorCuantiaProvider extends AbstractHibernateStorage
         TransaccionMayorCuantiaProvider {
 
     @PersistenceContext
-    protected EntityManager em;
+    private EntityManager em;
 
     @Override
     public void close() {
@@ -32,22 +32,21 @@ public class JpaTransaccionMayorCuantiaProvider extends AbstractHibernateStorage
     }
 
     @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    @Override
     public TransaccionMayorCuantiaModel create(TransaccionClienteModel transaccionClienteModel,
             BigDecimal montoMaximo) {
-        TransaccionClienteEntity transaccionClienteEntity = TransaccionClienteAdapter
-                .toTransaccionClienteEntity(transaccionClienteModel, em);
-
+        TransaccionClienteEntity transaccionClienteEntity = this.em.find(TransaccionClienteEntity.class,
+                transaccionClienteModel.getId());
         TransaccionMayorCuantiaEntity transaccionMayorCuantiaEntity = new TransaccionMayorCuantiaEntity();
         transaccionMayorCuantiaEntity.setTransaccionCliente(transaccionClienteEntity);
         transaccionMayorCuantiaEntity.setMontoMaximo(montoMaximo);
 
         em.persist(transaccionMayorCuantiaEntity);
         return new TransaccionMayorCuantiaAdapter(em, transaccionMayorCuantiaEntity);
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
     }
 
 }

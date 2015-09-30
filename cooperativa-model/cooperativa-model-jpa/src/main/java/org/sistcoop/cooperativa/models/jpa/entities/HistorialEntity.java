@@ -18,21 +18,48 @@ import org.hibernate.annotations.Type;
 @MappedSuperclass
 public abstract class HistorialEntity {
 
-    protected String id;
-    protected Date fechaApertura;
-    protected Date fechaCierre;
-    protected Date horaApertura;
-    protected Date horaCierre;
-    protected boolean abierto;
-    protected boolean estadoMovimiento;
-    protected boolean estado;
-
-    private Timestamp optlk;
-
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "ID")
+    protected String id;
+
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    @Column(name = "FECHA_APERTURA")
+    protected Date fechaApertura;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "FECHA_CIERRE")
+    protected Date fechaCierre;
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "HORA_APERTURA")
+    protected Date horaApertura;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "HORA_CIERRE")
+    protected Date horaCierre;
+
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    @Column(name = "ABIERTO")
+    protected boolean abierto;
+
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    @Column(name = "ESTADO_MOVIMIENTO")
+    protected boolean estadoMovimiento;
+
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    @Column(name = "ESTADO")
+    protected boolean estado;
+
+    @Version
+    private Timestamp optlk;
+
     public String getId() {
         return id;
     }
@@ -41,9 +68,6 @@ public abstract class HistorialEntity {
         this.id = id;
     }
 
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    @Column(name = "FECHA_APERTURA")
     public Date getFechaApertura() {
         return fechaApertura;
     }
@@ -52,8 +76,6 @@ public abstract class HistorialEntity {
         this.fechaApertura = fechaApertura;
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "FECHA_CIERRE")
     public Date getFechaCierre() {
         return fechaCierre;
     }
@@ -62,9 +84,6 @@ public abstract class HistorialEntity {
         this.fechaCierre = fechaCierre;
     }
 
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "HORA_APERTURA")
     public Date getHoraApertura() {
         return horaApertura;
     }
@@ -73,8 +92,6 @@ public abstract class HistorialEntity {
         this.horaApertura = horaApertura;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "HORA_CIERRE")
     public Date getHoraCierre() {
         return horaCierre;
     }
@@ -83,9 +100,6 @@ public abstract class HistorialEntity {
         this.horaCierre = horaCierre;
     }
 
-    @NotNull
-    @Type(type = "org.hibernate.type.TrueFalseType")
-    @Column(name = "ABIERTO")
     public boolean isAbierto() {
         return abierto;
     }
@@ -94,9 +108,6 @@ public abstract class HistorialEntity {
         this.abierto = abierto;
     }
 
-    @NotNull
-    @Type(type = "org.hibernate.type.TrueFalseType")
-    @Column(name = "ESTADO_MOVIMIENTO")
     public boolean isEstadoMovimiento() {
         return estadoMovimiento;
     }
@@ -105,9 +116,6 @@ public abstract class HistorialEntity {
         this.estadoMovimiento = estadoMovimiento;
     }
 
-    @NotNull
-    @Type(type = "org.hibernate.type.TrueFalseType")
-    @Column(name = "ESTADO")
     public boolean isEstado() {
         return estado;
     }
@@ -116,7 +124,6 @@ public abstract class HistorialEntity {
         this.estado = estado;
     }
 
-    @Version
     public Timestamp getOptlk() {
         return optlk;
     }

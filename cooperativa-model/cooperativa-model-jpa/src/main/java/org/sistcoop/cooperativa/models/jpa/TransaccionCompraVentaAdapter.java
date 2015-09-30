@@ -18,8 +18,8 @@ public class TransaccionCompraVentaAdapter implements TransaccionCompraVentaMode
 
 	private static final long serialVersionUID = 1L;
 
-	protected TransaccionCompraVentaEntity transaccionCompraVentaEntity;
-	protected EntityManager em;
+	private TransaccionCompraVentaEntity transaccionCompraVentaEntity;
+	private EntityManager em;
 
 	public TransaccionCompraVentaAdapter(EntityManager em, TransaccionCompraVentaEntity transaccionCompraVentaEntity) {
 		this.em = em;
@@ -43,7 +43,7 @@ public class TransaccionCompraVentaAdapter implements TransaccionCompraVentaMode
 	}
 
 	@Override
-	public Long getId() {
+	public String getId() {
 		return transaccionCompraVentaEntity.getId();
 	}
 

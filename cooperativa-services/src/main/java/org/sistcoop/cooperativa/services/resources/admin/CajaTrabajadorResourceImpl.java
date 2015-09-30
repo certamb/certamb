@@ -25,7 +25,7 @@ public class CajaTrabajadorResourceImpl implements CajaTrabajadorResource {
     }
 
     @Override
-    public TrabajadorCajaRepresentation cajaTrabajador() {
+    public TrabajadorCajaRepresentation toRepresentation() {
         TrabajadorCajaRepresentation rep = ModelToRepresentation.toRepresentation(getTrabajadorCajaModel());
         if (rep != null) {
             return rep;

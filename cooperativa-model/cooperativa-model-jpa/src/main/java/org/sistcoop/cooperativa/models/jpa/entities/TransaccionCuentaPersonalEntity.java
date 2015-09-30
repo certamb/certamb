@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -15,46 +16,51 @@ import org.hibernate.validator.constraints.NotBlank;
 @PrimaryKeyJoinColumn
 public class TransaccionCuentaPersonalEntity extends TransaccionClienteEntity {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String numeroCuenta;
-	private BigDecimal monto;
-	private String referencia;
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 20)
+    @Column(name = "NUMERO_CUENTA")
+    private String numeroCuenta;
 
-	public TransaccionCuentaPersonalEntity() {
-		// TODO Auto-generated constructor stub
-	}
+    @NotNull
+    @Column(name = "MONTO")
+    private BigDecimal monto;
 
-	@NotNull
-	@NotBlank
-	@Size(min = 1, max = 20)
-	public String getNumeroCuenta() {
-		return numeroCuenta;
-	}
+    @Size(min = 1, max = 100)
+    @Column(name = "REFERENCIA")
+    private String referencia;
 
-	public void setNumeroCuenta(String numeroCuenta) {
-		this.numeroCuenta = numeroCuenta;
-	}
+    public TransaccionCuentaPersonalEntity() {
+        // TODO Auto-generated constructor stub
+    }
 
-	@NotNull
-	public BigDecimal getMonto() {
-		return monto;
-	}
+    public String getNumeroCuenta() {
+        return numeroCuenta;
+    }
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
+    public void setNumeroCuenta(String numeroCuenta) {
+        this.numeroCuenta = numeroCuenta;
+    }
 
-	@Size(min = 1, max = 100)
-	public String getReferencia() {
-		return referencia;
-	}
+    public BigDecimal getMonto() {
+        return monto;
+    }
 
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
 
 }

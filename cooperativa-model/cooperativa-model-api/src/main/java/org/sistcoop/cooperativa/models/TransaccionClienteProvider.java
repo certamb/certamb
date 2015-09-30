@@ -25,4 +25,6 @@ public interface TransaccionClienteProvider extends Provider {
             HistorialBovedaCajaModel historialBovedaCajaModel, BigDecimal monto, String numeroCuentaOrigen,
             String numeroCuentaDestino, String referencia, String observacion);
 
+    TransaccionClienteModel findById(String id);
+
 }

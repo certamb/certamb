@@ -34,22 +34,44 @@ public class BovedaEntity implements Serializable {
 	 */
     private static final long serialVersionUID = 1L;
 
-    private String id;
-    private String moneda;
-    private String denominacion;
-    private boolean estado;
-
-    private String agencia;
-
-    private Set<HistorialBovedaEntity> historiales = new HashSet<HistorialBovedaEntity>();
-    private Set<BovedaCajaEntity> bovedaCajas = new HashSet<BovedaCajaEntity>();
-
-    private Timestamp optlk;
-
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "ID")
+    private String id;
+
+    @NotNull
+    @Size(min = 3, max = 3)
+    @NotBlank
+    @Column(name = "MONEDA")
+    private String moneda;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 60)
+    @Column(name = "DENOMINACION")
+    private String denominacion;
+
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    @Column(name = "ESTADO")
+    private boolean estado;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 200)
+    @Column(name = "AGENCIA")
+    private String agencia;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "boveda")
+    private Set<HistorialBovedaEntity> historiales = new HashSet<HistorialBovedaEntity>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "boveda")
+    private Set<BovedaCajaEntity> bovedaCajas = new HashSet<BovedaCajaEntity>();
+
+    @Version
+    private Timestamp optlk;
+
     public String getId() {
         return id;
     }
@@ -58,10 +80,6 @@ public class BovedaEntity implements Serializable {
         this.id = id;
     }
 
-    @NotNull
-    @Size(min = 3, max = 3)
-    @NotBlank
-    @Column(name = "MONEDA")
     public String getMoneda() {
         return moneda;
     }
@@ -70,10 +88,6 @@ public class BovedaEntity implements Serializable {
         this.moneda = moneda;
     }
 
-    @NotNull
-    @NotBlank
-    @Size(min = 1, max = 200)
-    @Column(name = "AGENCIA")
     public String getAgencia() {
         return agencia;
     }
@@ -82,10 +96,6 @@ public class BovedaEntity implements Serializable {
         this.agencia = agencia;
     }
 
-    @NotNull
-    @NotBlank
-    @Size(min = 1, max = 60)
-    @Column(name = "DENOMINACION")
     public String getDenominacion() {
         return denominacion;
     }
@@ -94,9 +104,6 @@ public class BovedaEntity implements Serializable {
         this.denominacion = denominacion;
     }
 
-    @NotNull
-    @Type(type = "org.hibernate.type.TrueFalseType")
-    @Column(name = "ESTADO")
     public boolean isEstado() {
         return estado;
     }
@@ -105,7 +112,6 @@ public class BovedaEntity implements Serializable {
         this.estado = estado;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "boveda")
     public Set<HistorialBovedaEntity> getHistoriales() {
         return historiales;
     }
@@ -114,7 +120,6 @@ public class BovedaEntity implements Serializable {
         this.historiales = historiales;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "boveda")
     public Set<BovedaCajaEntity> getBovedaCajas() {
         return bovedaCajas;
     }
@@ -123,7 +128,6 @@ public class BovedaEntity implements Serializable {
         this.bovedaCajas = bovedaCajas;
     }
 
-    @Version
     public Timestamp getOptlk() {
         return optlk;
     }

@@ -18,7 +18,9 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "HISTORIAL_BOVEDA")
-@NamedQueries(value = { @NamedQuery(name = "HistorialBovedaEntity.getByIdBovedaEstado", query = "SELECT h FROM HistorialBovedaEntity h WHERE h.boveda.id = :idBoveda AND h.estado = :estado") })
+@NamedQueries(value = {
+        @NamedQuery(name = "HistorialBovedaEntity.findByIdBoveda", query = "SELECT h FROM HistorialBovedaEntity h INNER JOIN h.boveda b WHERE b.id = :idBoveda"),
+        @NamedQuery(name = "HistorialBovedaEntity.findByIdBovedaEstado", query = "SELECT h FROM HistorialBovedaEntity h WHERE h.boveda.id = :idBoveda AND h.estado = :estado") })
 public class HistorialBovedaEntity extends HistorialEntity implements Serializable {
 
     /**
@@ -26,12 +28,14 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
 	 */
     private static final long serialVersionUID = 1L;
 
-    private BovedaEntity boveda;
-    private Set<DetalleHistorialBovedaEntity> detalle = new HashSet<DetalleHistorialBovedaEntity>();
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey, name = "BOVEDA_ID")
+    private BovedaEntity boveda;
+
+    @OneToMany(mappedBy = "historial", fetch = FetchType.LAZY)
+    private Set<DetalleHistorialBovedaEntity> detalle = new HashSet<DetalleHistorialBovedaEntity>();
+
     public BovedaEntity getBoveda() {
         return boveda;
     }
@@ -40,7 +44,6 @@ public class HistorialBovedaEntity extends HistorialEntity implements Serializab
         this.boveda = boveda;
     }
 
-    @OneToMany(mappedBy = "historial", fetch = FetchType.LAZY)
     public Set<DetalleHistorialBovedaEntity> getDetalle() {
         return detalle;
     }

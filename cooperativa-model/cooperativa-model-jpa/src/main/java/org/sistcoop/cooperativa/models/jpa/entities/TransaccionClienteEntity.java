@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -31,155 +33,158 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "TRANSACCION_CLIENTE")
 @Inheritance(strategy = InheritanceType.JOINED)
-@GenericGenerator(
-		name = "SgNumeroOperacionGenerator", 
-		strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", 
-		parameters = { 
-				@Parameter(name = "prefer_sequence_per_entity", value = "false"), 
-				@Parameter(name = "optimizer ", value = "pooled") 
-				}
-		)
+@GenericGenerator(name = "SgNumeroOperacionGenerator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
+        @Parameter(name = "prefer_sequence_per_entity", value = "false"),
+        @Parameter(name = "optimizer ", value = "pooled") })
 public class TransaccionClienteEntity implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Long id;
-	private Long numeroOperacion;
-	private Date fecha;
-	private Date hora;
-	private boolean estado;
-	private String observacion;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "ID")
+    private String id;
 
-	private HistorialBovedaCajaEntity historialBovedaCaja;
-	private Set<DetalleTransaccionClienteEntity> detalle = new HashSet<DetalleTransaccionClienteEntity>();
+    @GeneratedValue(generator = "SgNumeroOperacionGenerator")
+    private Long numeroOperacion;
 
-	private Timestamp optlk;
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
 
-	public TransaccionClienteEntity() {
-		// TODO Auto-generated constructor stub
-	}
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date hora;
 
-	@Id
-	@GeneratedValue(generator = "SgGenericGenerator")
-	public Long getId() {
-		return id;
-	}
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    private boolean estado;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotNull
+    @Size(min = 0, max = 60)
+    @NotBlank
+    private String observacion;
 
-	@GeneratedValue(generator = "SgNumeroOperacionGenerator")
-	public Long getNumeroOperacion() {
-		return numeroOperacion;
-	}
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "HISTORIAL_BOVEDA_CAJA_ID")
+    private HistorialBovedaCajaEntity historialBovedaCaja;
 
-	public void setNumeroOperacion(Long numeroOperacion) {
-		this.numeroOperacion = numeroOperacion;
-	}
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionCliente", orphanRemoval = true, cascade = { CascadeType.REMOVE })
+    private Set<DetalleTransaccionClienteEntity> detalle = new HashSet<DetalleTransaccionClienteEntity>();
 
-	@NotNull
-	@Temporal(TemporalType.DATE)
-	public Date getFecha() {
-		return fecha;
-	}
+    @Version
+    private Timestamp optlk;
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
+    public TransaccionClienteEntity() {
+        // TODO Auto-generated constructor stub
+    }
 
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getHora() {
-		return hora;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setHora(Date hora) {
-		this.hora = hora;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	public boolean isEstado() {
-		return estado;
-	}
+    public Long getNumeroOperacion() {
+        return numeroOperacion;
+    }
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
+    public void setNumeroOperacion(Long numeroOperacion) {
+        this.numeroOperacion = numeroOperacion;
+    }
 
-	@NotNull
-	@Size(min = 0, max = 60)
-	@NotBlank
-	public String getObservacion() {
-		return observacion;
-	}
+    public Date getFecha() {
+        return fecha;
+    }
 
-	public void setObservacion(String observacion) {
-		this.observacion = observacion;
-	}
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey)
-	public HistorialBovedaCajaEntity getHistorialBovedaCaja() {
-		return historialBovedaCaja;
-	}
+    public Date getHora() {
+        return hora;
+    }
 
-	public void setHistorialBovedaCaja(HistorialBovedaCajaEntity historialBovedaCaja) {
-		this.historialBovedaCaja = historialBovedaCaja;
-	}
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionCliente")
-	public Set<DetalleTransaccionClienteEntity> getDetalle() {
-		return detalle;
-	}
+    public boolean isEstado() {
+        return estado;
+    }
 
-	public void setDetalle(Set<DetalleTransaccionClienteEntity> detalle) {
-		this.detalle = detalle;
-	}
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
 
-	@Version
-	public Timestamp getOptlk() {
-		return optlk;
-	}
+    public String getObservacion() {
+        return observacion;
+    }
 
-	public void setOptlk(Timestamp optlk) {
-		this.optlk = optlk;
-	}
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
-		result = prime * result + ((numeroOperacion == null) ? 0 : numeroOperacion.hashCode());
-		return result;
-	}
+    public HistorialBovedaCajaEntity getHistorialBovedaCaja() {
+        return historialBovedaCaja;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof TransaccionClienteEntity))
-			return false;
-		TransaccionClienteEntity other = (TransaccionClienteEntity) obj;
-		if (fecha == null) {
-			if (other.fecha != null)
-				return false;
-		} else if (!fecha.equals(other.fecha))
-			return false;
-		if (numeroOperacion == null) {
-			if (other.numeroOperacion != null)
-				return false;
-		} else if (!numeroOperacion.equals(other.numeroOperacion))
-			return false;
-		return true;
-	}
+    public void setHistorialBovedaCaja(HistorialBovedaCajaEntity historialBovedaCaja) {
+        this.historialBovedaCaja = historialBovedaCaja;
+    }
+
+    public Set<DetalleTransaccionClienteEntity> getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(Set<DetalleTransaccionClienteEntity> detalle) {
+        this.detalle = detalle;
+    }
+
+    public Timestamp getOptlk() {
+        return optlk;
+    }
+
+    public void setOptlk(Timestamp optlk) {
+        this.optlk = optlk;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
+        result = prime * result + ((numeroOperacion == null) ? 0 : numeroOperacion.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof TransaccionClienteEntity))
+            return false;
+        TransaccionClienteEntity other = (TransaccionClienteEntity) obj;
+        if (fecha == null) {
+            if (other.fecha != null)
+                return false;
+        } else if (!fecha.equals(other.fecha))
+            return false;
+        if (numeroOperacion == null) {
+            if (other.numeroOperacion != null)
+                return false;
+        } else if (!numeroOperacion.equals(other.numeroOperacion))
+            return false;
+        return true;
+    }
 
 }

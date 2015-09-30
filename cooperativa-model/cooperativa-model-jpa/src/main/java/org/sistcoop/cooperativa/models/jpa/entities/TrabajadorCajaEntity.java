@@ -17,135 +17,123 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "TRABAJADOR_CAJA")
+@NamedQueries(value = {
+        @NamedQuery(name = "TrabajadorCajaEntity.findByIdCaja", query = "SELECT tc FROM TrabajadorCajaEntity tc INNER JOIN tc.caja c WHERE c.id = :idCaja"),
+        @NamedQuery(name = "TrabajadorCajaEntity.findByIdCajaTipoNumeroDocumento", query = "SELECT tc FROM TrabajadorCajaEntity tc INNER JOIN tc.caja c WHERE c.id = :idCaja AND tc.tipoDocumento = :tipoDocumento AND tc.numeroDocumento = :numeroDocumento") })
 public class TrabajadorCajaEntity implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
-	private String id;
-	private String tipoDocumento;
-	private String numeroDocumento;
-	private CajaEntity caja;
-	private boolean estado;
+    private static final long serialVersionUID = 1L;
 
-	private Timestamp optlk;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "ID")
+    private String id;
 
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(name = "ID")
-	public String getId() {
-		return id;
-	}
+    @NotNull
+    @Size(min = 1, max = 20)
+    @NotBlank
+    @Column(name = "TIPO_DOCUMENTO")
+    private String tipoDocumento;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @NotNull
+    @Size(min = 1, max = 20)
+    @NotBlank
+    @Column(name = "NUMERO_DOCUMENTO")
+    private String numeroDocumento;
 
-	@NotNull
-	@Size(min = 1, max = 20)
-	@NotBlank
-	@Column(name = "TIPO_DOCUMENTO")
-	public String getTipoDocumento() {
-		return tipoDocumento;
-	}
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "CAJA_ID")
+    private CajaEntity caja;
 
-	public void setTipoDocumento(String tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
-	}
+    @Version
+    private Timestamp optlk;
 
-	@NotNull
-	@Size(min = 1, max = 20)
-	@NotBlank
-	@Column(name = "NUMERO_DOCUMENTO")
-	public String getNumeroDocumento() {
-		return numeroDocumento;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setNumeroDocumento(String numeroDocumento) {
-		this.numeroDocumento = numeroDocumento;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	@NotNull
-	@NaturalId
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey)
-	public CajaEntity getCaja() {
-		return caja;
-	}
+    public String getTipoDocumento() {
+        return tipoDocumento;
+    }
 
-	public void setCaja(CajaEntity caja) {
-		this.caja = caja;
-	}
+    public void setTipoDocumento(String tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
 
-	@NotNull
-	@Type(type = "org.hibernate.type.TrueFalseType")
-	@Column(name = "ESTADO")
-	public boolean isEstado() {
-		return estado;
-	}
+    public String getNumeroDocumento() {
+        return numeroDocumento;
+    }
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
+    }
 
-	@Version
-	public Timestamp getOptlk() {
-		return optlk;
-	}
+    public CajaEntity getCaja() {
+        return caja;
+    }
 
-	public void setOptlk(Timestamp optlk) {
-		this.optlk = optlk;
-	}
+    public void setCaja(CajaEntity caja) {
+        this.caja = caja;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((caja == null) ? 0 : caja.hashCode());
-		result = prime * result + (estado ? 1231 : 1237);
-		result = prime * result
-				+ ((numeroDocumento == null) ? 0 : numeroDocumento.hashCode());
-		result = prime * result
-				+ ((tipoDocumento == null) ? 0 : tipoDocumento.hashCode());
-		return result;
-	}
+    public Timestamp getOptlk() {
+        return optlk;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof TrabajadorCajaEntity))
-			return false;
-		TrabajadorCajaEntity other = (TrabajadorCajaEntity) obj;
-		if (caja == null) {
-			if (other.caja != null)
-				return false;
-		} else if (!caja.equals(other.caja))
-			return false;
-		if (estado != other.estado)
-			return false;
-		if (numeroDocumento == null) {
-			if (other.numeroDocumento != null)
-				return false;
-		} else if (!numeroDocumento.equals(other.numeroDocumento))
-			return false;
-		if (tipoDocumento == null) {
-			if (other.tipoDocumento != null)
-				return false;
-		} else if (!tipoDocumento.equals(other.tipoDocumento))
-			return false;
-		return true;
-	}
+    public void setOptlk(Timestamp optlk) {
+        this.optlk = optlk;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((caja == null) ? 0 : caja.hashCode());
+        result = prime * result + ((numeroDocumento == null) ? 0 : numeroDocumento.hashCode());
+        result = prime * result + ((tipoDocumento == null) ? 0 : tipoDocumento.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        TrabajadorCajaEntity other = (TrabajadorCajaEntity) obj;
+        if (caja == null) {
+            if (other.caja != null)
+                return false;
+        } else if (!caja.equals(other.caja))
+            return false;
+        if (numeroDocumento == null) {
+            if (other.numeroDocumento != null)
+                return false;
+        } else if (!numeroDocumento.equals(other.numeroDocumento))
+            return false;
+        if (tipoDocumento == null) {
+            if (other.tipoDocumento != null)
+                return false;
+        } else if (!tipoDocumento.equals(other.tipoDocumento))
+            return false;
+        return true;
+    }
 
 }

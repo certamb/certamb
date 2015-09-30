@@ -1,5 +1,7 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -29,10 +31,16 @@ public interface BovedasResource {
     public Response create(BovedaRepresentation bovedaRepresentation);
 
     @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<BovedaRepresentation> getAll();
+
+    @GET
     @Path("/search")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<BovedaRepresentation> search(@QueryParam("agencia") String agencia,
+            @QueryParam("moneda") String moneda,
             @QueryParam("estado") @DefaultValue(value = "true") boolean estado,
             @QueryParam("filterText") @DefaultValue(value = "") String filterText,
             @QueryParam("page") @DefaultValue(value = "") Integer page,

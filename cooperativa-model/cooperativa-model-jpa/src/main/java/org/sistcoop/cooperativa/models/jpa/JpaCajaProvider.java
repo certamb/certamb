@@ -7,7 +7,6 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,10 +15,11 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
-import org.sistcoop.cooperativa.models.search.filters.CajaFilterProvider;
 
 @Named
 @Stateless
@@ -28,10 +28,7 @@ import org.sistcoop.cooperativa.models.search.filters.CajaFilterProvider;
 public class JpaCajaProvider extends AbstractHibernateStorage implements CajaProvider {
 
     @PersistenceContext
-    protected EntityManager em;
-
-    @Inject
-    private CajaFilterProvider filterProvider;
+    private EntityManager em;
 
     @Override
     public void close() {
@@ -39,25 +36,24 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
     }
 
     @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    @Override
     public CajaModel create(String agencia, String denominacion) {
-        // Solo debe de haber una caja con denominacion por agencia
-        TypedQuery<CajaEntity> query = em.createNamedQuery("CajaEntity.findByAgencia", CajaEntity.class);
-        query.setParameter("agencia", agencia);
-        List<CajaEntity> list = query.getResultList();
-        for (CajaEntity cajaEntity : list) {
-            if (agencia.equals(cajaEntity.getAgencia())) {
-                if (denominacion.equals(cajaEntity.getDenominacion())) {
-                    if (cajaEntity.isEstado()) {
-                        throw new ModelDuplicateException("Caja con denominacion " + denominacion
-                                + " ya existente");
-                    }
-                }
-            }
+        SearchCriteriaModel criteria = new SearchCriteriaModel();
+        criteria.addFilter("agencia", agencia, SearchCriteriaFilterOperator.eq);
+        criteria.addFilter("denominacion", denominacion, SearchCriteriaFilterOperator.eq);
+        criteria.addFilter("estado", true, SearchCriteriaFilterOperator.bool_eq);
+        if (search(criteria).getTotalSize() != 0) {
+            throw new ModelDuplicateException(
+                    "CajaEntity activos (estado = true) agencia y denominacion debe ser unico, se encontro otra entidad con agencia="
+                            + agencia + " y denominacion=" + denominacion);
         }
 
         // Crear caja
         CajaEntity cajaEntity = new CajaEntity();
-
         cajaEntity.setAgencia(agencia);
         cajaEntity.setDenominacion(denominacion);
         cajaEntity.setEstado(true);
@@ -74,29 +70,28 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
 
     @Override
     public boolean remove(CajaModel cajaModel) {
-        CajaEntity cajaEntity = em.find(CajaEntity.class, cajaModel.getId());
-        if (cajaEntity == null)
+        TypedQuery<BovedaCajaEntity> query2 = em.createNamedQuery("BovedaCajaEntity.findByIdCaja",
+                BovedaCajaEntity.class);
+        query2.setParameter("idCaja", cajaModel.getId());
+        query2.setMaxResults(1);
+        if (!query2.getResultList().isEmpty()) {
             return false;
+        }
+
+        CajaEntity cajaEntity = em.find(CajaEntity.class, cajaModel.getId());
         em.remove(cajaEntity);
         return true;
     }
 
     @Override
-    public SearchResultsModel<CajaModel> search() {
+    public List<CajaModel> getAll() {
         TypedQuery<CajaEntity> query = em.createNamedQuery("CajaEntity.findAll", CajaEntity.class);
-
         List<CajaEntity> entities = query.getResultList();
         List<CajaModel> models = new ArrayList<CajaModel>();
         for (CajaEntity cajaEntity : entities) {
-            if (cajaEntity.isEstado()) {
-                models.add(new CajaAdapter(em, cajaEntity));
-            }
+            models.add(new CajaAdapter(em, cajaEntity));
         }
-
-        SearchResultsModel<CajaModel> result = new SearchResultsModel<>();
-        result.setModels(models);
-        result.setTotalSize(models.size());
-        return result;
+        return models;
     }
 
     @Override
@@ -116,7 +111,7 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
     @Override
     public SearchResultsModel<CajaModel> search(SearchCriteriaModel criteria, String filterText) {
         SearchResultsModel<CajaEntity> entityResult = findFullText(criteria, CajaEntity.class, filterText,
-                filterProvider.getDenominacionFilter());
+                "denominacion");
 
         SearchResultsModel<CajaModel> modelResult = new SearchResultsModel<>();
         List<CajaModel> list = new ArrayList<>();
@@ -126,11 +121,6 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
         modelResult.setTotalSize(entityResult.getTotalSize());
         modelResult.setModels(list);
         return modelResult;
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
     }
 
 }

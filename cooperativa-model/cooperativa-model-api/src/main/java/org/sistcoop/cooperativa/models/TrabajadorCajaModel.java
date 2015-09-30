@@ -10,7 +10,4 @@ public interface TrabajadorCajaModel extends Model {
 
     CajaModel getCaja();
 
-    boolean getEstado();
-
-    void desactivar();
 }

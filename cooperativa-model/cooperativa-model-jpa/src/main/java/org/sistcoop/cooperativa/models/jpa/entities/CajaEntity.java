@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,21 +35,38 @@ public class CajaEntity implements Serializable {
 	 */
     private static final long serialVersionUID = 1L;
 
-    private String id;
-    private String denominacion;
-    private boolean estado;
-
-    private String agencia;
-
-    private Set<BovedaCajaEntity> bovedaCajas = new HashSet<BovedaCajaEntity>();
-    private Set<TrabajadorCajaEntity> trabajadorCajas = new HashSet<TrabajadorCajaEntity>();
-
-    private Timestamp optlk;
-
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "ID")
+    private String id;
+
+    @NotNull
+    @Size(min = 1, max = 20)
+    @NotBlank
+    @Column(name = "DENOMINACION")
+    private String denominacion;
+
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    @Column(name = "ESTADO")
+    private boolean estado;
+
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 200)
+    @Column(name = "AGENCIA")
+    private String agencia;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "caja")
+    private Set<BovedaCajaEntity> bovedaCajas = new HashSet<BovedaCajaEntity>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "caja", orphanRemoval = true, cascade = { CascadeType.REMOVE })
+    private Set<TrabajadorCajaEntity> trabajadorCajas = new HashSet<TrabajadorCajaEntity>();
+
+    @Version
+    private Timestamp optlk;
+
     public String getId() {
         return id;
     }
@@ -57,10 +75,6 @@ public class CajaEntity implements Serializable {
         this.id = id;
     }
 
-    @NotNull
-    @Size(min = 1, max = 20)
-    @NotBlank
-    @Column(name = "DENOMINACION")
     public String getDenominacion() {
         return denominacion;
     }
@@ -69,9 +83,6 @@ public class CajaEntity implements Serializable {
         this.denominacion = denominacion;
     }
 
-    @NotNull
-    @Type(type = "org.hibernate.type.TrueFalseType")
-    @Column(name = "ESTADO")
     public boolean isEstado() {
         return estado;
     }
@@ -80,10 +91,6 @@ public class CajaEntity implements Serializable {
         this.estado = estado;
     }
 
-    @NotNull
-    @NotBlank
-    @Size(min = 1, max = 200)
-    @Column(name = "AGENCIA")
     public String getAgencia() {
         return agencia;
     }
@@ -92,7 +99,6 @@ public class CajaEntity implements Serializable {
         this.agencia = agencia;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "caja")
     public Set<BovedaCajaEntity> getBovedaCajas() {
         return bovedaCajas;
     }
@@ -101,7 +107,6 @@ public class CajaEntity implements Serializable {
         this.bovedaCajas = bovedaCajas;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "caja")
     public Set<TrabajadorCajaEntity> getTrabajadorCajas() {
         return trabajadorCajas;
     }
@@ -110,7 +115,6 @@ public class CajaEntity implements Serializable {
         this.trabajadorCajas = trabajadorCajas;
     }
 
-    @Version
     public Timestamp getOptlk() {
         return optlk;
     }

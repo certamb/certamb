@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.models;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.ejb.Local;
 
@@ -18,6 +19,19 @@ public interface TransaccionCajaCajaProvider extends Provider {
 
     boolean remove(TransaccionCajaCajaModel transaccionCajaCajaModel);
 
-    SearchResultsModel<TransaccionCajaCajaModel> search(SearchCriteriaModel criteria);
+    List<TransaccionCajaCajaModel> getAll(HistorialBovedaCajaModel historialBovedaCaja);
+
+    List<TransaccionCajaCajaModel> getAllOrigen(HistorialBovedaCajaModel historialBovedaCaja);
+
+    List<TransaccionCajaCajaModel> getAllDestino(HistorialBovedaCajaModel historialBovedaCaja);
+
+    SearchResultsModel<TransaccionCajaCajaModel> search(HistorialBovedaCajaModel historialBovedaCaja,
+            SearchCriteriaModel criteria);
+
+    SearchResultsModel<TransaccionCajaCajaModel> searchOrigen(HistorialBovedaCajaModel historialBovedaCaja,
+            SearchCriteriaModel criteria);
+
+    SearchResultsModel<TransaccionCajaCajaModel> searchDestino(HistorialBovedaCajaModel historialBovedaCaja,
+            SearchCriteriaModel criteria);
 
 }

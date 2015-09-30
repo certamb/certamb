@@ -9,7 +9,12 @@ import org.sistcoop.cooperativa.provider.Provider;
 @Local
 public interface DetalleTransaccionBovedaCajaProvider extends Provider {
 
-    DetalleTransaccionBovedaCajaModel create(TransaccionBovedaCajaModel transaccionBovedaCajaModel,
+    DetalleTransaccionBovedaCajaModel create(TransaccionBovedaCajaModel transaccionBovedaCaja,
             BigDecimal valor, int cantidad);
+
+    DetalleTransaccionBovedaCajaModel findById(String id);
+
+    DetalleTransaccionBovedaCajaModel findByValor(TransaccionBovedaCajaModel transaccionBovedaCaja,
+            BigDecimal valor);
 
 }

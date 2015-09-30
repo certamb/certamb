@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public interface TransaccionMayorCuantiaModel extends Model {
 
-    Long getId();
+    String getId();
 
     BigDecimal getMontoMaximo();
 

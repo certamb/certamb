@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -9,9 +10,11 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaProvider;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleTransaccionCajaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionCajaCajaEntity;
@@ -24,7 +27,7 @@ public class JpaDetalleTransaccionCajaCajaProvider extends AbstractHibernateStor
         DetalleTransaccionCajaCajaProvider {
 
     @PersistenceContext
-    protected EntityManager em;
+    private EntityManager em;
 
     @Override
     public void close() {
@@ -32,11 +35,21 @@ public class JpaDetalleTransaccionCajaCajaProvider extends AbstractHibernateStor
     }
 
     @Override
-    public DetalleTransaccionCajaCajaModel create(TransaccionCajaCajaModel transaccionCajaCajaModel,
-            BigDecimal valor, int cantidad) {
-        TransaccionCajaCajaEntity transaccionCajaCajaEntity = TransaccionCajaCajaAdapter
-                .toTransaccionCajaCajaEntity(transaccionCajaCajaModel, em);
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
+    @Override
+    public DetalleTransaccionCajaCajaModel create(TransaccionCajaCajaModel transaccionCajaCaja,
+            BigDecimal valor, int cantidad) {
+        if (findByValor(transaccionCajaCaja, valor) != null) {
+            throw new ModelDuplicateException(
+                    "DetalleTransaccionCajaCajaEntity valor debe ser unico, se encontro otra entidad con transaccionCajaCaja="
+                            + transaccionCajaCaja + " y valor=" + valor);
+        }
+
+        TransaccionCajaCajaEntity transaccionCajaCajaEntity = this.em.find(TransaccionCajaCajaEntity.class,
+                transaccionCajaCaja.getId());
         DetalleTransaccionCajaCajaEntity detalleTransaccionCajaCajaEntity = new DetalleTransaccionCajaCajaEntity();
         detalleTransaccionCajaCajaEntity.setTransaccionCajaCaja(transaccionCajaCajaEntity);
         detalleTransaccionCajaCajaEntity.setValor(valor);
@@ -47,7 +60,30 @@ public class JpaDetalleTransaccionCajaCajaProvider extends AbstractHibernateStor
     }
 
     @Override
-    protected EntityManager getEntityManager() {
-        return em;
+    public DetalleTransaccionCajaCajaModel findById(String id) {
+        DetalleTransaccionCajaCajaEntity detalleEntity = this.em.find(DetalleTransaccionCajaCajaEntity.class,
+                id);
+        return detalleEntity != null ? new DetalleTransaccionCajaCajaAdapter(em, detalleEntity) : null;
     }
+
+    @Override
+    public DetalleTransaccionCajaCajaModel findByValor(TransaccionCajaCajaModel transaccionCajaCaja,
+            BigDecimal valor) {
+        TypedQuery<DetalleTransaccionCajaCajaEntity> query = em.createNamedQuery(
+                "DetalleTransaccionCajaCajaEntity.findByIdTransaccionCajaCaja",
+                DetalleTransaccionCajaCajaEntity.class);
+        query.setParameter("idTransaccionCajaCaja", transaccionCajaCaja.getId());
+        query.setParameter("valor", valor);
+        List<DetalleTransaccionCajaCajaEntity> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        } else if (results.size() > 1) {
+            throw new IllegalStateException(
+                    "Mas de un DetalleTransaccionCajaCajaEntity con idTransaccionCajaCaja="
+                            + transaccionCajaCaja.getId() + " y valor=" + valor + ", results=" + results);
+        } else {
+            return new DetalleTransaccionCajaCajaAdapter(em, results.get(0));
+        }
+    }
+
 }

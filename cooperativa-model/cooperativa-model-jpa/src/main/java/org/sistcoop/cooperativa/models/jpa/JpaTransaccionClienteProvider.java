@@ -12,13 +12,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.TransaccionAporteModel;
+import org.sistcoop.cooperativa.models.TransaccionClienteModel;
 import org.sistcoop.cooperativa.models.TransaccionClienteProvider;
 import org.sistcoop.cooperativa.models.TransaccionCompraVentaModel;
 import org.sistcoop.cooperativa.models.TransaccionCuentaPersonalModel;
 import org.sistcoop.cooperativa.models.TransferenciaCuentaPersonalModel;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionAporteEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.TransaccionClienteEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionCompraVentaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionCuentaPersonalEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransferenciaCuentaPersonalEntity;
@@ -31,7 +34,12 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
         TransaccionClienteProvider {
 
     @PersistenceContext
-    protected EntityManager em;
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     @Override
     public void close() {
@@ -39,13 +47,17 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
     }
 
     @Override
-    public TransaccionAporteModel createTransaccionAporte(HistorialBovedaCajaModel historialBovedaCajaModel,
+    public TransaccionAporteModel createTransaccionAporte(HistorialBovedaCajaModel historialBovedaCaja,
             String numeroCuenta, BigDecimal monto, int anio, int mes, String observacion) {
-        HistorialBovedaCajaEntity historialBovedaCajaEntity = HistorialBovedaCajaAdapter
-                .toHistorialBovedaCajaEntity(historialBovedaCajaModel, em);
+        HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class,
+                historialBovedaCaja.getId());
+
+        if (!historialBovedaCajaEntity.isEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
+        }
 
         Calendar calendar = Calendar.getInstance();
-
         TransaccionAporteEntity transaccionAporteEntity = new TransaccionAporteEntity();
         transaccionAporteEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
         transaccionAporteEntity.setAnio(anio);
@@ -63,13 +75,17 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
 
     @Override
     public TransaccionCuentaPersonalModel createTransaccionCuentaPersonal(
-            HistorialBovedaCajaModel historialBovedaCajaModel, String numeroCuenta, BigDecimal monto,
+            HistorialBovedaCajaModel historialBovedaCaja, String numeroCuenta, BigDecimal monto,
             String referencia, String observacion) {
-        HistorialBovedaCajaEntity historialBovedaCajaEntity = HistorialBovedaCajaAdapter
-                .toHistorialBovedaCajaEntity(historialBovedaCajaModel, em);
+        HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class,
+                historialBovedaCaja.getId());
+
+        if (!historialBovedaCajaEntity.isEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
+        }
 
         Calendar calendar = Calendar.getInstance();
-
         TransaccionCuentaPersonalEntity transaccionCuentaPersonalEntity = new TransaccionCuentaPersonalEntity();
         transaccionCuentaPersonalEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
         transaccionCuentaPersonalEntity.setNumeroCuenta(numeroCuenta);
@@ -86,14 +102,18 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
 
     @Override
     public TransaccionCompraVentaModel createTransaccionCompraVenta(
-            HistorialBovedaCajaModel historialBovedaCajaModel, String tipoTransaccion, String cliente,
+            HistorialBovedaCajaModel historialBovedaCaja, String tipoTransaccion, String cliente,
             String monedaEntregada, String monedaRecibida, BigDecimal montoRecibido,
             BigDecimal montoEntregado, BigDecimal tipoCambio, String observacion) {
-        HistorialBovedaCajaEntity historialBovedaCajaEntity = HistorialBovedaCajaAdapter
-                .toHistorialBovedaCajaEntity(historialBovedaCajaModel, em);
+        HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class,
+                historialBovedaCaja.getId());
+
+        if (!historialBovedaCajaEntity.isEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
+        }
 
         Calendar calendar = Calendar.getInstance();
-
         TransaccionCompraVentaEntity transaccionCompraVentaEntity = new TransaccionCompraVentaEntity();
         transaccionCompraVentaEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
         transaccionCompraVentaEntity.setObservacion(observacion);
@@ -115,13 +135,17 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
 
     @Override
     public TransferenciaCuentaPersonalModel createTransferenciaCuentaPersonal(
-            HistorialBovedaCajaModel historialBovedaCajaModel, BigDecimal monto, String numeroCuentaOrigen,
+            HistorialBovedaCajaModel historialBovedaCaja, BigDecimal monto, String numeroCuentaOrigen,
             String numeroCuentaDestino, String referencia, String observacion) {
-        HistorialBovedaCajaEntity historialBovedaCajaEntity = HistorialBovedaCajaAdapter
-                .toHistorialBovedaCajaEntity(historialBovedaCajaModel, em);
+        HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class,
+                historialBovedaCaja.getId());
+
+        if (!historialBovedaCajaEntity.isEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
+        }
 
         Calendar calendar = Calendar.getInstance();
-
         TransferenciaCuentaPersonalEntity transferenciaCuentaPersonalEntity = new TransferenciaCuentaPersonalEntity();
         transferenciaCuentaPersonalEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
         transferenciaCuentaPersonalEntity.setObservacion(observacion);
@@ -139,7 +163,10 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
     }
 
     @Override
-    protected EntityManager getEntityManager() {
-        return em;
+    public TransaccionClienteModel findById(String id) {
+        TransaccionClienteEntity transaccionClienteEntity = this.em.find(TransaccionClienteEntity.class, id);
+        return transaccionClienteEntity != null ? new TransaccionClienteAdapter(em, transaccionClienteEntity)
+                : null;
     }
+
 }

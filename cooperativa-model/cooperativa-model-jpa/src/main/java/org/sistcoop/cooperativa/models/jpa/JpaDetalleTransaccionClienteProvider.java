@@ -27,6 +27,11 @@ public class JpaDetalleTransaccionClienteProvider extends AbstractHibernateStora
     protected EntityManager em;
 
     @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    @Override
     public void close() {
         // TODO Auto-generated method stub
     }
@@ -34,9 +39,8 @@ public class JpaDetalleTransaccionClienteProvider extends AbstractHibernateStora
     @Override
     public DetalleTransaccionClienteModel create(TransaccionClienteModel transaccionClienteModel,
             BigDecimal valor, int cantidad) {
-        TransaccionClienteEntity transaccionClienteEntity = TransaccionClienteAdapter
-                .toTransaccionClienteEntity(transaccionClienteModel, em);
-
+        TransaccionClienteEntity transaccionClienteEntity = this.em.find(TransaccionClienteEntity.class,
+                transaccionClienteModel.getId());
         DetalleTransaccionClienteEntity detalleTransaccionClienteEntity = new DetalleTransaccionClienteEntity();
         detalleTransaccionClienteEntity.setTransaccionCliente(transaccionClienteEntity);
         detalleTransaccionClienteEntity.setValor(valor);
@@ -46,8 +50,4 @@ public class JpaDetalleTransaccionClienteProvider extends AbstractHibernateStora
         return new DetalleTransaccionClienteAdapter(em, detalleTransaccionClienteEntity);
     }
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
 }

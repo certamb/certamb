@@ -14,72 +14,73 @@ import org.hibernate.annotations.Formula;
 @MappedSuperclass
 public abstract class DetalleHistorialEntity {
 
-	protected BigDecimal valor;
-	protected int cantidad;
+    @NotNull
+    @Min(value = 0)
+    @Max(value = 1000)
+    @Digits(integer = 4, fraction = 2)
+    @Column(name = "VALOR")
+    protected BigDecimal valor;
 
-	protected BigDecimal subtotal;
+    @NotNull
+    @Min(value = 0)
+    @Digits(integer = 18, fraction = 2)
+    @Column(name = "CANTIDAD")
+    protected int cantidad;
 
-	@NotNull
-	@Min(value = 0)
-	@Max(value = 1000)
-	@Digits(integer = 4, fraction = 2)
-	@Column(name = "VALOR")
-	public BigDecimal getValor() {
-		return valor;
-	}
+    @Formula("cantidad * valor")
+    @Column(name = "SUBTOTAL")
+    protected BigDecimal subtotal;
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
+    public BigDecimal getValor() {
+        return valor;
+    }
 
-	@NotNull
-	@Min(value = 0)
-	@Digits(integer = 18, fraction = 2)
-	@Column(name = "CANTIDAD")
-	public int getCantidad() {
-		return cantidad;
-	}
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
 
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
-	}
+    public int getCantidad() {
+        return cantidad;
+    }
 
-	@Formula("cantidad * valor ")
-	@Column(name = "SUBTOTAL")
-	public BigDecimal getSubtotal() {
-		return subtotal;
-	}
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
 
-	public void setSubtotal(BigDecimal subtotal) {
-		this.subtotal = subtotal;
-	}
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + cantidad;
-		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
-		return result;
-	}
+    public void setSubtotal(BigDecimal subtotal) {
+        this.subtotal = subtotal;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof DetalleHistorialEntity))
-			return false;
-		DetalleHistorialEntity other = (DetalleHistorialEntity) obj;
-		if (cantidad != other.cantidad)
-			return false;
-		if (valor == null) {
-			if (other.valor != null)
-				return false;
-		} else if (!valor.equals(other.valor))
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + cantidad;
+        result = prime * result + ((valor == null) ? 0 : valor.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof DetalleHistorialEntity))
+            return false;
+        DetalleHistorialEntity other = (DetalleHistorialEntity) obj;
+        if (cantidad != other.cantidad)
+            return false;
+        if (valor == null) {
+            if (other.valor != null)
+                return false;
+        } else if (!valor.equals(other.valor))
+            return false;
+        return true;
+    }
 
 }

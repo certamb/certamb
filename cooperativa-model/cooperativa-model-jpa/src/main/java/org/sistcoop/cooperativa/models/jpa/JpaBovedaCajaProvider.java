@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -20,8 +21,6 @@ import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
-import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
 @Named
 @Stateless
@@ -44,24 +43,16 @@ public class JpaBovedaCajaProvider extends AbstractHibernateStorage implements B
 
     @Override
     public BovedaCajaModel create(BovedaModel bovedaModel, CajaModel cajaModel) {
-        // Solo debe haber una combinacion BovedaCaja
-        TypedQuery<BovedaCajaEntity> query = em.createNamedQuery("BovedaCajaEntity.findByIdBovedaIdCaja",
-                BovedaCajaEntity.class);
-        query.setParameter("idBoveda", bovedaModel.getId());
-        query.setParameter("idCaja", cajaModel.getId());
-        List<BovedaCajaEntity> list = query.getResultList();
-        for (BovedaCajaEntity bovedaCajaEntity : list) {
-            if (bovedaCajaEntity.isEstado()) {
-                throw new ModelDuplicateException("BovedaCaja ya existente");
-            }
+        if (findByBovedaCaja(bovedaModel, cajaModel) != null) {
+            throw new ModelDuplicateException(
+                    "BovedaCajaEntity boveda y caja debe ser unico, se encontro otra entidad con boveda="
+                            + bovedaModel + " y caja=" + cajaModel);
         }
 
         // Crear BovedaCaja
         BovedaCajaEntity bovedaCajaEntity = new BovedaCajaEntity();
-
-        BovedaEntity bovedaEntity = BovedaAdapter.toBovedaEntity(bovedaModel, em);
-        CajaEntity cajaEntity = CajaAdapter.toCajaEntity(cajaModel, em);
-
+        BovedaEntity bovedaEntity = this.em.find(BovedaEntity.class, bovedaModel.getId());
+        CajaEntity cajaEntity = this.em.find(CajaEntity.class, cajaModel.getId());
         bovedaCajaEntity.setBoveda(bovedaEntity);
         bovedaCajaEntity.setCaja(cajaEntity);
         bovedaCajaEntity.setEstado(true);
@@ -77,26 +68,81 @@ public class JpaBovedaCajaProvider extends AbstractHibernateStorage implements B
     }
 
     @Override
+    public BovedaCajaModel findByBovedaCaja(BovedaModel boveda, CajaModel caja) {
+        TypedQuery<BovedaCajaEntity> query = em.createNamedQuery("BovedaCajaEntity.findByIdBovedaIdCaja",
+                BovedaCajaEntity.class);
+        query.setParameter("idBoveda", boveda.getId());
+        query.setParameter("idCaja", caja.getId());
+        List<BovedaCajaEntity> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        } else if (results.size() > 1) {
+            throw new IllegalStateException("Mas de una BovedaCajaEntity con idBoveda=" + boveda.getId()
+                    + " y idCaja=" + caja.getId() + ", results=" + results);
+        } else {
+            return new BovedaCajaAdapter(em, results.get(0));
+        }
+    }
+
+    @Override
     public boolean remove(BovedaCajaModel bovedaCajaModel) {
         BovedaCajaEntity bovedaCajaEntity = em.find(BovedaCajaEntity.class, bovedaCajaModel.getId());
-        if (bovedaCajaEntity == null)
-            return false;
         em.remove(bovedaCajaEntity);
         return true;
     }
 
     @Override
-    public SearchResultsModel<BovedaCajaModel> search(SearchCriteriaModel criteria) {
-        SearchResultsModel<BovedaCajaEntity> entityResult = find(criteria, BovedaCajaEntity.class);
-
-        SearchResultsModel<BovedaCajaModel> modelResult = new SearchResultsModel<>();
-        List<BovedaCajaModel> list = new ArrayList<>();
-        for (BovedaCajaEntity entity : entityResult.getModels()) {
-            list.add(new BovedaCajaAdapter(em, entity));
+    public List<BovedaCajaModel> getAll(BovedaModel boveda) {
+        TypedQuery<BovedaCajaEntity> query = em.createNamedQuery("BovedaCajaEntity.findByIdBoveda",
+                BovedaCajaEntity.class);
+        query.setParameter("idBoveda", boveda.getId());
+        List<BovedaCajaEntity> entities = query.getResultList();
+        List<BovedaCajaModel> result = new ArrayList<BovedaCajaModel>();
+        for (BovedaCajaEntity bovedaCajaEntity : entities) {
+            if (bovedaCajaEntity.isEstado()) {
+                result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
+            }
         }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        return result;
+    }
+
+    @Override
+    public List<BovedaCajaModel> getAll(CajaModel caja) {
+        TypedQuery<BovedaCajaEntity> query = em.createNamedQuery("BovedaCajaEntity.findByIdCaja",
+                BovedaCajaEntity.class);
+        query.setParameter("idCaja", caja.getId());
+        List<BovedaCajaEntity> entities = query.getResultList();
+        List<BovedaCajaModel> result = new ArrayList<BovedaCajaModel>();
+        for (BovedaCajaEntity bovedaCajaEntity : entities) {
+            if (bovedaCajaEntity.isEstado()) {
+                result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<BovedaCajaModel> getAll(BovedaModel boveda, boolean estado) {
+        List<BovedaCajaModel> list = getAll(boveda);
+        for (Iterator<BovedaCajaModel> iterator = list.iterator(); iterator.hasNext();) {
+            BovedaCajaModel bovedaCajaModel = iterator.next();
+            if (bovedaCajaModel.getEstado() != estado) {
+                iterator.remove();
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<BovedaCajaModel> getAll(CajaModel caja, boolean estado) {
+        List<BovedaCajaModel> list = getAll(caja);
+        for (Iterator<BovedaCajaModel> iterator = list.iterator(); iterator.hasNext();) {
+            BovedaCajaModel bovedaCajaModel = iterator.next();
+            if (bovedaCajaModel.getEstado() != estado) {
+                iterator.remove();
+            }
+        }
+        return list;
     }
 
 }

@@ -1,5 +1,7 @@
 package org.sistcoop.cooperativa.models;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
@@ -11,11 +13,11 @@ public interface BovedaProvider extends Provider {
 
     BovedaModel create(String agencia, String moneda, String denominacion);
 
-    BovedaModel findById(String id);
+    BovedaModel findById(String id);  
 
-    boolean remove(BovedaModel bovedaModel);
+    boolean remove(BovedaModel boveda);
 
-    SearchResultsModel<BovedaModel> search();
+    List<BovedaModel> getAll();
 
     SearchResultsModel<BovedaModel> search(SearchCriteriaModel criteria);
 

@@ -18,7 +18,7 @@ public interface BovedaCajaResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public BovedaCajaRepresentation bovedaCaja();
+    public BovedaCajaRepresentation toRepresentation();
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)

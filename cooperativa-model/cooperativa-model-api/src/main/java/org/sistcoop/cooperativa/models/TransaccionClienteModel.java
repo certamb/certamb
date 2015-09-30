@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface TransaccionClienteModel extends Model {
 
-    Long getId();
+    String getId();
 
     Long getNumeroOperacion();
 

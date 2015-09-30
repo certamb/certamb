@@ -15,4 +15,5 @@ public interface EntidadModel extends Model {
     boolean getEstado();
 
     void desactivar();
+
 }

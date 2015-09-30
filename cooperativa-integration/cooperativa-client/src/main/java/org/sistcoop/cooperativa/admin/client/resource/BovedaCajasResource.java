@@ -1,5 +1,7 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,12 +33,12 @@ public interface BovedaCajasResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public SearchResultsRepresentation<BovedaCajaRepresentation> search(@QueryParam("estado") Boolean estado);
+    public List<BovedaCajaRepresentation> getAll();
 
     @GET
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<BovedaCajaRepresentation> search(@QueryParam("boveda") String boveda,
-            @QueryParam("caja") String caja);
+            @QueryParam("caja") String caja, @QueryParam("estado") Boolean estado);
 
 }

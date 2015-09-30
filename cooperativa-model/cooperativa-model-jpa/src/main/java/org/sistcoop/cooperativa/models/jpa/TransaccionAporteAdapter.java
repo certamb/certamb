@@ -16,105 +16,107 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransaccionAporteEntity;
 
 public class TransaccionAporteAdapter implements TransaccionAporteModel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected TransaccionAporteEntity transaccionAporteEntity;
-	protected EntityManager em;
+    private TransaccionAporteEntity transaccionAporteEntity;
+    private EntityManager em;
 
-	public TransaccionAporteAdapter(EntityManager em, TransaccionAporteEntity transaccionAporteEntity) {
-		this.em = em;
-		this.transaccionAporteEntity = transaccionAporteEntity;
-	}
+    public TransaccionAporteAdapter(EntityManager em, TransaccionAporteEntity transaccionAporteEntity) {
+        this.em = em;
+        this.transaccionAporteEntity = transaccionAporteEntity;
+    }
 
-	public TransaccionAporteEntity getTransaccionAporteEntity() {
-		return transaccionAporteEntity;
-	}
+    public TransaccionAporteEntity getTransaccionAporteEntity() {
+        return transaccionAporteEntity;
+    }
 
-	public static TransaccionAporteEntity toTransaccionAporteEntity(TransaccionAporteModel model, EntityManager em) {
-		if (model instanceof TransaccionAporteAdapter) {
-			return ((TransaccionAporteAdapter) model).getTransaccionAporteEntity();
-		}
-		return em.getReference(TransaccionAporteEntity.class, model.getId());
-	}
+    public static TransaccionAporteEntity toTransaccionAporteEntity(TransaccionAporteModel model,
+            EntityManager em) {
+        if (model instanceof TransaccionAporteAdapter) {
+            return ((TransaccionAporteAdapter) model).getTransaccionAporteEntity();
+        }
+        return em.getReference(TransaccionAporteEntity.class, model.getId());
+    }
 
-	@Override
-	public void commit() {
-		em.merge(transaccionAporteEntity);
-	}
+    @Override
+    public void commit() {
+        em.merge(transaccionAporteEntity);
+    }
 
-	@Override
-	public Long getId() {
-		return transaccionAporteEntity.getId();
-	}
+    @Override
+    public String getId() {
+        return transaccionAporteEntity.getId();
+    }
 
-	@Override
-	public Long getNumeroOperacion() {
-		return transaccionAporteEntity.getNumeroOperacion();
-	}
+    @Override
+    public Long getNumeroOperacion() {
+        return transaccionAporteEntity.getNumeroOperacion();
+    }
 
-	@Override
-	public Date getFecha() {
-		return transaccionAporteEntity.getFecha();
-	}
+    @Override
+    public Date getFecha() {
+        return transaccionAporteEntity.getFecha();
+    }
 
-	@Override
-	public Date getHora() {
-		return transaccionAporteEntity.getHora();
-	}
+    @Override
+    public Date getHora() {
+        return transaccionAporteEntity.getHora();
+    }
 
-	@Override
-	public boolean getEstado() {
-		return transaccionAporteEntity.isEstado();
-	}
+    @Override
+    public boolean getEstado() {
+        return transaccionAporteEntity.isEstado();
+    }
 
-	@Override
-	public void desactivar() {
-		transaccionAporteEntity.setEstado(false);
-	}
+    @Override
+    public void desactivar() {
+        transaccionAporteEntity.setEstado(false);
+    }
 
-	@Override
-	public String getObservacion() {
-		return transaccionAporteEntity.getObservacion();
-	}
+    @Override
+    public String getObservacion() {
+        return transaccionAporteEntity.getObservacion();
+    }
 
-	@Override
-	public void setObservacion(String observacion) {
-		transaccionAporteEntity.setObservacion(observacion);
-	}
+    @Override
+    public void setObservacion(String observacion) {
+        transaccionAporteEntity.setObservacion(observacion);
+    }
 
-	@Override
-	public HistorialBovedaCajaModel getHistorialBovedaCaja() {
-		return new HistorialBovedaCajaAdapter(em, transaccionAporteEntity.getHistorialBovedaCaja());
-	}
+    @Override
+    public HistorialBovedaCajaModel getHistorialBovedaCaja() {
+        return new HistorialBovedaCajaAdapter(em, transaccionAporteEntity.getHistorialBovedaCaja());
+    }
 
-	@Override
-	public List<DetalleTransaccionClienteModel> getDetalle() {
-		Set<DetalleTransaccionClienteEntity> detalleTransaccionClienteEntities = transaccionAporteEntity.getDetalle();
-		List<DetalleTransaccionClienteModel> result = new ArrayList<DetalleTransaccionClienteModel>();
-		for (DetalleTransaccionClienteEntity detalleTransaccionClienteEntity : detalleTransaccionClienteEntities) {
-			result.add(new DetalleTransaccionClienteAdapter(em, detalleTransaccionClienteEntity));
-		}
-		return result;
-	}
+    @Override
+    public List<DetalleTransaccionClienteModel> getDetalle() {
+        Set<DetalleTransaccionClienteEntity> detalleTransaccionClienteEntities = transaccionAporteEntity
+                .getDetalle();
+        List<DetalleTransaccionClienteModel> result = new ArrayList<DetalleTransaccionClienteModel>();
+        for (DetalleTransaccionClienteEntity detalleTransaccionClienteEntity : detalleTransaccionClienteEntities) {
+            result.add(new DetalleTransaccionClienteAdapter(em, detalleTransaccionClienteEntity));
+        }
+        return result;
+    }
 
-	@Override
-	public String getNumeroCuenta() {
-		return transaccionAporteEntity.getNumeroCuenta();
-	}
+    @Override
+    public String getNumeroCuenta() {
+        return transaccionAporteEntity.getNumeroCuenta();
+    }
 
-	@Override
-	public int getAnio() {
-		return transaccionAporteEntity.getAnio();
-	}
+    @Override
+    public int getAnio() {
+        return transaccionAporteEntity.getAnio();
+    }
 
-	@Override
-	public int getMes() {
-		return transaccionAporteEntity.getMes();
-	}
+    @Override
+    public int getMes() {
+        return transaccionAporteEntity.getMes();
+    }
 
-	@Override
-	public BigDecimal getMonto() {
-		return transaccionAporteEntity.getMonto();
-	}
+    @Override
+    public BigDecimal getMonto() {
+        return transaccionAporteEntity.getMonto();
+    }
 
 }

@@ -18,7 +18,7 @@ public interface CajaResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public CajaRepresentation caja();
+	public CajaRepresentation toRepresentation();
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

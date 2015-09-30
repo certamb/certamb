@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -16,59 +17,66 @@ import org.hibernate.validator.constraints.NotBlank;
 @PrimaryKeyJoinColumn
 public class TransferenciaCuentaPersonalEntity extends TransaccionClienteEntity {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String numeroCuentaOrigen;
-	private String numeroCuentaDestino;
-	private BigDecimal monto;
-	private String referencia;
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 20)
+    @Column(name = "NUMERO_CUENTA_ORIGEN")
+    private String numeroCuentaOrigen;
 
-	public TransferenciaCuentaPersonalEntity() {
-		// TODO Auto-generated constructor stub
-	}
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 20)
+    @Column(name = "NUMERO_CUENTA_DESTINO")
+    private String numeroCuentaDestino;
 
-	@NotNull
-	@NotBlank
-	@Size(min = 1, max = 20)
-	public String getNumeroCuentaOrigen() {
-		return numeroCuentaOrigen;
-	}
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "MONTO")
+    private BigDecimal monto;
 
-	public void setNumeroCuentaOrigen(String numeroCuentaOrigen) {
-		this.numeroCuentaOrigen = numeroCuentaOrigen;
-	}
+    @Size(min = 1, max = 100)
+    @Column(name = "REFERENCIA")
+    private String referencia;
 
-	@NotNull
-	@NotBlank
-	@Size(min = 1, max = 20)
-	public String getNumeroCuentaDestino() {
-		return numeroCuentaDestino;
-	}
+    public TransferenciaCuentaPersonalEntity() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setNumeroCuentaDestino(String numeroCuentaDestino) {
-		this.numeroCuentaDestino = numeroCuentaDestino;
-	}
+    public String getNumeroCuentaOrigen() {
+        return numeroCuentaOrigen;
+    }
 
-	@NotNull
-	@Min(value = 0)
-	public BigDecimal getMonto() {
-		return monto;
-	}
+    public void setNumeroCuentaOrigen(String numeroCuentaOrigen) {
+        this.numeroCuentaOrigen = numeroCuentaOrigen;
+    }
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
+    public String getNumeroCuentaDestino() {
+        return numeroCuentaDestino;
+    }
 
-	@Size(min = 1, max = 100)
-	public String getReferencia() {
-		return referencia;
-	}
+    public void setNumeroCuentaDestino(String numeroCuentaDestino) {
+        this.numeroCuentaDestino = numeroCuentaDestino;
+    }
 
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
 
 }

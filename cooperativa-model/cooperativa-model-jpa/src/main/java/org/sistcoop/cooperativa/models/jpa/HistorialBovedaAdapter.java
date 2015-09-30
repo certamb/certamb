@@ -17,8 +17,8 @@ public class HistorialBovedaAdapter implements HistorialBovedaModel {
 
     private static final long serialVersionUID = 1L;
 
-    protected HistorialBovedaEntity historialBovedaEntity;
-    protected EntityManager em;
+    private HistorialBovedaEntity historialBovedaEntity;
+    private EntityManager em;
 
     public HistorialBovedaAdapter(EntityManager em, HistorialBovedaEntity historialBovedaEntity) {
         this.em = em;
@@ -138,7 +138,7 @@ public class HistorialBovedaAdapter implements HistorialBovedaModel {
         if (obj == null)
             return false;
         if (!(obj instanceof HistorialBovedaModel))
-            return false;      
+            return false;
         HistorialBovedaModel other = (HistorialBovedaModel) obj;
         if (getBoveda() == null) {
             if (other.getBoveda() != null)

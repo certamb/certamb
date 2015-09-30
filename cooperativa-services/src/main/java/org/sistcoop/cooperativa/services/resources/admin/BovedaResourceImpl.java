@@ -52,7 +52,7 @@ public class BovedaResourceImpl implements BovedaResource {
     }
 
     @Override
-    public BovedaRepresentation boveda() {
+    public BovedaRepresentation toRepresentation() {
         BovedaRepresentation rep = ModelToRepresentation.toRepresentation(getBovedaModel());
         if (rep != null) {
             return rep;

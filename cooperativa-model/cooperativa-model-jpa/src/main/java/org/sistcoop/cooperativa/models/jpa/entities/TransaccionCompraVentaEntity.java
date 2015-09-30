@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -16,92 +17,105 @@ import org.hibernate.validator.constraints.NotBlank;
 @PrimaryKeyJoinColumn
 public class TransaccionCompraVentaEntity extends TransaccionClienteEntity {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String monedaRecibida;
-	private String monedaEntregada;
-	private BigDecimal montoRecibido;
-	private BigDecimal montoEntregado;
-	private BigDecimal tipoCambio;
-	private String cliente;
-	private String tipoTransaccion;
+    @NotNull
+    @NotBlank
+    @Size(min = 3, max = 3)
+    @Column(name = "MONEDA_RECIBIDA")
+    private String monedaRecibida;
 
-	public TransaccionCompraVentaEntity() {
-		// TODO Auto-generated constructor stub
-	}
+    @NotNull
+    @NotBlank
+    @Size(min = 3, max = 3)
+    @Column(name = "MONEDA_ENTREGADA")
+    private String monedaEntregada;
 
-	@NotNull
-	@NotBlank
-	@Size(min = 3, max = 3)
-	public String getMonedaRecibida() {
-		return monedaRecibida;
-	}
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "MONTO_RECIBIDO")
+    private BigDecimal montoRecibido;
 
-	public void setMonedaRecibida(String monedaRecibida) {
-		this.monedaRecibida = monedaRecibida;
-	}
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "MONTO_ENTREGADO")
+    private BigDecimal montoEntregado;
 
-	@NotNull
-	@NotBlank
-	@Size(min = 3, max = 3)
-	public String getMonedaEntregada() {
-		return monedaEntregada;
-	}
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "TIPO_CAMBIO")
+    private BigDecimal tipoCambio;
 
-	public void setMonedaEntregada(String monedaEntregada) {
-		this.monedaEntregada = monedaEntregada;
-	}
+    @Size(min = 1)
+    @Column(name = "CLIENTE")
+    private String cliente;
 
-	@NotNull
-	@Min(value = 0)
-	public BigDecimal getMontoRecibido() {
-		return montoRecibido;
-	}
+    @NotNull
+    @NotBlank
+    @Column(name = "TIPO_TRANSACCION")
+    private String tipoTransaccion;
 
-	public void setMontoRecibido(BigDecimal montoRecibido) {
-		this.montoRecibido = montoRecibido;
-	}
+    public TransaccionCompraVentaEntity() {
+        // TODO Auto-generated constructor stub
+    }
 
-	@NotNull
-	@Min(value = 0)
-	public BigDecimal getMontoEntregado() {
-		return montoEntregado;
-	}
+    public String getMonedaRecibida() {
+        return monedaRecibida;
+    }
 
-	public void setMontoEntregado(BigDecimal montoEntregado) {
-		this.montoEntregado = montoEntregado;
-	}
+    public void setMonedaRecibida(String monedaRecibida) {
+        this.monedaRecibida = monedaRecibida;
+    }
 
-	@NotNull
-	@Min(value = 0)
-	public BigDecimal getTipoCambio() {
-		return tipoCambio;
-	}
+    public String getMonedaEntregada() {
+        return monedaEntregada;
+    }
 
-	public void setTipoCambio(BigDecimal tipoCambio) {
-		this.tipoCambio = tipoCambio;
-	}
+    public void setMonedaEntregada(String monedaEntregada) {
+        this.monedaEntregada = monedaEntregada;
+    }
 
-	@Size(min = 1)
-	public String getCliente() {
-		return cliente;
-	}
+    public BigDecimal getMontoRecibido() {
+        return montoRecibido;
+    }
 
-	public void setCliente(String cliente) {
-		this.cliente = cliente;
-	}
+    public void setMontoRecibido(BigDecimal montoRecibido) {
+        this.montoRecibido = montoRecibido;
+    }
 
-	@NotNull
-	@NotBlank
-	public String getTipoTransaccion() {
-		return tipoTransaccion;
-	}
+    public BigDecimal getMontoEntregado() {
+        return montoEntregado;
+    }
 
-	public void setTipoTransaccion(String tipoTransaccion) {
-		this.tipoTransaccion = tipoTransaccion;
-	}
+    public void setMontoEntregado(BigDecimal montoEntregado) {
+        this.montoEntregado = montoEntregado;
+    }
+
+    public BigDecimal getTipoCambio() {
+        return tipoCambio;
+    }
+
+    public void setTipoCambio(BigDecimal tipoCambio) {
+        this.tipoCambio = tipoCambio;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getTipoTransaccion() {
+        return tipoTransaccion;
+    }
+
+    public void setTipoTransaccion(String tipoTransaccion) {
+        this.tipoTransaccion = tipoTransaccion;
+    }
 
 }

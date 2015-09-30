@@ -1,5 +1,7 @@
 package org.sistcoop.cooperativa.models;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
@@ -12,7 +14,12 @@ public interface HistorialBovedaCajaProvider extends Provider {
     HistorialBovedaCajaModel create(BovedaCajaModel bovedaCajaModel);
 
     HistorialBovedaCajaModel findById(String id);
+    
+    HistorialBovedaCajaModel findByHistorialActivo(BovedaCajaModel bovedaCaja);
 
-    SearchResultsModel<HistorialBovedaCajaModel> search(SearchCriteriaModel criteria);
+    List<HistorialBovedaCajaModel> getAll(BovedaCajaModel bovedaCaja);
+
+    SearchResultsModel<HistorialBovedaCajaModel> search(BovedaCajaModel bovedaCaja,
+            SearchCriteriaModel criteria);
 
 }

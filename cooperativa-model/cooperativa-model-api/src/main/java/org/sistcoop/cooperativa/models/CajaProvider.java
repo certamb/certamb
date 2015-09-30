@@ -1,5 +1,7 @@
 package org.sistcoop.cooperativa.models;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
@@ -13,9 +15,9 @@ public interface CajaProvider extends Provider {
 
     CajaModel findById(String id);
 
-    boolean remove(CajaModel cajaModel);
+    boolean remove(CajaModel caja);
 
-    SearchResultsModel<CajaModel> search();
+    List<CajaModel> getAll();
 
     SearchResultsModel<CajaModel> search(SearchCriteriaModel criteria);
 

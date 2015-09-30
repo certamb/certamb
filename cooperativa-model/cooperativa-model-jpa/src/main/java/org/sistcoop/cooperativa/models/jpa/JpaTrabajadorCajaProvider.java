@@ -15,10 +15,9 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
+import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TrabajadorCajaEntity;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
-import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
 @Named
 @Stateless
@@ -27,7 +26,7 @@ import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 public class JpaTrabajadorCajaProvider extends AbstractHibernateStorage implements TrabajadorCajaProvider {
 
     @PersistenceContext
-    protected EntityManager em;
+    private EntityManager em;
 
     @Override
     public void close() {
@@ -35,9 +34,23 @@ public class JpaTrabajadorCajaProvider extends AbstractHibernateStorage implemen
     }
 
     @Override
-    public TrabajadorCajaModel create(CajaModel cajaModel, String tipoDocumento, String numeroDocumento) {
-        CajaEntity cajaEntity = CajaAdapter.toCajaEntity(cajaModel, em);
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
+    @Override
+    public TrabajadorCajaModel create(CajaModel caja, String tipoDocumento, String numeroDocumento) {
+        if (findByTipoNumeroDocumento(caja, tipoDocumento, numeroDocumento) != null) {
+            throw new ModelDuplicateException(
+                    "TrabajadorCajaEntity caja, tipoDocumento y numeroDocumento debe ser unico, se encontro otra entidad con caja="
+                            + caja
+                            + ", tipoDocumento="
+                            + tipoDocumento
+                            + " y numeroDocumento="
+                            + numeroDocumento);
+        }
+
+        CajaEntity cajaEntity = this.em.find(CajaEntity.class, caja.getId());
         TrabajadorCajaEntity trabajadorCajaEntity = new TrabajadorCajaEntity();
         trabajadorCajaEntity.setCaja(cajaEntity);
         trabajadorCajaEntity.setTipoDocumento(tipoDocumento);
@@ -54,45 +67,44 @@ public class JpaTrabajadorCajaProvider extends AbstractHibernateStorage implemen
     }
 
     @Override
-    public TrabajadorCajaModel findByTipoNumeroDocumento(String tipoDocumento, String numeroDocumento) {
-
-        TypedQuery<TrabajadorCajaEntity> query = em.createNamedQuery("Trabajador.getByTipoNumeroDocumento",
-                TrabajadorCajaEntity.class);
+    public TrabajadorCajaModel findByTipoNumeroDocumento(CajaModel caja, String tipoDocumento,
+            String numeroDocumento) {
+        TypedQuery<TrabajadorCajaEntity> query = em.createNamedQuery(
+                "TrabajadorCajaEntity.findByIdCajaTipoNumeroDocumento", TrabajadorCajaEntity.class);
+        query.setParameter("idCaja", caja.getId());
         query.setParameter("tipoDocumento", tipoDocumento);
         query.setParameter("numeroDocumento", numeroDocumento);
         List<TrabajadorCajaEntity> results = query.getResultList();
-        if (results.size() == 0)
+        if (results.isEmpty()) {
             return null;
-        return new TrabajadorCajaAdapter(em, results.get(0));
+        } else if (results.size() > 1) {
+            throw new IllegalStateException("Mas de un TrabajadorCajaEntity con idCaja=" + caja.getId()
+                    + ", tipoDocumento=" + tipoDocumento + " y numeroDocumento=" + numeroDocumento
+                    + ", results=" + results);
+        } else {
+            return new TrabajadorCajaAdapter(em, results.get(0));
+        }
     }
 
     @Override
     public boolean remove(TrabajadorCajaModel trabajadorCajaModel) {
         TrabajadorCajaEntity trabajadorCajaEntity = em.find(TrabajadorCajaEntity.class,
                 trabajadorCajaModel.getId());
-        if (trabajadorCajaEntity == null)
-            return false;
         em.remove(trabajadorCajaEntity);
         return true;
     }
 
     @Override
-    public SearchResultsModel<TrabajadorCajaModel> search(SearchCriteriaModel criteria) {
-        SearchResultsModel<TrabajadorCajaEntity> entityResult = find(criteria, TrabajadorCajaEntity.class);
-
-        SearchResultsModel<TrabajadorCajaModel> modelResult = new SearchResultsModel<>();
-        List<TrabajadorCajaModel> list = new ArrayList<>();
-        for (TrabajadorCajaEntity entity : entityResult.getModels()) {
-            list.add(new TrabajadorCajaAdapter(em, entity));
+    public List<TrabajadorCajaModel> getAll(CajaModel caja) {
+        TypedQuery<TrabajadorCajaEntity> query = em.createNamedQuery("TrabajadorCajaEntity.findByIdCaja",
+                TrabajadorCajaEntity.class);
+        query.setParameter("idCaja", caja.getId());
+        List<TrabajadorCajaEntity> list = query.getResultList();
+        List<TrabajadorCajaModel> result = new ArrayList<>();
+        for (TrabajadorCajaEntity trabajadorCajaEntity : list) {
+            result.add(new TrabajadorCajaAdapter(em, trabajadorCajaEntity));
         }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
+        return result;
     }
 
 }

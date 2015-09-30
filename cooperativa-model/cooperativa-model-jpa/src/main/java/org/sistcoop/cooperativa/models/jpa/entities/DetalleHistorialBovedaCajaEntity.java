@@ -16,87 +16,89 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "DETALLE_HISTORIAL_BOVEDACAJA")
+@NamedQueries(value = { @NamedQuery(name = "DetalleHistorialBovedaCajaEntity.findByIdHistorialBovedaCajaValor", query = "SELECT d FROM DetalleHistorialBovedaCajaEntity d INNER JOIN d.historial h WHERE h.id = :idHistorialBovedaCaja AND d.valor = :valor") })
 public class DetalleHistorialBovedaCajaEntity extends DetalleHistorialEntity implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String id;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "ID")
+    private String id;
 
-	private HistorialBovedaCajaEntity historial;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "HISTORIAL_BOVEDA_CAJA_ID")
+    private HistorialBovedaCajaEntity historial;
 
-	private Timestamp optlk;
+    @Version
+    private Timestamp optlk;
 
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(name = "ID")
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(foreignKey = @ForeignKey)
-	public HistorialBovedaCajaEntity getHistorial() {
-		return historial;
-	}
+    public HistorialBovedaCajaEntity getHistorial() {
+        return historial;
+    }
 
-	public void setHistorial(HistorialBovedaCajaEntity historial) {
-		this.historial = historial;
-	}
+    public void setHistorial(HistorialBovedaCajaEntity historial) {
+        this.historial = historial;
+    }
 
-	@Version
-	public Timestamp getOptlk() {
-		return optlk;
-	}
+    public Timestamp getOptlk() {
+        return optlk;
+    }
 
-	public void setOptlk(Timestamp optlk) {
-		this.optlk = optlk;
-	}
+    public void setOptlk(Timestamp optlk) {
+        this.optlk = optlk;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result
-				+ ((historial == null) ? 0 : historial.hashCode());
-		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
-		result = prime * result + cantidad;
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((historial == null) ? 0 : historial.hashCode());
+        result = prime * result + ((valor == null) ? 0 : valor.hashCode());
+        result = prime * result + cantidad;
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (!(obj instanceof DetalleHistorialBovedaCajaEntity))
-			return false;
-		DetalleHistorialBovedaCajaEntity other = (DetalleHistorialBovedaCajaEntity) obj;
-		if (getHistorial() == null) {
-			if (other.getHistorial() != null)
-				return false;
-		} else if (!getHistorial().equals(other.getHistorial()))
-			return false;
-		if (getValor() == null) {
-			if (other.getValor() != null)
-				return false;
-		} else if (!getValor().equals(other.getValor()))
-			return false;
-		if (getValor() != other.getValor())
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (!(obj instanceof DetalleHistorialBovedaCajaEntity))
+            return false;
+        DetalleHistorialBovedaCajaEntity other = (DetalleHistorialBovedaCajaEntity) obj;
+        if (getHistorial() == null) {
+            if (other.getHistorial() != null)
+                return false;
+        } else if (!getHistorial().equals(other.getHistorial()))
+            return false;
+        if (getValor() == null) {
+            if (other.getValor() != null)
+                return false;
+        } else if (!getValor().equals(other.getValor()))
+            return false;
+        if (getValor() != other.getValor())
+            return false;
+        return true;
+    }
 
 }

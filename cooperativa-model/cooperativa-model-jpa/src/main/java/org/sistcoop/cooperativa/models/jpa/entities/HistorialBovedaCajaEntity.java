@@ -23,7 +23,9 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "HISTORIAL_BOVEDA_CAJA")
-@NamedQueries(value = { @NamedQuery(name = "HistorialBovedaCajaEntity.getByIdBovedaCajaEstado", query = "SELECT h FROM HistorialBovedaCajaEntity h WHERE h.bovedaCaja.id = :idBovedaCaja AND h.estado = :estado") })
+@NamedQueries(value = {
+        @NamedQuery(name = "HistorialBovedaCajaEntity.findByIdBovedaCaja", query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja bc WHERE bc.id = :idBovedaCaja"),
+        @NamedQuery(name = "HistorialBovedaCajaEntity.findByIdBovedaCajaEstado", query = "SELECT h FROM HistorialBovedaCajaEntity h INNER JOIN h.bovedaCaja bc WHERE bc.id = :idBovedaCaja AND h.estado = :estado") })
 public class HistorialBovedaCajaEntity extends HistorialEntity implements Serializable {
 
     /**
@@ -31,13 +33,21 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
 	 */
     private static final long serialVersionUID = 1L;
 
-    private BovedaCajaEntity bovedaCaja;
-    private BigDecimal saldo;
-    private Set<DetalleHistorialBovedaCajaEntity> detalle = new HashSet<DetalleHistorialBovedaCajaEntity>();
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey, name = "BOVEDA_CAJA_ID")
+    private BovedaCajaEntity bovedaCaja;
+
+    @NotNull
+    @Min(value = 0)
+    @DecimalMin(value = "0")
+    @Digits(integer = 18, fraction = 2)
+    @Column(name = "SALDO")
+    private BigDecimal saldo;
+
+    @OneToMany(mappedBy = "historial", fetch = FetchType.LAZY)
+    private Set<DetalleHistorialBovedaCajaEntity> detalle = new HashSet<DetalleHistorialBovedaCajaEntity>();
+
     public BovedaCajaEntity getBovedaCaja() {
         return bovedaCaja;
     }
@@ -46,11 +56,6 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
         this.bovedaCaja = bovedaCaja;
     }
 
-    @NotNull
-    @Min(value = 0)
-    @DecimalMin(value = "0")
-    @Digits(integer = 18, fraction = 2)
-    @Column(name = "SALDO")
     public BigDecimal getSaldo() {
         return saldo;
     }
@@ -59,7 +64,6 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
         this.saldo = saldo;
     }
 
-    @OneToMany(mappedBy = "historial", fetch = FetchType.LAZY)
     public Set<DetalleHistorialBovedaCajaEntity> getDetalle() {
         return detalle;
     }
