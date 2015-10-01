@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -14,19 +15,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.EntidadModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.ModelReadOnlyException;
-import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
-import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.TransaccionEntidadBovedaModel;
 import org.sistcoop.cooperativa.models.TransaccionEntidadBovedaProvider;
-import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionEntidadBoveda;
+import org.sistcoop.cooperativa.models.enums.TipoTransaccionEntidadBoveda;
 import org.sistcoop.cooperativa.models.jpa.entities.EntidadEntity;
-import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
-import org.sistcoop.cooperativa.models.jpa.entities.TransaccionEntidadBovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionEntidadBovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinModel;
 import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinType;
@@ -56,7 +52,7 @@ public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorag
 
     @Override
     public TransaccionEntidadBovedaModel create(EntidadModel entidad, HistorialBovedaModel historialBoveda,
-            OrigenTransaccionEntidadBoveda origen, String observacion) {
+            OrigenTransaccionEntidadBoveda origen, TipoTransaccionEntidadBoveda tipo, String observacion) {
         EntidadEntity entidadEntity = this.em.find(EntidadEntity.class, entidad.getId());
         HistorialBovedaEntity historialBovedaEntity = this.em.find(HistorialBovedaEntity.class,
                 historialBoveda.getId());
@@ -69,14 +65,16 @@ public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorag
             throw new ModelReadOnlyException("EntidadEntity (estado = false) no se puede asociar entidades");
         }
 
-        Calendar calendar = Calendar.getInstance();
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
         TransaccionEntidadBovedaEntity transaccionEntidadBovedaEntity = new TransaccionEntidadBovedaEntity();
         transaccionEntidadBovedaEntity.setEntidad(entidadEntity);
         transaccionEntidadBovedaEntity.setHistorialBoveda(historialBovedaEntity);
-        transaccionEntidadBovedaEntity.setFecha(calendar.getTime());
-        transaccionEntidadBovedaEntity.setHora(calendar.getTime());
+        transaccionEntidadBovedaEntity.setFecha(currentDate);
+        transaccionEntidadBovedaEntity.setHora(currentTime);
         transaccionEntidadBovedaEntity.setObservacion(observacion);
         transaccionEntidadBovedaEntity.setOrigen(origen);
+        transaccionEntidadBovedaEntity.setTipo(tipo);
         transaccionEntidadBovedaEntity.setEstado(true);
 
         em.persist(transaccionEntidadBovedaEntity);
@@ -104,22 +102,21 @@ public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorag
         TypedQuery<TransaccionEntidadBovedaEntity> query = em.createNamedQuery(
                 "TransaccionEntidadBovedaEntity.findByIdEntidad", TransaccionEntidadBovedaEntity.class);
         query.setParameter("idEntidad", entidad.getId());
-        List<TransaccionEntidadBovedaEntity> list = query.getResultList();
-
-        List<TransaccionBovedaCajaModel> result = new ArrayList<>();
-        list.forEach(entity->result.add(new TransaccionBovedaCajaAdapter(em, entity)););
+        List<TransaccionEntidadBovedaEntity> entities = query.getResultList();
+        List<TransaccionEntidadBovedaModel> result = new ArrayList<>();
+        entities.forEach(entity -> result.add(new TransaccionEntidadBovedaAdapter(em, entity)));
         return result;
     }
 
     @Override
     public List<TransaccionEntidadBovedaModel> getAll(HistorialBovedaModel historialBoveda) {
         TypedQuery<TransaccionEntidadBovedaEntity> query = em.createNamedQuery(
-                "TransaccionEntidadBovedaEntity.findByIdHistorialBoveda", TransaccionEntidadBovedaEntity.class);
+                "TransaccionEntidadBovedaEntity.findByIdHistorialBoveda",
+                TransaccionEntidadBovedaEntity.class);
         query.setParameter("idHistorialBoveda", historialBoveda.getId());
-        List<TransaccionEntidadBovedaEntity> list = query.getResultList();
-
-        List<TransaccionBovedaCajaModel> result = new ArrayList<>();
-        list.forEach(entity->result.add(new TransaccionBovedaCajaAdapter(em, entity)););
+        List<TransaccionEntidadBovedaEntity> entities = query.getResultList();
+        List<TransaccionEntidadBovedaModel> result = new ArrayList<>();
+        entities.forEach(entity -> result.add(new TransaccionEntidadBovedaAdapter(em, entity)));
         return result;
     }
 
@@ -127,14 +124,18 @@ public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorag
     public SearchResultsModel<TransaccionEntidadBovedaModel> search(EntidadModel entidad,
             SearchCriteriaModel criteria) {
         SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("transaccionEntidadBoveda");
-        criteriaJoin.addJoin("transaccionEntidadBoveda.entidad", "entidad", SearchCriteriaJoinType.INNER_JOIN);
+        criteriaJoin
+                .addJoin("transaccionEntidadBoveda.entidad", "entidad", SearchCriteriaJoinType.INNER_JOIN);
         criteriaJoin.addCondition("entidad.id", entidad.getId(), SearchCriteriaFilterOperator.eq);
-        
-        SearchResultsModel<TransaccionEntidadBovedaEntity> entityResult = find(criteriaJoin, criteria, TransaccionEntidadBovedaEntity.class);
 
-        SearchResultsModel<TransaccionEntidadBovedaModel> searchResult = new SearchResultsModel<>();             
-        entityResult.getModels().forEach(entity -> searchResult.getModels().add(new TransaccionEntidadBovedaAdapter(em, entity)));                     
-        searchResult.setTotalSize(entityResult.getTotalSize());       
+        SearchResultsModel<TransaccionEntidadBovedaEntity> entityResult = find(criteriaJoin, criteria,
+                TransaccionEntidadBovedaEntity.class);
+        List<TransaccionEntidadBovedaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<TransaccionEntidadBovedaModel> searchResult = new SearchResultsModel<>();
+        List<TransaccionEntidadBovedaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new TransaccionEntidadBovedaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
         return searchResult;
     }
 
@@ -142,15 +143,20 @@ public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorag
     public SearchResultsModel<TransaccionEntidadBovedaModel> search(HistorialBovedaModel historialBoveda,
             SearchCriteriaModel criteria) {
         SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("transaccionEntidadBoveda");
-        criteriaJoin.addJoin("transaccionEntidadBoveda.historialBoveda", "historialBoveda", SearchCriteriaJoinType.INNER_JOIN);
-        criteriaJoin.addCondition("historialBoveda.id", historialBoveda.getId(), SearchCriteriaFilterOperator.eq);
-        
-        SearchResultsModel<TransaccionEntidadBovedaEntity> entityResult = find(criteriaJoin, criteria, TransaccionEntidadBovedaEntity.class);
+        criteriaJoin.addJoin("transaccionEntidadBoveda.historialBoveda", "historialBoveda",
+                SearchCriteriaJoinType.INNER_JOIN);
+        criteriaJoin.addCondition("historialBoveda.id", historialBoveda.getId(),
+                SearchCriteriaFilterOperator.eq);
 
-        SearchResultsModel<TransaccionEntidadBovedaModel> searchResult = new SearchResultsModel<>();             
-        entityResult.getModels().forEach(entity -> searchResult.getModels().add(new TransaccionEntidadBovedaAdapter(em, entity)));                     
-        searchResult.setTotalSize(entityResult.getTotalSize());       
+        SearchResultsModel<TransaccionEntidadBovedaEntity> entityResult = find(criteriaJoin, criteria,
+                TransaccionEntidadBovedaEntity.class);
+        List<TransaccionEntidadBovedaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<TransaccionEntidadBovedaModel> searchResult = new SearchResultsModel<>();
+        List<TransaccionEntidadBovedaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new TransaccionEntidadBovedaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
         return searchResult;
     }
-    
+
 }

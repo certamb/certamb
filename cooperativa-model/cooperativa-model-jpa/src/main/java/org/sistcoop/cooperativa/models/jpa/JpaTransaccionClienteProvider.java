@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -57,7 +58,8 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
                     "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
         }
 
-        Calendar calendar = Calendar.getInstance();
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
         TransaccionAporteEntity transaccionAporteEntity = new TransaccionAporteEntity();
         transaccionAporteEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
         transaccionAporteEntity.setAnio(anio);
@@ -65,8 +67,8 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
         transaccionAporteEntity.setMonto(monto);
         transaccionAporteEntity.setNumeroCuenta(numeroCuenta);
         transaccionAporteEntity.setObservacion(observacion);
-        transaccionAporteEntity.setFecha(calendar.getTime());
-        transaccionAporteEntity.setHora(calendar.getTime());
+        transaccionAporteEntity.setFecha(currentDate);
+        transaccionAporteEntity.setHora(currentTime);
         transaccionAporteEntity.setEstado(true);
 
         em.persist(transaccionAporteEntity);
@@ -85,15 +87,16 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
                     "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
         }
 
-        Calendar calendar = Calendar.getInstance();
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
         TransaccionCuentaPersonalEntity transaccionCuentaPersonalEntity = new TransaccionCuentaPersonalEntity();
         transaccionCuentaPersonalEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
         transaccionCuentaPersonalEntity.setNumeroCuenta(numeroCuenta);
         transaccionCuentaPersonalEntity.setMonto(monto);
         transaccionCuentaPersonalEntity.setReferencia(referencia);
         transaccionCuentaPersonalEntity.setObservacion(observacion);
-        transaccionCuentaPersonalEntity.setFecha(calendar.getTime());
-        transaccionCuentaPersonalEntity.setHora(calendar.getTime());
+        transaccionCuentaPersonalEntity.setFecha(currentDate);
+        transaccionCuentaPersonalEntity.setHora(currentTime);
         transaccionCuentaPersonalEntity.setEstado(true);
 
         em.persist(transaccionCuentaPersonalEntity);
@@ -113,12 +116,13 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
                     "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
         }
 
-        Calendar calendar = Calendar.getInstance();
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
         TransaccionCompraVentaEntity transaccionCompraVentaEntity = new TransaccionCompraVentaEntity();
         transaccionCompraVentaEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
         transaccionCompraVentaEntity.setObservacion(observacion);
-        transaccionCompraVentaEntity.setFecha(calendar.getTime());
-        transaccionCompraVentaEntity.setHora(calendar.getTime());
+        transaccionCompraVentaEntity.setFecha(currentDate);
+        transaccionCompraVentaEntity.setHora(currentTime);
         transaccionCompraVentaEntity.setEstado(true);
 
         transaccionCompraVentaEntity.setCliente(cliente);
@@ -145,12 +149,13 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
                     "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
         }
 
-        Calendar calendar = Calendar.getInstance();
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
         TransferenciaCuentaPersonalEntity transferenciaCuentaPersonalEntity = new TransferenciaCuentaPersonalEntity();
         transferenciaCuentaPersonalEntity.setHistorialBovedaCaja(historialBovedaCajaEntity);
         transferenciaCuentaPersonalEntity.setObservacion(observacion);
-        transferenciaCuentaPersonalEntity.setFecha(calendar.getTime());
-        transferenciaCuentaPersonalEntity.setHora(calendar.getTime());
+        transferenciaCuentaPersonalEntity.setFecha(currentDate);
+        transferenciaCuentaPersonalEntity.setHora(currentTime);
         transferenciaCuentaPersonalEntity.setEstado(true);
 
         transferenciaCuentaPersonalEntity.setMonto(monto);

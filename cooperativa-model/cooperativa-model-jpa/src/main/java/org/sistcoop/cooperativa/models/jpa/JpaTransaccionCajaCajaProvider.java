@@ -1,8 +1,9 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -63,12 +64,13 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
                     "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
         }
 
-        Calendar calendar = Calendar.getInstance();
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
         TransaccionCajaCajaEntity transaccionCajaCajaEntity = new TransaccionCajaCajaEntity();
         transaccionCajaCajaEntity.setHistorialBovedaCajaOrigen(historialBovedaCajaOrigenEntity);
         transaccionCajaCajaEntity.setHistorialBovedaCajaDestino(historialBovedaCajaDestinoEntity);
-        transaccionCajaCajaEntity.setFecha(calendar.getTime());
-        transaccionCajaCajaEntity.setHora(calendar.getTime());
+        transaccionCajaCajaEntity.setFecha(currentDate);
+        transaccionCajaCajaEntity.setHora(currentTime);
         transaccionCajaCajaEntity.setMonto(monto);
         transaccionCajaCajaEntity.setObservacion(observacion);
         transaccionCajaCajaEntity.setEstadoSolicitud(true);
@@ -99,12 +101,9 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
         TypedQuery<TransaccionCajaCajaEntity> query = em.createNamedQuery(
                 "TransaccionCajaCajaEntity.findByIdHistorialBovedaCaja", TransaccionCajaCajaEntity.class);
         query.setParameter("idHistorialBovedaCaja", historialBovedaCaja.getId());
-        List<TransaccionCajaCajaEntity> list = query.getResultList();
-
+        List<TransaccionCajaCajaEntity> entities = query.getResultList();
         List<TransaccionCajaCajaModel> result = new ArrayList<>();
-        for (TransaccionCajaCajaEntity transaccionCajaCajaEntity : list) {
-            result.add(new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity));
-        }
+        entities.forEach(entity -> result.add(new TransaccionCajaCajaAdapter(em, entity)));
         return result;
     }
 
@@ -114,12 +113,9 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
                 "TransaccionCajaCajaEntity.findByIdHistorialBovedaCajaOrigen",
                 TransaccionCajaCajaEntity.class);
         query.setParameter("idHistorialBovedaCaja", historialBovedaCaja.getId());
-        List<TransaccionCajaCajaEntity> list = query.getResultList();
-
+        List<TransaccionCajaCajaEntity> entities = query.getResultList();
         List<TransaccionCajaCajaModel> result = new ArrayList<>();
-        for (TransaccionCajaCajaEntity transaccionCajaCajaEntity : list) {
-            result.add(new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity));
-        }
+        entities.forEach(entity -> result.add(new TransaccionCajaCajaAdapter(em, entity)));
         return result;
     }
 
@@ -129,12 +125,9 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
                 "TransaccionCajaCajaEntity.findByIdHistorialBovedaCajaDestino",
                 TransaccionCajaCajaEntity.class);
         query.setParameter("idHistorialBovedaCaja", historialBovedaCaja.getId());
-        List<TransaccionCajaCajaEntity> list = query.getResultList();
-
+        List<TransaccionCajaCajaEntity> entities = query.getResultList();
         List<TransaccionCajaCajaModel> result = new ArrayList<>();
-        for (TransaccionCajaCajaEntity transaccionCajaCajaEntity : list) {
-            result.add(new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity));
-        }
+        entities.forEach(entity -> result.add(new TransaccionCajaCajaAdapter(em, entity)));
         return result;
     }
 
@@ -151,14 +144,13 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
 
         SearchResultsModel<TransaccionCajaCajaEntity> entityResult = find(criteria,
                 TransaccionCajaCajaEntity.class);
-        SearchResultsModel<TransaccionCajaCajaModel> modelResult = new SearchResultsModel<>();
-        List<TransaccionCajaCajaModel> list = new ArrayList<>();
-        for (TransaccionCajaCajaEntity entity : entityResult.getModels()) {
-            list.add(new TransaccionCajaCajaAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        List<TransaccionCajaCajaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<TransaccionCajaCajaModel> searchResult = new SearchResultsModel<>();
+        List<TransaccionCajaCajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new TransaccionCajaCajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
     @Override
@@ -172,14 +164,13 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
 
         SearchResultsModel<TransaccionCajaCajaEntity> entityResult = find(criteriaJoin, criteria,
                 TransaccionCajaCajaEntity.class);
-        SearchResultsModel<TransaccionCajaCajaModel> modelResult = new SearchResultsModel<>();
-        List<TransaccionCajaCajaModel> list = new ArrayList<>();
-        for (TransaccionCajaCajaEntity entity : entityResult.getModels()) {
-            list.add(new TransaccionCajaCajaAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        List<TransaccionCajaCajaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<TransaccionCajaCajaModel> searchResult = new SearchResultsModel<>();
+        List<TransaccionCajaCajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new TransaccionCajaCajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
     @Override
@@ -193,14 +184,13 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
 
         SearchResultsModel<TransaccionCajaCajaEntity> entityResult = find(criteriaJoin, criteria,
                 TransaccionCajaCajaEntity.class);
-        SearchResultsModel<TransaccionCajaCajaModel> modelResult = new SearchResultsModel<>();
-        List<TransaccionCajaCajaModel> list = new ArrayList<>();
-        for (TransaccionCajaCajaEntity entity : entityResult.getModels()) {
-            list.add(new TransaccionCajaCajaAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        List<TransaccionCajaCajaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<TransaccionCajaCajaModel> searchResult = new SearchResultsModel<>();
+        List<TransaccionCajaCajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new TransaccionCajaCajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
 }

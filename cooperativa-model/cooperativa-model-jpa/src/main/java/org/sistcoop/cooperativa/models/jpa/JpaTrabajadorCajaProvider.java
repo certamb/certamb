@@ -99,11 +99,9 @@ public class JpaTrabajadorCajaProvider extends AbstractHibernateStorage implemen
         TypedQuery<TrabajadorCajaEntity> query = em.createNamedQuery("TrabajadorCajaEntity.findByIdCaja",
                 TrabajadorCajaEntity.class);
         query.setParameter("idCaja", caja.getId());
-        List<TrabajadorCajaEntity> list = query.getResultList();
+        List<TrabajadorCajaEntity> entities = query.getResultList();
         List<TrabajadorCajaModel> result = new ArrayList<>();
-        for (TrabajadorCajaEntity trabajadorCajaEntity : list) {
-            result.add(new TrabajadorCajaAdapter(em, trabajadorCajaEntity));
-        }
+        entities.forEach(entity -> result.add(new TrabajadorCajaAdapter(em, entity)));
         return result;
     }
 
