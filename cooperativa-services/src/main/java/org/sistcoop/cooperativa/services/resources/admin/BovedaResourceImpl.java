@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
@@ -86,28 +87,19 @@ public class BovedaResourceImpl implements BovedaResource {
 
         // Boveda debe tener saldo 0.00
         List<DetalleHistorialBovedaModel> detalleHistorialBoveda = historialBovedaActivo.getDetalle();
-        for (DetalleHistorialBovedaModel detalleHistorialBovedaModel : detalleHistorialBoveda) {
-            if (detalleHistorialBovedaModel.getCantidad() != 0) {
-                throw new BadRequestException("Boveda debe tener saldo 0.00");
-            }
-        }
-
-        final BigDecimal saldoHistorialBoveda = null;
-        detalleHistorialBoveda.forEach(detalle -> {
-            BigDecimal subTotal = detalle.getValor().multiply(new BigDecimal(detalle.getCantidad()));
-            saldoHistorialBoveda = saldoHistorialBoveda.add(subTotal);
-        });
-        
-        detalleHistorialBoveda.stream().mapToInt(x->x.getAge()).sum();
-        
+        Function<DetalleHistorialBovedaModel, BigDecimal> totalMapper = detalle -> detalle.getValor()
+                .multiply(new BigDecimal(detalle.getCantidad()));
+        BigDecimal saldoHistorialBoveda = detalleHistorialBoveda.stream().map(totalMapper)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         if (saldoHistorialBoveda.compareTo(BigDecimal.ZERO) != 0) {
             return new ErrorResponseException("Boveda saldo", "Boveda tiene saldo=" + saldoHistorialBoveda
-                    + ", no se puede desactivar", Response.Status.BAD_REQUEST).getResponse();
+                    + ", no se puede desactivar hasta que tenga 0.00 de saldo", Response.Status.BAD_REQUEST)
+                    .getResponse();
         }
 
         // Validar cajas relacionadas
-        List<BovedaCajaModel> list = boveda.getBovedaCajas();
-        for (BovedaCajaModel bovedaCajaModel : list) {
+        List<BovedaCajaModel> bovedaCajas = boveda.getBovedaCajas();
+        for (BovedaCajaModel bovedaCajaModel : bovedaCajas) {
             HistorialBovedaCajaModel historialBovedaCajaModel = bovedaCajaModel.getHistorialActivo();
             if (historialBovedaCajaModel.isAbierto()) {
                 throw new BadRequestException("Boveda debe tener todas sus cajas cerradas");
