@@ -51,7 +51,7 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
     protected int cantidad;
 
     @Formula("cantidad * valor")
-    @Column(name = "SUBTOTALf")
+    @Column(name = "SUBTOTAL")
     protected BigDecimal subtotal;
 
     @Version

@@ -14,9 +14,12 @@ import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.EntidadModel;
 import org.sistcoop.cooperativa.models.EntidadProvider;
+import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.EntidadEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionEntidadBovedaEntity;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
@@ -41,8 +44,25 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
     }
 
     @Override
-    public EntidadModel create(String agencia, String denominacion) {
-        crera
+    public EntidadModel create(String agencia, String denominacion, String abreviatura) {
+        if (findByDenominacion(denominacion) != null) {
+            throw new ModelDuplicateException(
+                    "EntidadEntity denominacion debe ser unico, se encontro otra entidad con denominacion="
+                            + denominacion);
+        }
+        if (findByAbreviatura(abreviatura) != null) {
+            throw new ModelDuplicateException(
+                    "EntidadEntity abreviatura debe ser unico, se encontro otra entidad con abreviatura="
+                            + abreviatura);
+        }
+
+        EntidadEntity entidadEntity = new EntidadEntity();
+        entidadEntity.setDenominacion(denominacion);
+        entidadEntity.setAbreviatura(abreviatura);
+        entidadEntity.setEstado(true);
+
+        em.persist(entidadEntity);
+        return new EntidadAdapter(em, entidadEntity);
     }
 
     @Override
@@ -103,10 +123,9 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
     @Override
     public List<EntidadModel> getAll() {
         TypedQuery<EntidadEntity> query = em.createNamedQuery("EntidadEntity.findAll", EntidadEntity.class);
-        List<EntidadEntity> list = query.getResultList();
-
+        List<EntidadEntity> entityResult = query.getResultList();
         List<EntidadModel> result = new ArrayList<>();
-        list.forEach(entidadEntity -> result.add(new EntidadAdapter(em, entidadEntity)));
+        entityResult.forEach(entidadEntity -> result.add(new EntidadAdapter(em, entidadEntity)));
         return result;
     }
 
@@ -114,28 +133,20 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
     public SearchResultsModel<EntidadModel> search(SearchCriteriaModel criteria) {
         SearchResultsModel<EntidadEntity> entityResult = find(criteria, EntidadEntity.class);
 
-        SearchResultsModel<EntidadModel> modelResult = new SearchResultsModel<>();
-        List<EntidadModel> list = new ArrayList<>();
-        entityResult.getModels().forEach(entity -> list.add(new EntidadAdapter(em, entity)));
-
-        modelResult.setModels(list);
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        return modelResult;
+        SearchResultsModel<EntidadModel> searchResult = new SearchResultsModel<>();             
+        entityResult.getModels().forEach(entity -> searchResult.getModels().add(new EntidadAdapter(em, entity)));                     
+        searchResult.setTotalSize(entityResult.getTotalSize());       
+        return searchResult;
     }
 
     @Override
     public SearchResultsModel<EntidadModel> search(SearchCriteriaModel criteria, String filterText) {
         SearchResultsModel<EntidadEntity> entityResult = findFullText(criteria, EntidadEntity.class,
                 filterText, "denominacion", "abreviatura");
-
-        SearchResultsModel<EntidadModel> modelResult = new SearchResultsModel<>();
-        List<EntidadModel> list = new ArrayList<>();
-        for (EntidadEntity entity : entityResult.getModels()) {
-            list.add(new EntidadAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        
+        SearchResultsModel<EntidadModel> searchResult = new SearchResultsModel<>();             
+        entityResult.getModels().forEach(entity -> searchResult.getModels().add(new EntidadAdapter(em, entity)));                     
+        searchResult.setTotalSize(entityResult.getTotalSize());       
+        return searchResult;
     }
-
 }

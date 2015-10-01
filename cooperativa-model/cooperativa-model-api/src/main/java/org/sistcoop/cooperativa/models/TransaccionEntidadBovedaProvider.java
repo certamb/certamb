@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
+import org.sistcoop.cooperativa.models.enums.OrigenTransaccionEntidadBoveda;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 import org.sistcoop.cooperativa.provider.Provider;
@@ -13,7 +13,7 @@ import org.sistcoop.cooperativa.provider.Provider;
 public interface TransaccionEntidadBovedaProvider extends Provider {
 
     TransaccionEntidadBovedaModel create(EntidadModel entidad, HistorialBovedaModel historialBoveda,
-            OrigenTransaccionBovedaCaja origen, String observacion);
+            OrigenTransaccionEntidadBoveda origen, String observacion);
 
     TransaccionEntidadBovedaModel findById(String id);
 

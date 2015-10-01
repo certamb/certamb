@@ -52,7 +52,7 @@ public class DetalleTransaccionEntidadBovedaEntity implements Serializable {
     protected int cantidad;
 
     @Formula("cantidad * valor")
-    @Column(name = "SUBTOTALf")
+    @Column(name = "SUBTOTAL")
     protected BigDecimal subtotal;
 
     @NotNull

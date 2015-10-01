@@ -15,8 +15,6 @@ public interface TransaccionEntidadBovedaModel extends Model {
 
     OrigenTransaccionEntidadBoveda getOrigen();
 
-    List<DetalleTransaccionEntidadBovedaModel> getDetalle();
-
     Date getFecha();
 
     Date getHora();
@@ -29,4 +27,6 @@ public interface TransaccionEntidadBovedaModel extends Model {
 
     void desactivar();
 
+    List<DetalleTransaccionEntidadBovedaModel> getDetalle();
+    
 }
