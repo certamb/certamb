@@ -2,7 +2,8 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,16 +20,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "TRANSACCION_CLIENTE")
@@ -53,12 +52,12 @@ public class TransaccionClienteEntity implements Serializable {
     private Long numeroOperacion;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
+    @Type(type = "org.hibernate.type.LocalDateType")
+    private LocalDate fecha;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date hora;
+    @Type(type = "org.hibernate.type.LocalTimeType")
+    private LocalTime hora;
 
     @NotNull
     @Type(type = "org.hibernate.type.TrueFalseType")
@@ -100,19 +99,19 @@ public class TransaccionClienteEntity implements Serializable {
         this.numeroOperacion = numeroOperacion;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public Date getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
@@ -186,5 +185,4 @@ public class TransaccionClienteEntity implements Serializable {
             return false;
         return true;
     }
-
 }

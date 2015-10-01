@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,11 +49,11 @@ public class TransaccionEntidadBovedaEntity implements java.io.Serializable {
 
     @NotNull
     @Type(type = "org.hibernate.type.LocalDateType")
-    private Date fecha;
+    private LocalDate fecha;
 
     @NotNull
     @Type(type = "org.hibernate.type.LocalTimeType")
-    private Date hora;
+    private LocalTime hora;
 
     @Size(min = 1, max = 60)
     private String observacion;
@@ -99,19 +100,19 @@ public class TransaccionEntidadBovedaEntity implements java.io.Serializable {
         this.id = id;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public Date getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
@@ -153,6 +154,14 @@ public class TransaccionEntidadBovedaEntity implements java.io.Serializable {
 
     public void setOrigen(OrigenTransaccionEntidadBoveda origen) {
         this.origen = origen;
+    }
+
+    public TipoTransaccionEntidadBoveda getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoTransaccionEntidadBoveda tipo) {
+        this.tipo = tipo;
     }
 
     public Set<DetalleTransaccionEntidadBovedaEntity> getDetalle() {

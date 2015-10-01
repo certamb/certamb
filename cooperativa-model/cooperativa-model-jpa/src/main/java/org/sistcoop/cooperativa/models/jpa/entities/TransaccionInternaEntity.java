@@ -2,7 +2,8 @@ package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
@@ -21,11 +22,11 @@ public abstract class TransaccionInternaEntity implements Serializable {
 
     @NotNull
     @Type(type = "org.hibernate.type.LocalDateType")
-    protected Date fecha;
+    protected LocalDate fecha;
 
     @NotNull
     @Type(type = "org.hibernate.type.LocalTimeType")
-    protected Date hora;
+    protected LocalTime hora;
 
     @Size(min = 1, max = 60)
     protected String observacion;
@@ -41,19 +42,23 @@ public abstract class TransaccionInternaEntity implements Serializable {
     @Version
     protected Timestamp optlk;
 
-    public Date getFecha() {
+    public TransaccionInternaEntity() {
+        // TODO Auto-generated constructor stub
+    }
+
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public Date getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
