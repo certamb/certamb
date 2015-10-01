@@ -116,11 +116,10 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
 
         SearchResultsModel<EntidadModel> modelResult = new SearchResultsModel<>();
         List<EntidadModel> list = new ArrayList<>();
-
         entityResult.getModels().forEach(entity -> list.add(new EntidadAdapter(em, entity)));
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
 
+        modelResult.setModels(list);
+        modelResult.setTotalSize(entityResult.getTotalSize());
         return modelResult;
     }
 
