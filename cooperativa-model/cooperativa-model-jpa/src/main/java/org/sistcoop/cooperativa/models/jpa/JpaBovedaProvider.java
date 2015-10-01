@@ -14,7 +14,7 @@ import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
-import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;

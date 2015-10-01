@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -9,6 +10,7 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.sistcoop.cooperativa.admin.client.resource.BovedaCajasResource;
@@ -22,6 +24,8 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
+import org.sistcoop.cooperativa.services.ErrorResponseException;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 import org.sistcoop.cooperativa.services.resources.producers.BovedaCajas_Boveda;
 
@@ -72,23 +76,37 @@ public class BovedaResourceImpl implements BovedaResource {
     }
 
     @Override
-    public void disable() {
-        BovedaModel bovedaModel = getBovedaModel();
-
-        HistorialBovedaModel historialBovedaModel = bovedaModel.getHistorialActivo();
-        if (historialBovedaModel.isAbierto()) {
-            throw new BadRequestException("Boveda abierta, no se puede desactivar");
+    public Response disable() {
+        BovedaModel boveda = getBovedaModel();
+        HistorialBovedaModel historialBovedaActivo = boveda.getHistorialActivo();
+        if (historialBovedaActivo.isAbierto()) {
+            return new ErrorResponseException("Boveda abierta", "Boveda abierta, no se puede desactivar",
+                    Response.Status.BAD_REQUEST).getResponse();
         }
+
         // Boveda debe tener saldo 0.00
-        List<DetalleHistorialBovedaModel> detalleHistorialBovedaModels = historialBovedaModel.getDetalle();
-        for (DetalleHistorialBovedaModel detalleHistorialBovedaModel : detalleHistorialBovedaModels) {
+        List<DetalleHistorialBovedaModel> detalleHistorialBoveda = historialBovedaActivo.getDetalle();
+        for (DetalleHistorialBovedaModel detalleHistorialBovedaModel : detalleHistorialBoveda) {
             if (detalleHistorialBovedaModel.getCantidad() != 0) {
                 throw new BadRequestException("Boveda debe tener saldo 0.00");
             }
         }
 
+        final BigDecimal saldoHistorialBoveda = null;
+        detalleHistorialBoveda.forEach(detalle -> {
+            BigDecimal subTotal = detalle.getValor().multiply(new BigDecimal(detalle.getCantidad()));
+            saldoHistorialBoveda = saldoHistorialBoveda.add(subTotal);
+        });
+        
+        detalleHistorialBoveda.stream().mapToInt(x->x.getAge()).sum();
+        
+        if (saldoHistorialBoveda.compareTo(BigDecimal.ZERO) != 0) {
+            return new ErrorResponseException("Boveda saldo", "Boveda tiene saldo=" + saldoHistorialBoveda
+                    + ", no se puede desactivar", Response.Status.BAD_REQUEST).getResponse();
+        }
+
         // Validar cajas relacionadas
-        List<BovedaCajaModel> list = bovedaModel.getBovedaCajas();
+        List<BovedaCajaModel> list = boveda.getBovedaCajas();
         for (BovedaCajaModel bovedaCajaModel : list) {
             HistorialBovedaCajaModel historialBovedaCajaModel = bovedaCajaModel.getHistorialActivo();
             if (historialBovedaCajaModel.isAbierto()) {
@@ -102,8 +120,17 @@ public class BovedaResourceImpl implements BovedaResource {
     }
 
     @Override
-    public void remove() {
-        bovedaProvider.remove(getBovedaModel());
+    public Response remove() {
+        BovedaModel boveda = getBovedaModel();
+        if (boveda == null) {
+            throw new NotFoundException("Boveda no encontrada");
+        }
+        boolean removed = bovedaProvider.remove(boveda);
+        if (removed) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Boveda no pudo ser eliminado", Response.Status.BAD_REQUEST);
+        }
     }
 
     @Override

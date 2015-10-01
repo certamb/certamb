@@ -16,7 +16,7 @@ import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
-import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;

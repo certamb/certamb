@@ -8,6 +8,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 
@@ -16,29 +17,29 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
  */
 public interface BovedaResource {
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public BovedaRepresentation toRepresentation();
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public BovedaRepresentation toRepresentation();
 
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void update(BovedaRepresentation bovedaRepresentation);
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void update(BovedaRepresentation bovedaRepresentation);
 
-	@POST
-	@Path("/enable")
-	public void enable();
+    @POST
+    @Path("enable")
+    public Response enable();
 
-	@POST
-	@Path("/disable")
-	public void disable();
+    @POST
+    @Path("disable")
+    public Response disable();
 
-	@DELETE
-	public void remove();
+    @DELETE
+    public Response remove();
 
-	@Path("/historiales")
-	public HistorialesBovedaResource historiales();
-	
-	@Path("/bovedaCajas")
-	public BovedaCajasResource bovedaCajas();
-	
+    @Path("historiales")
+    public HistorialesBovedaResource historiales();
+
+    @Path("bovedaCajas")
+    public BovedaCajasResource bovedaCajas();
+
 }

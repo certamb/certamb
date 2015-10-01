@@ -14,7 +14,7 @@ import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.EntidadModel;
 import org.sistcoop.cooperativa.models.EntidadProvider;
-import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.EntidadEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionEntidadBovedaEntity;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;

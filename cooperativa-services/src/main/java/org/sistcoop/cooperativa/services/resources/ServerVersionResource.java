@@ -12,7 +12,7 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.jboss.resteasy.spi.HttpRequest;
 import org.jboss.resteasy.spi.HttpResponse;
-import org.sistcoop.rrhh.Version;
+import org.sistcoop.cooperativa.Version;
 
 /**
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>

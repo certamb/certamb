@@ -4,8 +4,8 @@ import java.util.Locale;
 
 import javax.enterprise.context.Dependent;
 
-import org.sistcoop.rrhh.messages.MessagesProvider;
-import org.sistcoop.rrhh.messages.MessagesProviderFactory;
+import org.sistcoop.cooperativa.messages.MessagesProvider;
+import org.sistcoop.cooperativa.messages.MessagesProviderFactory;
 
 /**
  * @author <a href="mailto:leonardo.zanivan@gmail.com">Leonardo Zanivan</a>

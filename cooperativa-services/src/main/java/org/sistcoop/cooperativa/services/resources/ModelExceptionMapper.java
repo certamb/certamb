@@ -6,9 +6,9 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.jboss.logging.Logger;
-import org.sistcoop.rrhh.messages.MessagesProviderFactory;
-import org.sistcoop.rrhh.models.ModelException;
-import org.sistcoop.rrhh.services.ErrorResponse;
+import org.sistcoop.cooperativa.messages.MessagesProviderFactory;
+import org.sistcoop.cooperativa.models.ModelException;
+import org.sistcoop.cooperativa.services.ErrorResponse;
 
 /**
  * @author <a href="mailto:leonardo.zanivan@gmail.com">Leonardo Zanivan</a>

@@ -15,7 +15,7 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
-import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleHistorialBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 
@@ -85,5 +85,5 @@ public class JpaDetalleHistorialBovedaCajaProvider extends AbstractHibernateStor
             return new DetalleHistorialBovedaCajaAdapter(em, results.get(0));
         }
     }
-    
+
 }

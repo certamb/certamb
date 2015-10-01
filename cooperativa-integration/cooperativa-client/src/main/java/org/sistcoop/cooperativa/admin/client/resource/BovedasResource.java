@@ -19,11 +19,11 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 /**
  * @author carlosthe19916@gmail.com
  */
-@Path("/bovedas")
+@Path("bovedas")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface BovedasResource {
 
-    @Path("/{boveda}")
+    @Path("{boveda}")
     public BovedaResource boveda(@PathParam("boveda") String boveda);
 
     @POST
@@ -36,7 +36,7 @@ public interface BovedasResource {
     public List<BovedaRepresentation> getAll();
 
     @GET
-    @Path("/search")
+    @Path("search")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<BovedaRepresentation> search(@QueryParam("agencia") String agencia,

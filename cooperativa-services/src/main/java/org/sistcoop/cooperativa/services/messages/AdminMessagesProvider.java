@@ -19,7 +19,7 @@ public class AdminMessagesProvider implements MessagesProvider {
     private Locale locale;
     private Properties messagesBundle;
 
-    public AdminMessagesProvider() {
+    public AdminMessagesProvider(Locale locale) {
         this.locale = new Locale("es");
         this.messagesBundle = getMessagesBundle(locale);
     }
@@ -34,10 +34,6 @@ public class AdminMessagesProvider implements MessagesProvider {
             logger.warnf("Failed to format message due to: %s", e.getMessage());
             return message;
         }
-    }
-
-    @Override
-    public void close() {
     }
 
     private Properties getMessagesBundle(Locale locale) {

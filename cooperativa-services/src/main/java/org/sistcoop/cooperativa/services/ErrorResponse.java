@@ -3,7 +3,7 @@ package org.sistcoop.cooperativa.services;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.sistcoop.rrhh.representations.idm.ErrorRepresentation;
+import org.sistcoop.cooperativa.representations.idm.ErrorRepresentation;
 
 /**
  * @author <a href="mailto:sthorger@redhat.com">Stian Thorgersen</a>
