@@ -119,7 +119,7 @@ public class BovedaResourceImpl implements BovedaResource {
                     Response.Status.BAD_REQUEST).getResponse();
         }
 
-        boolean disabled = bovedaManager.disableBoveda(getBovedaModel());
+        boolean disabled = bovedaManager.disableBoveda(boveda);
         if (disabled) {
             return Response.noContent().build();
         } else {

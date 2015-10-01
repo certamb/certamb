@@ -19,11 +19,11 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 /**
  * @author carlosthe19916@gmail.com
  */
-@Path("/cajas")
+@Path("cajas")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface CajasResource {
 
-    @Path("/{caja}")
+    @Path("{caja}")
     public CajaResource caja(@PathParam("caja") String caja);
 
     @POST

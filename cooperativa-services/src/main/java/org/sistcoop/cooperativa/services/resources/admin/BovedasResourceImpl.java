@@ -70,7 +70,6 @@ public class BovedasResourceImpl implements BovedasResource {
         } catch (ModelDuplicateException e) {
             return ErrorResponse.exists("Boveda existe con la misma agencia, denominacion y/o moneda");
         }
-
     }
 
     @Override

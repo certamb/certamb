@@ -8,6 +8,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 
@@ -16,29 +17,29 @@ import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
  */
 public interface CajaResource {
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public CajaRepresentation toRepresentation();
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public CajaRepresentation toRepresentation();
 
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void update(CajaRepresentation cajaRepresentation);
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void update(CajaRepresentation cajaRepresentation);
 
-	@POST
-	@Path("/enable")
-	public void enable();
+    @POST
+    @Path("enable")
+    public Response enable();
 
-	@POST
-	@Path("/disable")
-	public void disable();
+    @POST
+    @Path("disable")
+    public Response disable();
 
-	@DELETE
-	public void remove();
+    @DELETE
+    public Response remove();
 
-	@Path("/bovedasCaja")
-	public BovedaCajasResource bovedasCaja();
+    @Path("/bovedasCaja")
+    public BovedaCajasResource bovedasCaja();
 
-	@Path("/trabajadoresCaja")
-	public CajaTrabajadoresResource trabajadoresCaja();
+    @Path("/trabajadoresCaja")
+    public CajaTrabajadoresResource trabajadoresCaja();
 
 }

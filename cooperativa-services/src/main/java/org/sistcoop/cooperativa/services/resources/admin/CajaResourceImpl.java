@@ -1,17 +1,25 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.admin.client.resource.BovedaCajasResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.CajaTrabajadoresResource;
+import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
+import org.sistcoop.cooperativa.services.ErrorResponseException;
 import org.sistcoop.cooperativa.services.managers.CajaManager;
 import org.sistcoop.cooperativa.services.resources.producers.BovedaCajas_Caja;
 
@@ -44,7 +52,7 @@ public class CajaResourceImpl implements CajaResource {
         if (rep != null) {
             return rep;
         } else {
-            throw new NotFoundException();
+            throw new NotFoundException("Caja no encontrada");
         }
     }
 
@@ -54,18 +62,56 @@ public class CajaResourceImpl implements CajaResource {
     }
 
     @Override
-    public void enable() {
+    public Response enable() {
         throw new NotFoundException();
     }
 
     @Override
-    public void disable() {
-        cajaManager.desactivarCaja(getCajaModel());
+    public Response disable() {
+        CajaModel caja = getCajaModel();
+        List<BovedaCajaModel> bovedaCajas = caja.getBovedaCajas();
+        List<BovedaCajaModel> bovedaCajasAbiertas = bovedaCajas.stream()
+                .filter(bovedaCaja -> bovedaCaja.getHistorialActivo().isAbierto())
+                .collect(Collectors.toList());
+        List<BovedaCajaModel> bovedaCajasSaldo = bovedaCajas
+                .stream()
+                .filter(bovedaCaja -> bovedaCaja.getHistorialActivo().getSaldo().compareTo(BigDecimal.ZERO) != 0)
+                .collect(Collectors.toList());
+
+        if (!bovedaCajasAbiertas.isEmpty() || !bovedaCajasSaldo.isEmpty()) {
+            String errorDescription = new String();
+            if (!bovedaCajasAbiertas.isEmpty()) {
+                errorDescription.concat("Caja tiene monedas abiertas, cajas="
+                        + bovedaCajasAbiertas.toString());
+            }
+            if (!bovedaCajasSaldo.isEmpty()) {
+                errorDescription.concat("Boveda tiene monedas con saldo, cajas="
+                        + bovedaCajasAbiertas.toString());
+            }
+            return new ErrorResponseException("Caja estado invalido", errorDescription,
+                    Response.Status.BAD_REQUEST).getResponse();
+        }
+
+        boolean result = cajaManager.desactivarCaja(caja);
+        if (result) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Caja no pudo ser desactivada", Response.Status.BAD_REQUEST);
+        }
     }
 
     @Override
-    public void remove() {
-        cajaProvider.remove(getCajaModel());
+    public Response remove() {
+        CajaModel caja = getCajaModel();
+        if (caja == null) {
+            throw new NotFoundException("Caja no encontrada");
+        }
+        boolean removed = cajaProvider.remove(caja);
+        if (removed) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Caja no pudo ser eliminado", Response.Status.BAD_REQUEST);
+        }
     }
 
     @Override
