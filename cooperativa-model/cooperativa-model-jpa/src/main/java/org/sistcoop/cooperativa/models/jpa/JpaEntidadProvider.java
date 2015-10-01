@@ -15,11 +15,7 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.cooperativa.models.EntidadModel;
 import org.sistcoop.cooperativa.models.EntidadProvider;
 import org.sistcoop.cooperativa.models.exceptions.ModelDuplicateException;
-import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
-import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
-import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.EntidadEntity;
-import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionEntidadBovedaEntity;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
@@ -123,19 +119,21 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
     @Override
     public List<EntidadModel> getAll() {
         TypedQuery<EntidadEntity> query = em.createNamedQuery("EntidadEntity.findAll", EntidadEntity.class);
-        List<EntidadEntity> entityResult = query.getResultList();
+        List<EntidadEntity> entities = query.getResultList();
         List<EntidadModel> result = new ArrayList<>();
-        entityResult.forEach(entidadEntity -> result.add(new EntidadAdapter(em, entidadEntity)));
+        entities.forEach(entity -> result.add(new EntidadAdapter(em, entity)));
         return result;
     }
 
     @Override
     public SearchResultsModel<EntidadModel> search(SearchCriteriaModel criteria) {
         SearchResultsModel<EntidadEntity> entityResult = find(criteria, EntidadEntity.class);
+        List<EntidadEntity> entities = entityResult.getModels();
 
-        SearchResultsModel<EntidadModel> searchResult = new SearchResultsModel<>();             
-        entityResult.getModels().forEach(entity -> searchResult.getModels().add(new EntidadAdapter(em, entity)));                     
-        searchResult.setTotalSize(entityResult.getTotalSize());       
+        SearchResultsModel<EntidadModel> searchResult = new SearchResultsModel<>();
+        List<EntidadModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new EntidadAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
         return searchResult;
     }
 
@@ -143,10 +141,12 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
     public SearchResultsModel<EntidadModel> search(SearchCriteriaModel criteria, String filterText) {
         SearchResultsModel<EntidadEntity> entityResult = findFullText(criteria, EntidadEntity.class,
                 filterText, "denominacion", "abreviatura");
-        
-        SearchResultsModel<EntidadModel> searchResult = new SearchResultsModel<>();             
-        entityResult.getModels().forEach(entity -> searchResult.getModels().add(new EntidadAdapter(em, entity)));                     
-        searchResult.setTotalSize(entityResult.getTotalSize());       
+        List<EntidadEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<EntidadModel> searchResult = new SearchResultsModel<>();
+        List<EntidadModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new EntidadAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
         return searchResult;
     }
 }

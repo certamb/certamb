@@ -85,4 +85,5 @@ public class JpaDetalleHistorialBovedaCajaProvider extends AbstractHibernateStor
             return new DetalleHistorialBovedaCajaAdapter(em, results.get(0));
         }
     }
+    
 }

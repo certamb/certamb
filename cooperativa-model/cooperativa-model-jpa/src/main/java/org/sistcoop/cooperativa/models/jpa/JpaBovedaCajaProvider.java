@@ -1,7 +1,6 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -98,11 +97,7 @@ public class JpaBovedaCajaProvider extends AbstractHibernateStorage implements B
         query.setParameter("idBoveda", boveda.getId());
         List<BovedaCajaEntity> entities = query.getResultList();
         List<BovedaCajaModel> result = new ArrayList<BovedaCajaModel>();
-        for (BovedaCajaEntity bovedaCajaEntity : entities) {
-            if (bovedaCajaEntity.isEstado()) {
-                result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
-            }
-        }
+        entities.forEach(entity -> result.add(new BovedaCajaAdapter(em, entity)));
         return result;
     }
 
@@ -113,36 +108,22 @@ public class JpaBovedaCajaProvider extends AbstractHibernateStorage implements B
         query.setParameter("idCaja", caja.getId());
         List<BovedaCajaEntity> entities = query.getResultList();
         List<BovedaCajaModel> result = new ArrayList<BovedaCajaModel>();
-        for (BovedaCajaEntity bovedaCajaEntity : entities) {
-            if (bovedaCajaEntity.isEstado()) {
-                result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
-            }
-        }
+        entities.forEach(entity -> result.add(new BovedaCajaAdapter(em, entity)));
         return result;
     }
 
     @Override
     public List<BovedaCajaModel> getAll(BovedaModel boveda, boolean estado) {
-        List<BovedaCajaModel> list = getAll(boveda);
-        for (Iterator<BovedaCajaModel> iterator = list.iterator(); iterator.hasNext();) {
-            BovedaCajaModel bovedaCajaModel = iterator.next();
-            if (bovedaCajaModel.getEstado() != estado) {
-                iterator.remove();
-            }
-        }
-        return list;
+        List<BovedaCajaModel> models = getAll(boveda);
+        models.removeIf(model -> model.getEstado() != estado);
+        return models;
     }
 
     @Override
     public List<BovedaCajaModel> getAll(CajaModel caja, boolean estado) {
-        List<BovedaCajaModel> list = getAll(caja);
-        for (Iterator<BovedaCajaModel> iterator = list.iterator(); iterator.hasNext();) {
-            BovedaCajaModel bovedaCajaModel = iterator.next();
-            if (bovedaCajaModel.getEstado() != estado) {
-                iterator.remove();
-            }
-        }
-        return list;
+        List<BovedaCajaModel> models = getAll(caja);
+        models.removeIf(model -> model.getEstado() != estado);
+        return models;
     }
 
 }

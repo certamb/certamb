@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -20,9 +21,9 @@ public class HistorialBovedaAdapter implements HistorialBovedaModel {
     private HistorialBovedaEntity historialBovedaEntity;
     private EntityManager em;
 
-    public HistorialBovedaAdapter(EntityManager em, HistorialBovedaEntity historialBovedaEntity) {
+    public HistorialBovedaAdapter(EntityManager em, HistorialBovedaEntity entity) {
         this.em = em;
-        this.historialBovedaEntity = historialBovedaEntity;
+        this.historialBovedaEntity = entity;
     }
 
     public HistorialBovedaEntity getHistorialBovedaEntity() {
@@ -47,32 +48,32 @@ public class HistorialBovedaAdapter implements HistorialBovedaModel {
     }
 
     @Override
-    public Date getFechaApertura() {
+    public LocalDate getFechaApertura() {
         return historialBovedaEntity.getFechaApertura();
     }
 
     @Override
-    public Date getFechaCierre() {
+    public LocalDate getFechaCierre() {
         return historialBovedaEntity.getFechaCierre();
     }
 
     @Override
-    public void setFechaCierre(Date fechaCierre) {
+    public void setFechaCierre(LocalDate fechaCierre) {
         historialBovedaEntity.setFechaCierre(fechaCierre);
     }
 
     @Override
-    public Date getHoraApertura() {
+    public LocalTime getHoraApertura() {
         return historialBovedaEntity.getHoraApertura();
     }
 
     @Override
-    public Date getHoraCierre() {
+    public LocalTime getHoraCierre() {
         return historialBovedaEntity.getHoraCierre();
     }
 
     @Override
-    public void setHoraCierre(Date horaCierre) {
+    public void setHoraCierre(LocalTime horaCierre) {
         historialBovedaEntity.setHoraCierre(horaCierre);
     }
 
@@ -113,18 +114,16 @@ public class HistorialBovedaAdapter implements HistorialBovedaModel {
 
     @Override
     public List<DetalleHistorialBovedaModel> getDetalle() {
-        Set<DetalleHistorialBovedaEntity> detalleHistorialBovedaEntities = historialBovedaEntity.getDetalle();
+        Set<DetalleHistorialBovedaEntity> entities = historialBovedaEntity.getDetalle();
         List<DetalleHistorialBovedaModel> result = new ArrayList<DetalleHistorialBovedaModel>();
-        for (DetalleHistorialBovedaEntity detalleHistorialBovedaEntity : detalleHistorialBovedaEntities) {
-            result.add(new DetalleHistorialBovedaAdapter(em, detalleHistorialBovedaEntity));
-        }
+        entities.forEach(entity -> result.add(new DetalleHistorialBovedaAdapter(em, entity)));
         return result;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + ((getBoveda() == null) ? 0 : getBoveda().hashCode());
         result = prime * result + ((getFechaApertura() == null) ? 0 : getFechaApertura().hashCode());
         result = prime * result + ((getHoraApertura() == null) ? 0 : getHoraApertura().hashCode());
@@ -135,9 +134,9 @@ public class HistorialBovedaAdapter implements HistorialBovedaModel {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
+        if (!super.equals(obj))
             return false;
-        if (!(obj instanceof HistorialBovedaModel))
+        if (getClass() != obj.getClass())
             return false;
         HistorialBovedaModel other = (HistorialBovedaModel) obj;
         if (getBoveda() == null) {

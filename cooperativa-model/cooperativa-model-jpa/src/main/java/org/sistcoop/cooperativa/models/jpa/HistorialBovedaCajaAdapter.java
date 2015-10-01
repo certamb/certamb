@@ -1,8 +1,9 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -21,9 +22,9 @@ public class HistorialBovedaCajaAdapter implements HistorialBovedaCajaModel {
     private HistorialBovedaCajaEntity historialBovedaCajaEntity;
     private EntityManager em;
 
-    public HistorialBovedaCajaAdapter(EntityManager em, HistorialBovedaCajaEntity historialBovedaCajaEntity) {
+    public HistorialBovedaCajaAdapter(EntityManager em, HistorialBovedaCajaEntity entity) {
         this.em = em;
-        this.historialBovedaCajaEntity = historialBovedaCajaEntity;
+        this.historialBovedaCajaEntity = entity;
     }
 
     public HistorialBovedaCajaEntity getHistorialBovedaCajaEntity() {
@@ -49,32 +50,32 @@ public class HistorialBovedaCajaAdapter implements HistorialBovedaCajaModel {
     }
 
     @Override
-    public Date getFechaApertura() {
+    public LocalDate getFechaApertura() {
         return historialBovedaCajaEntity.getFechaApertura();
     }
 
     @Override
-    public Date getFechaCierre() {
+    public LocalDate getFechaCierre() {
         return historialBovedaCajaEntity.getFechaCierre();
     }
 
     @Override
-    public void setFechaCierre(Date fechaCierre) {
+    public void setFechaCierre(LocalDate fechaCierre) {
         historialBovedaCajaEntity.setFechaCierre(fechaCierre);
     }
 
     @Override
-    public Date getHoraApertura() {
+    public LocalTime getHoraApertura() {
         return historialBovedaCajaEntity.getHoraApertura();
     }
 
     @Override
-    public Date getHoraCierre() {
+    public LocalTime getHoraCierre() {
         return historialBovedaCajaEntity.getHoraCierre();
     }
 
     @Override
-    public void setHoraCierre(Date horaCierre) {
+    public void setHoraCierre(LocalTime horaCierre) {
         historialBovedaCajaEntity.setHoraCierre(horaCierre);
     }
 
@@ -125,12 +126,9 @@ public class HistorialBovedaCajaAdapter implements HistorialBovedaCajaModel {
 
     @Override
     public List<DetalleHistorialBovedaCajaModel> getDetalle() {
-        Set<DetalleHistorialBovedaCajaEntity> detalleHistorialBovedaCajaEntities = historialBovedaCajaEntity
-                .getDetalle();
+        Set<DetalleHistorialBovedaCajaEntity> entities = historialBovedaCajaEntity.getDetalle();
         List<DetalleHistorialBovedaCajaModel> result = new ArrayList<DetalleHistorialBovedaCajaModel>();
-        for (DetalleHistorialBovedaCajaEntity detalleHistorialBovedaCajaEntity : detalleHistorialBovedaCajaEntities) {
-            result.add(new DetalleHistorialBovedaCajaAdapter(em, detalleHistorialBovedaCajaEntity));
-        }
+        entities.forEach(entity -> result.add(new DetalleHistorialBovedaCajaAdapter(em, entity)));
         return result;
     }
 

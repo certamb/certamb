@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -53,14 +54,15 @@ public class JpaHistorialBovedaProvider extends AbstractHibernateStorage impleme
         }
 
         // Crear historial
-        Calendar calendar = Calendar.getInstance();
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
         BovedaEntity bovedaEntity = this.em.find(BovedaEntity.class, bovedaModel.getId());
         HistorialBovedaEntity historialBovedaEntity = new HistorialBovedaEntity();
         historialBovedaEntity.setBoveda(bovedaEntity);
         historialBovedaEntity.setAbierto(true);
         historialBovedaEntity.setEstado(true);
-        historialBovedaEntity.setFechaApertura(calendar.getTime());
-        historialBovedaEntity.setHoraApertura(calendar.getTime());
+        historialBovedaEntity.setFechaApertura(currentDate);
+        historialBovedaEntity.setHoraApertura(currentTime);
 
         em.persist(historialBovedaEntity);
         return new HistorialBovedaAdapter(em, historialBovedaEntity);
@@ -94,12 +96,9 @@ public class JpaHistorialBovedaProvider extends AbstractHibernateStorage impleme
         TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery("HistorialBovedaEntity.findByIdBoveda",
                 HistorialBovedaEntity.class);
         query.setParameter("idBoveda", boveda.getId());
-        List<HistorialBovedaEntity> list = query.getResultList();
-
+        List<HistorialBovedaEntity> entities = query.getResultList();
         List<HistorialBovedaModel> result = new ArrayList<>();
-        for (HistorialBovedaEntity historialBovedaEntity : list) {
-            result.add(new HistorialBovedaAdapter(em, historialBovedaEntity));
-        }
+        entities.forEach(entity -> result.add(new HistorialBovedaAdapter(em, entity)));
         return result;
     }
 
@@ -111,15 +110,13 @@ public class JpaHistorialBovedaProvider extends AbstractHibernateStorage impleme
 
         SearchResultsModel<HistorialBovedaEntity> entityResult = find(criteriaJoin, criteria,
                 HistorialBovedaEntity.class);
+        List<HistorialBovedaEntity> entities = entityResult.getModels();
 
-        SearchResultsModel<HistorialBovedaModel> modelResult = new SearchResultsModel<>();
-        List<HistorialBovedaModel> list = new ArrayList<>();
-        for (HistorialBovedaEntity entity : entityResult.getModels()) {
-            list.add(new HistorialBovedaAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        SearchResultsModel<HistorialBovedaModel> searchResult = new SearchResultsModel<>();
+        List<HistorialBovedaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new HistorialBovedaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
 }

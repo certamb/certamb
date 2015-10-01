@@ -108,41 +108,33 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
         TypedQuery<BovedaEntity> query = em.createNamedQuery("BovedaEntity.findAll", BovedaEntity.class);
         List<BovedaEntity> entities = query.getResultList();
         List<BovedaModel> result = new ArrayList<BovedaModel>();
-        for (BovedaEntity bovedaEntity : entities) {
-            if (bovedaEntity.isEstado()) {
-                result.add(new BovedaAdapter(em, bovedaEntity));
-            }
-        }
+        entities.forEach(entity -> result.add(new BovedaAdapter(em, entity)));
         return result;
     }
 
     @Override
     public SearchResultsModel<BovedaModel> search(SearchCriteriaModel criteria) {
         SearchResultsModel<BovedaEntity> entityResult = find(criteria, BovedaEntity.class);
+        List<BovedaEntity> entities = entityResult.getModels();
 
-        SearchResultsModel<BovedaModel> modelResult = new SearchResultsModel<>();
-        List<BovedaModel> list = new ArrayList<>();
-        for (BovedaEntity entity : entityResult.getModels()) {
-            list.add(new BovedaAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        SearchResultsModel<BovedaModel> searchResult = new SearchResultsModel<>();
+        List<BovedaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new BovedaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
     @Override
     public SearchResultsModel<BovedaModel> search(SearchCriteriaModel criteria, String filterText) {
         SearchResultsModel<BovedaEntity> entityResult = findFullText(criteria, BovedaEntity.class,
                 filterText, "denominacion", "moneda");
+        List<BovedaEntity> entities = entityResult.getModels();
 
-        SearchResultsModel<BovedaModel> modelResult = new SearchResultsModel<>();
-        List<BovedaModel> list = new ArrayList<>();
-        for (BovedaEntity entity : entityResult.getModels()) {
-            list.add(new BovedaAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        SearchResultsModel<BovedaModel> searchResult = new SearchResultsModel<>();
+        List<BovedaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new BovedaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
 }

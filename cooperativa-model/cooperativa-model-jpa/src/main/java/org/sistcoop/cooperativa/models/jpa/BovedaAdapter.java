@@ -96,21 +96,17 @@ public class BovedaAdapter implements BovedaModel {
 
     @Override
     public List<HistorialBovedaModel> getHistoriales() {
-        Set<HistorialBovedaEntity> historialBovedaModels = bovedaEntity.getHistoriales();
+        Set<HistorialBovedaEntity> entities = bovedaEntity.getHistoriales();
         List<HistorialBovedaModel> result = new ArrayList<HistorialBovedaModel>();
-        for (HistorialBovedaEntity historialBovedaEntity : historialBovedaModels) {
-            result.add(new HistorialBovedaAdapter(em, historialBovedaEntity));
-        }
+        entities.forEach(entity -> result.add(new HistorialBovedaAdapter(em, entity)));
         return result;
     }
 
     @Override
     public List<BovedaCajaModel> getBovedaCajas() {
-        Set<BovedaCajaEntity> bovedaCajaEntities = bovedaEntity.getBovedaCajas();
+        Set<BovedaCajaEntity> entities = bovedaEntity.getBovedaCajas();
         List<BovedaCajaModel> result = new ArrayList<BovedaCajaModel>();
-        for (BovedaCajaEntity bovedaCajaEntity : bovedaCajaEntities) {
-            result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
-        }
+        entities.forEach(entity -> result.add(new BovedaCajaAdapter(em, entity)));
         return result;
     }
 

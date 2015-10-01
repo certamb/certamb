@@ -103,6 +103,7 @@ public class EntidadEntity implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((abreviatura == null) ? 0 : abreviatura.hashCode());
         result = prime * result + ((denominacion == null) ? 0 : denominacion.hashCode());
         return result;
     }
@@ -113,9 +114,14 @@ public class EntidadEntity implements Serializable {
             return true;
         if (obj == null)
             return false;
-        if (!(obj instanceof EntidadEntity))
+        if (getClass() != obj.getClass())
             return false;
         EntidadEntity other = (EntidadEntity) obj;
+        if (abreviatura == null) {
+            if (other.abreviatura != null)
+                return false;
+        } else if (!abreviatura.equals(other.abreviatura))
+            return false;
         if (denominacion == null) {
             if (other.denominacion != null)
                 return false;

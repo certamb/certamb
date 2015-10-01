@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.models;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface HistorialBovedaCajaModel extends Model {
@@ -12,17 +13,17 @@ public interface HistorialBovedaCajaModel extends Model {
 
     void setSaldo(BigDecimal saldo);
 
-    Date getFechaApertura();
+    LocalDate getFechaApertura();
 
-    Date getFechaCierre();
+    LocalDate getFechaCierre();
 
-    void setFechaCierre(Date fechaCierre);
+    void setFechaCierre(LocalDate fechaCierre);
 
-    Date getHoraApertura();
+    LocalTime getHoraApertura();
 
-    Date getHoraCierre();
+    LocalTime getHoraCierre();
 
-    void setHoraCierre(Date horaCierre);
+    void setHoraCierre(LocalTime horaCierre);
 
     boolean isAbierto();
 
@@ -39,4 +40,5 @@ public interface HistorialBovedaCajaModel extends Model {
     BovedaCajaModel getBovedaCaja();
 
     List<DetalleHistorialBovedaCajaModel> getDetalle();
+
 }

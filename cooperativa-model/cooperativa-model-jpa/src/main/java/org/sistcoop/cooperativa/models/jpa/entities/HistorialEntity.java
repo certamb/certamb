@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -27,20 +28,20 @@ public abstract class HistorialEntity {
     @NotNull
     @Temporal(TemporalType.DATE)
     @Column(name = "FECHA_APERTURA")
-    protected Date fechaApertura;
+    protected LocalDate fechaApertura;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "FECHA_CIERRE")
-    protected Date fechaCierre;
+    protected LocalDate fechaCierre;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "HORA_APERTURA")
-    protected Date horaApertura;
+    protected LocalTime horaApertura;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "HORA_CIERRE")
-    protected Date horaCierre;
+    protected LocalTime horaCierre;
 
     @NotNull
     @Type(type = "org.hibernate.type.TrueFalseType")
@@ -68,35 +69,35 @@ public abstract class HistorialEntity {
         this.id = id;
     }
 
-    public Date getFechaApertura() {
+    public LocalDate getFechaApertura() {
         return fechaApertura;
     }
 
-    public void setFechaApertura(Date fechaApertura) {
+    public void setFechaApertura(LocalDate fechaApertura) {
         this.fechaApertura = fechaApertura;
     }
 
-    public Date getFechaCierre() {
+    public LocalDate getFechaCierre() {
         return fechaCierre;
     }
 
-    public void setFechaCierre(Date fechaCierre) {
+    public void setFechaCierre(LocalDate fechaCierre) {
         this.fechaCierre = fechaCierre;
     }
 
-    public Date getHoraApertura() {
+    public LocalTime getHoraApertura() {
         return horaApertura;
     }
 
-    public void setHoraApertura(Date horaApertura) {
+    public void setHoraApertura(LocalTime horaApertura) {
         this.horaApertura = horaApertura;
     }
 
-    public Date getHoraCierre() {
+    public LocalTime getHoraCierre() {
         return horaCierre;
     }
 
-    public void setHoraCierre(Date horaCierre) {
+    public void setHoraCierre(LocalTime horaCierre) {
         this.horaCierre = horaCierre;
     }
 
@@ -136,8 +137,7 @@ public abstract class HistorialEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((fechaApertura == null) ? 0 : fechaApertura.hashCode());
-        result = prime * result + ((horaApertura == null) ? 0 : horaApertura.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -150,15 +150,10 @@ public abstract class HistorialEntity {
         if (getClass() != obj.getClass())
             return false;
         HistorialEntity other = (HistorialEntity) obj;
-        if (fechaApertura == null) {
-            if (other.fechaApertura != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!fechaApertura.equals(other.fechaApertura))
-            return false;
-        if (horaApertura == null) {
-            if (other.horaApertura != null)
-                return false;
-        } else if (!horaApertura.equals(other.horaApertura))
+        } else if (!id.equals(other.id))
             return false;
         return true;
     }

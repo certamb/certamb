@@ -28,6 +28,7 @@ import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.Type;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionEntidadBoveda;
+import org.sistcoop.cooperativa.models.enums.TipoTransaccionEntidadBoveda;
 
 @Entity
 @Table(name = "TRANSACCION_ENTIDAD_BOVEDA")
@@ -77,6 +78,11 @@ public class TransaccionEntidadBovedaEntity implements java.io.Serializable {
     @Column(name = "ORIGEN")
     private OrigenTransaccionEntidadBoveda origen;
 
+    @NotNull
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "TIP")
+    private TipoTransaccionEntidadBoveda tipo;
+    
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionBovedaCaja")
     private Set<DetalleTransaccionEntidadBovedaEntity> detalle = new HashSet<DetalleTransaccionEntidadBovedaEntity>();
 

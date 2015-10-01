@@ -1,23 +1,24 @@
 package org.sistcoop.cooperativa.models;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface HistorialBovedaModel extends Model {
 
     String getId();
 
-    Date getFechaApertura();
+    LocalDate getFechaApertura();
 
-    Date getFechaCierre();
+    LocalDate getFechaCierre();
 
-    void setFechaCierre(Date fechaCierre);
+    void setFechaCierre(LocalDate fechaCierre);
 
-    Date getHoraApertura();
+    LocalTime getHoraApertura();
 
-    Date getHoraCierre();
+    LocalTime getHoraCierre();
 
-    void setHoraCierre(Date horaCierre);
+    void setHoraCierre(LocalTime horaCierre);
 
     boolean isAbierto();
 
@@ -34,4 +35,5 @@ public interface HistorialBovedaModel extends Model {
     BovedaModel getBoveda();
 
     List<DetalleHistorialBovedaModel> getDetalle();
+
 }

@@ -1,8 +1,9 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -55,14 +56,15 @@ public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage imp
         }
 
         // Crear Historial
-        Calendar calendar = Calendar.getInstance();
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
         BovedaCajaEntity bovedaCajaEntity = this.em.find(BovedaCajaEntity.class, bovedaCajaModel.getId());
         HistorialBovedaCajaEntity historialBovedaCajaEntity = new HistorialBovedaCajaEntity();
         historialBovedaCajaEntity.setBovedaCaja(bovedaCajaEntity);
         historialBovedaCajaEntity.setSaldo(BigDecimal.ZERO);
         historialBovedaCajaEntity.setEstado(true);
-        historialBovedaCajaEntity.setFechaApertura(calendar.getTime());
-        historialBovedaCajaEntity.setHoraApertura(calendar.getTime());
+        historialBovedaCajaEntity.setFechaApertura(currentDate);
+        historialBovedaCajaEntity.setHoraApertura(currentTime);
 
         em.persist(historialBovedaCajaEntity);
         return new HistorialBovedaCajaAdapter(em, historialBovedaCajaEntity);
@@ -96,11 +98,9 @@ public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage imp
         TypedQuery<HistorialBovedaCajaEntity> query = em.createNamedQuery(
                 "HistorialBovedaCajaEntity.findByIdBovedaCaja", HistorialBovedaCajaEntity.class);
         query.setParameter("idBovedaCaja", bovedaCaja.getId());
-        List<HistorialBovedaCajaEntity> list = query.getResultList();
+        List<HistorialBovedaCajaEntity> entities = query.getResultList();
         List<HistorialBovedaCajaModel> result = new ArrayList<>();
-        for (HistorialBovedaCajaEntity historialBovedaCajaEntity : list) {
-            result.add(new HistorialBovedaCajaAdapter(em, historialBovedaCajaEntity));
-        }
+        entities.forEach(entity -> result.add(new HistorialBovedaCajaAdapter(em, entity)));
         return result;
     }
 
@@ -114,15 +114,13 @@ public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage imp
 
         SearchResultsModel<HistorialBovedaCajaEntity> entityResult = find(criteriaJoin, criteria,
                 HistorialBovedaCajaEntity.class);
+        List<HistorialBovedaCajaEntity> entities = entityResult.getModels();
 
-        SearchResultsModel<HistorialBovedaCajaModel> modelResult = new SearchResultsModel<>();
-        List<HistorialBovedaCajaModel> list = new ArrayList<>();
-        for (HistorialBovedaCajaEntity entity : entityResult.getModels()) {
-            list.add(new HistorialBovedaCajaAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        SearchResultsModel<HistorialBovedaCajaModel> searchResult = new SearchResultsModel<>();
+        List<HistorialBovedaCajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new HistorialBovedaCajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
 }

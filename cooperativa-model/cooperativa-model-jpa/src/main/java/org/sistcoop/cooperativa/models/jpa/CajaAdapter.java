@@ -75,19 +75,15 @@ public class CajaAdapter implements CajaModel {
     public List<BovedaCajaModel> getBovedaCajas() {
         Set<BovedaCajaEntity> bovedaCajaEntities = cajaEntity.getBovedaCajas();
         List<BovedaCajaModel> result = new ArrayList<BovedaCajaModel>();
-        for (BovedaCajaEntity bovedaCajaEntity : bovedaCajaEntities) {
-            result.add(new BovedaCajaAdapter(em, bovedaCajaEntity));
-        }
+        bovedaCajaEntities.forEach(entity -> result.add(new BovedaCajaAdapter(em, entity)));
         return result;
     }
 
     @Override
     public List<TrabajadorCajaModel> getTrabajadorCajas() {
-        Set<TrabajadorCajaEntity> trabajadorCajaEntities = cajaEntity.getTrabajadorCajas();
+        Set<TrabajadorCajaEntity> entities = cajaEntity.getTrabajadorCajas();
         List<TrabajadorCajaModel> result = new ArrayList<TrabajadorCajaModel>();
-        for (TrabajadorCajaEntity trabajadorCajaEntity : trabajadorCajaEntities) {
-            result.add(new TrabajadorCajaAdapter(em, trabajadorCajaEntity));
-        }
+        entities.forEach(entity -> result.add(new TrabajadorCajaAdapter(em, entity)));
         return result;
     }
 

@@ -87,40 +87,34 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
     public List<CajaModel> getAll() {
         TypedQuery<CajaEntity> query = em.createNamedQuery("CajaEntity.findAll", CajaEntity.class);
         List<CajaEntity> entities = query.getResultList();
-        List<CajaModel> models = new ArrayList<CajaModel>();
-        for (CajaEntity cajaEntity : entities) {
-            models.add(new CajaAdapter(em, cajaEntity));
-        }
-        return models;
+        List<CajaModel> result = new ArrayList<CajaModel>();
+        entities.forEach(entity -> result.add(new CajaAdapter(em, entity)));
+        return result;
     }
 
     @Override
     public SearchResultsModel<CajaModel> search(SearchCriteriaModel criteria) {
         SearchResultsModel<CajaEntity> entityResult = find(criteria, CajaEntity.class);
+        List<CajaEntity> entities = entityResult.getModels();
 
-        SearchResultsModel<CajaModel> modelResult = new SearchResultsModel<>();
-        List<CajaModel> list = new ArrayList<>();
-        for (CajaEntity entity : entityResult.getModels()) {
-            list.add(new CajaAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        SearchResultsModel<CajaModel> searchResult = new SearchResultsModel<>();
+        List<CajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new CajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
     @Override
     public SearchResultsModel<CajaModel> search(SearchCriteriaModel criteria, String filterText) {
         SearchResultsModel<CajaEntity> entityResult = findFullText(criteria, CajaEntity.class, filterText,
                 "denominacion");
+        List<CajaEntity> entities = entityResult.getModels();
 
-        SearchResultsModel<CajaModel> modelResult = new SearchResultsModel<>();
-        List<CajaModel> list = new ArrayList<>();
-        for (CajaEntity entity : entityResult.getModels()) {
-            list.add(new CajaAdapter(em, entity));
-        }
-        modelResult.setTotalSize(entityResult.getTotalSize());
-        modelResult.setModels(list);
-        return modelResult;
+        SearchResultsModel<CajaModel> searchResult = new SearchResultsModel<>();
+        List<CajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new CajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
 }

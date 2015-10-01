@@ -12,9 +12,9 @@ public class EntidadAdapter implements EntidadModel {
     private EntidadEntity entidadEntity;
     private EntityManager em;
 
-    public EntidadAdapter(EntityManager em, EntidadEntity entidadEntity) {
+    public EntidadAdapter(EntityManager em, EntidadEntity entity) {
         this.em = em;
-        this.entidadEntity = entidadEntity;
+        this.entidadEntity = entity;
     }
 
     public EntidadEntity getEntidadEntity() {
@@ -66,6 +66,37 @@ public class EntidadAdapter implements EntidadModel {
     @Override
     public void desactivar() {
         entidadEntity.setEstado(false);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getAbreviatura() == null) ? 0 : getAbreviatura().hashCode());
+        result = prime * result + ((getDenominacion() == null) ? 0 : getDenominacion().hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        EntidadModel other = (EntidadModel) obj;
+        if (getAbreviatura() == null) {
+            if (other.getAbreviatura() != null)
+                return false;
+        } else if (!getAbreviatura().equals(other.getAbreviatura()))
+            return false;
+        if (getDenominacion() == null) {
+            if (other.getDenominacion() != null)
+                return false;
+        } else if (!getDenominacion().equals(other.getDenominacion()))
+            return false;
+        return true;
     }
 
 }
