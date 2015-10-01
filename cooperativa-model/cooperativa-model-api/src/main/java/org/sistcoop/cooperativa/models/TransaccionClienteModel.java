@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.models;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface TransaccionClienteModel extends Model {
@@ -9,9 +10,9 @@ public interface TransaccionClienteModel extends Model {
 
     Long getNumeroOperacion();
 
-    Date getFecha();
+    LocalDate getFecha();
 
-    Date getHora();
+    LocalTime getHora();
 
     boolean getEstado();
 

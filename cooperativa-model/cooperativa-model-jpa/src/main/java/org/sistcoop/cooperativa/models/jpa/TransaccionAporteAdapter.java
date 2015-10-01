@@ -1,8 +1,9 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -54,12 +55,12 @@ public class TransaccionAporteAdapter implements TransaccionAporteModel {
     }
 
     @Override
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return transaccionAporteEntity.getFecha();
     }
 
     @Override
-    public Date getHora() {
+    public LocalTime getHora() {
         return transaccionAporteEntity.getHora();
     }
 

@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -53,12 +54,12 @@ public class TransaccionClienteAdapter implements TransaccionClienteModel {
     }
 
     @Override
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return transaccionClienteEntity.getFecha();
     }
 
     @Override
-    public Date getHora() {
+    public LocalTime getHora() {
         return transaccionClienteEntity.getHora();
     }
 

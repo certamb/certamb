@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.models;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
@@ -17,9 +18,9 @@ public interface TransaccionBovedaCajaModel extends Model {
 
     List<DetalleTransaccionBovedaCajaModel> getDetalle();
 
-    Date getFecha();
+    LocalDate getFecha();
 
-    Date getHora();
+    LocalTime getHora();
 
     String getObservacion();
 

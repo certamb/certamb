@@ -1,26 +1,22 @@
 package org.sistcoop.cooperativa.models.jpa;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 
-import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionEntidadBovedaModel;
 import org.sistcoop.cooperativa.models.EntidadModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
-import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionEntidadBovedaModel;
-import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionEntidadBoveda;
-import org.sistcoop.cooperativa.models.jpa.entities.DetalleTransaccionBovedaCajaEntity;
+import org.sistcoop.cooperativa.models.enums.TipoTransaccionEntidadBoveda;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleTransaccionEntidadBovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.EntidadEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
-import org.sistcoop.cooperativa.models.jpa.entities.TransaccionBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionEntidadBovedaEntity;
 
 public class TransaccionEntidadBovedaAdapter implements TransaccionEntidadBovedaModel {
@@ -76,12 +72,17 @@ public class TransaccionEntidadBovedaAdapter implements TransaccionEntidadBoveda
     }
 
     @Override
-    public Date getFecha() {
+    public TipoTransaccionEntidadBoveda getTipo() {
+        return transaccionEntidadBovedaEntity.getTipo();
+    }
+
+    @Override
+    public LocalDate getFecha() {
         return transaccionEntidadBovedaEntity.getFecha();
     }
 
     @Override
-    public Date getHora() {
+    public LocalTime getHora() {
         return transaccionEntidadBovedaEntity.getHora();
     }
 

@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.models;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface TransaccionCajaCajaModel extends Model {
@@ -16,9 +17,9 @@ public interface TransaccionCajaCajaModel extends Model {
 
     List<DetalleTransaccionCajaCajaModel> getDetalle();
 
-    Date getFecha();
+    LocalDate getFecha();
 
-    Date getHora();
+    LocalTime getHora();
 
     String getObservacion();
 
