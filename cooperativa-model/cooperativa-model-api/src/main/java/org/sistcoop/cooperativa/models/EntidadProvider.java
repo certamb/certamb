@@ -19,7 +19,7 @@ public interface EntidadProvider extends Provider {
 
     EntidadModel findByAbreviatura(String abreviatura);
 
-    boolean remove(EntidadModel caja);
+    boolean remove(EntidadModel entidad);
 
     List<EntidadModel> getAll();
 

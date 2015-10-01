@@ -17,6 +17,7 @@ import org.sistcoop.cooperativa.models.EntidadProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.EntidadEntity;
+import org.sistcoop.cooperativa.models.jpa.entities.TransaccionEntidadBovedaEntity;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
@@ -85,17 +86,17 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
     }
 
     @Override
-    public boolean remove(EntidadModel caja) {
-        TypedQuery<TransaccionBovedaEn> query2 = em.createNamedQuery("BovedaCajaEntity.findByIdCaja",
-                BovedaCajaEntity.class);
-        query2.setParameter("idCaja", cajaModel.getId());
-        query2.setMaxResults(1);
-        if (!query2.getResultList().isEmpty()) {
+    public boolean remove(EntidadModel entidad) {
+        TypedQuery<TransaccionEntidadBovedaEntity> query = em.createNamedQuery(
+                "TransaccionEntidadBovedaEntity.findByIdEntidad", TransaccionEntidadBovedaEntity.class);
+        query.setParameter("idEntidad", entidad.getId());
+        query.setMaxResults(1);
+        if (!query.getResultList().isEmpty()) {
             return false;
         }
 
-        CajaEntity cajaEntity = em.find(CajaEntity.class, cajaModel.getId());
-        em.remove(cajaEntity);
+        EntidadEntity entidadEntity = em.find(EntidadEntity.class, entidad.getId());
+        em.remove(entidadEntity);
         return true;
     }
 
@@ -105,9 +106,7 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
         List<EntidadEntity> list = query.getResultList();
 
         List<EntidadModel> result = new ArrayList<>();
-        for (EntidadEntity entidadEntity : list) {
-            result.add(new EntidadAdapter(em, entidadEntity));
-        }
+        list.forEach(entidadEntity -> result.add(new EntidadAdapter(em, entidadEntity)));
         return result;
     }
 
@@ -117,11 +116,11 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
 
         SearchResultsModel<EntidadModel> modelResult = new SearchResultsModel<>();
         List<EntidadModel> list = new ArrayList<>();
-        for (EntidadEntity entity : entityResult.getModels()) {
-            list.add(new EntidadAdapter(em, entity));
-        }
+
+        entityResult.getModels().forEach(entity -> list.add(new EntidadAdapter(em, entity)));
         modelResult.setTotalSize(entityResult.getTotalSize());
         modelResult.setModels(list);
+
         return modelResult;
     }
 
