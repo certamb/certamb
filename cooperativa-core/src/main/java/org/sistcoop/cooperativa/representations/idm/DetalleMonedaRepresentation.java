@@ -9,34 +9,35 @@ import javax.validation.constraints.NotNull;
 
 public class DetalleMonedaRepresentation implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private BigDecimal valor;
-	private Integer cantidad;
+    @NotNull
+    @Min(value = 0)
+    @Max(value = 10000)
+    private BigDecimal valor;
 
-	@NotNull
-	@Min(value = 0)
-	@Max(value = 10000)
-	public BigDecimal getValor() {
-		return valor;
-	}
+    @NotNull
+    @Min(value = 0)
+    @Max(value = 1000000)
+    private Integer cantidad;
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
+    public BigDecimal getValor() {
+        return valor;
+    }
 
-	@NotNull
-	@Min(value = 0)
-	@Max(value = 1000000)
-	public Integer getCantidad() {
-		return cantidad;
-	}
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
 
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
-	}
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
 
 }
