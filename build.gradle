@@ -28,12 +28,15 @@ sonarRunner {
 allprojects {
     apply plugin: 'idea'
     apply plugin: 'eclipse'
-    group = 'org.sistcoop'
+    group = 'org.sistcoop' 
 }
 
 subprojects {
 
     apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
     apply from: "$rootDir/gradle/jacoco.gradle"
     apply from: "$rootDir/gradle/publishJarMaven.gradle"
 
@@ -57,9 +60,11 @@ subprojects {
         compile 'javax.inject:javax.inject:1'
         compile 'javax.annotation:javax.annotation-api:1.2'			
         
-        compile 'org.hibernate:hibernate-entitymanager:4.3.10.Final'
-        compile 'org.hibernate:hibernate-envers:4.3.10.Final'
-        compile 'org.hibernate:hibernate-validator:5.1.3.Final'
+        compile 'org.hibernate:hibernate-entitymanager:5.0.1.Final'
+        compile 'org.hibernate:hibernate-envers:5.0.1.Final'
+        compile 'org.hibernate:hibernate-validator:5.0.1.Final'
+        compile 'org.hibernate:hibernate-java8:5.0.1.Final'
+        compile 'org.hibernate:hibernate-infinispan:5.0.1.Final'
         
         compile 'org.jboss.resteasy:resteasy-jaxrs:3.0.9.Final'        
         compile 'org.jboss.resteasy:resteasy-jackson-provider:3.0.9.Final'      

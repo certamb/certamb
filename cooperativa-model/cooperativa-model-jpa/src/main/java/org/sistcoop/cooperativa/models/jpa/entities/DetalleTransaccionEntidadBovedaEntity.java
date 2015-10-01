@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
@@ -20,11 +20,12 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
-@Entity(name = "DETALLE_TRANSACCION_INTERNA")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-public abstract class DetalleTransaccionInternaEntity implements Serializable {
+@Entity
+@NamedQueries(value = { @NamedQuery(name = "DetalleTransaccionEntidadBovedaEntity.findByIdTransaccionEntidadBoveda", query = "SELECT d FROM DetalleTransaccionEntidadBovedaEntity d INNER JOIN d.transaccionEntidadBoveda teb WHERE teb.id = :idTransaccionEntidadBoveda AND d.valor = :valor") })
+public class DetalleTransaccionEntidadBovedaEntity implements Serializable {
 
     /**
 	 * 
@@ -54,10 +55,15 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
     @Column(name = "SUBTOTALf")
     protected BigDecimal subtotal;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "TRANSACCION_ENTIDAD_BOVEDA_ID")
+    private TransaccionEntidadBovedaEntity transaccionEntidadBoveda;
+
     @Version
     private Timestamp optlk;
 
-    public DetalleTransaccionInternaEntity() {
+    public DetalleTransaccionEntidadBovedaEntity() {
         // TODO Auto-generated constructor stub
     }
 
@@ -85,20 +91,28 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Timestamp getOptlk() {
-        return optlk;
-    }
-
-    public void setOptlk(Timestamp optlk) {
-        this.optlk = optlk;
-    }
-
     public BigDecimal getSubtotal() {
         return subtotal;
     }
 
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
+    }
+
+    public TransaccionEntidadBovedaEntity getTransaccionEntidadBoveda() {
+        return transaccionEntidadBoveda;
+    }
+
+    public void setTransaccionEntidadBoveda(TransaccionEntidadBovedaEntity transaccionEntidadBoveda) {
+        this.transaccionEntidadBoveda = transaccionEntidadBoveda;
+    }
+
+    public Timestamp getOptlk() {
+        return optlk;
+    }
+
+    public void setOptlk(Timestamp optlk) {
+        this.optlk = optlk;
     }
 
     @Override
@@ -115,9 +129,9 @@ public abstract class DetalleTransaccionInternaEntity implements Serializable {
             return true;
         if (obj == null)
             return false;
-        if (!(obj instanceof DetalleTransaccionInternaEntity))
+        if (getClass() != obj.getClass())
             return false;
-        DetalleTransaccionInternaEntity other = (DetalleTransaccionInternaEntity) obj;
+        DetalleTransaccionEntidadBovedaEntity other = (DetalleTransaccionEntidadBovedaEntity) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

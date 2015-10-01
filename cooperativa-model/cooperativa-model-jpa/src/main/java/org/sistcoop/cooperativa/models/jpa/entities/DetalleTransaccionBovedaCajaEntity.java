@@ -32,7 +32,7 @@ public class DetalleTransaccionBovedaCajaEntity extends DetalleTransaccionIntern
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey)
+    @JoinColumn(foreignKey = @ForeignKey, name = "TRANSACCION_BOVEDA_CAJA_ID")
     public TransaccionBovedaCajaEntity getTransaccionBovedaCaja() {
         return transaccionBovedaCaja;
     }

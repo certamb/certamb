@@ -23,15 +23,15 @@ public class DetalleTransaccionCajaCajaEntity extends DetalleTransaccionInternaE
 	 */
     private static final long serialVersionUID = 1L;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "TRANSACCION_CAJA_CAJA_ID")
     private TransaccionCajaCajaEntity transaccionCajaCaja;
 
     public DetalleTransaccionCajaCajaEntity() {
         // TODO Auto-generated constructor stub
     }
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey)
     public TransaccionCajaCajaEntity getTransaccionCajaCaja() {
         return transaccionCajaCaja;
     }
@@ -39,4 +39,5 @@ public class DetalleTransaccionCajaCajaEntity extends DetalleTransaccionInternaE
     public void setTransaccionCajaCaja(TransaccionCajaCajaEntity transaccionCajaCaja) {
         this.transaccionCajaCaja = transaccionCajaCaja;
     }
+
 }

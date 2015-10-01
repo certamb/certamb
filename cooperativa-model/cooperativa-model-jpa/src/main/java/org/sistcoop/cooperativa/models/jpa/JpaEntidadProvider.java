@@ -12,18 +12,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.sistcoop.cooperativa.models.CajaModel;
-import org.sistcoop.cooperativa.models.EntidadModel;
 import org.sistcoop.cooperativa.models.EntidadModel;
 import org.sistcoop.cooperativa.models.EntidadProvider;
-import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.EntidadEntity;
-import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
-import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinModel;
-import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinType;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
