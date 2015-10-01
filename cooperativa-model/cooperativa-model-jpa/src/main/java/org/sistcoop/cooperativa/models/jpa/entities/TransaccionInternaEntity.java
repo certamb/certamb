@@ -5,8 +5,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,11 +20,11 @@ public abstract class TransaccionInternaEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
+    @Type(type = "org.hibernate.type.LocalDateType")
     protected Date fecha;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
+    @Type(type = "org.hibernate.type.LocalTimeType")
     protected Date hora;
 
     @Size(min = 1, max = 60)

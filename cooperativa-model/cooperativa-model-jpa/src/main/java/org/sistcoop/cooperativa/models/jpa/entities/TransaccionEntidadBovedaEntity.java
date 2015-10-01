@@ -17,8 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -49,11 +47,11 @@ public class TransaccionEntidadBovedaEntity implements java.io.Serializable {
     private String id;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
+    @Type(type = "org.hibernate.type.LocalDateType")
     private Date fecha;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
+    @Type(type = "org.hibernate.type.LocalTimeType")
     private Date hora;
 
     @Size(min = 1, max = 60)
@@ -82,7 +80,7 @@ public class TransaccionEntidadBovedaEntity implements java.io.Serializable {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "TIP")
     private TipoTransaccionEntidadBoveda tipo;
-    
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionBovedaCaja")
     private Set<DetalleTransaccionEntidadBovedaEntity> detalle = new HashSet<DetalleTransaccionEntidadBovedaEntity>();
 

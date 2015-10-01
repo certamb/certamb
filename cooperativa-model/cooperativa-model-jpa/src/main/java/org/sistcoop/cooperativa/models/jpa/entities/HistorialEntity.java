@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
@@ -26,20 +24,20 @@ public abstract class HistorialEntity {
     protected String id;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
+    @Type(type = "org.hibernate.type.LocalDateType")
     @Column(name = "FECHA_APERTURA")
     protected LocalDate fechaApertura;
 
-    @Temporal(TemporalType.DATE)
+    @Type(type = "org.hibernate.type.LocalDateType")
     @Column(name = "FECHA_CIERRE")
     protected LocalDate fechaCierre;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
+    @Type(type = "org.hibernate.type.LocalTimeType")
     @Column(name = "HORA_APERTURA")
     protected LocalTime horaApertura;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Type(type = "org.hibernate.type.LocalTimeType")
     @Column(name = "HORA_CIERRE")
     protected LocalTime horaCierre;
 
