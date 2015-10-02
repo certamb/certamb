@@ -22,7 +22,7 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 @Consumes(MediaType.APPLICATION_JSON)
 public interface CajaTrabajadoresResource {
 
-    @Path("/{trabajador}")
+    @Path("{trabajador}")
     public CajaTrabajadorResource cajaTrabajador(@PathParam("trabajador") String trabajador);
 
     @POST
@@ -36,7 +36,8 @@ public interface CajaTrabajadoresResource {
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<TrabajadorCajaRepresentation> search(
-            @QueryParam("estado") @DefaultValue("true") boolean estado,
+            @QueryParam("tipoDocumento") String tipoDocumento,
+            @QueryParam("numeroDocumento") String numeroDocumento,
             @QueryParam("page") @DefaultValue("1") Integer page,
             @QueryParam("pageSize") @DefaultValue("20") Integer pageSize);
 

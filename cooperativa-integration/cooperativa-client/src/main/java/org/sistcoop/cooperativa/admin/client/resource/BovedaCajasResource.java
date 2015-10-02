@@ -21,7 +21,7 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 @Consumes(MediaType.APPLICATION_JSON)
 public interface BovedaCajasResource {
 
-    @Path("/{bovedaCaja}")
+    @Path("{bovedaCaja}")
     public BovedaCajaResource bovedaCaja(@PathParam("bovedaCaja") String bovedaCaja);
 
     // @POST
@@ -38,7 +38,8 @@ public interface BovedaCajasResource {
     @GET
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
-    public SearchResultsRepresentation<BovedaCajaRepresentation> search(@QueryParam("boveda") String boveda,
-            @QueryParam("caja") String caja, @QueryParam("estado") Boolean estado);
+    public SearchResultsRepresentation<BovedaCajaRepresentation> search(
+            @QueryParam("idBoveda") String idBoveda, @QueryParam("idCaja") String idCaja,
+            @QueryParam("estado") Boolean estado);
 
 }

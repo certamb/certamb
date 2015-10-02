@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 import org.sistcoop.cooperativa.provider.Provider;
 
 @Local
@@ -18,5 +20,7 @@ public interface TrabajadorCajaProvider extends Provider {
     boolean remove(TrabajadorCajaModel trabajadorCaja);
 
     List<TrabajadorCajaModel> getAll(CajaModel caja);
+
+    SearchResultsModel<TrabajadorCajaModel> search(CajaModel cajaModel, SearchCriteriaModel searchCriteriaBean);
 
 }

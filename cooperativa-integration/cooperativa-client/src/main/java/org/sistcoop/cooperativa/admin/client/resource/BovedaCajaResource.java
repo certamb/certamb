@@ -8,6 +8,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 
@@ -25,17 +26,17 @@ public interface BovedaCajaResource {
     public void update(BovedaCajaRepresentation bovedaRepresentation);
 
     @POST
-    @Path("/enable")
-    public void enable();
+    @Path("enable")
+    public Response enable();
 
     @POST
-    @Path("/disable")
-    public void disable();
+    @Path("disable")
+    public Response disable();
 
     @DELETE
-    public void remove();
+    public Response remove();
 
-    @Path("/historiales")
+    @Path("historiales")
     public HistorialesBovedaCajaResource historiales();
 
 }

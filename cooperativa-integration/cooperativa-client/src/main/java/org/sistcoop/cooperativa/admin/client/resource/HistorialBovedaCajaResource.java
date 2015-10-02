@@ -10,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
@@ -21,7 +22,7 @@ public interface HistorialBovedaCajaResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public HistorialBovedaCajaRepresentation historial();
+    public HistorialBovedaCajaRepresentation toRepresentation();
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -31,9 +32,9 @@ public interface HistorialBovedaCajaResource {
     public void remove();
 
     @POST
-    @Path("/cerrar")
+    @Path("cerrar")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void cerrar(List<DetalleMonedaRepresentation> detalle);
+    public Response cerrar(List<DetalleMonedaRepresentation> detalle);
 
     @POST
     public void congelar();
@@ -42,14 +43,14 @@ public interface HistorialBovedaCajaResource {
     public void descongelar();
 
     @GET
-    @Path("/detalle")
+    @Path("detalle")
     @Produces(MediaType.APPLICATION_JSON)
     public List<DetalleMonedaRepresentation> detalle();
 
-    @Path("/transaccionesBovedaCaja")
+    @Path("transaccionesBovedaCaja")
     public TransaccionesBovedaCajaResource transaccionesBoveda();
 
-    @Path("/transaccionesCajaCaja")
+    @Path("transaccionesCajaCaja")
     public TransaccionesCajaCajaResource transaccionesCaja();
 
 }

@@ -18,15 +18,17 @@ import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.search.PagingModel;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
-import org.sistcoop.cooperativa.models.search.filters.BovedaCajaFilterProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
 import org.sistcoop.cooperativa.services.resources.producers.BovedaCajas_Boveda;
 
 @Stateless
@@ -49,9 +51,6 @@ public class BovedaCajasResourceImpl_Boveda implements BovedaCajasResource {
     private RepresentationToModel representationToModel;
 
     @Inject
-    private BovedaCajaFilterProvider bovedaCajaFilterProvider;
-
-    @Inject
     private BovedaCajaResource cajaBovedaResource;
 
     @Context
@@ -68,9 +67,24 @@ public class BovedaCajasResourceImpl_Boveda implements BovedaCajasResource {
 
     @Override
     public Response create(BovedaCajaRepresentation[] bovedaCajaRepresentations) {
-        representationToModel.createBovedaCaja(bovedaCajaRepresentations, getBovedaModel(), cajaProvider,
-                bovedaCajaProvider);
-        return Response.ok().build();
+        BovedaModel bovedaModel = getBovedaModel();
+        for (int i = 0; i < bovedaCajaRepresentations.length; i++) {
+            BovedaCajaRepresentation bovedaCajaRepresentation = bovedaCajaRepresentations[i];
+            CajaRepresentation cajaRepresentation = bovedaCajaRepresentation.getCaja();
+            CajaModel cajaModel = cajaProvider.findById(cajaRepresentation.getId());
+            if (bovedaCajaProvider.findByBovedaCaja(bovedaModel, cajaModel) != null) {
+                return ErrorResponse.exists("BovedaCaja ya existe");
+            }
+        }
+
+        try {
+            representationToModel.createBovedaCaja(bovedaCajaRepresentations, bovedaModel, cajaProvider,
+                    bovedaCajaProvider);
+            return Response.ok().build();
+        } catch (ModelDuplicateException e) {
+            return ErrorResponse.exists("BovedaCaja ya existe");
+        }
+
     }
 
     /*
@@ -86,44 +100,17 @@ public class BovedaCajasResourceImpl_Boveda implements BovedaCajasResource {
      */
 
     @Override
-    public SearchResultsRepresentation<BovedaCajaRepresentation> search(Boolean estado) {
-        BovedaModel bovedaModel = getBovedaModel();
-
-        // add paging
-        PagingModel paging = new PagingModel();
-        paging.setPage(1);
-        paging.setPageSize(20);
-
-        SearchCriteriaModel searchCriteriaBean = new SearchCriteriaModel();
-        searchCriteriaBean.setPaging(paging);
-
-        // add ordery by
-        searchCriteriaBean.addOrder(bovedaCajaFilterProvider.getIdFilter(), true);
-
-        // add filter
-        searchCriteriaBean.addFilter(bovedaCajaFilterProvider.getIdBovedaFilter(), bovedaModel.getId(),
-                SearchCriteriaFilterOperator.eq);
-        if (estado != null) {
-            searchCriteriaBean.addFilter(bovedaCajaFilterProvider.getEstadoFilter(), estado,
-                    SearchCriteriaFilterOperator.eq);
-        }
-
-        // search
-        SearchResultsModel<BovedaCajaModel> results = bovedaCajaProvider.search(searchCriteriaBean);
-        SearchResultsRepresentation<BovedaCajaRepresentation> rep = new SearchResultsRepresentation<>();
-        List<BovedaCajaRepresentation> representations = new ArrayList<>();
-        for (BovedaCajaModel model : results.getModels()) {
-            representations.add(ModelToRepresentation.toRepresentation(model));
-        }
-        rep.setTotalSize(results.getTotalSize());
-        rep.setItems(representations);
-        return rep;
+    public List<BovedaCajaRepresentation> getAll() {
+        List<BovedaCajaModel> models = bovedaCajaProvider.getAll(getBovedaModel());
+        List<BovedaCajaRepresentation> result = new ArrayList<>();
+        models.forEach(model -> result.add(ModelToRepresentation.toRepresentation(model)));
+        return result;
     }
 
     @Override
-    public SearchResultsRepresentation<BovedaCajaRepresentation> search(String boveda, String caja) {
+    public SearchResultsRepresentation<BovedaCajaRepresentation> search(String idBoveda, String idCaja,
+            Boolean estado) {
         BovedaModel bovedaModel = getBovedaModel();
-        CajaModel cajaModel = cajaProvider.findById(caja);
 
         // add paging
         PagingModel paging = new PagingModel();
@@ -133,25 +120,25 @@ public class BovedaCajasResourceImpl_Boveda implements BovedaCajasResource {
         SearchCriteriaModel searchCriteriaBean = new SearchCriteriaModel();
         searchCriteriaBean.setPaging(paging);
 
-        // add ordery by
-        searchCriteriaBean.addOrder(bovedaCajaFilterProvider.getIdFilter(), true);
-
         // add filter
-        searchCriteriaBean.addFilter(bovedaCajaFilterProvider.getIdBovedaFilter(), bovedaModel.getId(),
-                SearchCriteriaFilterOperator.eq);
-        searchCriteriaBean.addFilter(bovedaCajaFilterProvider.getIdCajaFilter(), cajaModel.getId(),
-                SearchCriteriaFilterOperator.eq);
+        if (estado != null) {
+            searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.eq);
+        }
+
+        SearchResultsModel<BovedaCajaModel> results = null;
+        if (idCaja != null) {
+            CajaModel cajaModel = cajaProvider.findById(idCaja);
+            results = bovedaCajaProvider.search(bovedaModel, cajaModel, searchCriteriaBean);
+        } else {
+            results = bovedaCajaProvider.search(bovedaModel, searchCriteriaBean);
+        }
 
         // search
-        SearchResultsModel<BovedaCajaModel> results = bovedaCajaProvider.search(searchCriteriaBean);
         SearchResultsRepresentation<BovedaCajaRepresentation> rep = new SearchResultsRepresentation<>();
-        List<BovedaCajaRepresentation> representations = new ArrayList<>();
-        for (BovedaCajaModel model : results.getModels()) {
-            representations.add(ModelToRepresentation.toRepresentation(model));
-        }
+        List<BovedaCajaRepresentation> items = new ArrayList<>();
+        results.getModels().forEach(model -> items.add(ModelToRepresentation.toRepresentation(model)));
+        rep.setItems(items);
         rep.setTotalSize(results.getTotalSize());
-        rep.setItems(representations);
         return rep;
     }
-
 }

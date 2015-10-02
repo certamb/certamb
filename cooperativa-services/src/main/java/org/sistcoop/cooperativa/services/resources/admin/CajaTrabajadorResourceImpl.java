@@ -4,12 +4,14 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.admin.client.resource.CajaTrabajadorResource;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
 
 @Stateless
 public class CajaTrabajadorResourceImpl implements CajaTrabajadorResource {
@@ -30,7 +32,7 @@ public class CajaTrabajadorResourceImpl implements CajaTrabajadorResource {
         if (rep != null) {
             return rep;
         } else {
-            throw new NotFoundException();
+            throw new NotFoundException("Trabajador no encontrado");
         }
     }
 
@@ -40,8 +42,17 @@ public class CajaTrabajadorResourceImpl implements CajaTrabajadorResource {
     }
 
     @Override
-    public void remove() {
-        trabajadorCajaProvider.remove(getTrabajadorCajaModel());
+    public Response remove() {
+        TrabajadorCajaModel trabajadorCaja = getTrabajadorCajaModel();
+        if (trabajadorCaja == null) {
+            throw new NotFoundException("Trabajador no encontrado");
+        }
+        boolean removed = trabajadorCajaProvider.remove(trabajadorCaja);
+        if (removed) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Trabajador no pudo ser eliminado", Response.Status.BAD_REQUEST);
+        }
     }
 
 }

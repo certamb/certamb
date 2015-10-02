@@ -10,7 +10,7 @@ import org.sistcoop.cooperativa.models.BovedaCajaModel;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class BovedaCajaManager {
 
-	public void disable(BovedaCajaModel bovedaCajaModel) {
+	public boolean disable(BovedaCajaModel bovedaCajaModel) {
 		bovedaCajaModel.desactivar();
 		bovedaCajaModel.commit();		
 	}

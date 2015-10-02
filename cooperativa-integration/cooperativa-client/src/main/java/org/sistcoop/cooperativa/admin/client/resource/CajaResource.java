@@ -36,10 +36,10 @@ public interface CajaResource {
     @DELETE
     public Response remove();
 
-    @Path("/bovedasCaja")
+    @Path("bovedasCaja")
     public BovedaCajasResource bovedasCaja();
 
-    @Path("/trabajadoresCaja")
+    @Path("trabajadoresCaja")
     public CajaTrabajadoresResource trabajadoresCaja();
 
 }

@@ -1,12 +1,15 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaCajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
@@ -17,7 +20,8 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
+import org.sistcoop.cooperativa.services.ErrorResponseException;
 import org.sistcoop.cooperativa.services.managers.HistorialBovedaCajaManager;
 import org.sistcoop.cooperativa.services.resources.producers.TransaccionesBovedaCaja_Caja;
 
@@ -45,13 +49,13 @@ public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResou
     }
 
     @Override
-    public HistorialBovedaCajaRepresentation historial() {
+    public HistorialBovedaCajaRepresentation toRepresentation() {
         HistorialBovedaCajaRepresentation rep = ModelToRepresentation
                 .toRepresentation(getHistorialBovedaCajaModel());
         if (rep != null) {
             return rep;
         } else {
-            throw new NotFoundException();
+            throw new NotFoundException("Historial no encontrado");
         }
     }
 
@@ -66,8 +70,34 @@ public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResou
     }
 
     @Override
-    public void cerrar(List<DetalleMonedaRepresentation> detalle) {
-        historialBovedaCajaManager.cerrarHistorialBovedaCaja(getHistorialBovedaCajaModel(), detalle);
+    public Response cerrar(List<DetalleMonedaRepresentation> detalle) {
+        HistorialBovedaCajaModel historialBovedaCaja = getHistorialBovedaCajaModel();
+
+        if (!historialBovedaCaja.getEstado()) {
+            return new ErrorResponseException("BovedaCaja inactiva",
+                    "BovedaCaja inactiva, no puede se cerrada", Response.Status.BAD_REQUEST).getResponse();
+        }
+        if (!historialBovedaCaja.isAbierto()) {
+            return new ErrorResponseException("BovedaCaja cerrada",
+                    "BovedaCaja cerrada, no se puede cerrar nuevamente", Response.Status.BAD_REQUEST)
+                    .getResponse();
+        }
+
+        Function<DetalleMonedaRepresentation, BigDecimal> totalMapper = det -> det.getValor().multiply(
+                new BigDecimal(det.getCantidad()));
+        BigDecimal saldoDetalleEnviado = detalle.stream().map(totalMapper)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (historialBovedaCaja.getSaldo().compareTo(saldoDetalleEnviado) != 0) {
+            return new ErrorResponseException("Detalle no valido", "El detalle enviado no es valido",
+                    Response.Status.BAD_REQUEST).getResponse();
+        }
+
+        boolean result = historialBovedaCajaManager.cerrarHistorialBovedaCaja(historialBovedaCaja, detalle);
+        if (result) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Caja no pudo ser cerrada", Response.Status.BAD_REQUEST);
+        }
     }
 
     @Override
@@ -81,20 +111,10 @@ public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResou
     }
 
     @Override
-    public SearchResultsRepresentation<DetalleMonedaRepresentation> detalle() {
+    public List<DetalleMonedaRepresentation> detalle() {
         List<DetalleHistorialBovedaCajaModel> detalle = getHistorialBovedaCajaModel().getDetalle();
-        SearchResultsRepresentation<DetalleMonedaRepresentation> result = new SearchResultsRepresentation<>();
-        for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaModel : detalle) {
-            int cantidad = detalleHistorialBovedaModel.getCantidad();
-            BigDecimal valor = detalleHistorialBovedaModel.getValor();
-
-            DetalleMonedaRepresentation rep = new DetalleMonedaRepresentation();
-            rep.setCantidad(cantidad);
-            rep.setValor(valor);
-
-            result.getItems().add(rep);
-        }
-        result.setTotalSize(result.getItems().size());
+        List<DetalleMonedaRepresentation> result = new ArrayList<>();
+        detalle.forEach(model -> result.add(ModelToRepresentation.toRepresentation(model)));
         return result;
     }
 

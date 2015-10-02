@@ -3,6 +3,8 @@ package org.sistcoop.cooperativa.models.utils;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
@@ -173,6 +175,16 @@ public class ModelToRepresentation {
         rep.setValor(model.getValor());
 
         return rep;
+    }
+
+    public static DetalleMonedaRepresentation toRepresentation(DetalleHistorialBovedaModel model) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public static DetalleMonedaRepresentation toRepresentation(DetalleHistorialBovedaCajaModel model) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

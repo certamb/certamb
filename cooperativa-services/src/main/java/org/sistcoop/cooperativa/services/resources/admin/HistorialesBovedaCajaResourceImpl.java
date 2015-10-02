@@ -1,7 +1,7 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -11,7 +11,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaCajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.HistorialesBovedaCajaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
@@ -19,15 +18,16 @@ import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.search.PagingModel;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
-import org.sistcoop.cooperativa.models.search.filters.HistorialBovedaCajaFilterProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
 
 @Stateless
 public class HistorialesBovedaCajaResourceImpl implements HistorialesBovedaCajaResource {
@@ -51,9 +51,6 @@ public class HistorialesBovedaCajaResourceImpl implements HistorialesBovedaCajaR
     private UriInfo uriInfo;
 
     @Inject
-    private HistorialBovedaCajaFilterProvider historialBovedaCajaFilterProvider;
-
-    @Inject
     private HistorialBovedaCajaResource cajaBovedaHistorialResource;
 
     private BovedaCajaModel getBovedaCajaModel() {
@@ -67,49 +64,39 @@ public class HistorialesBovedaCajaResourceImpl implements HistorialesBovedaCajaR
 
     @Override
     public Response create(HistorialBovedaCajaRepresentation historialBovedaCajaRepresentation) {
-        HistorialBovedaCajaModel historialBovedaCajaModel = representationToModel.createHistorialBovedaCaja(
-                getBovedaCajaModel(), historialBovedaCajaProvider, detalleHistorialBovedaCajaProvider);
-
-        return Response
-                .created(uriInfo.getAbsolutePathBuilder().path(historialBovedaCajaModel.getId()).build())
-                .header("Access-Control-Expose-Headers", "Location")
-                .entity(Jsend.getSuccessJSend(historialBovedaCajaModel.getId())).build();
-    }
-
-    @Override
-    public SearchResultsRepresentation<HistorialBovedaCajaRepresentation> search(boolean estado) {
-        // add paging
-        PagingModel paging = new PagingModel();
-        paging.setPage(1);
-        paging.setPageSize(20);
-
-        SearchCriteriaModel searchCriteriaBean = new SearchCriteriaModel();
-        searchCriteriaBean.setPaging(paging);
-
-        // add ordery by
-        searchCriteriaBean.addOrder(historialBovedaCajaFilterProvider.getFechaAperturaFilter(), true);
-        searchCriteriaBean.addOrder(historialBovedaCajaFilterProvider.getHoraAperturaFilter(), true);
-
-        // add filter
-        searchCriteriaBean.addFilter(historialBovedaCajaFilterProvider.getEstadoFilter(), estado,
-                SearchCriteriaFilterOperator.bool_eq);
-
-        // search
-        SearchResultsModel<HistorialBovedaCajaModel> results = historialBovedaCajaProvider
-                .search(searchCriteriaBean);
-        SearchResultsRepresentation<HistorialBovedaCajaRepresentation> rep = new SearchResultsRepresentation<>();
-        List<HistorialBovedaCajaRepresentation> representations = new ArrayList<>();
-        for (HistorialBovedaCajaModel model : results.getModels()) {
-            representations.add(ModelToRepresentation.toRepresentation(model));
+        BovedaCajaModel bovedaCajaModel = getBovedaCajaModel();
+        HistorialBovedaCajaModel historialBovedaCajaActivoModel = bovedaCajaModel.getHistorialActivo();
+        if (historialBovedaCajaActivoModel != null) {
+            if (historialBovedaCajaActivoModel.isAbierto()) {
+                return ErrorResponse.exists("BovedaCaja abierta, no se puede abrir");
+            }
         }
-        rep.setTotalSize(results.getTotalSize());
-        rep.setItems(representations);
-        return rep;
+
+        try {
+            HistorialBovedaCajaModel historialBovedaCajaModel = representationToModel
+                    .createHistorialBovedaCaja(getBovedaCajaModel(), historialBovedaCajaProvider,
+                            detalleHistorialBovedaCajaProvider);
+
+            return Response
+                    .created(uriInfo.getAbsolutePathBuilder().path(historialBovedaCajaModel.getId()).build())
+                    .header("Access-Control-Expose-Headers", "Location")
+                    .entity(ModelToRepresentation.toRepresentation(bovedaCajaModel)).build();
+        } catch (ModelDuplicateException e) {
+            return ErrorResponse.exists("BovedaCaja abierta, no se puede abrir");
+        }
     }
 
     @Override
-    public SearchResultsRepresentation<HistorialBovedaCajaRepresentation> search(Date desde, Date hasta,
-            Integer page, Integer pageSize) {
+    public List<HistorialBovedaCajaRepresentation> getAll() {
+        List<HistorialBovedaCajaModel> models = historialBovedaCajaProvider.getAll(getBovedaCajaModel());
+        List<HistorialBovedaCajaRepresentation> result = new ArrayList<>();
+        models.forEach(model -> result.add(ModelToRepresentation.toRepresentation(model)));
+        return result;
+    }
+
+    @Override
+    public SearchResultsRepresentation<HistorialBovedaCajaRepresentation> search(boolean estado,
+            LocalDateTime desde, LocalDateTime hasta, Integer page, Integer pageSize) {
         // add paging
         PagingModel paging = new PagingModel();
         paging.setPage(page);
@@ -119,28 +106,32 @@ public class HistorialesBovedaCajaResourceImpl implements HistorialesBovedaCajaR
         searchCriteriaBean.setPaging(paging);
 
         // add order by
-        searchCriteriaBean.addOrder(historialBovedaCajaFilterProvider.getFechaAperturaFilter(), true);
-        searchCriteriaBean.addOrder(historialBovedaCajaFilterProvider.getHoraAperturaFilter(), true);
+        searchCriteriaBean.addOrder("fechaApertura", true);
+        searchCriteriaBean.addOrder("horaApertura", true);
 
         // add filter
-        searchCriteriaBean.addFilter(historialBovedaCajaFilterProvider.getIdBovedaCajaFilter(),
-                getBovedaCajaModel().getId(), SearchCriteriaFilterOperator.eq);
-        searchCriteriaBean.addFilter(historialBovedaCajaFilterProvider.getFechaAperturaFilter(), desde,
-                SearchCriteriaFilterOperator.gte);
-        searchCriteriaBean.addFilter(historialBovedaCajaFilterProvider.getFechaAperturaFilter(), hasta,
-                SearchCriteriaFilterOperator.lte);
+        searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
+        if (desde != null) {
+            searchCriteriaBean.addFilter("fechaApertura", desde.toLocalDate(),
+                    SearchCriteriaFilterOperator.gte);
+            searchCriteriaBean.addFilter("horaApertura", desde.toLocalTime(),
+                    SearchCriteriaFilterOperator.gte);
+        }
+        if (hasta != null) {
+            searchCriteriaBean.addFilter("fechaApertura", hasta.toLocalDate(),
+                    SearchCriteriaFilterOperator.lte);
+            searchCriteriaBean.addFilter("horaApertura", hasta.toLocalTime(),
+                    SearchCriteriaFilterOperator.lte);
+        }
 
         // search
-        SearchResultsModel<HistorialBovedaCajaModel> results = historialBovedaCajaProvider
-                .search(searchCriteriaBean);
+        SearchResultsModel<HistorialBovedaCajaModel> results = historialBovedaCajaProvider.search(
+                getBovedaCajaModel(), searchCriteriaBean);
         SearchResultsRepresentation<HistorialBovedaCajaRepresentation> rep = new SearchResultsRepresentation<>();
-        List<HistorialBovedaCajaRepresentation> representations = new ArrayList<>();
-        for (HistorialBovedaCajaModel model : results.getModels()) {
-            representations.add(ModelToRepresentation.toRepresentation(model));
-        }
+        List<HistorialBovedaCajaRepresentation> items = new ArrayList<>();
+        results.getModels().forEach(model -> items.add(ModelToRepresentation.toRepresentation(model)));
+        rep.setItems(items);
         rep.setTotalSize(results.getTotalSize());
-        rep.setItems(representations);
         return rep;
     }
-
 }
