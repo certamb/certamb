@@ -55,13 +55,13 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
         HistorialBovedaCajaEntity historialBovedaCajaDestinoEntity = this.em.find(
                 HistorialBovedaCajaEntity.class, historialBovedaCajaDestino.getId());
 
-        if (!historialBovedaCajaOrigenEntity.isEstado()) {
+        if (!historialBovedaCajaOrigenEntity.isEstado() || !historialBovedaCajaOrigenEntity.isAbierto()) {
             throw new ModelReadOnlyException(
-                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
+                    "HistorialBovedaCajaEntity (estado = false) o cerrados, no se puede asociar entidades");
         }
-        if (!historialBovedaCajaDestinoEntity.isEstado()) {
+        if (!historialBovedaCajaDestinoEntity.isEstado() || !historialBovedaCajaDestinoEntity.isAbierto()) {
             throw new ModelReadOnlyException(
-                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
+                    "HistorialBovedaCajaEntity (estado = false) o cerrados, no se puede asociar entidades");
         }
 
         LocalDate currentDate = LocalDate.now();

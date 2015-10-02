@@ -6,15 +6,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.Calendar;
-
 import javax.inject.Inject;
 
 import org.junit.Test;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
-import org.sistcoop.cooperativa.models.search.SearchResultsModel;
-import org.sistcoop.cooperativa.models.search.filters.HistorialBovedaCajaFilterProvider;
 
 public class HistorialBovedaCajaProviderTest extends AbstractTest {
 
@@ -29,10 +23,7 @@ public class HistorialBovedaCajaProviderTest extends AbstractTest {
 
     @Inject
     private HistorialBovedaCajaProvider historialBovedaCajaProvider;
-
-    @Inject
-    private HistorialBovedaCajaFilterProvider historialBovedaCajaFilterProvider;
-
+    
     @Test
     public void create1() {
         BovedaModel bovedaModel = bovedaProvider.create("Agencia 01", "PEN", "Boveda nuevos soles");
@@ -140,7 +131,7 @@ public class HistorialBovedaCajaProviderTest extends AbstractTest {
         assertThat("model1 is not equal to model2", model1, is(equalTo(model2)));
     }
 
-    @Test
+    /*@Test
     public void searchCriteria1() {
         BovedaModel bovedaModel = bovedaProvider.create("Agencia 01", "PEN", "Boveda nuevos soles");
         CajaModel cajaModel1 = cajaProvider.create("Agencia 01", "Caja 01");
@@ -162,9 +153,9 @@ public class HistorialBovedaCajaProviderTest extends AbstractTest {
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void searchCriteria2() {
         BovedaModel bovedaModel = bovedaProvider.create("Agencia 01", "PEN", "Boveda nuevos soles");
         CajaModel cajaModel1 = cajaProvider.create("Agencia 01", "Caja 01");
@@ -190,5 +181,5 @@ public class HistorialBovedaCajaProviderTest extends AbstractTest {
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
-    }
+    }*/
 }

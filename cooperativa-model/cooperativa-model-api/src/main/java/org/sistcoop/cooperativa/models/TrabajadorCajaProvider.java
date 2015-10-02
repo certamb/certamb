@@ -21,6 +21,6 @@ public interface TrabajadorCajaProvider extends Provider {
 
     List<TrabajadorCajaModel> getAll(CajaModel caja);
 
-    SearchResultsModel<TrabajadorCajaModel> search(CajaModel cajaModel, SearchCriteriaModel searchCriteriaBean);
+    SearchResultsModel<TrabajadorCajaModel> search(CajaModel caja, SearchCriteriaModel criteria);
 
 }

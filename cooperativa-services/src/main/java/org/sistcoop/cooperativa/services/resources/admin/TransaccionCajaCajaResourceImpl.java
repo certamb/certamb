@@ -1,11 +1,13 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionCajaCajaResource;
 import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaModel;
@@ -14,7 +16,7 @@ import org.sistcoop.cooperativa.models.TransaccionCajaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
 import org.sistcoop.cooperativa.services.managers.TransaccionCajaCajaManager;
 
 @Stateless
@@ -40,7 +42,7 @@ public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResou
         if (rep != null) {
             return rep;
         } else {
-            throw new NotFoundException();
+            throw new NotFoundException("Transccion no encontrada");
         }
     }
 
@@ -50,30 +52,36 @@ public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResou
     }
 
     @Override
-    public void confirmar() {
-        transaccionCajaCajaManager.confirmar(getTransaccionCajaCajaModel());
-    }
-
-    @Override
-    public void cancelar() {
-        transaccionCajaCajaManager.cancelar(getTransaccionCajaCajaModel());
-    }
-
-    @Override
-    public SearchResultsRepresentation<DetalleMonedaRepresentation> detalle() {
-        List<DetalleTransaccionCajaCajaModel> detalleTransaccionCajaCajaModels = getTransaccionCajaCajaModel()
-                .getDetalle();
-        SearchResultsRepresentation<DetalleMonedaRepresentation> result = new SearchResultsRepresentation<>();
-        for (DetalleTransaccionCajaCajaModel detalleTransaccionCajaCajaModel : detalleTransaccionCajaCajaModels) {
-            result.getItems().add(ModelToRepresentation.toRepresentation(detalleTransaccionCajaCajaModel));
+    public Response confirmar() {
+        boolean result = transaccionCajaCajaManager.confirmar(getTransaccionCajaCajaModel());
+        if (result) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Transccion no pudo ser confirmada", Response.Status.BAD_REQUEST);
         }
-        result.setTotalSize(result.getItems().size());
+    }
+
+    @Override
+    public Response cancelar() {
+        boolean result = transaccionCajaCajaManager.cancelar(getTransaccionCajaCajaModel());
+        if (result) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Transaccion no pudo ser cancelada", Response.Status.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public List<DetalleMonedaRepresentation> detalle() {
+        List<DetalleTransaccionCajaCajaModel> detalle = getTransaccionCajaCajaModel().getDetalle();
+        List<DetalleMonedaRepresentation> result = new ArrayList<>();
+        detalle.forEach(det -> result.add(ModelToRepresentation.toRepresentation(det)));
         return result;
     }
 
     @Override
-    public void remove() {
-        transaccionCajaCajaProvider.remove(getTransaccionCajaCajaModel());
+    public Response remove() {
+        throw new NotFoundException();
     }
 
 }

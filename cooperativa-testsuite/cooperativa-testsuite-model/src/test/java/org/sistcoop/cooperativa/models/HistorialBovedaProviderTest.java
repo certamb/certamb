@@ -6,15 +6,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.Calendar;
-
 import javax.inject.Inject;
 
 import org.junit.Test;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
-import org.sistcoop.cooperativa.models.search.SearchResultsModel;
-import org.sistcoop.cooperativa.models.search.filters.HistorialBovedaFilterProvider;
 
 public class HistorialBovedaProviderTest extends AbstractTest {
 
@@ -23,10 +17,7 @@ public class HistorialBovedaProviderTest extends AbstractTest {
 
     @Inject
     private HistorialBovedaProvider historialBovedaProvider;
-
-    @Inject
-    private HistorialBovedaFilterProvider historialBovedaFilterProvider;
-
+ 
     @Test
     public void create1() {
         BovedaModel bovedaModel = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
@@ -126,7 +117,7 @@ public class HistorialBovedaProviderTest extends AbstractTest {
         assertThat("model1 is not equal to model2", model1, is(equalTo(model2)));
     }
 
-    @Test
+    /*@Test
     public void searchCriteria1() {
         BovedaModel bovedaModel1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
         BovedaModel bovedaModel2 = bovedaProvider.create("agencia02", "PEN", "Boveda nuevos soles");
@@ -145,9 +136,9 @@ public class HistorialBovedaProviderTest extends AbstractTest {
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
-    }
+    }*/
 
-    @Test
+   /* @Test
     public void searchCriteria2() {
         BovedaModel bovedaModel1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
         BovedaModel bovedaModel2 = bovedaProvider.create("agencia02", "PEN", "Boveda nuevos soles");
@@ -170,6 +161,6 @@ public class HistorialBovedaProviderTest extends AbstractTest {
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
-    }
+    }*/
     
 }

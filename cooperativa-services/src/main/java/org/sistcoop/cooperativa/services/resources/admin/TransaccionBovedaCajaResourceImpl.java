@@ -1,11 +1,13 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionBovedaCajaResource;
 import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
@@ -14,7 +16,7 @@ import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
 import org.sistcoop.cooperativa.services.managers.TransaccionBovedaCajaManager;
 
 @Stateless
@@ -34,13 +36,13 @@ public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaR
     }
 
     @Override
-    public TransaccionBovedaCajaRepresentation transaccion() {
+    public TransaccionBovedaCajaRepresentation toRepresentation() {
         TransaccionBovedaCajaRepresentation rep = ModelToRepresentation
                 .toRepresentation(getTransaccionBovedaCajaModel());
         if (rep != null) {
             return rep;
         } else {
-            throw new NotFoundException();
+            throw new NotFoundException("Transaccion no encontrada");
         }
     }
 
@@ -50,30 +52,36 @@ public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaR
     }
 
     @Override
-    public void confirmar() {
-        transaccionBovedaCajaManager.confirmarTransaccion(getTransaccionBovedaCajaModel());
-    }
-
-    @Override
-    public void cancelar() {
-        transaccionBovedaCajaManager.cancelarTransaccion(getTransaccionBovedaCajaModel());
-    }
-
-    @Override
-    public SearchResultsRepresentation<DetalleMonedaRepresentation> detalle() {
-        List<DetalleTransaccionBovedaCajaModel> detalleTransaccionBovedaCajaModels = getTransaccionBovedaCajaModel()
-                .getDetalle();
-        SearchResultsRepresentation<DetalleMonedaRepresentation> result = new SearchResultsRepresentation<>();
-        for (DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCajaModel : detalleTransaccionBovedaCajaModels) {
-            result.getItems().add(ModelToRepresentation.toRepresentation(detalleTransaccionBovedaCajaModel));
+    public Response confirmar() {
+        boolean result = transaccionBovedaCajaManager.confirmarTransaccion(getTransaccionBovedaCajaModel());
+        if (result) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Transaccion no pudo ser confirmada", Response.Status.BAD_REQUEST);
         }
-        result.setTotalSize(result.getItems().size());
+    }
+
+    @Override
+    public Response cancelar() {
+        boolean result = transaccionBovedaCajaManager.cancelarTransaccion(getTransaccionBovedaCajaModel());
+        if (result) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Transaccion no pudo ser cancelada", Response.Status.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public List<DetalleMonedaRepresentation> detalle() {
+        List<DetalleTransaccionBovedaCajaModel> detalle = getTransaccionBovedaCajaModel().getDetalle();
+        List<DetalleMonedaRepresentation> result = new ArrayList<>();
+        detalle.forEach(det -> result.add(ModelToRepresentation.toRepresentation(det)));
         return result;
     }
 
     @Override
-    public void remove() {
-        transaccionBovedaCajaProvider.remove(getTransaccionBovedaCajaModel());
+    public Response remove() {
+        throw new NotFoundException();
     }
 
 }

@@ -9,19 +9,12 @@ import static org.junit.Assert.assertThat;
 import javax.inject.Inject;
 
 import org.junit.Test;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
-import org.sistcoop.cooperativa.models.search.SearchResultsModel;
-import org.sistcoop.cooperativa.models.search.filters.BovedaFilterProvider;
 
 public class BovedaProviderTest extends AbstractTest {
 
     @Inject
     private BovedaProvider bovedaProvider;
-
-    @Inject
-    private BovedaFilterProvider bovedaFilterProvider;
-    
+   
     /**
      * Crear boveda.
      */
@@ -170,16 +163,16 @@ public class BovedaProviderTest extends AbstractTest {
         assertThat(model, is(nullValue()));
     }
 
-    @Test
+    /*@Test
     public void search1() {        
         SearchResultsModel<BovedaModel> result = bovedaProvider.search();
 
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(0));
         assertThat(result.getTotalSize(), is(0));
-    }
+    }*/
     
-    @Test
+   /* @Test
     public void search2() {
         @SuppressWarnings("unused")
         BovedaModel model1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
@@ -192,8 +185,8 @@ public class BovedaProviderTest extends AbstractTest {
         assertThat(result.getModels().size(), is(2));
         assertThat(result.getTotalSize(), is(2));
     }
-
-    @Test
+*/
+    /*@Test
     public void search3() {
         @SuppressWarnings("unused")
         BovedaModel model1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
@@ -206,9 +199,9 @@ public class BovedaProviderTest extends AbstractTest {
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
-    }
+    }*/
     
-    @Test
+   /* @Test
     public void searchCriteria1() {
         @SuppressWarnings("unused")
         BovedaModel model1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
@@ -224,8 +217,8 @@ public class BovedaProviderTest extends AbstractTest {
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
     }
-    
-    @Test
+    */
+    /*@Test
     public void searchCriteria2() {
         @SuppressWarnings("unused")
         BovedaModel model1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
@@ -247,9 +240,9 @@ public class BovedaProviderTest extends AbstractTest {
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(2));
         assertThat(result.getTotalSize(), is(2));
-    }
+    }*/
     
-    @Test
+    /*@Test
     public void searchCriteriaFilterText1() {
         @SuppressWarnings("unused")
         BovedaModel model1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
@@ -264,6 +257,6 @@ public class BovedaProviderTest extends AbstractTest {
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
-    }
+    }*/
 
 }

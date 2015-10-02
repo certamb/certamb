@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -22,7 +23,7 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 @Consumes(MediaType.APPLICATION_JSON)
 public interface TransaccionesBovedaCajaResource {
 
-    @Path("/{transaccion}")
+    @Path("{transaccion}")
     public TransaccionBovedaCajaResource transaccion(@PathParam("transaccion") String transaccion);
 
     @POST
@@ -36,8 +37,11 @@ public interface TransaccionesBovedaCajaResource {
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> search(
+            @QueryParam("desde") LocalDateTime desde, @QueryParam("hasta") LocalDateTime hasta,
             @QueryParam("enviados") @DefaultValue(value = "true") boolean enviados,
             @QueryParam("recibidos") @DefaultValue(value = "true") boolean recibidos,
+            @QueryParam("estadoSolicitud") @DefaultValue(value = "true") Boolean estadoSolicitud,
+            @QueryParam("estadoConfirmacion") @DefaultValue(value = "false") Boolean estadoConfirmacion,
             @QueryParam("page") @DefaultValue("1") Integer page,
             @QueryParam("pageSize") @DefaultValue("20") Integer pageSize);
 

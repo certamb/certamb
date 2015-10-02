@@ -13,27 +13,32 @@ import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class TransaccionCajaCajaManager {
 
-	public void confirmar(TransaccionCajaCajaModel transaccionCajaCajaModel) {
-		transaccionCajaCajaModel.setEstadoConfirmacion(true);
-		transaccionCajaCajaModel.commit();
-		
-		HistorialBovedaCajaModel historialBovedaCajaOrigenModel = transaccionCajaCajaModel.getHistorialBovedaCajaOrigen();
-		HistorialBovedaCajaModel historialBovedaCajaDestinoModel = transaccionCajaCajaModel.getHistorialBovedaCajaDestino();
-		
-		BigDecimal saldoOrigen = historialBovedaCajaOrigenModel.getSaldo();
-		BigDecimal saldoDestino = historialBovedaCajaDestinoModel.getSaldo();
-		saldoOrigen = saldoOrigen.subtract(transaccionCajaCajaModel.getMonto());
-		saldoDestino = saldoDestino.add(transaccionCajaCajaModel.getMonto());
+    public boolean confirmar(TransaccionCajaCajaModel transaccionCajaCaja) {
+        transaccionCajaCaja.setEstadoConfirmacion(true);
+        transaccionCajaCaja.commit();
 
-		historialBovedaCajaOrigenModel.setSaldo(saldoOrigen);
-		historialBovedaCajaDestinoModel.setSaldo(saldoDestino);
-		historialBovedaCajaOrigenModel.commit();
-		historialBovedaCajaDestinoModel.commit();
-	}
+        HistorialBovedaCajaModel historialBovedaCajaOrigenModel = transaccionCajaCaja
+                .getHistorialBovedaCajaOrigen();
+        HistorialBovedaCajaModel historialBovedaCajaDestinoModel = transaccionCajaCaja
+                .getHistorialBovedaCajaDestino();
 
-	public void cancelar(TransaccionCajaCajaModel transaccionCajaCajaModel) {
-		transaccionCajaCajaModel.setEstadoSolicitud(false);
-		transaccionCajaCajaModel.commit();		
-	}
+        BigDecimal saldoOrigen = historialBovedaCajaOrigenModel.getSaldo();
+        BigDecimal saldoDestino = historialBovedaCajaDestinoModel.getSaldo();
+        saldoOrigen = saldoOrigen.subtract(transaccionCajaCaja.getMonto());
+        saldoDestino = saldoDestino.add(transaccionCajaCaja.getMonto());
+
+        historialBovedaCajaOrigenModel.setSaldo(saldoOrigen);
+        historialBovedaCajaDestinoModel.setSaldo(saldoDestino);
+        historialBovedaCajaOrigenModel.commit();
+        historialBovedaCajaDestinoModel.commit();
+
+        return true;
+    }
+
+    public boolean cancelar(TransaccionCajaCajaModel transaccionCajaCaja) {
+        transaccionCajaCaja.setEstadoSolicitud(false);
+        transaccionCajaCaja.commit();
+        return true;
+    }
 
 }

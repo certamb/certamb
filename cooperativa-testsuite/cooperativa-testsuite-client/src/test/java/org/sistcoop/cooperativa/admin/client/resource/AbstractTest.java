@@ -13,13 +13,11 @@ import org.junit.runner.RunWith;
 import org.sistcoop.cooperativa.JaxRsActivator;
 import org.sistcoop.cooperativa.admin.client.Config;
 import org.sistcoop.cooperativa.models.BovedaModel;
+import org.sistcoop.cooperativa.models.ModelException;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
-import org.sistcoop.cooperativa.models.exceptions.ModelException;
+import org.sistcoop.cooperativa.models.jpa.JpaBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
-import org.sistcoop.cooperativa.models.jpa.providers.JpaBovedaProvider;
-import org.sistcoop.cooperativa.models.jpa.search.filter.JpaBovedaFilterProvider;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterModel;
-import org.sistcoop.cooperativa.models.search.filters.BovedaFilterProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.provider.Provider;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
@@ -58,11 +56,9 @@ public abstract class AbstractTest {
                 .addPackage(ModelToRepresentation.class.getPackage())
 
                 .addPackage(SearchCriteriaFilterModel.class.getPackage())
-                .addPackage(BovedaFilterProvider.class.getPackage())
-
+                
                 /** model-jpa **/
-                .addPackage(JpaBovedaProvider.class.getPackage())
-                .addPackage(JpaBovedaFilterProvider.class.getPackage())
+                .addPackage(JpaBovedaProvider.class.getPackage())               
                 .addPackage(BovedaEntity.class.getPackage())
 
                 /** client */

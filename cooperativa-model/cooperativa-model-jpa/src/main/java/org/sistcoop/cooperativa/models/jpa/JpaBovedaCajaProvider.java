@@ -20,6 +20,11 @@ import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
+import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinModel;
+import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinType;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
 @Named
 @Stateless
@@ -124,6 +129,60 @@ public class JpaBovedaCajaProvider extends AbstractHibernateStorage implements B
         List<BovedaCajaModel> models = getAll(caja);
         models.removeIf(model -> model.getEstado() != estado);
         return models;
+    }
+
+    @Override
+    public SearchResultsModel<BovedaCajaModel> search(BovedaModel boveda, SearchCriteriaModel criteria) {
+        SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("bovedaCaja");
+        criteriaJoin.addJoin("bovedaCaja.boveda", "boveda", SearchCriteriaJoinType.INNER_JOIN);
+        criteriaJoin.addCondition("boveda.id", boveda.getId(), SearchCriteriaFilterOperator.eq);
+
+        SearchResultsModel<BovedaCajaEntity> entityResult = find(criteriaJoin, criteria,
+                BovedaCajaEntity.class);
+        List<BovedaCajaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<BovedaCajaModel> searchResult = new SearchResultsModel<>();
+        List<BovedaCajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new BovedaCajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
+    }
+
+    @Override
+    public SearchResultsModel<BovedaCajaModel> search(CajaModel caja, SearchCriteriaModel criteria) {
+        SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("bovedaCaja");
+        criteriaJoin.addJoin("bovedaCaja.caja", "caja", SearchCriteriaJoinType.INNER_JOIN);
+        criteriaJoin.addCondition("caja.id", caja.getId(), SearchCriteriaFilterOperator.eq);
+
+        SearchResultsModel<BovedaCajaEntity> entityResult = find(criteriaJoin, criteria,
+                BovedaCajaEntity.class);
+        List<BovedaCajaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<BovedaCajaModel> searchResult = new SearchResultsModel<>();
+        List<BovedaCajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new BovedaCajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
+    }
+
+    @Override
+    public SearchResultsModel<BovedaCajaModel> search(BovedaModel boveda, CajaModel caja,
+            SearchCriteriaModel criteria) {
+        SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("bovedaCaja");
+        criteriaJoin.addJoin("bovedaCaja.boveda", "boveda", SearchCriteriaJoinType.INNER_JOIN);
+        criteriaJoin.addJoin("bovedaCaja.caja", "caja", SearchCriteriaJoinType.INNER_JOIN);
+        criteriaJoin.addCondition("boveda.id", boveda.getId(), SearchCriteriaFilterOperator.eq);
+        criteriaJoin.addCondition("caja.id", caja.getId(), SearchCriteriaFilterOperator.eq);
+
+        SearchResultsModel<BovedaCajaEntity> entityResult = find(criteriaJoin, criteria,
+                BovedaCajaEntity.class);
+        List<BovedaCajaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<BovedaCajaModel> searchResult = new SearchResultsModel<>();
+        List<BovedaCajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new BovedaCajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
 }

@@ -18,6 +18,11 @@ import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TrabajadorCajaEntity;
+import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinModel;
+import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinType;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
 @Named
 @Stateless
@@ -103,6 +108,23 @@ public class JpaTrabajadorCajaProvider extends AbstractHibernateStorage implemen
         List<TrabajadorCajaModel> result = new ArrayList<>();
         entities.forEach(entity -> result.add(new TrabajadorCajaAdapter(em, entity)));
         return result;
+    }
+
+    @Override
+    public SearchResultsModel<TrabajadorCajaModel> search(CajaModel caja, SearchCriteriaModel criteria) {
+        SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("trabajadorCaja");
+        criteriaJoin.addJoin("trabajadorCaja.caja", "caja", SearchCriteriaJoinType.INNER_JOIN);
+        criteriaJoin.addCondition("caja.id", caja.getId(), SearchCriteriaFilterOperator.eq);
+
+        SearchResultsModel<TrabajadorCajaEntity> entityResult = find(criteriaJoin, criteria,
+                TrabajadorCajaEntity.class);
+        List<TrabajadorCajaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<TrabajadorCajaModel> searchResult = new SearchResultsModel<>();
+        List<TrabajadorCajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new TrabajadorCajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
 }

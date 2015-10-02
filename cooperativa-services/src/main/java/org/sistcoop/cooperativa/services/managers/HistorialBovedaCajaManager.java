@@ -1,7 +1,8 @@
 package org.sistcoop.cooperativa.services.managers;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -16,41 +17,40 @@ import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class HistorialBovedaCajaManager {
 
-	public boolean cerrarHistorialBovedaCaja(HistorialBovedaCajaModel historialBovedaCajaModel, List<DetalleMonedaRepresentation> detalle) {
-		Calendar calendar = Calendar.getInstance();
+    public boolean cerrarHistorialBovedaCaja(HistorialBovedaCajaModel historialBovedaCaja,
+            List<DetalleMonedaRepresentation> detalle) {
+        historialBovedaCaja.setAbierto(false);
+        historialBovedaCaja.setEstadoMovimiento(false);
+        historialBovedaCaja.commit();
 
-		historialBovedaCajaModel.setAbierto(false);
-		historialBovedaCajaModel.setEstadoMovimiento(false);
-		historialBovedaCajaModel.commit();
+        historialBovedaCaja.setFechaCierre(LocalDate.now());
+        historialBovedaCaja.setHoraCierre(LocalTime.now());
+        historialBovedaCaja.commit();
 
-		historialBovedaCajaModel.setFechaCierre(calendar.getTime());
-		historialBovedaCajaModel.setHoraCierre(calendar.getTime());
-		historialBovedaCajaModel.commit();
-		
-		List<DetalleHistorialBovedaCajaModel> detalleHistorialBovedaCajaModels = historialBovedaCajaModel.getDetalle();
-		for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaCajaModel : detalleHistorialBovedaCajaModels) {
-			BigDecimal valorDetalleHistorialBovedaCaja = detalleHistorialBovedaCajaModel.getValor();
-			for (DetalleMonedaRepresentation detalleMonedaRepresentation : detalle) {
-				BigDecimal valorDetalleMonedaRepresentation = detalleMonedaRepresentation.getValor();
-				if(valorDetalleHistorialBovedaCaja.compareTo(valorDetalleMonedaRepresentation) == 0) {
-					detalleHistorialBovedaCajaModel.setCantidad(detalleMonedaRepresentation.getCantidad());
-					detalleHistorialBovedaCajaModel.commit();
-					break;
-				}
-			}
-		}
-		
-		return true;
-	}
+        List<DetalleHistorialBovedaCajaModel> detalleHistorialBovedaCaja = historialBovedaCaja.getDetalle();
+        for (DetalleHistorialBovedaCajaModel detalleHistorialBovedaCajaModel : detalleHistorialBovedaCaja) {
+            BigDecimal valorDetalleHistorialBovedaCaja = detalleHistorialBovedaCajaModel.getValor();
+            for (DetalleMonedaRepresentation detalleMonedaRepresentation : detalle) {
+                BigDecimal valorDetalleMonedaRepresentation = detalleMonedaRepresentation.getValor();
+                if (valorDetalleHistorialBovedaCaja.compareTo(valorDetalleMonedaRepresentation) == 0) {
+                    detalleHistorialBovedaCajaModel.setCantidad(detalleMonedaRepresentation.getCantidad());
+                    detalleHistorialBovedaCajaModel.commit();
+                    break;
+                }
+            }
+        }
 
-	public void congelar(HistorialBovedaCajaModel historialBovedaCajaModel) {
-		historialBovedaCajaModel.setEstadoMovimiento(false);
-		historialBovedaCajaModel.commit();
-	}
+        return true;
+    }
 
-	public void descongelar(HistorialBovedaCajaModel historialBovedaCajaModel) {
-		historialBovedaCajaModel.setEstadoMovimiento(true);
-		historialBovedaCajaModel.commit();
-	}
+    public void congelar(HistorialBovedaCajaModel historialBovedaCajaModel) {
+        historialBovedaCajaModel.setEstadoMovimiento(false);
+        historialBovedaCajaModel.commit();
+    }
+
+    public void descongelar(HistorialBovedaCajaModel historialBovedaCajaModel) {
+        historialBovedaCajaModel.setEstadoMovimiento(true);
+        historialBovedaCajaModel.commit();
+    }
 
 }

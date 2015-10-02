@@ -14,24 +14,24 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class BovedaManager {
 
-	public void updateBoveda(BovedaModel model, BovedaRepresentation rep) {
-		model.setDenominacion(rep.getDenominacion());
-		model.commit();		
-	}
-	
-	public boolean disableBoveda(BovedaModel model) {
-		// desactivar bovedas
-		model.desactivar();
-		model.commit();
+    public void updateBoveda(BovedaModel model, BovedaRepresentation rep) {
+        model.setDenominacion(rep.getDenominacion());
+        model.commit();
+    }
 
-		// desactivar boveda-cajas
-		List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
-		for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
-			bovedaCajaModel.desactivar();
-			bovedaCajaModel.commit();
-		}
+    public boolean disableBoveda(BovedaModel model) {
+        // desactivar bovedas
+        model.desactivar();
+        model.commit();
 
-		return true;
-	}
+        // desactivar boveda-cajas
+        List<BovedaCajaModel> bovedaCajaModels = model.getBovedaCajas();
+        for (BovedaCajaModel bovedaCajaModel : bovedaCajaModels) {
+            bovedaCajaModel.desactivar();
+            bovedaCajaModel.commit();
+        }
+
+        return true;
+    }
 
 }

@@ -1,17 +1,16 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.sistcoop.cooperativa.Jsend;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionBovedaCajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
 import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaProvider;
@@ -19,6 +18,8 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
@@ -26,12 +27,12 @@ import org.sistcoop.cooperativa.models.search.PagingModel;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
-import org.sistcoop.cooperativa.models.search.filters.TransaccionBovedaCajaFilterProvider;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
 import org.sistcoop.cooperativa.services.resources.producers.TransaccionesBovedaCaja_Caja;
 
 @Stateless
@@ -64,9 +65,6 @@ public class TransaccionesBovedaCajaResourceImpl_Caja implements TransaccionesBo
     @Inject
     private TransaccionBovedaCajaResource transaccionBovedaCajaResource;
 
-    @Inject
-    private TransaccionBovedaCajaFilterProvider transaccionBovedaCajaFilterProvider;
-
     private HistorialBovedaCajaModel getHistorialBovedaCajaModel() {
         return historialBovedaCajaProvider.findById(historial);
     }
@@ -78,43 +76,52 @@ public class TransaccionesBovedaCajaResourceImpl_Caja implements TransaccionesBo
 
     @Override
     public Response create(TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation) {
-        HistorialBovedaModel historialBovedaModel = null;
-        HistorialBovedaCajaModel historialBovedaCajaModel = getHistorialBovedaCajaModel();
-
         HistorialBovedaRepresentation historialBovedaRepresentation = transaccionBovedaCajaRepresentation
                 .getHistorialBoveda();
         String idHistorialBovedaRepresentation = historialBovedaRepresentation.getId();
 
-        historialBovedaModel = historialBovedaProvider.findById(idHistorialBovedaRepresentation);
+        HistorialBovedaModel historialBovedaModel = historialBovedaProvider
+                .findById(idHistorialBovedaRepresentation);
+        HistorialBovedaCajaModel historialBovedaCajaModel = getHistorialBovedaCajaModel();
 
-        if (!historialBovedaModel.getEstado()) {
-            throw new BadRequestException("Historial Boveda inactivo, no se puede realizar transacciones");
+        if (!historialBovedaCajaModel.getEstado() || !historialBovedaCajaModel.isAbierto()) {
+            return ErrorResponse.exists("Historial Boveda origen cerrado y/o no activo");
         }
-        if (!historialBovedaModel.isAbierto()) {
-            throw new BadRequestException("Historial Boveda cerrado, no se puede realizar transacciones");
-        }
-
-        if (!historialBovedaCajaModel.getEstado()) {
-            throw new BadRequestException("Historial BovedaCaja inactivo, no se puede realizar transacciones");
-        }
-        if (!historialBovedaCajaModel.isAbierto()) {
-            throw new BadRequestException("Historial BovedaCaja cerrado, no se puede realizar transacciones");
+        if (!historialBovedaModel.getEstado() || !historialBovedaModel.isAbierto()) {
+            return ErrorResponse.exists("Historial Caja destino cerrado y/o no activo");
         }
 
-        TransaccionBovedaCajaModel transaccionBovedaCajaModel = representationToModel
-                .createTransaccionBovedaCaja(transaccionBovedaCajaRepresentation, historialBovedaModel,
-                        historialBovedaCajaModel, origen, transaccionBovedaCajaProvider,
-                        detalleTransaccionBovedaCajaProvider);
+        try {
+            TransaccionBovedaCajaModel transaccionBovedaCajaModel = representationToModel
+                    .createTransaccionBovedaCaja(transaccionBovedaCajaRepresentation, historialBovedaModel,
+                            historialBovedaCajaModel, origen, transaccionBovedaCajaProvider,
+                            detalleTransaccionBovedaCajaProvider);
 
-        return Response
-                .created(uriInfo.getAbsolutePathBuilder().path(transaccionBovedaCajaModel.getId()).build())
-                .header("Access-Control-Expose-Headers", "Location")
-                .entity(Jsend.getSuccessJSend(transaccionBovedaCajaModel.getId())).build();
+            return Response
+                    .created(
+                            uriInfo.getAbsolutePathBuilder().path(transaccionBovedaCajaModel.getId()).build())
+                    .header("Access-Control-Expose-Headers", "Location")
+                    .entity(ModelToRepresentation.toRepresentation(transaccionBovedaCajaModel)).build();
+        } catch (ModelReadOnlyException e) {
+            return ErrorResponse.exists("Historiales de caja inactivos");
+        } catch (ModelDuplicateException e) {
+            return ErrorResponse.exists("Historiales ya existentes");
+        }
     }
 
     @Override
-    public SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> search(boolean enviados,
-            boolean recibidos, Integer page, Integer pageSize) {
+    public List<TransaccionBovedaCajaRepresentation> getAll() {
+        List<TransaccionBovedaCajaModel> models = transaccionBovedaCajaProvider
+                .getAll(getHistorialBovedaCajaModel());
+        List<TransaccionBovedaCajaRepresentation> result = new ArrayList<>();
+        models.forEach(model -> result.add(ModelToRepresentation.toRepresentation(model)));
+        return result;
+    }
+
+    @Override
+    public SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> search(LocalDateTime desde,
+            LocalDateTime hasta, boolean enviados, boolean recibidos, Boolean estadoSolicitud,
+            Boolean estadoConfirmacion, Integer page, Integer pageSize) {
         // add paging
         PagingModel paging = new PagingModel();
         paging.setPage(page);
@@ -123,30 +130,50 @@ public class TransaccionesBovedaCajaResourceImpl_Caja implements TransaccionesBo
         SearchCriteriaModel searchCriteriaBean = new SearchCriteriaModel();
         searchCriteriaBean.setPaging(paging);
 
-        // add order by
-        searchCriteriaBean.addOrder(transaccionBovedaCajaFilterProvider.getFechaFilter(), true);
-        searchCriteriaBean.addOrder(transaccionBovedaCajaFilterProvider.getHoraFilter(), true);
-
         // add filter
+        if (desde != null) {
+            searchCriteriaBean.addFilter("fecha", desde.toLocalDate(), SearchCriteriaFilterOperator.gte);
+            searchCriteriaBean.addFilter("hora", desde.toLocalTime(), SearchCriteriaFilterOperator.gte);
+        }
+        if (hasta != null) {
+            searchCriteriaBean.addFilter("fecha", hasta.toLocalDate(), SearchCriteriaFilterOperator.lte);
+            searchCriteriaBean.addFilter("hora", hasta.toLocalTime(), SearchCriteriaFilterOperator.lte);
+        }
+
+        if (estadoSolicitud != null) {
+            searchCriteriaBean.addFilter("estadoSolicitud", estadoSolicitud,
+                    SearchCriteriaFilterOperator.bool_eq);
+        }
+        if (estadoConfirmacion != null) {
+            searchCriteriaBean.addFilter("estadoConfirmacion", estadoConfirmacion,
+                    SearchCriteriaFilterOperator.bool_eq);
+        }
+
+        HistorialBovedaCajaModel historialBovedaCaja = getHistorialBovedaCajaModel();
+        SearchResultsModel<TransaccionBovedaCajaModel> results = new SearchResultsModel<>();
         if (enviados) {
-            searchCriteriaBean.addFilter(transaccionBovedaCajaFilterProvider.getOrigenFilter(),
-                    OrigenTransaccionBovedaCaja.CAJA, SearchCriteriaFilterOperator.eq);
+            searchCriteriaBean.addFilter("origen", OrigenTransaccionBovedaCaja.CAJA,
+                    SearchCriteriaFilterOperator.eq);
+            SearchResultsModel<TransaccionBovedaCajaModel> searchEnviados = transaccionBovedaCajaProvider
+                    .search(historialBovedaCaja, searchCriteriaBean);
+            results.getModels().addAll(searchEnviados.getModels());
+            results.setTotalSize(results.getTotalSize() + searchEnviados.getTotalSize());
         }
         if (recibidos) {
-            searchCriteriaBean.addFilter(transaccionBovedaCajaFilterProvider.getOrigenFilter(),
-                    OrigenTransaccionBovedaCaja.BOVEDA, SearchCriteriaFilterOperator.eq);
+            searchCriteriaBean.addFilter("origen", OrigenTransaccionBovedaCaja.BOVEDA,
+                    SearchCriteriaFilterOperator.eq);
+            SearchResultsModel<TransaccionBovedaCajaModel> searchRecibidos = transaccionBovedaCajaProvider
+                    .search(historialBovedaCaja, searchCriteriaBean);
+            results.getModels().addAll(searchRecibidos.getModels());
+            results.setTotalSize(results.getTotalSize() + searchRecibidos.getTotalSize());
         }
 
         // search
-        SearchResultsModel<TransaccionBovedaCajaModel> results = transaccionBovedaCajaProvider
-                .search(searchCriteriaBean);
         SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> rep = new SearchResultsRepresentation<>();
-        List<TransaccionBovedaCajaRepresentation> representations = new ArrayList<>();
-        for (TransaccionBovedaCajaModel model : results.getModels()) {
-            representations.add(ModelToRepresentation.toRepresentation(model));
-        }
+        List<TransaccionBovedaCajaRepresentation> items = new ArrayList<>();
+        results.getModels().forEach(model -> items.add(ModelToRepresentation.toRepresentation(model)));
+        rep.setItems(items);
         rep.setTotalSize(results.getTotalSize());
-        rep.setItems(representations);
         return rep;
     }
 

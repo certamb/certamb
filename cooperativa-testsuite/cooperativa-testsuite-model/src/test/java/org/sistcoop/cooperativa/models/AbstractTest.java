@@ -11,12 +11,9 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.runner.RunWith;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
-import org.sistcoop.cooperativa.models.exceptions.ModelException;
+import org.sistcoop.cooperativa.models.jpa.JpaBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
-import org.sistcoop.cooperativa.models.jpa.providers.JpaBovedaProvider;
-import org.sistcoop.cooperativa.models.jpa.search.filter.JpaBovedaFilterProvider;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterModel;
-import org.sistcoop.cooperativa.models.search.filters.BovedaFilterProvider;
 import org.sistcoop.cooperativa.provider.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,11 +39,9 @@ public abstract class AbstractTest {
                 .addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
 
                 .addPackage(SearchCriteriaFilterModel.class.getPackage())
-                .addPackage(BovedaFilterProvider.class.getPackage())
-
+               
                 /** model-jpa **/
                 .addPackage(JpaBovedaProvider.class.getPackage())
-                .addPackage(JpaBovedaFilterProvider.class.getPackage())
                 .addPackage(BovedaEntity.class.getPackage())
 
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")               

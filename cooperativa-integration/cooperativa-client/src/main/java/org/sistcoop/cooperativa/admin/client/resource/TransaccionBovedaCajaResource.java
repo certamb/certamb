@@ -10,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
@@ -21,26 +22,26 @@ public interface TransaccionBovedaCajaResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public TransaccionBovedaCajaRepresentation transaccion();
+    public TransaccionBovedaCajaRepresentation toRepresentation();
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public void update(TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation);
 
     @POST
-    @Path("/confirmar")
-    public void confirmar();
+    @Path("confirmar")
+    public Response confirmar();
 
     @POST
-    @Path("/cancelar")
-    public void cancelar();
+    @Path("cancelar")
+    public Response cancelar();
 
     @GET
-    @Path("/detalle")
+    @Path("detalle")
     @Produces(MediaType.APPLICATION_JSON)
     public List<DetalleMonedaRepresentation> detalle();
 
     @DELETE
-    public void remove();
+    public Response remove();
 
 }
