@@ -16,6 +16,11 @@ dependencies {
 }
 
 task createBuildInfoFile << {
+    def buildInfoDir = new File("$buildDir")
+	if( !buildInfoDir.exists() ) {        
+        buildInfoDir.mkdirs()
+    }
+    
     def buildInfoFile = new File("$buildDir/build-info.properties")
     Properties props = new Properties()
     props.setProperty('version', project.version.toString())

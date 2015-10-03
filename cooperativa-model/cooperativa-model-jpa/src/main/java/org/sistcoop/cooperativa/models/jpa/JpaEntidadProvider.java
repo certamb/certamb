@@ -40,7 +40,7 @@ public class JpaEntidadProvider extends AbstractHibernateStorage implements Enti
     }
 
     @Override
-    public EntidadModel create(String agencia, String denominacion, String abreviatura) {
+    public EntidadModel create(String denominacion, String abreviatura) {
         if (findByDenominacion(denominacion) != null) {
             throw new ModelDuplicateException(
                     "EntidadEntity denominacion debe ser unico, se encontro otra entidad con denominacion="

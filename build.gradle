@@ -34,8 +34,8 @@ allprojects {
 subprojects {
 
     apply plugin: 'java'
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 
     apply from: "$rootDir/gradle/jacoco.gradle"
     apply from: "$rootDir/gradle/publishJarMaven.gradle"
@@ -73,5 +73,5 @@ subprojects {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.4'
+    gradleVersion = '2.7'
 }

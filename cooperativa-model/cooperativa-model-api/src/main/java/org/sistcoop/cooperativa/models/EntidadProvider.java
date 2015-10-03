@@ -11,7 +11,7 @@ import org.sistcoop.cooperativa.provider.Provider;
 @Local
 public interface EntidadProvider extends Provider {
 
-    EntidadModel create(String agencia, String denominacion, String abreviatura);
+    EntidadModel create(String denominacion, String abreviatura);
 
     EntidadModel findById(String id);
 

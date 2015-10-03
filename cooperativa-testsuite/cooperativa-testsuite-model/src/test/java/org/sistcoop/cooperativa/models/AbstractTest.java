@@ -10,10 +10,13 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.runner.RunWith;
+import org.sistcoop.cooperativa.mappers.MapperConfigValidationException;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.jpa.JpaBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterModel;
+import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinModel;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.provider.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,17 +35,18 @@ public abstract class AbstractTest {
         WebArchive war = ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 /** model-api **/
-                .addPackage(Provider.class.getPackage())
-                .addPackage(ModelException.class.getPackage())
+                .addPackage(MapperConfigValidationException.class.getPackage())
                 .addPackage(BovedaModel.class.getPackage())
-
                 .addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
-
-                .addPackage(SearchCriteriaFilterModel.class.getPackage())
+                .addPackage(SearchCriteriaModel.class.getPackage())
+                .addPackage(SearchCriteriaModel.class.getPackage())
+                .addPackage(ModelToRepresentation.class.getPackage())
+                .addPackage(Provider.class.getPackage())
                
                 /** model-jpa **/
                 .addPackage(JpaBovedaProvider.class.getPackage())
                 .addPackage(BovedaEntity.class.getPackage())
+                .addPackage(SearchCriteriaJoinModel.class.getPackage())
 
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")               
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml").addAsWebInfResource("test-ds.xml");

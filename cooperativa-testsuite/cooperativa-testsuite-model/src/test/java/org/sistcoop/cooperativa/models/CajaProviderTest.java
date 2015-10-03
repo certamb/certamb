@@ -6,15 +6,20 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
 public class CajaProviderTest extends AbstractTest {
 
     @Inject
     private CajaProvider cajaProvider;
-    
+
     /**
      * Crear caja.
      */
@@ -28,9 +33,7 @@ public class CajaProviderTest extends AbstractTest {
     }
 
     /**
-     * Crear caja.
-     * 
-     * 2 Cajas con la misma denominacion => Agencias diferentes
+     * Crear caja. 2 Cajas con la misma denominacion => Agencias diferentes
      */
     @Test
     public void create2() {
@@ -48,7 +51,7 @@ public class CajaProviderTest extends AbstractTest {
 
     /**
      * Crear caja.
-     * 
+     *
      * 2 Cajas con la misma denominacion => Agencias Iguales
      */
     @Test
@@ -62,8 +65,8 @@ public class CajaProviderTest extends AbstractTest {
         CajaModel model2 = null;
         try {
             model2 = cajaProvider.create("agencia01", "Caja 01");
-        } catch (Exception e) {
-            log.info("Caja con denominacion ya existe");
+        } catch (ModelDuplicateException e) {
+            log.info(e.getMessage());
         }
 
         assertThat("model is not Null", model2, is(nullValue()));
@@ -71,8 +74,9 @@ public class CajaProviderTest extends AbstractTest {
 
     /**
      * Crear caja.
-     * 
-     * 2 Cajas con la misma denominacion => Agencias Iguales y diferentes estados
+     *
+     * 2 Cajas con la misma denominacion => Agencias Iguales y diferentes
+     * estados
      */
     @Test
     public void create4() {
@@ -89,8 +93,9 @@ public class CajaProviderTest extends AbstractTest {
 
     /**
      * Crear boveda.
-     * 
-     * 2 Cajas con la misma denominacion => Agencias Iguales y diferentes estados
+     *
+     * 2 Cajas con la misma denominacion => Agencias Iguales y diferentes
+     * estados
      */
     @Test
     public void create5() {
@@ -111,7 +116,8 @@ public class CajaProviderTest extends AbstractTest {
 
     /**
      * Buscar por Id
-     */
+     *
+     **/
     @Test
     public void findById1() {
         CajaModel model1 = cajaProvider.create("agencia01", "Caja 01");
@@ -163,100 +169,62 @@ public class CajaProviderTest extends AbstractTest {
         assertThat(model, is(nullValue()));
     }
 
-    /*@Test
-    public void search1() {        
-        SearchResultsModel<CajaModel> result = cajaProvider.search();
-
-        assertThat(result, is(notNullValue()));
-        assertThat(result.getModels().size(), is(0));
-        assertThat(result.getTotalSize(), is(0));
-    }*/
-    
-   /* @Test
-    public void search2() {
-        @SuppressWarnings("unused")
-        CajaModel model1 = cajaProvider.create("agencia01", "Caja 01");
-        @SuppressWarnings("unused")
-        CajaModel model2 = cajaProvider.create("agencia02", "Caja 01");
-
-        SearchResultsModel<CajaModel> result = cajaProvider.search();
-
-        assertThat(result, is(notNullValue()));
-        assertThat(result.getModels().size(), is(2));
-        assertThat(result.getTotalSize(), is(2));
-    }*/
-
-   /* @Test
-    public void search3() {
+    @Test
+    public void getAll() {
         @SuppressWarnings("unused")
         CajaModel model1 = cajaProvider.create("agencia01", "Caja 01");
         CajaModel model2 = cajaProvider.create("agencia02", "Caja 01");
         model2.desactivar();
         model2.commit();
 
-        SearchResultsModel<CajaModel> result = cajaProvider.search();
+        List<CajaModel> result = cajaProvider.getAll();
 
         assertThat(result, is(notNullValue()));
-        assertThat(result.getModels().size(), is(1));
-        assertThat(result.getTotalSize(), is(1));
-    }*/
-    
-   /* @Test
-    public void searchCriteria1() {
-        @SuppressWarnings("unused")
-        CajaModel model1 = cajaProvider.create("agencia01", "Caja 01");
-        @SuppressWarnings("unused")
-        CajaModel model2 = cajaProvider.create("agencia02", "Caja 01");
+        assertThat(result.size(), is(2));
+    }
 
-        SearchCriteriaModel criteria = new SearchCriteriaModel();
-        criteria.addFilter(cajaFilterProvider.getAgenciaFilter(), "agencia01", SearchCriteriaFilterOperator.eq);
-        
-        SearchResultsModel<CajaModel> result = cajaProvider.search(criteria);
-
-        assertThat(result, is(notNullValue()));
-        assertThat(result.getModels().size(), is(1));
-        assertThat(result.getTotalSize(), is(1));
-    }*/
-    
-   /* @Test
+    @Test
     public void searchCriteria2() {
         @SuppressWarnings("unused")
         CajaModel model1 = cajaProvider.create("agencia01", "Caja 01");
+
         @SuppressWarnings("unused")
         CajaModel model2 = cajaProvider.create("agencia01", "Caja 02");
         CajaModel model3 = cajaProvider.create("agencia01", "Caja 03");
+
         @SuppressWarnings("unused")
         CajaModel model4 = cajaProvider.create("agencia02", "Caja 01");
-        
+
         model3.desactivar();
         model3.commit();
 
         SearchCriteriaModel criteria = new SearchCriteriaModel();
-        criteria.addFilter(cajaFilterProvider.getAgenciaFilter(), "agencia01", SearchCriteriaFilterOperator.eq);
-        criteria.addFilter(cajaFilterProvider.getEstadoFilter(), true, SearchCriteriaFilterOperator.bool_eq);
-        
+        criteria.addFilter("agencia", "agencia01", SearchCriteriaFilterOperator.eq);
+        criteria.addFilter("estado", true, SearchCriteriaFilterOperator.bool_eq);
+
         SearchResultsModel<CajaModel> result = cajaProvider.search(criteria);
 
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(2));
         assertThat(result.getTotalSize(), is(2));
-    }*/
-    
-    /*@Test
-    public void searchCriteriaFilterText1() {
+    }
+
+    @Test
+    public void searchCriteriaFilterText() {
         @SuppressWarnings("unused")
         CajaModel model1 = cajaProvider.create("agencia01", "Caja 01");
+
         @SuppressWarnings("unused")
         CajaModel model2 = cajaProvider.create("agencia02", "Caja 01");
 
         SearchCriteriaModel criteria = new SearchCriteriaModel();
-        criteria.addFilter(cajaFilterProvider.getAgenciaFilter(), "agencia01", SearchCriteriaFilterOperator.eq);
-        
+        criteria.addFilter("agencia", "agencia01", SearchCriteriaFilterOperator.eq);
+
         SearchResultsModel<CajaModel> result = cajaProvider.search(criteria, "01");
 
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
     }
-*/
+
 }

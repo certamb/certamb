@@ -6,9 +6,14 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import java.time.LocalDate;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
+import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 
 public class HistorialBovedaCajaProviderTest extends AbstractTest {
 
@@ -23,7 +28,7 @@ public class HistorialBovedaCajaProviderTest extends AbstractTest {
 
     @Inject
     private HistorialBovedaCajaProvider historialBovedaCajaProvider;
-    
+
     @Test
     public void create1() {
         BovedaModel bovedaModel = bovedaProvider.create("Agencia 01", "PEN", "Boveda nuevos soles");
@@ -131,31 +136,7 @@ public class HistorialBovedaCajaProviderTest extends AbstractTest {
         assertThat("model1 is not equal to model2", model1, is(equalTo(model2)));
     }
 
-    /*@Test
-    public void searchCriteria1() {
-        BovedaModel bovedaModel = bovedaProvider.create("Agencia 01", "PEN", "Boveda nuevos soles");
-        CajaModel cajaModel1 = cajaProvider.create("Agencia 01", "Caja 01");
-        CajaModel cajaModel2 = cajaProvider.create("Agencia 01", "Caja 02");
-        BovedaCajaModel bovedaCajaModel1 = bovedaCajaProvider.create(bovedaModel, cajaModel1);
-        BovedaCajaModel bovedaCajaModel2 = bovedaCajaProvider.create(bovedaModel, cajaModel2);
-
-        @SuppressWarnings("unused")
-        HistorialBovedaCajaModel model1 = historialBovedaCajaProvider.create(bovedaCajaModel1);
-        @SuppressWarnings("unused")
-        HistorialBovedaCajaModel model2 = historialBovedaCajaProvider.create(bovedaCajaModel2);
-
-        SearchCriteriaModel criteria = new SearchCriteriaModel();
-        criteria.addFilter(historialBovedaCajaFilterProvider.getIdBovedaCajaFilter(),
-                bovedaCajaModel1.getId(), SearchCriteriaFilterOperator.eq);
-
-        SearchResultsModel<HistorialBovedaCajaModel> result = historialBovedaCajaProvider.search(criteria);
-
-        assertThat(result, is(notNullValue()));
-        assertThat(result.getModels().size(), is(1));
-        assertThat(result.getTotalSize(), is(1));
-    }*/
-
-    /*@Test
+    @Test
     public void searchCriteria2() {
         BovedaModel bovedaModel = bovedaProvider.create("Agencia 01", "PEN", "Boveda nuevos soles");
         CajaModel cajaModel1 = cajaProvider.create("Agencia 01", "Caja 01");
@@ -169,17 +150,15 @@ public class HistorialBovedaCajaProviderTest extends AbstractTest {
         HistorialBovedaCajaModel model2 = historialBovedaCajaProvider.create(bovedaCajaModel2);
 
         SearchCriteriaModel criteria = new SearchCriteriaModel();
-        criteria.addFilter(historialBovedaCajaFilterProvider.getIdBovedaCajaFilter(),
-                bovedaCajaModel1.getId(), SearchCriteriaFilterOperator.eq);
-        criteria.addFilter(historialBovedaCajaFilterProvider.getFechaAperturaFilter(), Calendar.getInstance()
-                .getTime(), SearchCriteriaFilterOperator.gte);
-        criteria.addFilter(historialBovedaCajaFilterProvider.getFechaAperturaFilter(), Calendar.getInstance()
-                .getTime(), SearchCriteriaFilterOperator.lte);
+        criteria.addFilter("idBovedaCaja", bovedaCajaModel1.getId(), SearchCriteriaFilterOperator.eq);
+        criteria.addFilter("fechaApertura", LocalDate.now(), SearchCriteriaFilterOperator.gte);
+        criteria.addFilter("fechaApertura", LocalDate.now(), SearchCriteriaFilterOperator.lte);
 
-        SearchResultsModel<HistorialBovedaCajaModel> result = historialBovedaCajaProvider.search(criteria);
+        SearchResultsModel<HistorialBovedaCajaModel> result = historialBovedaCajaProvider.search(
+                bovedaCajaModel1, criteria);
 
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(1));
         assertThat(result.getTotalSize(), is(1));
-    }*/
+    }
 }

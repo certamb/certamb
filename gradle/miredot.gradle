@@ -12,3 +12,9 @@ miredot {
         title = "API Manager REST Services (${project.version})"
     }
 }
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+    options.tags = [ "summary", "title", "servicetag", "statuscode", "responseheader" ]
+}

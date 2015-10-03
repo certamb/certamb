@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-public class RrhhFilter implements Filter {
+public class CooperativaFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

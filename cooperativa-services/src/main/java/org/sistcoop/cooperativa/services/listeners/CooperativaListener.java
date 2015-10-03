@@ -3,7 +3,7 @@ package org.sistcoop.cooperativa.services.listeners;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class RrhhListener implements ServletContextListener {
+public class CooperativaListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {

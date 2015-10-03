@@ -12,18 +12,25 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.runner.RunWith;
 import org.sistcoop.cooperativa.JaxRsActivator;
 import org.sistcoop.cooperativa.admin.client.Config;
+import org.sistcoop.cooperativa.constants.GenericConstants;
+import org.sistcoop.cooperativa.mappers.MapperConfigValidationException;
+import org.sistcoop.cooperativa.messages.MessagesProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
-import org.sistcoop.cooperativa.models.ModelException;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.jpa.JpaBovedaProvider;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
-import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterModel;
+import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinModel;
+import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.provider.Provider;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
+import org.sistcoop.cooperativa.services.ErrorResponse;
+import org.sistcoop.cooperativa.services.filters.CooperativaFilter;
+import org.sistcoop.cooperativa.services.listeners.CooperativaListener;
 import org.sistcoop.cooperativa.services.managers.BovedaManager;
 import org.sistcoop.cooperativa.services.messages.Messages;
+import org.sistcoop.cooperativa.services.resources.ModelExceptionMapper;
 import org.sistcoop.cooperativa.services.resources.admin.BovedasResourceImpl;
 import org.sistcoop.cooperativa.services.resources.producers.BovedaCajas_Boveda;
 import org.slf4j.Logger;
@@ -47,31 +54,37 @@ public abstract class AbstractTest {
                 .create(WebArchive.class, "test.war")
 
                 /** model-api **/
-                .addPackage(Provider.class.getPackage())
-                .addPackage(ModelException.class.getPackage())
+                .addPackage(MapperConfigValidationException.class.getPackage())
                 .addPackage(BovedaModel.class.getPackage())
-
                 .addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
-                
+                .addPackage(SearchCriteriaModel.class.getPackage())
+                .addPackage(SearchCriteriaModel.class.getPackage())
                 .addPackage(ModelToRepresentation.class.getPackage())
-
-                .addPackage(SearchCriteriaFilterModel.class.getPackage())
+                .addPackage(Provider.class.getPackage())
                 
                 /** model-jpa **/
-                .addPackage(JpaBovedaProvider.class.getPackage())               
+                .addPackage(JpaBovedaProvider.class.getPackage())
                 .addPackage(BovedaEntity.class.getPackage())
+                .addPackage(SearchCriteriaJoinModel.class.getPackage())
 
                 /** client */
                 .addPackage(Config.class.getPackage())
                 .addPackage(BovedasResource.class.getPackage())
 
                 /** services */
+                .addPackage(MessagesProvider.class.getPackage())
+                .addPackage(ErrorResponse.class.getPackage())
+                .addPackage(CooperativaFilter.class.getPackage())
+                .addPackage(CooperativaListener.class.getPackage())
+                .addPackage(BovedaManager.class.getPackage())                
                 .addPackage(Messages.class.getPackage())
-                .addPackage(BovedasResourceImpl.class.getPackage())
-                .addPackage(BovedaManager.class.getPackage())
+                .addPackage(ModelExceptionMapper.class.getPackage())                
+                .addPackage(BovedasResourceImpl.class.getPackage())                
                 .addPackage(BovedaCajas_Boveda.class.getPackage())
 
                 /** core */
+                .addPackage(Config.class.getPackage())
+                .addPackage(GenericConstants.class.getPackage())
                 .addPackage(BovedaRepresentation.class.getPackage())
                 .addPackage(SearchResultsRepresentation.class.getPackage())
 

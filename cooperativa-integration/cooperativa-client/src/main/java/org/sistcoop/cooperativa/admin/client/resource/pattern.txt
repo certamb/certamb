@@ -1,3 +1,9 @@
+/entidades
+/entidades/{entidad}
+/entidades/{entidad}/transaccionesEntidadBoveda
+/entidades/{entidad}/transaccionesEntidadBoveda/{transaccion}
+/entidades/{entidad}/transaccionesEntidadBoveda/{transaccion}/detalle
+
 /bovedas																					
 /bovedas/{boveda}																			
 /bovedas/{boveda}/enable																
@@ -11,7 +17,10 @@
 /bovedas/{boveda}/historiales/{historial}/detalle										
 /bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja							
 /bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}				
-/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}/detalle		
+/bovedas/{boveda}/historiales/{historial}/transaccionesBovedaCaja/{transaccion}/detalle
+/bovedas/{boveda}/historiales/{historial}/transaccionesEntidadBoveda							
+/bovedas/{boveda}/historiales/{historial}/transaccionesEntidadBoveda/{transaccion}				
+/bovedas/{boveda}/historiales/{historial}/transaccionesEntidadBoveda/{transaccion}/detalle			
 /bovedas/{boveda}/bovedaCajas
 /bovedas/{boveda}/bovedaCajas/{bovedaCaja}
 /bovedas/{boveda}/bovedaCajas/{bovedaCaja}/historiales

@@ -7,20 +7,25 @@ import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaModel;
+import org.sistcoop.cooperativa.models.DetalleTransaccionEntidadBovedaModel;
+import org.sistcoop.cooperativa.models.EntidadModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
+import org.sistcoop.cooperativa.models.TransaccionEntidadBovedaModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.EntidadRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepresentation;
 
 public class ModelToRepresentation {
 
@@ -178,13 +183,60 @@ public class ModelToRepresentation {
     }
 
     public static DetalleMonedaRepresentation toRepresentation(DetalleHistorialBovedaModel model) {
-        // TODO Auto-generated method stub
-        return null;
+        if (model == null)
+            return null;
+
+        DetalleMonedaRepresentation rep = new DetalleMonedaRepresentation();
+        rep.setValor(model.getValor());
+        rep.setCantidad(model.getCantidad());
+        return rep;
     }
 
     public static DetalleMonedaRepresentation toRepresentation(DetalleHistorialBovedaCajaModel model) {
-        // TODO Auto-generated method stub
-        return null;
+        if (model == null)
+            return null;
+
+        DetalleMonedaRepresentation rep = new DetalleMonedaRepresentation();
+        rep.setValor(model.getValor());
+        rep.setCantidad(model.getCantidad());
+        return rep;
+    }
+
+    public static DetalleMonedaRepresentation toRepresentation(DetalleTransaccionEntidadBovedaModel model) {
+        if (model == null)
+            return null;
+
+        DetalleMonedaRepresentation rep = new DetalleMonedaRepresentation();
+        rep.setValor(model.getValor());
+        rep.setCantidad(model.getCantidad());
+        return rep;
+    }
+
+    public static EntidadRepresentation toRepresentation(EntidadModel model) {
+        if (model == null)
+            return null;
+
+        EntidadRepresentation rep = new EntidadRepresentation();
+        rep.setId(model.getId());
+        rep.setDenominacion(model.getDenominacion());
+        rep.setAbreviatura(model.getAbreviatura());
+        rep.setEstado(model.getEstado());
+        return rep;
+    }
+
+    public static TransaccionEntidadBovedaRepresentation toRepresentation(TransaccionEntidadBovedaModel model) {
+        if (model == null)
+            return null;
+
+        TransaccionEntidadBovedaRepresentation rep = new TransaccionEntidadBovedaRepresentation();
+        rep.setId(model.getId());
+        rep.setFecha(model.getFecha());
+        rep.setHora(model.getHora());
+        rep.setTipo(model.getTipo().toString());
+        rep.setOrigen(model.getOrigen().toString());
+        rep.setObservacion(model.getObservacion());
+        rep.setEstado(model.getEstado());
+        return rep;
     }
 
 }
