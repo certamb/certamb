@@ -20,6 +20,7 @@ import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
+import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
@@ -31,8 +32,8 @@ import org.sistcoop.cooperativa.services.resources.producers.BovedaCajas_Boveda;
 @Stateless
 public class BovedaResourceImpl implements BovedaResource {
 
-    @PathParam("boveda")
-    private String boveda;
+    @PathParam("idBoveda")
+    private String idBoveda;
 
     @Inject
     private BovedaManager bovedaManager;
@@ -51,7 +52,7 @@ public class BovedaResourceImpl implements BovedaResource {
     private BovedaCajasResource bovedaCajasResource;
 
     private BovedaModel getBovedaModel() {
-        return bovedaProvider.findById(boveda);
+        return bovedaProvider.findById(idBoveda);
     }
 
     @Override
@@ -65,58 +66,52 @@ public class BovedaResourceImpl implements BovedaResource {
     }
 
     @Override
-    public void update(BovedaRepresentation bovedaRepresentation) {
-        bovedaManager.updateBoveda(getBovedaModel(), bovedaRepresentation);
-    }
-
-    @Override
-    public Response enable() {
-        throw new NotFoundException();
+    public void update(BovedaRepresentation rep) {
+        bovedaManager.updateBoveda(getBovedaModel(), rep);
     }
 
     @Override
     public Response disable() {
         BovedaModel boveda = getBovedaModel();
         HistorialBovedaModel historialBovedaActivo = boveda.getHistorialActivo();
-        if (historialBovedaActivo.isAbierto()) {
-            return new ErrorResponseException("Boveda abierta", "Boveda abierta, no se puede desactivar",
-                    Response.Status.BAD_REQUEST).getResponse();
-        }
+        if (historialBovedaActivo != null) {
+            if (historialBovedaActivo.isAbierto()) {
+                return new ErrorResponseException("Boveda abierta", "Boveda abierta, no se puede desactivar",
+                        Response.Status.BAD_REQUEST).getResponse();
+            }
 
-        // Hallar saldo de boveda
-        List<DetalleHistorialBovedaModel> detalleHistorialBoveda = historialBovedaActivo.getDetalle();
-        Function<DetalleHistorialBovedaModel, BigDecimal> totalMapper = detalle -> detalle.getValor()
-                .multiply(new BigDecimal(detalle.getCantidad()));
-        BigDecimal saldoHistorialBoveda = detalleHistorialBoveda.stream().map(totalMapper)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            List<DetalleHistorialBovedaModel> detalleHistorialBoveda = historialBovedaActivo.getDetalle();
+            Function<DetalleHistorialBovedaModel, BigDecimal> totalMapper = detalle -> detalle.getValor()
+                    .multiply(new BigDecimal(detalle.getCantidad()));
+
+            // Hallar saldo de boveda
+            BigDecimal saldoHistorialBoveda = detalleHistorialBoveda.stream().map(totalMapper)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            if (saldoHistorialBoveda.compareTo(BigDecimal.ZERO) != 0) {
+                return new ErrorResponseException("Boveda saldo invalido", "Boveda tiene saldo="
+                        + saldoHistorialBoveda + ", no se puede desactivar hasta que tenga 0.00 de saldo",
+                        Response.Status.BAD_REQUEST).getResponse();
+            }
+        }
 
         // Hallar cajas relacionadas
         List<BovedaCajaModel> bovedaCajas = boveda.getBovedaCajas();
-        List<BovedaCajaModel> bovedaCajasAbiertas = bovedaCajas.stream()
-                .filter(bovedaCaja -> bovedaCaja.getHistorialActivo().isAbierto())
-                .collect(Collectors.toList());
-        List<BovedaCajaModel> bovedaCajasSaldo = bovedaCajas
-                .stream()
-                .filter(bovedaCaja -> bovedaCaja.getHistorialActivo().getSaldo().compareTo(BigDecimal.ZERO) != 0)
-                .collect(Collectors.toList());
 
-        if (saldoHistorialBoveda.compareTo(BigDecimal.ZERO) != 0 || !bovedaCajasAbiertas.isEmpty()
-                || !bovedaCajasSaldo.isEmpty()) {
-            String errorDescription = new String();
-            if (saldoHistorialBoveda.compareTo(BigDecimal.ZERO) != 0) {
-                errorDescription.concat("Boveda tiene saldo=" + saldoHistorialBoveda
-                        + ", no se puede desactivar hasta que tenga 0.00 de saldo.");
+        Function<BovedaCajaModel, HistorialBovedaCajaModel> historialMapper = bovedaCaja -> bovedaCaja
+                .getHistorialActivo();
+        List<HistorialBovedaCajaModel> historialesBovedaCaja = bovedaCajas.stream().map(historialMapper)
+                .filter(bovedaCaja -> bovedaCaja != null).collect(Collectors.toList());
+        for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesBovedaCaja) {
+            if (historialBovedaCajaModel.getSaldo().compareTo(BigDecimal.ZERO) != 0) {
+                return new ErrorResponseException("Caja relacionada tiene saldo",
+                        "Existe una caja con saldo diferente de 0.00, la boveda no puede ser desactivada",
+                        Response.Status.BAD_REQUEST).getResponse();
             }
-            if (!bovedaCajasAbiertas.isEmpty()) {
-                errorDescription.concat("Boveda tiene cajas abiertas, cajas="
-                        + bovedaCajasAbiertas.toString());
+            if (historialBovedaCajaModel.isAbierto()) {
+                return new ErrorResponseException("Caja relacionada abierta",
+                        "Existe una caja abierta, la boveda no puede ser desactivada",
+                        Response.Status.BAD_REQUEST).getResponse();
             }
-            if (!bovedaCajasSaldo.isEmpty()) {
-                errorDescription.concat("Boveda tiene cajas con saldo, cajas="
-                        + bovedaCajasAbiertas.toString());
-            }
-            return new ErrorResponseException("Boveda estado invalido", errorDescription,
-                    Response.Status.BAD_REQUEST).getResponse();
         }
 
         boolean disabled = bovedaManager.disableBoveda(boveda);

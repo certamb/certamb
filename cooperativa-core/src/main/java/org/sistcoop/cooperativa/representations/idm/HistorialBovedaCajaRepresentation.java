@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 public class HistorialBovedaCajaRepresentation implements Serializable {
 
@@ -22,9 +21,7 @@ public class HistorialBovedaCajaRepresentation implements Serializable {
     private boolean estadoMovimiento;
     private boolean estado;
 
-    private BovedaCajaRepresentation bovedaCaja;
     private BigDecimal saldo;
-    private List<DetalleMonedaRepresentation> detalle;
 
     public String getId() {
         return id;
@@ -90,28 +87,12 @@ public class HistorialBovedaCajaRepresentation implements Serializable {
         this.estado = estado;
     }
 
-    public BovedaCajaRepresentation getBovedaCaja() {
-        return bovedaCaja;
-    }
-
-    public void setBovedaCaja(BovedaCajaRepresentation bovedaCaja) {
-        this.bovedaCaja = bovedaCaja;
-    }
-
     public BigDecimal getSaldo() {
         return saldo;
     }
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
-    }
-
-    public List<DetalleMonedaRepresentation> getDetalle() {
-        return detalle;
-    }
-
-    public void setDetalle(List<DetalleMonedaRepresentation> detalle) {
-        this.detalle = detalle;
     }
 
 }

@@ -17,22 +17,48 @@ import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
  */
 public interface BovedaResource {
 
+    /**
+     * Use este endpoint para extraer informacion hacerca de una Boveda por
+     * medio de su ID.
+     * 
+     * @summary Get a Boveda by ID
+     * @statuscode 200 Si la boveda fue retornada satisfactoriamente.
+     * @return Una boveda.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public BovedaRepresentation toRepresentation();
 
+    /**
+     * Use este endpoint para actualizar la informacion hacerca de una boveda
+     * existente. La boveda es identificada por su ID.
+     * 
+     * @summary Update a Boveda by ID
+     * @param rep
+     *            Informacion actualizada de la boveda.
+     * @statuscode 204 Si la boveda fue actualizada satisfactoriamente.
+     */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void update(BovedaRepresentation bovedaRepresentation);
+    public void update(BovedaRepresentation rep);
 
-    @POST
-    @Path("enable")
-    public Response enable();
-
+    /**
+     * Use este endpoint para desactivar una boveda. Una boveda desactivada no
+     * podra ser usada nuevamente para realizar ninguna operacion.
+     * 
+     * @summary Disable Boveda
+     * @statuscode 200 Si la boveda fue desactivada satisfactoriamente.
+     */
     @POST
     @Path("disable")
     public Response disable();
 
+    /**
+     * Use este endpoint para eliminar una boveda por medio de su ID.
+     * 
+     * @summary Delete a Boveda by ID
+     * @statuscode 204 Si la boveda fue eliminada.
+     */
     @DELETE
     public Response remove();
 

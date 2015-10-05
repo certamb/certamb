@@ -28,8 +28,8 @@ import org.sistcoop.cooperativa.services.resources.producers.TransaccionesBoveda
 @Stateless
 public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResource {
 
-    @PathParam("historial")
-    private String historial;
+    @PathParam("idHistorial")
+    private String idHistorial;
 
     @Inject
     private HistorialBovedaCajaProvider historialBovedaCajaProvider;
@@ -45,7 +45,7 @@ public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResou
     private TransaccionesBovedaCajaResource transaccionesBovedaCajaResource;
 
     private HistorialBovedaCajaModel getHistorialBovedaCajaModel() {
-        return historialBovedaCajaProvider.findById(historial);
+        return historialBovedaCajaProvider.findById(idHistorial);
     }
 
     @Override
@@ -57,16 +57,6 @@ public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResou
         } else {
             throw new NotFoundException("Historial no encontrado");
         }
-    }
-
-    @Override
-    public void update() {
-        throw new NotFoundException();
-    }
-
-    @Override
-    public void remove() {
-        throw new NotFoundException();
     }
 
     @Override

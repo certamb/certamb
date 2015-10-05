@@ -2,6 +2,7 @@ package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
@@ -16,6 +17,7 @@ import org.sistcoop.cooperativa.admin.client.resource.CajaTrabajadoresResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
+import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
@@ -26,8 +28,8 @@ import org.sistcoop.cooperativa.services.resources.producers.BovedaCajas_Caja;
 @Stateless
 public class CajaResourceImpl implements CajaResource {
 
-    @PathParam("caja")
-    private String caja;
+    @PathParam("idCaja")
+    private String idCaja;
 
     @Inject
     private CajaManager cajaManager;
@@ -43,7 +45,7 @@ public class CajaResourceImpl implements CajaResource {
     private CajaTrabajadoresResource cajaTrabajadoresResource;
 
     private CajaModel getCajaModel() {
-        return cajaProvider.findById(caja);
+        return cajaProvider.findById(idCaja);
     }
 
     @Override
@@ -57,39 +59,30 @@ public class CajaResourceImpl implements CajaResource {
     }
 
     @Override
-    public void update(CajaRepresentation cajaRepresentation) {
-        cajaManager.update(getCajaModel(), cajaRepresentation);
-    }
-
-    @Override
-    public Response enable() {
-        throw new NotFoundException();
+    public void update(CajaRepresentation rep) {
+        cajaManager.update(getCajaModel(), rep);
     }
 
     @Override
     public Response disable() {
         CajaModel caja = getCajaModel();
         List<BovedaCajaModel> bovedaCajas = caja.getBovedaCajas();
-        List<BovedaCajaModel> bovedaCajasAbiertas = bovedaCajas.stream()
-                .filter(bovedaCaja -> bovedaCaja.getHistorialActivo().isAbierto())
-                .collect(Collectors.toList());
-        List<BovedaCajaModel> bovedaCajasSaldo = bovedaCajas
-                .stream()
-                .filter(bovedaCaja -> bovedaCaja.getHistorialActivo().getSaldo().compareTo(BigDecimal.ZERO) != 0)
-                .collect(Collectors.toList());
 
-        if (!bovedaCajasAbiertas.isEmpty() || !bovedaCajasSaldo.isEmpty()) {
-            String errorDescription = new String();
-            if (!bovedaCajasAbiertas.isEmpty()) {
-                errorDescription.concat("Caja tiene monedas abiertas, cajas="
-                        + bovedaCajasAbiertas.toString());
+        Function<BovedaCajaModel, HistorialBovedaCajaModel> historialMapper = bovedaCaja -> bovedaCaja
+                .getHistorialActivo();
+        List<HistorialBovedaCajaModel> historialesBovedaCaja = bovedaCajas.stream().map(historialMapper)
+                .filter(bovedaCaja -> bovedaCaja != null).collect(Collectors.toList());
+        for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesBovedaCaja) {
+            if (historialBovedaCajaModel.getSaldo().compareTo(BigDecimal.ZERO) != 0) {
+                return new ErrorResponseException("Caja relacionada tiene saldo",
+                        "Existe una caja con saldo diferente de 0.00, la boveda no puede ser desactivada",
+                        Response.Status.BAD_REQUEST).getResponse();
             }
-            if (!bovedaCajasSaldo.isEmpty()) {
-                errorDescription.concat("Boveda tiene monedas con saldo, cajas="
-                        + bovedaCajasAbiertas.toString());
+            if (historialBovedaCajaModel.isAbierto()) {
+                return new ErrorResponseException("Caja relacionada abierta",
+                        "Existe una caja abierta, la boveda no puede ser desactivada",
+                        Response.Status.BAD_REQUEST).getResponse();
             }
-            return new ErrorResponseException("Caja estado invalido", errorDescription,
-                    Response.Status.BAD_REQUEST).getResponse();
         }
 
         boolean result = cajaManager.desactivarCaja(caja);

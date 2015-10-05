@@ -23,25 +23,69 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 @Consumes(MediaType.APPLICATION_JSON)
 public interface TransaccionesBovedaCajaResource {
 
-    @Path("{transaccion}")
-    public TransaccionBovedaCajaResource transaccion(@PathParam("transaccion") String transaccion);
+    /**
+     * @param idTransaccion
+     *            El ID de TransaccionBovedaCaja.
+     */
+    @Path("{idTransaccion}")
+    public TransaccionBovedaCajaResource transaccion(@PathParam("idTransaccion") String idTransaccion);
 
+    /**
+     * Use este endpoint para crear una transaccionBovedaCaja. Esta transaccion
+     * describe el flujo de dinero entre una boveda y una caja.
+     * 
+     * @summary Create TransaccionBovedaCaja
+     * @param rep
+     *            La nueva transaccionBovedaCaja.
+     * @statuscode 200 Si la transaccionBovedaCaja fue creada
+     *             satisfactoriamente.
+     * @return Informacion acerca de la transaccionBovedaCaja creada.
+     */
     @POST
-    public Response create(TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation);
+    public Response create(TransaccionBovedaCajaRepresentation rep);
 
+    /**
+     * Este endpoint lista todas las transaccionBovedaCaja que existen en caja o
+     * boveda.
+     * 
+     * @summary List all TransaccionBovedaCaja
+     * @statuscode 200 Si la lista de transaccionBovedaCaja fue retornada
+     *             satisfactoriamente.
+     * @return Una Lista de transaccionBovedaCaja.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<TransaccionBovedaCajaRepresentation> getAll();
 
+    /**
+     * Este endpoint provee una forma de buscar cajas. Los criterios de busqueda
+     * estan definidos por los parametros enviados.
+     * 
+     * @summary Search for Transacciones
+     * @param desde
+     *            Fecha desde la cual se desea buscar.
+     * @param hasta
+     *            Fecha hasta la cual se desea buscar.
+     * @param origen
+     *            El origen de la boveda.
+     * @param estadoSolicitud
+     *            El estadoSolicitud de la transaccion.
+     * @param estadoConfirmacion
+     *            El estadoConfirmacion de la transaccion.
+     * @param page
+     *            Numero de pagina.
+     * @param pageSize
+     *            Tamanio de pagina.
+     * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
+     * @return Los resultados de la busqueda (una pagina de transacciones).
+     */
     @GET
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> search(
             @QueryParam("desde") LocalDateTime desde, @QueryParam("hasta") LocalDateTime hasta,
-            @QueryParam("enviados") @DefaultValue(value = "true") boolean enviados,
-            @QueryParam("recibidos") @DefaultValue(value = "true") boolean recibidos,
-            @QueryParam("estadoSolicitud") @DefaultValue(value = "true") Boolean estadoSolicitud,
-            @QueryParam("estadoConfirmacion") @DefaultValue(value = "false") Boolean estadoConfirmacion,
+            @QueryParam("origen") String origen, @QueryParam("estadoSolicitud") Boolean estadoSolicitud,
+            @QueryParam("estadoConfirmacion") Boolean estadoConfirmacion,
             @QueryParam("page") @DefaultValue("1") Integer page,
             @QueryParam("pageSize") @DefaultValue("20") Integer pageSize);
 

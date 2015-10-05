@@ -127,4 +127,22 @@ public class JpaTrabajadorCajaProvider extends AbstractHibernateStorage implemen
         return searchResult;
     }
 
+    @Override
+    public SearchResultsModel<TrabajadorCajaModel> search(CajaModel caja, SearchCriteriaModel criteria,
+            String filterText) {
+        SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("trabajadorCaja");
+        criteriaJoin.addJoin("trabajadorCaja.caja", "caja", SearchCriteriaJoinType.INNER_JOIN);
+        criteriaJoin.addCondition("caja.id", caja.getId(), SearchCriteriaFilterOperator.eq);
+
+        SearchResultsModel<TrabajadorCajaEntity> entityResult = findFullText(criteriaJoin, criteria,
+                TrabajadorCajaEntity.class, filterText, "tipoDocumento", "numeroDocumento");
+        List<TrabajadorCajaEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<TrabajadorCajaModel> searchResult = new SearchResultsModel<>();
+        List<TrabajadorCajaModel> models = searchResult.getModels();
+        entities.forEach(entity -> models.add(new TrabajadorCajaAdapter(em, entity)));
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
+    }
+
 }

@@ -21,20 +21,57 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 @Consumes(MediaType.APPLICATION_JSON)
 public interface BovedaCajasResource {
 
-    @Path("{bovedaCaja}")
-    public BovedaCajaResource bovedaCaja(@PathParam("bovedaCaja") String bovedaCaja);
+    /**
+     * @param idBovedaCaja
+     *            El ID de BovedaCaja.
+     */
+    @Path("{idBovedaCaja}")
+    public BovedaCajaResource bovedaCaja(@PathParam("idBovedaCaja") String idBovedaCaja);
 
     // @POST
     // public Response create(BovedaCajaRepresentation
     // bovedaCajaRepresentation);
 
+    /**
+     * Use este endpoint para relacionar una boveda y una caja. Una bovedaCaja
+     * representa la relacion de uno a uno entre boveda y caja.
+     * 
+     * @summary Create BovedaCaja
+     * @param rep
+     *            La nueva bovedaCaja.
+     * @statuscode 200 Si la bovedaCaja fue creada satisfactoriamente.
+     * @return Informacion acerca de la bovedaCaja creada.
+     */
     @POST
     public Response create(BovedaCajaRepresentation[] bovedaCajaRepresentations);
 
+    /**
+     * Este endpoint lista todas las bovedaCajas que existen en boveda o en
+     * caja.
+     * 
+     * @summary List all BovedaCaja
+     * @statuscode 200 Si la lista de bovedaCaja fue retornada
+     *             satisfactoriamente.
+     * @return Una Lista de bovedaCaja.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<BovedaCajaRepresentation> getAll();
 
+    /**
+     * Este endpoint provee una forma de buscar bovedaCajas. Los criterios de
+     * busqueda estan definidos por los parametros enviados.
+     * 
+     * @summary Search for Bovedas
+     * @param idBoveda
+     *            idBoveda buscada.
+     * @param idCaja
+     *            idCaja buscada.
+     * @param estado
+     *            El estado de la boveda.
+     * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
+     * @return Los resultados de la busqueda (una pagina de bovedaCajas).
+     */
     @GET
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)

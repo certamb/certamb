@@ -36,8 +36,8 @@ import org.sistcoop.cooperativa.services.ErrorResponse;
 @Stateless
 public class TransaccionesEntidadBovedaResourceImpl implements TransaccionesEntidadBovedaResource {
 
-    @PathParam("entidad")
-    private String entidad;
+    @PathParam("idEntidad")
+    private String idEntidad;
 
     @Inject
     private EntidadProvider entidadProvider;
@@ -61,7 +61,7 @@ public class TransaccionesEntidadBovedaResourceImpl implements TransaccionesEnti
     private TransaccionEntidadBovedaResource transaccionEntidadBovedaResource;
 
     private EntidadModel getEntidadModel() {
-        return entidadProvider.findById(entidad);
+        return entidadProvider.findById(idEntidad);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class TransaccionesEntidadBovedaResourceImpl implements TransaccionesEnti
 
     @Override
     public SearchResultsRepresentation<TransaccionEntidadBovedaRepresentation> search(LocalDateTime desde,
-            LocalDateTime hasta, String[] origen, String tipo, Integer page, Integer pageSize) {
+            LocalDateTime hasta, String origen, String tipo, Integer page, Integer pageSize) {
 
         // add paging
         PagingModel paging = new PagingModel();
@@ -131,9 +131,7 @@ public class TransaccionesEntidadBovedaResourceImpl implements TransaccionesEnti
         }
 
         if (origen != null) {
-            for (int i = 0; i < origen.length; i++) {
-                searchCriteriaBean.addFilter("origen", origen[i], SearchCriteriaFilterOperator.eq);
-            }
+            searchCriteriaBean.addFilter("origen", origen, SearchCriteriaFilterOperator.eq);
         }
         if (tipo != null) {
             searchCriteriaBean.addFilter("tipo", tipo, SearchCriteriaFilterOperator.eq);

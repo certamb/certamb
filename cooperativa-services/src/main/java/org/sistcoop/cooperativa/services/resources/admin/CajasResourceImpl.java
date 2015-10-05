@@ -74,7 +74,7 @@ public class CajasResourceImpl implements CajasResource {
 
     @Override
     public SearchResultsRepresentation<CajaRepresentation> search(String agencia, String denominacion,
-            boolean estado, String filterText, Integer page, Integer pageSize) {
+            Boolean estado, String filterText, Integer page, Integer pageSize) {
         // add paging
         PagingModel paging = new PagingModel();
         paging.setPage(page);
@@ -87,7 +87,9 @@ public class CajasResourceImpl implements CajasResource {
         if (agencia != null) {
             searchCriteriaBean.addFilter("agencia", agencia, SearchCriteriaFilterOperator.eq);
         }
-        searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
+        if (estado != null) {
+            searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
+        }
 
         // search
         SearchResultsModel<CajaModel> results = null;

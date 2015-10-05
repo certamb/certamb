@@ -82,7 +82,7 @@ public class BovedasResourceImpl implements BovedasResource {
 
     @Override
     public SearchResultsRepresentation<BovedaRepresentation> search(String agencia, String moneda,
-            boolean estado, String filterText, Integer page, Integer pageSize) {
+            Boolean estado, String filterText, Integer page, Integer pageSize) {
         // add paging
         PagingModel paging = new PagingModel();
         paging.setPage(page);
@@ -98,7 +98,9 @@ public class BovedasResourceImpl implements BovedasResource {
         if (moneda != null) {
             searchCriteriaBean.addFilter("moneda", agencia, SearchCriteriaFilterOperator.eq);
         }
-        searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
+        if (estado != null) {
+            searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
+        }
 
         // search
         SearchResultsModel<BovedaModel> results = null;

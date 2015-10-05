@@ -32,8 +32,8 @@ import org.sistcoop.cooperativa.services.ErrorResponse;
 @Stateless
 public class HistorialesBovedaCajaResourceImpl implements HistorialesBovedaCajaResource {
 
-    @PathParam("bovedaCaja")
-    private String bovedaCaja;
+    @PathParam("idBovedaCaja")
+    private String idBovedaCaja;
 
     @Inject
     private BovedaCajaProvider bovedaCajaProvider;
@@ -54,7 +54,7 @@ public class HistorialesBovedaCajaResourceImpl implements HistorialesBovedaCajaR
     private HistorialBovedaCajaResource cajaBovedaHistorialResource;
 
     private BovedaCajaModel getBovedaCajaModel() {
-        return bovedaCajaProvider.findById(bovedaCaja);
+        return bovedaCajaProvider.findById(idBovedaCaja);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class HistorialesBovedaCajaResourceImpl implements HistorialesBovedaCajaR
     }
 
     @Override
-    public SearchResultsRepresentation<HistorialBovedaCajaRepresentation> search(boolean estado,
+    public SearchResultsRepresentation<HistorialBovedaCajaRepresentation> search(Boolean estado,
             LocalDateTime desde, LocalDateTime hasta, Integer page, Integer pageSize) {
         // add paging
         PagingModel paging = new PagingModel();
@@ -110,7 +110,9 @@ public class HistorialesBovedaCajaResourceImpl implements HistorialesBovedaCajaR
         searchCriteriaBean.addOrder("horaApertura", true);
 
         // add filter
-        searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
+        if (estado != null) {
+            searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
+        }
         if (desde != null) {
             searchCriteriaBean.addFilter("fechaApertura", desde.toLocalDate(),
                     SearchCriteriaFilterOperator.gte);

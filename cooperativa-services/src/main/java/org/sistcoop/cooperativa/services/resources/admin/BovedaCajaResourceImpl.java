@@ -1,8 +1,6 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.function.Function;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,7 +12,6 @@ import org.sistcoop.cooperativa.admin.client.resource.BovedaCajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.HistorialesBovedaCajaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
-import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
@@ -25,8 +22,8 @@ import org.sistcoop.cooperativa.services.managers.BovedaCajaManager;
 @Stateless
 public class BovedaCajaResourceImpl implements BovedaCajaResource {
 
-    @PathParam("bovedaCaja")
-    private String bovedaCaja;
+    @PathParam("idBovedaCaja")
+    private String idBovedaCaja;
 
     @Inject
     private BovedaCajaProvider bovedaCajaProvider;
@@ -38,7 +35,7 @@ public class BovedaCajaResourceImpl implements BovedaCajaResource {
     private BovedaCajaManager bovedaCajaManager;
 
     private BovedaCajaModel getBovedaCajaModel() {
-        return bovedaCajaProvider.findById(bovedaCaja);
+        return bovedaCajaProvider.findById(idBovedaCaja);
     }
 
     @Override
@@ -52,16 +49,6 @@ public class BovedaCajaResourceImpl implements BovedaCajaResource {
     }
 
     @Override
-    public void update(BovedaCajaRepresentation bovedaCajaRepresentation) {
-        throw new NotFoundException();
-    }
-
-    @Override
-    public Response enable() {
-        throw new NotFoundException();
-    }
-
-    @Override
     public Response disable() {
         BovedaCajaModel bovedaCaja = getBovedaCajaModel();
         HistorialBovedaCajaModel historialBovedaCajaActivo = bovedaCaja.getHistorialActivo();
@@ -71,17 +58,10 @@ public class BovedaCajaResourceImpl implements BovedaCajaResource {
                         "No se puede desactivar BovedaCaja hasta que se cierre", Response.Status.BAD_REQUEST)
                         .getResponse();
             }
-
-            List<DetalleHistorialBovedaCajaModel> detalleHistorialBovedaCaja = historialBovedaCajaActivo
-                    .getDetalle();
-            Function<DetalleHistorialBovedaCajaModel, BigDecimal> totalMapper = detalle -> detalle.getValor()
-                    .multiply(new BigDecimal(detalle.getCantidad()));
-            BigDecimal saldoHistorialBoveda = detalleHistorialBovedaCaja.stream().map(totalMapper)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-            if (saldoHistorialBoveda.compareTo(BigDecimal.ZERO) != 0) {
+            if (historialBovedaCajaActivo.getSaldo().compareTo(BigDecimal.ZERO) != 0) {
                 return new ErrorResponseException("BovedaCaja con saldo", "BovedaCaja tiene saldo="
-                        + saldoHistorialBoveda + ", no se puede desactivar", Response.Status.BAD_REQUEST)
-                        .getResponse();
+                        + historialBovedaCajaActivo.getSaldo() + ", no se puede desactivar",
+                        Response.Status.BAD_REQUEST).getResponse();
             }
         }
 

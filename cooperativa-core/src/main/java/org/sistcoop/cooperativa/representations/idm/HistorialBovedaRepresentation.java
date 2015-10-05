@@ -21,8 +21,7 @@ public class HistorialBovedaRepresentation implements Serializable {
     private boolean estadoMovimiento;
     private boolean estado;
 
-    private BovedaRepresentation boveda;
-    private List<DetalleMonedaRepresentation> detalle;
+    List<DetalleMonedaRepresentation> detalle;
 
     public String getId() {
         return id;
@@ -86,14 +85,6 @@ public class HistorialBovedaRepresentation implements Serializable {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
-    }
-
-    public BovedaRepresentation getBoveda() {
-        return boveda;
-    }
-
-    public void setBoveda(BovedaRepresentation boveda) {
-        this.boveda = boveda;
     }
 
     public List<DetalleMonedaRepresentation> getDetalle() {

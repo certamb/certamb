@@ -23,25 +23,67 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 @Consumes(MediaType.APPLICATION_JSON)
 public interface TransaccionesCajaCajaResource {
 
-    @Path("{transaccion}")
-    public TransaccionCajaCajaResource transaccion(@PathParam("transaccion") String transaccion);
+    /**
+     * @param idTransaccion
+     *            El ID de TransaccionCajaCaja.
+     */
+    @Path("{idTransaccion}")
+    public TransaccionCajaCajaResource transaccion(@PathParam("idTransaccion") String idTransaccion);
 
+    /**
+     * Use este endpoint para crear una transaccionCajaCaja. Esta transaccion
+     * describe el flujo de dinero entre una caja y otra caja.
+     * 
+     * @summary Create TransaccionCajaCaja
+     * @param rep
+     *            La nueva transaccionCajaCaja.
+     * @statuscode 200 Si la transaccionCajaCaja fue creada satisfactoriamente.
+     * @return Informacion acerca de la transaccionCajaCaja creada.
+     */
     @POST
-    public Response create(TransaccionCajaCajaRepresentation transaccionCajaCajaRepresentation);
+    public Response create(TransaccionCajaCajaRepresentation rep);
 
+    /**
+     * Este endpoint lista todas las transaccionCajaCaja que existen en caja.
+     * 
+     * @summary List all TransaccionCajaCaja
+     * @statuscode 200 Si la lista de transaccionCajaCaja fue retornada
+     *             satisfactoriamente.
+     * @return Una Lista de transaccionCajaCaja.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<TransaccionCajaCajaRepresentation> getAll();
 
+    /**
+     * Este endpoint provee una forma de buscar cajas. Los criterios de busqueda
+     * estan definidos por los parametros enviados.
+     * 
+     * @summary Search for Transacciones
+     * @param desde
+     *            Fecha desde la cual se desea buscar.
+     * @param hasta
+     *            Fecha hasta la cual se desea buscar.
+     * @param origen
+     *            El origen de la transaccion ENVIADO o RECIBIDO.
+     * @param estadoSolicitud
+     *            El estadoSolicitud de la transaccion.
+     * @param estadoConfirmacion
+     *            El estadoConfirmacion de la transaccion.
+     * @param page
+     *            Numero de pagina.
+     * @param pageSize
+     *            Tamanio de pagina.
+     * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
+     * @return Los resultados de la busqueda (una pagina de transacciones).
+     */
     @GET
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<TransaccionCajaCajaRepresentation> search(
             @QueryParam("desde") LocalDateTime desde, @QueryParam("hasta") LocalDateTime hasta,
-            @QueryParam("enviados") @DefaultValue(value = "true") boolean enviados,
-            @QueryParam("recibidos") @DefaultValue(value = "true") boolean recibidos,
-            @QueryParam("estadoSolicitud") @DefaultValue(value = "true") Boolean estadoSolicitud,
-            @QueryParam("estadoConfirmacion") @DefaultValue(value = "false") Boolean estadoConfirmacion,
+            @QueryParam("origen") String origen, @QueryParam("estadoSolicitud") Boolean estadoSolicitud,
+            @QueryParam("estadoConfirmacion") Boolean estadoConfirmacion,
             @QueryParam("page") @DefaultValue("1") Integer page,
             @QueryParam("pageSize") @DefaultValue("20") Integer pageSize);
 

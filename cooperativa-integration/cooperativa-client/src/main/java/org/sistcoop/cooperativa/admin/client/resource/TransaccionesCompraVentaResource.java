@@ -24,18 +24,63 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 @Consumes(MediaType.APPLICATION_JSON)
 public interface TransaccionesCompraVentaResource {
 
-    @Path("{transaccion}")
-    public TransaccionCompraVentaResource transaccion(@PathParam("transaccion") String transaccion);
+    /**
+     * @param idTransaccion
+     *            El ID de TransaccionCompraVenta.
+     */
+    @Path("{idTransaccion}")
+    public TransaccionCompraVentaResource transaccion(@PathParam("idTransaccion") String idTransaccion);
 
+    /**
+     * Use este endpoint para crear una transaccionCompraVenta.
+     * 
+     * @summary Create TransaccionCompraVenta
+     * @param rep
+     *            La nueva TransaccionCompraVenta.
+     * @statuscode 200 Si el transaccionCompraVenta fue creada
+     *             satisfactoriamente.
+     * @return Informacion acerca del transaccionCompraVenta creada.
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(TransaccionCompraVentaRepresentation rep);
 
+    /**
+     * Este endpoint lista todas transaccionesCompraVenta que pertenecen a un
+     * historial de caja.
+     * 
+     * @summary List all TransaccionesCompraVenta
+     * @statuscode 200 Si la lista de transaccionesCompraVenta fue retornada
+     *             satisfactoriamente.
+     * @return Una Lista de transaccionesCompraVenta.
+     */
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public List<TransaccionCompraVentaRepresentation> getAll();
 
+    /**
+     * Este endpoint provee una forma de buscar transacciones. Los criterios de
+     * busqueda estan definidos por los parametros enviados.
+     * 
+     * @summary Search for HistorialBoveda
+     * @param numeroOperacion
+     *            El numeroOperacion de la transaccion.
+     * @param estado
+     *            El estado de la transaccion.
+     * @param desde
+     *            Fecha desde la cual buscar.
+     * @param hasta
+     *            Fecha hasta la cual buscar.
+     * @param filterText
+     *            Palabra clave para buscar.
+     * @param page
+     *            Numero de pagina.
+     * @param pageSize
+     *            Tamanio de pagina.
+     * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
+     * @return Los resultados de la busqueda (una pagina de historiales).
+     */
     @GET
     @Path("search")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -43,8 +88,8 @@ public interface TransaccionesCompraVentaResource {
     public SearchResultsRepresentation<TransaccionCompraVentaResource> search(
             @QueryParam("numeroOperacion") String numeroOperacion, @QueryParam("estado") Boolean estado,
             @QueryParam("desde") LocalDateTime desde, @QueryParam("hasta") LocalDateTime hasta,
-            @QueryParam("filterText") @DefaultValue(value = "") String filterText,
-            @QueryParam("page") @DefaultValue(value = "") Integer page,
+            @QueryParam("filterText") String filterText,
+            @QueryParam("page") @DefaultValue(value = "1") Integer page,
             @QueryParam("pageSize") @DefaultValue(value = "20") Integer pageSize);
 
 }

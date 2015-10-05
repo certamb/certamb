@@ -18,8 +18,8 @@ import org.sistcoop.cooperativa.services.managers.EntidadManager;
 @Stateless
 public class EntidadResourceImpl implements EntidadResource {
 
-    @PathParam("entidad")
-    private String entidad;
+    @PathParam("idEntidad")
+    private String idEntidad;
 
     @Inject
     private EntidadManager entidadManager;
@@ -31,7 +31,7 @@ public class EntidadResourceImpl implements EntidadResource {
     private TransaccionesEntidadBovedaResource transaccionesEntidadBovedaResource;
 
     private EntidadModel getEntidadModel() {
-        return entidadProvider.findById(entidad);
+        return entidadProvider.findById(idEntidad);
     }
 
     @Override

@@ -16,14 +16,14 @@ import org.sistcoop.cooperativa.services.ErrorResponse;
 @Stateless
 public class CajaTrabajadorResourceImpl implements CajaTrabajadorResource {
 
-    @PathParam("trabajadorCaja")
-    private String trabajadorCaja;
+    @PathParam("idTrabajadorCaja")
+    private String idTrabajadorCaja;
 
     @Inject
     private TrabajadorCajaProvider trabajadorCajaProvider;
 
     private TrabajadorCajaModel getTrabajadorCajaModel() {
-        return trabajadorCajaProvider.findById(trabajadorCaja);
+        return trabajadorCajaProvider.findById(idTrabajadorCaja);
     }
 
     @Override
@@ -34,11 +34,6 @@ public class CajaTrabajadorResourceImpl implements CajaTrabajadorResource {
         } else {
             throw new NotFoundException("Trabajador no encontrado");
         }
-    }
-
-    @Override
-    public void update(TrabajadorCajaRepresentation trabajadorCajaRepresentation) {
-        throw new NotFoundException();
     }
 
     @Override

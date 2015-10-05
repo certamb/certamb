@@ -35,8 +35,8 @@ import org.sistcoop.cooperativa.services.resources.producers.BovedaCajas_Caja;
 @BovedaCajas_Caja
 public class BovedaCajasResourceImpl_Caja implements BovedaCajasResource {
 
-    @PathParam("caja")
-    private String caja;
+    @PathParam("idCaja")
+    private String idCaja;
 
     @Inject
     private BovedaProvider bovedaProvider;
@@ -57,7 +57,7 @@ public class BovedaCajasResourceImpl_Caja implements BovedaCajasResource {
     private BovedaCajaResource cajaBovedaResource;
 
     public CajaModel getCajaModel() {
-        return cajaProvider.findById(caja);
+        return cajaProvider.findById(idCaja);
     }
 
     @Override

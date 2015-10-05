@@ -30,12 +30,13 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaCajaRepresent
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
+import org.sistcoop.cooperativa.services.resources.enums.OrigenTransaccionCajaCaja;
 
 @Stateless
 public class TransaccionesCajaCajaResourceImpl implements TransaccionesCajaCajaResource {
 
-    @PathParam("historial")
-    private String historialBovedaCaja;
+    @PathParam("idHistorial")
+    private String idHistorialBovedaCaja;
 
     @Inject
     private HistorialBovedaCajaProvider historialBovedaCajaProvider;
@@ -56,7 +57,7 @@ public class TransaccionesCajaCajaResourceImpl implements TransaccionesCajaCajaR
     private TransaccionCajaCajaResource transaccionCajaCajaResource;
 
     private HistorialBovedaCajaModel getHistorialBovedaCajaModel() {
-        return historialBovedaCajaProvider.findById(historialBovedaCaja);
+        return historialBovedaCajaProvider.findById(idHistorialBovedaCaja);
     }
 
     @Override
@@ -106,8 +107,8 @@ public class TransaccionesCajaCajaResourceImpl implements TransaccionesCajaCajaR
 
     @Override
     public SearchResultsRepresentation<TransaccionCajaCajaRepresentation> search(LocalDateTime desde,
-            LocalDateTime hasta, boolean enviados, boolean recibidos, Boolean estadoSolicitud,
-            Boolean estadoConfirmacion, Integer page, Integer pageSize) {
+            LocalDateTime hasta, String origen, Boolean estadoSolicitud, Boolean estadoConfirmacion,
+            Integer page, Integer pageSize) {
         // add paging
         PagingModel paging = new PagingModel();
         paging.setPage(page);
@@ -136,18 +137,16 @@ public class TransaccionesCajaCajaResourceImpl implements TransaccionesCajaCajaR
         }
 
         HistorialBovedaCajaModel historialBovedaCaja = getHistorialBovedaCajaModel();
-        SearchResultsModel<TransaccionCajaCajaModel> results = new SearchResultsModel<>();
-        if (enviados) {
-            SearchResultsModel<TransaccionCajaCajaModel> searchEnviados = transaccionCajaCajaProvider
-                    .searchOrigen(historialBovedaCaja, searchCriteriaBean);
-            results.getModels().addAll(searchEnviados.getModels());
-            results.setTotalSize(results.getTotalSize() + searchEnviados.getTotalSize());
-        }
-        if (recibidos) {
-            SearchResultsModel<TransaccionCajaCajaModel> searchRecibidos = transaccionCajaCajaProvider
-                    .searchDestino(historialBovedaCaja, searchCriteriaBean);
-            results.getModels().addAll(searchRecibidos.getModels());
-            results.setTotalSize(results.getTotalSize() + searchRecibidos.getTotalSize());
+        SearchResultsModel<TransaccionCajaCajaModel> results = null;
+        if (origen != null) {
+            OrigenTransaccionCajaCaja origenEnum = OrigenTransaccionCajaCaja.valueOf(origen.toUpperCase());
+            if (origenEnum.equals(OrigenTransaccionCajaCaja.ENVIADO)) {
+                results = transaccionCajaCajaProvider.searchOrigen(historialBovedaCaja, searchCriteriaBean);
+            } else if (origenEnum.equals(OrigenTransaccionCajaCaja.RECIBIDO)) {
+                results = transaccionCajaCajaProvider.searchDestino(historialBovedaCaja, searchCriteriaBean);
+            }
+        } else {
+            results = transaccionCajaCajaProvider.search(historialBovedaCaja, searchCriteriaBean);
         }
 
         // search

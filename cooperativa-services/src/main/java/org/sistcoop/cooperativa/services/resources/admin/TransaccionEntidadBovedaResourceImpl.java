@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionEntidadBovedaResource;
 import org.sistcoop.cooperativa.models.DetalleTransaccionEntidadBovedaModel;
@@ -20,14 +19,14 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepr
 @Stateless
 public class TransaccionEntidadBovedaResourceImpl implements TransaccionEntidadBovedaResource {
 
-    @PathParam("transaccion")
-    private String transaccion;
+    @PathParam("idTransaccion")
+    private String idTransaccion;
 
     @Inject
     private TransaccionEntidadBovedaProvider transaccionEntidadBovedaProvider;
 
     private TransaccionEntidadBovedaModel getTransaccionEntidadBovedaModel() {
-        return transaccionEntidadBovedaProvider.findById(transaccion);
+        return transaccionEntidadBovedaProvider.findById(idTransaccion);
     }
 
     @Override
@@ -42,11 +41,6 @@ public class TransaccionEntidadBovedaResourceImpl implements TransaccionEntidadB
     }
 
     @Override
-    public void update(TransaccionEntidadBovedaRepresentation rep) {
-        throw new NotFoundException();
-    }
-
-    @Override
     public List<DetalleMonedaRepresentation> detalle() {
         List<DetalleTransaccionEntidadBovedaModel> detalle = getTransaccionEntidadBovedaModel().getDetalle();
         List<DetalleMonedaRepresentation> result = new ArrayList<>();
@@ -55,8 +49,9 @@ public class TransaccionEntidadBovedaResourceImpl implements TransaccionEntidadB
     }
 
     @Override
-    public Response remove() {
-        throw new NotFoundException();
+    public void extornar() {
+        // TODO Auto-generated method stub
+        
     }
 
 }

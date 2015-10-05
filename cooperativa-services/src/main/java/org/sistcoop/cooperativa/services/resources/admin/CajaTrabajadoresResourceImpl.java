@@ -30,8 +30,8 @@ import org.sistcoop.cooperativa.services.ErrorResponse;
 @Stateless
 public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 
-    @PathParam("caja")
-    private String caja;
+    @PathParam("idCaja")
+    private String idCaja;
 
     @Inject
     private CajaProvider cajaProvider;
@@ -49,7 +49,7 @@ public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
     private CajaTrabajadorResource cajaTrabajadorResource;
 
     public CajaModel getCajaModel() {
-        return cajaProvider.findById(caja);
+        return cajaProvider.findById(idCaja);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 
     @Override
     public SearchResultsRepresentation<TrabajadorCajaRepresentation> search(String tipoDocumento,
-            String numeroDocumento, Integer page, Integer pageSize) {
+            String numeroDocumento, String filterText, Integer page, Integer pageSize) {
         // add paging
         PagingModel paging = new PagingModel();
         paging.setPage(page);
@@ -104,8 +104,14 @@ public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
         }
 
         // search
-        SearchResultsModel<TrabajadorCajaModel> results = trabajadorCajaProvider.search(getCajaModel(),
-                searchCriteriaBean);
+
+        // search
+        SearchResultsModel<TrabajadorCajaModel> results;
+        if (filterText == null) {
+            results = trabajadorCajaProvider.search(getCajaModel(), searchCriteriaBean);
+        } else {
+            results = trabajadorCajaProvider.search(getCajaModel(), searchCriteriaBean, filterText);
+        }
 
         SearchResultsRepresentation<TrabajadorCajaRepresentation> rep = new SearchResultsRepresentation<>();
         List<TrabajadorCajaRepresentation> items = new ArrayList<>();

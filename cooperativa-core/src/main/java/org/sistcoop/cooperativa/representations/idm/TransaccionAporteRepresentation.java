@@ -19,7 +19,6 @@ public class TransaccionAporteRepresentation implements Serializable {
     private LocalTime hora;
     private boolean estado;
     private String observacion;
-    private HistorialBovedaCajaRepresentation historialBovedaCaja;
     private List<DetalleMonedaRepresentation> detalle;
 
     private String numeroCuenta;
@@ -73,14 +72,6 @@ public class TransaccionAporteRepresentation implements Serializable {
 
     public void setObservacion(String observacion) {
         this.observacion = observacion;
-    }
-
-    public HistorialBovedaCajaRepresentation getHistorialBovedaCaja() {
-        return historialBovedaCaja;
-    }
-
-    public void setHistorialBovedaCaja(HistorialBovedaCajaRepresentation historialBovedaCaja) {
-        this.historialBovedaCaja = historialBovedaCaja;
     }
 
     public List<DetalleMonedaRepresentation> getDetalle() {

@@ -39,8 +39,8 @@ import org.sistcoop.cooperativa.services.resources.producers.TransaccionesBoveda
 @TransaccionesBovedaCaja_Boveda
 public class TransaccionesBovedaCajaResourceImpl_Boveda implements TransaccionesBovedaCajaResource {
 
-    @PathParam("historial")
-    private String historial;
+    @PathParam("idHistorial")
+    private String idHistorial;
 
     private OrigenTransaccionBovedaCaja origen = OrigenTransaccionBovedaCaja.BOVEDA;
 
@@ -66,7 +66,7 @@ public class TransaccionesBovedaCajaResourceImpl_Boveda implements Transacciones
     private TransaccionBovedaCajaResource transaccionBovedaCajaResource;
 
     private HistorialBovedaModel getHistorialBovedaModel() {
-        return historialBovedaProvider.findById(historial);
+        return historialBovedaProvider.findById(idHistorial);
     }
 
     @Override
@@ -120,8 +120,8 @@ public class TransaccionesBovedaCajaResourceImpl_Boveda implements Transacciones
 
     @Override
     public SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> search(LocalDateTime desde,
-            LocalDateTime hasta, boolean enviados, boolean recibidos, Boolean estadoSolicitud,
-            Boolean estadoConfirmacion, Integer page, Integer pageSize) {
+            LocalDateTime hasta, String origen, Boolean estadoSolicitud, Boolean estadoConfirmacion,
+            Integer page, Integer pageSize) {
         // add paging
         PagingModel paging = new PagingModel();
         paging.setPage(page);
@@ -149,25 +149,14 @@ public class TransaccionesBovedaCajaResourceImpl_Boveda implements Transacciones
                     SearchCriteriaFilterOperator.bool_eq);
         }
 
-        HistorialBovedaModel historialBoveda = getHistorialBovedaModel();
-        SearchResultsModel<TransaccionBovedaCajaModel> results = new SearchResultsModel<>();
-        if (enviados) {
-            searchCriteriaBean.addFilter("origen", OrigenTransaccionBovedaCaja.BOVEDA,
+        if (origen != null) {
+            searchCriteriaBean.addFilter("origen", OrigenTransaccionBovedaCaja.valueOf(origen.toUpperCase()),
                     SearchCriteriaFilterOperator.eq);
-            SearchResultsModel<TransaccionBovedaCajaModel> searchEnviados = transaccionBovedaCajaProvider
-                    .search(historialBoveda, searchCriteriaBean);
-            results.getModels().addAll(searchEnviados.getModels());
-            results.setTotalSize(results.getTotalSize() + searchEnviados.getTotalSize());
-        }
-        if (recibidos) {
-            searchCriteriaBean.addFilter("origen", OrigenTransaccionBovedaCaja.CAJA,
-                    SearchCriteriaFilterOperator.eq);
-            SearchResultsModel<TransaccionBovedaCajaModel> searchRecibidos = transaccionBovedaCajaProvider
-                    .search(historialBoveda, searchCriteriaBean);
-            results.getModels().addAll(searchRecibidos.getModels());
-            results.setTotalSize(results.getTotalSize() + searchRecibidos.getTotalSize());
         }
 
+        HistorialBovedaModel historialBoveda = getHistorialBovedaModel();
+        SearchResultsModel<TransaccionBovedaCajaModel> results = transaccionBovedaCajaProvider.search(
+                historialBoveda, searchCriteriaBean);
         // search
         SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> rep = new SearchResultsRepresentation<>();
         List<TransaccionBovedaCajaRepresentation> items = new ArrayList<>();

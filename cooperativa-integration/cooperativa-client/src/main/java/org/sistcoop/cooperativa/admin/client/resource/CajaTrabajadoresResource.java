@@ -22,23 +22,62 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 @Consumes(MediaType.APPLICATION_JSON)
 public interface CajaTrabajadoresResource {
 
-    @Path("{trabajador}")
-    public CajaTrabajadorResource cajaTrabajador(@PathParam("trabajador") String trabajador);
+    /**
+     * @param idTrabajadorCaja
+     *            El ID de TrabajadorCaja.
+     */
+    @Path("{idTrabajadorCaja}")
+    public CajaTrabajadorResource cajaTrabajador(@PathParam("idTrabajadorCaja") String idTrabajadorCaja);
 
+    /**
+     * Use este endpoint para asignar un trabajador a una caja.
+     * 
+     * @summary Create TrabajadorCaja
+     * @param rep
+     *            El nuevo trabajadorCaja.
+     * @statuscode 200 Si el trabajadorCaja fue creado satisfactoriamente.
+     * @return Informacion acerca del trabajadorCaja creado.
+     */
     @POST
-    public Response create(TrabajadorCajaRepresentation trabajadorCajaRepresentation);
+    public Response create(TrabajadorCajaRepresentation rep);
 
+    /**
+     * Este endpoint lista todas los trabajadoresCaja de una caja.
+     * 
+     * @summary List all trabajadorCaja
+     * @statuscode 200 Si la lista de trabajadoresCaja fue retornada
+     *             satisfactoriamente.
+     * @return Una Lista de trabajadoresCaja.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<TrabajadorCajaRepresentation> getAll();
 
+    /**
+     * Este endpoint provee una forma de buscar trabajadoresCaja en una caja.
+     * Los criterios de busqueda estan definidos por los parametros enviados.
+     * 
+     * @summary Search for Bovedas
+     * @param tipoDocumento
+     *            Tipo de documento de la persona.
+     * @param numeroDocumento
+     *            Numero de documento de la persona.
+     * @param filterText
+     *            Palabra clave para buscar coincidencias.
+     * @param page
+     *            Numero de pagina.
+     * @param pageSize
+     *            Tamanio de pagina.
+     * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
+     * @return Los resultados de la busqueda (una pagina de bovedas).
+     */
     @GET
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<TrabajadorCajaRepresentation> search(
             @QueryParam("tipoDocumento") String tipoDocumento,
             @QueryParam("numeroDocumento") String numeroDocumento,
-            @QueryParam("page") @DefaultValue("1") Integer page,
+            @QueryParam("filterText") String filterText, @QueryParam("page") @DefaultValue("1") Integer page,
             @QueryParam("pageSize") @DefaultValue("20") Integer pageSize);
 
 }

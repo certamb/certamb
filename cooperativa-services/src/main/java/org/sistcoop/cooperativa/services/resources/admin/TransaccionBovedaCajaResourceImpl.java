@@ -22,8 +22,8 @@ import org.sistcoop.cooperativa.services.managers.TransaccionBovedaCajaManager;
 @Stateless
 public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaResource {
 
-    @PathParam("transaccion")
-    private String transaccion;
+    @PathParam("idTransaccion")
+    private String idTransaccion;
 
     @Inject
     private TransaccionBovedaCajaProvider transaccionBovedaCajaProvider;
@@ -32,7 +32,7 @@ public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaR
     private TransaccionBovedaCajaManager transaccionBovedaCajaManager;
 
     private TransaccionBovedaCajaModel getTransaccionBovedaCajaModel() {
-        return transaccionBovedaCajaProvider.findById(transaccion);
+        return transaccionBovedaCajaProvider.findById(idTransaccion);
     }
 
     @Override
@@ -44,11 +44,6 @@ public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaR
         } else {
             throw new NotFoundException("Transaccion no encontrada");
         }
-    }
-
-    @Override
-    public void update(TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation) {
-        throw new NotFoundException();
     }
 
     @Override
@@ -77,11 +72,6 @@ public class TransaccionBovedaCajaResourceImpl implements TransaccionBovedaCajaR
         List<DetalleMonedaRepresentation> result = new ArrayList<>();
         detalle.forEach(det -> result.add(ModelToRepresentation.toRepresentation(det)));
         return result;
-    }
-
-    @Override
-    public Response remove() {
-        throw new NotFoundException();
     }
 
 }

@@ -36,7 +36,7 @@ public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResou
     }
 
     @Override
-    public TransaccionCajaCajaRepresentation transaccion() {
+    public TransaccionCajaCajaRepresentation toRepresentation() {
         TransaccionCajaCajaRepresentation rep = ModelToRepresentation
                 .toRepresentation(getTransaccionCajaCajaModel());
         if (rep != null) {
@@ -44,11 +44,6 @@ public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResou
         } else {
             throw new NotFoundException("Transccion no encontrada");
         }
-    }
-
-    @Override
-    public void update(TransaccionCajaCajaRepresentation transaccionCajaCajaRepresentation) {
-        throw new NotFoundException();
     }
 
     @Override
@@ -77,11 +72,6 @@ public class TransaccionCajaCajaResourceImpl implements TransaccionCajaCajaResou
         List<DetalleMonedaRepresentation> result = new ArrayList<>();
         detalle.forEach(det -> result.add(ModelToRepresentation.toRepresentation(det)));
         return result;
-    }
-
-    @Override
-    public Response remove() {
-        throw new NotFoundException();
     }
 
 }

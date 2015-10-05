@@ -13,8 +13,6 @@ public class TrabajadorCajaRepresentation implements Serializable {
     private String tipoDocumento;
     private String numeroDocumento;
 
-    private CajaRepresentation caja;
-
     public String getId() {
         return id;
     }
@@ -37,14 +35,6 @@ public class TrabajadorCajaRepresentation implements Serializable {
 
     public void setNumeroDocumento(String numeroDocumento) {
         this.numeroDocumento = numeroDocumento;
-    }
-
-    public CajaRepresentation getCaja() {
-        return caja;
-    }
-
-    public void setCaja(CajaRepresentation caja) {
-        this.caja = caja;
     }
 
 }

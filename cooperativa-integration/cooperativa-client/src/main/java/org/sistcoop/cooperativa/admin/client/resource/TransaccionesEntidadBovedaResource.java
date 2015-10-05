@@ -23,22 +23,67 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 @Consumes(MediaType.APPLICATION_JSON)
 public interface TransaccionesEntidadBovedaResource {
 
-    @Path("{transaccion}")
-    public TransaccionEntidadBovedaResource transaccion(@PathParam("transaccion") String transaccion);
+    /**
+     * @param idTransaccion
+     *            El ID de TransaccionEntidadBoveda.
+     */
+    @Path("{idTransaccion}")
+    public TransaccionEntidadBovedaResource transaccion(@PathParam("idTransaccion") String idTransaccion);
 
+    /**
+     * Use este endpoint para crear una transaccionEntidadBoveda. Esta
+     * transaccion describe el flujo de dinero de la cooperativa con otras
+     * instituciones.
+     * 
+     * @summary Create TransaccionEntidadBoveda
+     * @param rep
+     *            La nueva transaccionEntidadBoveda.
+     * @statuscode 200 Si la transaccionEntidadBoveda fue creada
+     *             satisfactoriamente.
+     * @return Informacion acerca de la transaccionEntidadBoveda creada.
+     */
     @POST
     public Response create(TransaccionEntidadBovedaRepresentation rep);
 
+    /**
+     * Este endpoint lista todas las transaccionEntidadBoveda que existen en el
+     * una entidad.
+     * 
+     * @summary List all TransaccionEntidadBoveda
+     * @statuscode 200 Si la lista de transaccionEntidadBoveda fue retornada
+     *             satisfactoriamente.
+     * @return Una Lista de transaccionEntidadBoveda.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<TransaccionEntidadBovedaRepresentation> getAll();
 
+    /**
+     * Este endpoint provee una forma de buscar entidades. Los criterios de
+     * busqueda estan definidos por los parametros enviados.
+     * 
+     * @summary Search for Entidades
+     * @param denominacion
+     *            denominacion de Entidad.
+     * @param abreviatura
+     *            El abreviatura de la entidad.
+     * @param estado
+     *            El estado de la entidad.
+     * @param filterText
+     *            Palabra clave para buscar coincidencias.
+     * @param page
+     *            Numero de pagina.
+     * @param pageSize
+     *            Tamanio de pagina.
+     * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
+     * @return Los resultados de la busqueda (una pagina de entidades).
+     */
     @GET
     @Path("search")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResultsRepresentation<TransaccionEntidadBovedaRepresentation> search(
             @QueryParam("desde") LocalDateTime desde, @QueryParam("hasta") LocalDateTime hasta,
-            @QueryParam("origen") String[] origen, @QueryParam("tipo") String tipo,
+            @QueryParam("origen") String origen, @QueryParam("tipo") String tipo,
             @QueryParam("page") @DefaultValue("1") Integer page,
             @QueryParam("pageSize") @DefaultValue("20") Integer pageSize);
 

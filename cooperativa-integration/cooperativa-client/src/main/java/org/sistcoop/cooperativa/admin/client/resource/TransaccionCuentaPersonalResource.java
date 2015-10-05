@@ -1,10 +1,7 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -17,23 +14,29 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionCuentaPersonalRep
  */
 public interface TransaccionCuentaPersonalResource {
 
+    /**
+     * Use este endpoint para extraer informacion hacerca de una
+     * TransaccionCuentaPersonal por medio de su ID.
+     * 
+     * @summary Get a TransaccionCuentaPersonal by ID
+     * @statuscode 200 Si la transaccionCuentaPersonal fue retornada
+     *             satisfactoriamente.
+     * @return Una transaccionCuentaPersonal.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public TransaccionCuentaPersonalRepresentation toRepresentation();
 
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void update(TransaccionCuentaPersonalRepresentation rep);
-
+    /**
+     * 
+     * Use este endpoint para extornar una transaccionCuentaPersonal. La
+     * transaccion es identificada por su ID
+     * 
+     * @summary Extornar una transaccionCuentaPersonal by ID.
+     * @statuscode 204 Si la transaccion fue extornada satisfactoriamente.
+     */
     @POST
-    @Path("enable")
-    public Response enable();
-
-    @POST
-    @Path("disable")
+    @Path("extornar")
     public Response disable();
-
-    @DELETE
-    public Response remove();
 
 }

@@ -23,4 +23,7 @@ public interface TrabajadorCajaProvider extends Provider {
 
     SearchResultsModel<TrabajadorCajaModel> search(CajaModel caja, SearchCriteriaModel criteria);
 
+    SearchResultsModel<TrabajadorCajaModel> search(CajaModel caja, SearchCriteriaModel criteria,
+            String filterText);
+
 }

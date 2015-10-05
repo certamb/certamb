@@ -17,22 +17,49 @@ import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
  */
 public interface CajaResource {
 
+    /**
+     * Use este endpoint para extraer informacion hacerca de una Caja por medio
+     * de su ID.
+     * 
+     * @summary Get a Caja by ID
+     * @statuscode 200 Si la caja fue retornada satisfactoriamente.
+     * @return Una caja.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public CajaRepresentation toRepresentation();
 
+    /**
+     * 
+     * Use este endpoint para actualizar la informacion hacerca de una caja
+     * existente. La caja es identificada por su ID.
+     * 
+     * @summary Update a Caja by ID
+     * @param representation
+     *            Informacion actualizada de la caja.
+     * @statuscode 204 Si la caja fue actualizada satisfactoriamente.
+     */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void update(CajaRepresentation cajaRepresentation);
+    public void update(CajaRepresentation representation);
 
-    @POST
-    @Path("enable")
-    public Response enable();
-
+    /**
+     * Use este endpoint para desactivar una caja. Una caja desactivada no podra
+     * ser usada nuevamente para realizar ninguna operacion.
+     * 
+     * @summary Disable Caja
+     * @statuscode 200 Si la boveda fue desactivada satisfactoriamente.
+     */
     @POST
     @Path("disable")
     public Response disable();
 
+    /**
+     * Use este endpoint para eliminar una caja por medio de su ID.
+     * 
+     * @summary Delete a Caja by ID
+     * @statuscode 204 Si la caja fue eliminada.
+     */
     @DELETE
     public Response remove();
 

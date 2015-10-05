@@ -32,8 +32,8 @@ import org.sistcoop.cooperativa.services.ErrorResponse;
 @Stateless
 public class HistorialesBovedaResourceImpl implements HistorialesBovedaResource {
 
-    @PathParam("boveda")
-    private String boveda;
+    @PathParam("idBoveda")
+    private String idBoveda;
 
     @Inject
     private BovedaProvider bovedaProvider;
@@ -54,7 +54,7 @@ public class HistorialesBovedaResourceImpl implements HistorialesBovedaResource 
     private HistorialBovedaResource bovedaHistorialResource;
 
     private BovedaModel getBovedaModel() {
-        return bovedaProvider.findById(boveda);
+        return bovedaProvider.findById(idBoveda);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class HistorialesBovedaResourceImpl implements HistorialesBovedaResource 
     }
 
     @Override
-    public SearchResultsRepresentation<HistorialBovedaRepresentation> search(boolean estado,
+    public SearchResultsRepresentation<HistorialBovedaRepresentation> search(Boolean estado,
             LocalDateTime desde, LocalDateTime hasta, Integer page, Integer pageSize) {
         // add paging
         PagingModel paging = new PagingModel();
@@ -110,7 +110,10 @@ public class HistorialesBovedaResourceImpl implements HistorialesBovedaResource 
         searchCriteriaBean.addOrder("horaApertura", true);
 
         // add filter
-        searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
+        if (estado != null) {
+            searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
+        }
+
         if (desde != null) {
             searchCriteriaBean.addFilter("fechaApertura", desde.toLocalDate(),
                     SearchCriteriaFilterOperator.gte);
