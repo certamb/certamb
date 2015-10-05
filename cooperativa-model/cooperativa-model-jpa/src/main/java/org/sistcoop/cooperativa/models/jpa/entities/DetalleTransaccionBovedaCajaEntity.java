@@ -24,15 +24,15 @@ public class DetalleTransaccionBovedaCajaEntity extends DetalleTransaccionIntern
 	 */
     private static final long serialVersionUID = 1L;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey, name = "TRANSACCION_BOVEDA_CAJA_ID")
     private TransaccionBovedaCajaEntity transaccionBovedaCaja;
 
     public DetalleTransaccionBovedaCajaEntity() {
         // TODO Auto-generated constructor stub
     }
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey, name = "TRANSACCION_BOVEDA_CAJA_ID")
     public TransaccionBovedaCajaEntity getTransaccionBovedaCaja() {
         return transaccionBovedaCaja;
     }
