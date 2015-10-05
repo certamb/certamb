@@ -12,7 +12,7 @@ dependencies {
     compile project(":cooperativa-services")
     compile project(":cooperativa-model:cooperativa-model-api")
     compile project(":cooperativa-model:cooperativa-model-jpa")
-    providedCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.9.Final'
+    providedCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.13.Final'
 }
 
 task createBuildInfoFile << {

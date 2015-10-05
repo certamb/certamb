@@ -21,7 +21,7 @@ public abstract class HistorialEntity {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "ID")
-    protected String id;
+    protected String id;  
 
     @NotNull
     @Type(type = "org.hibernate.type.LocalDateType")
