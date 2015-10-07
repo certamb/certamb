@@ -12,8 +12,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaCajaResource;
+import org.sistcoop.cooperativa.admin.client.resource.TransaccionesAporteResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCajaCajaResource;
+import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCompraVentaResource;
+import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCreditoResources;
+import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCuentasPersonalesResource;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
@@ -116,6 +120,30 @@ public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResou
     @Override
     public TransaccionesBovedaCajaResource transaccionesBoveda() {
         return transaccionesBovedaCajaResource;
+    }
+
+    @Override
+    public TransaccionesAporteResource transaccionesAporte() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public TransaccionesCuentasPersonalesResource transaccionesCuentaPersonal() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public TransaccionesCompraVentaResource transaccionesCompraVenta() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public TransaccionesCreditoResources transaccionesCredito() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

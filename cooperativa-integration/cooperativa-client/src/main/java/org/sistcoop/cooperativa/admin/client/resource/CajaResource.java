@@ -38,6 +38,7 @@ public interface CajaResource {
      * @param representation
      *            Informacion actualizada de la caja.
      * @statuscode 204 Si la caja fue actualizada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -49,6 +50,7 @@ public interface CajaResource {
      * 
      * @summary Disable Caja
      * @statuscode 200 Si la boveda fue desactivada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("disable")
@@ -59,6 +61,7 @@ public interface CajaResource {
      * 
      * @summary Delete a Caja by ID
      * @statuscode 204 Si la caja fue eliminada.
+     * @return javax.ws.rs.core.Response
      */
     @DELETE
     public Response remove();

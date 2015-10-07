@@ -38,12 +38,12 @@ public interface BovedaCajasResource {
      * 
      * @summary Create BovedaCaja
      * @param rep
-     *            La nueva bovedaCaja.
+     *            Las nuevas bovedaCaja.
      * @statuscode 200 Si la bovedaCaja fue creada satisfactoriamente.
      * @return Informacion acerca de la bovedaCaja creada.
      */
     @POST
-    public Response create(BovedaCajaRepresentation[] bovedaCajaRepresentations);
+    public Response create(BovedaCajaRepresentation[] rep);
 
     /**
      * Este endpoint lista todas las bovedaCajas que existen en boveda o en

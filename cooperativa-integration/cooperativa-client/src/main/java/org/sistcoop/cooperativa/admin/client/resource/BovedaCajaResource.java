@@ -38,6 +38,7 @@ public interface BovedaCajaResource {
      * 
      * @summary Disable BovedaCaja
      * @statuscode 200 Si la bovedaCaja fue desactivada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("disable")
@@ -48,6 +49,7 @@ public interface BovedaCajaResource {
      * 
      * @summary Delete a BovedaCaja by ID
      * @statuscode 204 Si la bovedaCaja fue eliminada.
+     * @return javax.ws.rs.core.Response
      */
     @DELETE
     public Response remove();

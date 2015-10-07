@@ -4,12 +4,43 @@ apply plugin: 'miredot'
 miredot {
     source = sourceSets.main.allJava
     destination = sourceSets.main.output
-    licence = 'UHJvamVjdHxvcmcuc2lzdGNvb3AuY29vcGVyYXRpdmEtY2xpZW50fDIwMTYtMDgtMDV8dHJ1ZSNNQ3dDRkZ0SXRCQUt5SnlIVEJVdGxBRC9VL3UrVUxxa0FoUURVMm9qRDhwZHJoUWtSZVlZbEhWNnBOR2N0Zz09'
+    licence = 'cHJvamVjdHxvcmcuc2lzdGNvb3AuY29vcGVyYXRpdmEtY2xpZW50fDIwMTYtMTAtMDd8dHJ1ZXwtMSNNQ3dDRkQ2cTBJYk5WTkNmRFg1Z1FOWUoxeGNoQ2tHK0FoUmErS05jdzJGRXNQSlhmUnRnMEpNUnpjbEptdz09'
 }
-
+  
 miredot {
     output {
         title = "API Manager REST Services (${project.version})"
+        formats {
+            'docx' {
+                location = 'out/docx'
+            }
+            'html' {
+                location = 'out/html'
+                baseUrl = 'http://cooperativa.sistcoop.com/rest'
+                initialCollapseLevel = 1
+            }
+        }
+    }
+    restModel {
+        httpStatusCodes {
+            '200' { 
+                document = 'always'
+                defaultMessage = 'The service call has completed successfully.' 
+            }
+            '401' {
+                document = 'explicit: com.qmino.miredot.petstore.exceptions.AuthorizationException'
+                defaultMessage = 'The user is logged in, but is not authorized to use this service.'
+            }
+            '412' { 
+                document = 'put,post'
+                defaultMessage = 'Invalid JSON/XML input.' 
+            }
+            '500' { 
+                document = 'always'
+                defaultMessage = 'Internal server exception. The service call did not succeed.'
+                sticky = true // Document always, even if there is an @statuscode tag
+            }
+        }
     }
 }
 

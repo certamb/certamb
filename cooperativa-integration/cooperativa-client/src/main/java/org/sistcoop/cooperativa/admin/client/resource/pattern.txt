@@ -55,6 +55,18 @@
 /cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transaccionesCajaCaja
 /cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transaccionesCajaCaja/{transaccion}
 /cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transaccionesCajaCaja/{transaccion}/detalle
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/aportes
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/aportes/{transaccion}
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/aportes/{transaccion}/detalle
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/cuentasPersonales
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/cuentasPersonales/{transaccion}
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/cuentasPersonales/{transaccion}/detalle
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/compraVenta
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/compraVenta/{transaccion}
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/compraVenta/{transaccion}/detalle
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/creditos
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/creditos/{transaccion}
+/cajas/{caja}/bovedasCaja/{bovedaCaja}/historiales/{historial}/transacciones/creditos/{transaccion}/detalle
 
 /transacciones/aportes
 /transacciones/aportes/{transaccion}

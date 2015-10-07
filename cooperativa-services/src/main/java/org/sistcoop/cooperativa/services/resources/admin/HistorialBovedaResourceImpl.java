@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.admin.client.resource.HistorialBovedaResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
+import org.sistcoop.cooperativa.admin.client.resource.TransaccionesEntidadBovedaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
@@ -39,6 +40,9 @@ public class HistorialBovedaResourceImpl implements HistorialBovedaResource {
 
     @Inject
     private HistorialBovedaManager historialBovedaManager;
+
+    @Inject
+    private TransaccionesEntidadBovedaResource transaccionesEntidadBovedaResource;
 
     @Inject
     @TransaccionesBovedaCaja_Boveda
@@ -122,7 +126,12 @@ public class HistorialBovedaResourceImpl implements HistorialBovedaResource {
     }
 
     @Override
-    public TransaccionesBovedaCajaResource transacciones() {
+    public TransaccionesEntidadBovedaResource transaccionesEntidadBoveda() {
+        return transaccionesEntidadBovedaResource;
+    }
+
+    @Override
+    public TransaccionesBovedaCajaResource transaccionesBovedaCaja() {
         return transaccionesBovedaCajaResource;
     }
 

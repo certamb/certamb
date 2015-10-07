@@ -30,6 +30,7 @@ public interface CajaTrabajadorResource {
      * 
      * @summary Delete a TrabajadorCaja by ID
      * @statuscode 204 Si el trabajadorCaja fue eliminado.
+     * @return javax.ws.rs.core.Response
      */
     @DELETE
     public Response remove();

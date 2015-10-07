@@ -63,12 +63,16 @@ public interface TransaccionesEntidadBovedaResource {
      * busqueda estan definidos por los parametros enviados.
      * 
      * @summary Search for Entidades
-     * @param denominacion
-     *            denominacion de Entidad.
-     * @param abreviatura
-     *            El abreviatura de la entidad.
+     * @param desde
+     *            Fecha desde la cual se desea buscar.
+     * @param hasta
+     *            Fecha hasta la cual se desea buscar.
+     * @param origen
+     *            El origen de la transaccion ENVIADO o RECIBIDO.
+     * @param tipo
+     *            El tipo de la transaccion.
      * @param estado
-     *            El estado de la entidad.
+     *            El estado de la transaccion.
      * @param filterText
      *            Palabra clave para buscar coincidencias.
      * @param page
@@ -84,7 +88,7 @@ public interface TransaccionesEntidadBovedaResource {
     public SearchResultsRepresentation<TransaccionEntidadBovedaRepresentation> search(
             @QueryParam("desde") LocalDateTime desde, @QueryParam("hasta") LocalDateTime hasta,
             @QueryParam("origen") String origen, @QueryParam("tipo") String tipo,
-            @QueryParam("page") @DefaultValue("1") Integer page,
+            @QueryParam("estado") Boolean estado, @QueryParam("page") @DefaultValue("1") Integer page,
             @QueryParam("pageSize") @DefaultValue("20") Integer pageSize);
 
 }

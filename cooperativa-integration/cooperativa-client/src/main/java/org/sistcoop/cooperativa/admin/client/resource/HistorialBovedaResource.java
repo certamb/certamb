@@ -34,6 +34,7 @@ public interface HistorialBovedaResource {
      * 
      * @summary Cerrar Boveda
      * @statuscode 200 Si el HistorialBoveda fue cerrado satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("cerrar")
@@ -45,6 +46,7 @@ public interface HistorialBovedaResource {
      * 
      * @summary Congelar HistorialBoveda
      * @statuscode 200 Si el HistorialBoveda fue congelado satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("congelar")
@@ -57,6 +59,7 @@ public interface HistorialBovedaResource {
      * @summary Descongelar HistorialBoveda
      * @statuscode 200 Si el HistorialBoveda fue descongelado
      *             satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("descongelar")
@@ -75,7 +78,10 @@ public interface HistorialBovedaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<DetalleMonedaRepresentation> detalle();
 
+    @Path("transaccionesEntidadBoveda")
+    public TransaccionesEntidadBovedaResource transaccionesEntidadBoveda();
+
     @Path("transaccionesBovedaCaja")
-    public TransaccionesBovedaCajaResource transacciones();
+    public TransaccionesBovedaCajaResource transaccionesBovedaCaja();
 
 }

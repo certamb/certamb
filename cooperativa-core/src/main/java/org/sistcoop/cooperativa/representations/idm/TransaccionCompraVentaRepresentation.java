@@ -6,8 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import javax.persistence.Column;
-
 public class TransaccionCompraVentaRepresentation implements Serializable {
 
     /**
@@ -25,15 +23,10 @@ public class TransaccionCompraVentaRepresentation implements Serializable {
     private List<DetalleMonedaRepresentation> detalle;
 
     private String monedaRecibida;
-    @Column(name = "MONEDA_ENTREGADA")
     private String monedaEntregada;
-    @Column(name = "MONTO_RECIBIDO")
     private BigDecimal montoRecibido;
-    @Column(name = "MONTO_ENTREGADO")
     private BigDecimal montoEntregado;
-    @Column(name = "TIPO_CAMBIO")
     private BigDecimal tipoCambio;
-    @Column(name = "CLIENTE")
     private String cliente;
     private String tipoTransaccion;
 

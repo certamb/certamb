@@ -37,6 +37,7 @@ public interface TransaccionCajaCajaResource {
      * 
      * @summary Confirmar una transaccionCajaCaja by ID.
      * @statuscode 204 Si la transaccion fue confirmada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("confirmar")
@@ -49,6 +50,7 @@ public interface TransaccionCajaCajaResource {
      * 
      * @summary Cancelar una transaccionCajaCaja by ID.
      * @statuscode 204 Si la transaccion fue cancelada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("cancelar")
@@ -61,6 +63,7 @@ public interface TransaccionCajaCajaResource {
      * 
      * @summary Detalle una transaccionCajaCaja by ID.
      * @statuscode 204 Si el detalle fue retornado satisfactoriamente.
+     * @return Detalle de monedas
      */
     @GET
     @Path("detalle")

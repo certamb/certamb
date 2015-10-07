@@ -37,6 +37,7 @@ public interface BovedaResource {
      * @param rep
      *            Informacion actualizada de la boveda.
      * @statuscode 204 Si la boveda fue actualizada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -48,6 +49,7 @@ public interface BovedaResource {
      * 
      * @summary Disable Boveda
      * @statuscode 200 Si la boveda fue desactivada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("disable")
@@ -58,6 +60,7 @@ public interface BovedaResource {
      * 
      * @summary Delete a Boveda by ID
      * @statuscode 204 Si la boveda fue eliminada.
+     * @return javax.ws.rs.core.Response
      */
     @DELETE
     public Response remove();

@@ -39,6 +39,7 @@ public interface HistorialBovedaCajaResource {
      *            Detalle de cantidades y monedas con las que se desea cerrar la
      *            caja.
      * @statuscode 200 Si el HistorialBovedaCaja fue cerrado satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("cerrar")
@@ -52,6 +53,7 @@ public interface HistorialBovedaCajaResource {
      * @summary Congelar HistorialBovedaCaja
      * @statuscode 200 Si el HistorialBovedaCaja fue congelado
      *             satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("congelar")
@@ -64,6 +66,7 @@ public interface HistorialBovedaCajaResource {
      * @summary Descongelar HistorialBovedaCaja
      * @statuscode 200 Si el HistorialBovedaCaja fue descongelado
      *             satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("descongelar")
@@ -87,5 +90,17 @@ public interface HistorialBovedaCajaResource {
 
     @Path("transaccionesCajaCaja")
     public TransaccionesCajaCajaResource transaccionesCaja();
+
+    @Path("transacciones/aportes")
+    public TransaccionesAporteResource transaccionesAporte();
+
+    @Path("transacciones/cuentasPersonales")
+    public TransaccionesCuentasPersonalesResource transaccionesCuentaPersonal();
+
+    @Path("transacciones/compraVenta")
+    public TransaccionesCompraVentaResource transaccionesCompraVenta();
+
+    @Path("transacciones/creditos")
+    public TransaccionesCreditoResources transaccionesCredito();
 
 }

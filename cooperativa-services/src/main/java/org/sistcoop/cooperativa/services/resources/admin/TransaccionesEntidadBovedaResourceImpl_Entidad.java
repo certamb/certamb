@@ -32,9 +32,11 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentatio
 import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
+import org.sistcoop.cooperativa.services.resources.producers.TransaccionesEntidadBoveda_Entidad;
 
 @Stateless
-public class TransaccionesEntidadBovedaResourceImpl implements TransaccionesEntidadBovedaResource {
+@TransaccionesEntidadBoveda_Entidad
+public class TransaccionesEntidadBovedaResourceImpl_Entidad implements TransaccionesEntidadBovedaResource {
 
     @PathParam("idEntidad")
     private String idEntidad;
@@ -110,7 +112,7 @@ public class TransaccionesEntidadBovedaResourceImpl implements TransaccionesEnti
 
     @Override
     public SearchResultsRepresentation<TransaccionEntidadBovedaRepresentation> search(LocalDateTime desde,
-            LocalDateTime hasta, String origen, String tipo, Integer page, Integer pageSize) {
+            LocalDateTime hasta, String origen, String tipo, Boolean estado, Integer page, Integer pageSize) {
 
         // add paging
         PagingModel paging = new PagingModel();
@@ -135,6 +137,9 @@ public class TransaccionesEntidadBovedaResourceImpl implements TransaccionesEnti
         }
         if (tipo != null) {
             searchCriteriaBean.addFilter("tipo", tipo, SearchCriteriaFilterOperator.eq);
+        }
+        if (estado != null) {
+            searchCriteriaBean.addFilter("estado", estado, SearchCriteriaFilterOperator.bool_eq);
         }
 
         EntidadModel entidadmoModel = getEntidadModel();

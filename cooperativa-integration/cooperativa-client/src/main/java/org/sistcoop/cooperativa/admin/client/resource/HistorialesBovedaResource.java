@@ -41,7 +41,7 @@ public interface HistorialesBovedaResource {
      * @return Informacion acerca del historialBoveda creada.
      */
     @POST
-    public Response create(HistorialBovedaRepresentation historialBovedaRepresentation);
+    public Response create(HistorialBovedaRepresentation rep);
 
     /**
      * Este endpoint lista todas HistorialBoveda que pertenecen a una boveda.

@@ -37,6 +37,7 @@ public interface TransaccionEntidadBovedaResource {
      * 
      * @summary Extornar una transaccionEntidadBoveda by ID.
      * @statuscode 204 Si la transaccion fue extornada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("extornar")
@@ -50,6 +51,7 @@ public interface TransaccionEntidadBovedaResource {
      * 
      * @summary Detalle una transaccionEntidadBoveda by ID.
      * @statuscode 204 Si el detalle fue retornado satisfactoriamente.
+     * @return Detalle de monedas
      */
     @GET
     @Path("detalle")

@@ -37,6 +37,7 @@ public interface TransaccionBovedaCajaResource {
      * 
      * @summary Confirmar una transaccionBovedaCaja by ID.
      * @statuscode 204 Si la transaccion fue confirmada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("confirmar")
@@ -49,6 +50,7 @@ public interface TransaccionBovedaCajaResource {
      * 
      * @summary Cancelar una transaccionBovedaCaja by ID.
      * @statuscode 204 Si la transaccion fue cancelada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("cancelar")
@@ -61,6 +63,7 @@ public interface TransaccionBovedaCajaResource {
      * 
      * @summary Detalle una transaccionBovedaCaja by ID.
      * @statuscode 204 Si el detalle fue retornado satisfactoriamente.
+     * @return Detalle de monedas
      */
     @GET
     @Path("detalle")

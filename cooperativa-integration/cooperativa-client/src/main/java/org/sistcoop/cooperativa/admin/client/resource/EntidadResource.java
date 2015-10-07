@@ -37,6 +37,7 @@ public interface EntidadResource {
      * @param rep
      *            Informacion actualizada de la entidad.
      * @statuscode 204 Si la entidad fue actualizada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -49,6 +50,7 @@ public interface EntidadResource {
      * @summary Enable Entidad
      * @servicetag admin
      * @statuscode 200 Si la entidad fue activada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("enable")
@@ -60,6 +62,7 @@ public interface EntidadResource {
      * 
      * @summary Disable Entidad
      * @statuscode 200 Si la entidad fue desactivada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("disable")
@@ -70,6 +73,7 @@ public interface EntidadResource {
      * 
      * @summary Delete a Entidad by ID
      * @statuscode 204 Si la entidad fue eliminada.
+     * @return javax.ws.rs.core.Response
      */
     @DELETE
     public Response remove();

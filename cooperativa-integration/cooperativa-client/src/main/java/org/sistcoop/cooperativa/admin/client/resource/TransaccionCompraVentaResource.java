@@ -34,6 +34,7 @@ public interface TransaccionCompraVentaResource {
      * 
      * @summary Extornar una transaccionCompraVenta by ID.
      * @statuscode 204 Si la transaccion fue extornada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("extornar")

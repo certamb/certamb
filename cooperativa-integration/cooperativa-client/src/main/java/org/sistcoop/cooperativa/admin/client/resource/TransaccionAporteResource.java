@@ -34,6 +34,7 @@ public interface TransaccionAporteResource {
      * 
      * @summary Extornar una transaccionAporte by ID.
      * @statuscode 204 Si la transaccion fue extornada satisfactoriamente.
+     * @return javax.ws.rs.core.Response
      */
     @POST
     @Path("extornar")
