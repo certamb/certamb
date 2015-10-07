@@ -82,7 +82,7 @@ public class TransaccionEntidadBovedaEntity implements java.io.Serializable {
     @Column(name = "TIP")
     private TipoTransaccionEntidadBoveda tipo;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionBovedaCaja")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transaccionEntidadBoveda")
     private Set<DetalleTransaccionEntidadBovedaEntity> detalle = new HashSet<DetalleTransaccionEntidadBovedaEntity>();
 
     @Version
