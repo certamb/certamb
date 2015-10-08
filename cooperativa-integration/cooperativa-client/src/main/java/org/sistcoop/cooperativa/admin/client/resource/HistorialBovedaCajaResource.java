@@ -91,16 +91,16 @@ public interface HistorialBovedaCajaResource {
     @Path("transaccionesCajaCaja")
     public TransaccionesCajaCajaResource transaccionesCaja();
 
-    @Path("transacciones/aportes")
+    @Path("transaccionesAporte")
     public TransaccionesAporteResource transaccionesAporte();
 
-    @Path("transacciones/cuentasPersonales")
+    @Path("transaccionesCuentaPersonal")
     public TransaccionesCuentasPersonalesResource transaccionesCuentaPersonal();
 
-    @Path("transacciones/compraVenta")
+    @Path("transaccionesCompraVenta")
     public TransaccionesCompraVentaResource transaccionesCompraVenta();
 
-    @Path("transacciones/creditos")
-    public TransaccionesCreditoResources transaccionesCredito();
+    @Path("transaccionesCredito")
+    public TransaccionesCreditoResource transaccionesCredito();
 
 }

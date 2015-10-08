@@ -38,6 +38,6 @@ public interface TransaccionCompraVentaResource {
      */
     @POST
     @Path("extornar")
-    public Response enable();
+    public Response extornar();
 
 }

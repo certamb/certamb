@@ -20,7 +20,6 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 /**
  * @author carlosthe19916@gmail.com
  */
-@Path("transacciones/compraVenta")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface TransaccionesCompraVentaResource {
 

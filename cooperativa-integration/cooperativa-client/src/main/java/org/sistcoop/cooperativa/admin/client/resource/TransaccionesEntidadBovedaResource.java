@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchCriteriaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 
 /**
@@ -90,5 +91,21 @@ public interface TransaccionesEntidadBovedaResource {
             @QueryParam("origen") String origen, @QueryParam("tipo") String tipo,
             @QueryParam("estado") Boolean estado, @QueryParam("page") @DefaultValue("1") Integer page,
             @QueryParam("pageSize") @DefaultValue("20") Integer pageSize);
+
+    /**
+     * Este endpoint provee una forma de buscar entidades. Los criterios de
+     * busqueda estan definidos por los parametros enviados.
+     * 
+     * @summary Search for Entidades
+     * @param criteria
+     *            Criterio de busqueda.
+     * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
+     * @return Los resultados de la busqueda (una pagina de entidades).
+     */
+    @POST
+    @Path("search")
+    @Produces(MediaType.APPLICATION_JSON)
+    public SearchResultsRepresentation<TransaccionEntidadBovedaRepresentation> search(
+            SearchCriteriaRepresentation criteria);
 
 }

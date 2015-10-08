@@ -27,4 +27,12 @@ public interface TransaccionClienteProvider extends Provider {
 
     TransaccionClienteModel findById(String id);
 
+    TransaccionAporteModel findTransaccionAporteById(String id);
+
+    TransaccionCuentaPersonalModel findTransaccionCuentaPersonalById(String id);
+
+    TransaccionCompraVentaModel findTransaccionCompraVentaById(String id);
+
+    TransferenciaCuentaPersonalModel findTransferenciaCuentaPersonalById(String id);
+
 }

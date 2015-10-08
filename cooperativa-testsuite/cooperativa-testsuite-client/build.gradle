@@ -31,8 +31,10 @@ dependencies {
 	testCompile "org.jboss.arquillian:arquillian-bom:1.1.9.Final"
 	testCompile "org.arquillian.container:arquillian-container-chameleon:1.0.0.Alpha5"
 	testCompile "org.jboss.arquillian.junit:arquillian-junit-container:1.1.9.Final"
-	//testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api-maven:2.2.0"	
-	//testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven:2.2.0"
+	testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-depchain:2.2.0"	
+	testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-gradle-depchain:2.2.0"
+	testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api-maven:2.2.0"	
+	testCompile "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven:2.2.0"
 	testCompile "org.jboss.arquillian.extension:arquillian-persistence-api:1.0.0.Alpha7"
 	testCompile "org.jboss.arquillian.extension:arquillian-persistence-impl:1.0.0.Alpha6"
 }

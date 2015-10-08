@@ -14,6 +14,7 @@ import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
+import org.sistcoop.cooperativa.models.TransaccionCompraVentaModel;
 import org.sistcoop.cooperativa.models.TransaccionEntidadBovedaModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
@@ -25,6 +26,7 @@ import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentatio
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCajaCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TransaccionCompraVentaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepresentation;
 
 public class ModelToRepresentation {
@@ -236,6 +238,28 @@ public class ModelToRepresentation {
         rep.setOrigen(model.getOrigen().toString());
         rep.setObservacion(model.getObservacion());
         rep.setEstado(model.getEstado());
+        return rep;
+    }
+
+    public static TransaccionCompraVentaRepresentation toRepresentation(TransaccionCompraVentaModel model) {
+        if (model == null)
+            return null;
+
+        TransaccionCompraVentaRepresentation rep = new TransaccionCompraVentaRepresentation();
+        rep.setId(model.getId());
+        rep.setNumeroOperacion(model.getNumeroOperacion());
+        rep.setFecha(model.getFecha());
+        rep.setHora(model.getHora());
+        rep.setEstado(model.getEstado());
+        rep.setObservacion(model.getObservacion());
+
+        rep.setMonedaRecibida(model.getMonedaRecibida());
+        rep.setMonedaEntregada(model.getMonedaEntregada());
+        rep.setMontoRecibido(model.getMontoRecibido());
+        rep.setMontoEntregado(model.getMontoEntregado());
+        rep.setTipoCambio(model.getTipoCambio());
+        rep.setCliente(model.getCliente());
+        rep.setTipoTransaccion(model.getTipoTransaccion());
         return rep;
     }
 

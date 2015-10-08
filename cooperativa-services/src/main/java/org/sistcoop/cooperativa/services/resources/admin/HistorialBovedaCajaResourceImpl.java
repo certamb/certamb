@@ -16,7 +16,7 @@ import org.sistcoop.cooperativa.admin.client.resource.TransaccionesAporteResourc
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesBovedaCajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCajaCajaResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCompraVentaResource;
-import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCreditoResources;
+import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCreditoResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionesCuentasPersonalesResource;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
@@ -47,6 +47,18 @@ public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResou
     @Inject
     @TransaccionesBovedaCaja_Caja
     private TransaccionesBovedaCajaResource transaccionesBovedaCajaResource;
+
+    @Inject
+    private TransaccionesAporteResource transaccionesAporteResource;
+
+    @Inject
+    private TransaccionesCuentasPersonalesResource transaccionesCuentasPersonalesResource;
+
+    @Inject
+    private TransaccionesCompraVentaResource transaccionesCompraVentaResource;
+
+    @Inject
+    private TransaccionesCreditoResource transaccionesCreditoResource;
 
     private HistorialBovedaCajaModel getHistorialBovedaCajaModel() {
         return historialBovedaCajaProvider.findById(idHistorial);
@@ -124,26 +136,22 @@ public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResou
 
     @Override
     public TransaccionesAporteResource transaccionesAporte() {
-        // TODO Auto-generated method stub
-        return null;
+        return transaccionesAporteResource;
     }
 
     @Override
     public TransaccionesCuentasPersonalesResource transaccionesCuentaPersonal() {
-        // TODO Auto-generated method stub
-        return null;
+        return transaccionesCuentasPersonalesResource;
     }
 
     @Override
     public TransaccionesCompraVentaResource transaccionesCompraVenta() {
-        // TODO Auto-generated method stub
-        return null;
+        return transaccionesCompraVentaResource;
     }
 
     @Override
-    public TransaccionesCreditoResources transaccionesCredito() {
-        // TODO Auto-generated method stub
-        return null;
+    public TransaccionesCreditoResource transaccionesCredito() {
+        return transaccionesCreditoResource;
     }
 
 }

@@ -30,6 +30,7 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.EntidadRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchCriteriaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
 import org.sistcoop.cooperativa.services.resources.producers.TransaccionesEntidadBoveda_HistorialBoveda;
@@ -154,6 +155,13 @@ public class TransaccionesEntidadBovedaResourceImpl_HistorialBoveda implements
         rep.setItems(items);
         rep.setTotalSize(results.getTotalSize());
         return rep;
+    }
+
+    @Override
+    public SearchResultsRepresentation<TransaccionEntidadBovedaRepresentation> search(
+            SearchCriteriaRepresentation criteria) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
