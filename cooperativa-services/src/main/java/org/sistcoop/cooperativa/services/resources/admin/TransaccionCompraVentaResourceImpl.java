@@ -1,36 +1,20 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import org.sistcoop.cooperativa.admin.client.resource.EntidadResource;
-import org.sistcoop.cooperativa.admin.client.resource.TransaccionAporteResource;
 import org.sistcoop.cooperativa.admin.client.resource.TransaccionCompraVentaResource;
-import org.sistcoop.cooperativa.admin.client.resource.TransaccionesEntidadBovedaResource;
-import org.sistcoop.cooperativa.models.BovedaCajaModel;
-import org.sistcoop.cooperativa.models.CajaModel;
-import org.sistcoop.cooperativa.models.EntidadModel;
-import org.sistcoop.cooperativa.models.EntidadProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.TransaccionClienteProvider;
 import org.sistcoop.cooperativa.models.TransaccionCompraVentaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
-import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
-import org.sistcoop.cooperativa.representations.idm.EntidadRepresentation;
-import org.sistcoop.cooperativa.representations.idm.TransaccionAporteRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCompraVentaRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
 import org.sistcoop.cooperativa.services.ErrorResponseException;
-import org.sistcoop.cooperativa.services.managers.EntidadManager;
 import org.sistcoop.cooperativa.services.managers.TransaccionClienteManager;
 
 @Stateless
@@ -73,13 +57,8 @@ public class TransaccionCompraVentaResourceImpl implements TransaccionCompraVent
     @Override
     public Response extornar() {
         TransaccionCompraVentaModel transaccion = getTransaccionCompraVentaModel();
-        String monedaRecibida = transaccion.getMonedaRecibida();
-        String monedaEntregada = transaccion.getMonedaEntregada();
-        BigDecimal montoRecibido = transaccion.getMontoRecibido();
-        BigDecimal montoEntregado = transaccion.getMontoEntregado();
 
         HistorialBovedaCajaModel historialBovedaCaja = getHistorialBovedaCajaModel();
-        BovedaCajaModel bovedaCaja = historialBovedaCaja.getBovedaCaja();
         if (!historialBovedaCaja.equals(transaccion.getHistorialBovedaCaja())) {
             return new ErrorResponseException("Caja o HistorialCaja no valido",
                     "La transaccion no puede ser extornada", Response.Status.BAD_REQUEST).getResponse();

@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.models;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -8,10 +7,6 @@ import java.util.List;
 public interface HistorialBovedaCajaModel extends Model {
 
     String getId();
-
-    BigDecimal getSaldo();
-
-    void setSaldo(BigDecimal saldo);
 
     LocalDate getFechaApertura();
 

@@ -1,11 +1,9 @@
 package org.sistcoop.cooperativa.models.jpa.entities;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -13,9 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NamedQueries;
@@ -38,13 +33,6 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
     @JoinColumn(foreignKey = @ForeignKey, name = "BOVEDA_CAJA_ID")
     private BovedaCajaEntity bovedaCaja;
 
-    @NotNull
-    @Min(value = 0)
-    @DecimalMin(value = "0")
-    @Digits(integer = 18, fraction = 2)
-    @Column(name = "SALDO")
-    private BigDecimal saldo;
-
     @OneToMany(mappedBy = "historial", fetch = FetchType.LAZY)
     private Set<DetalleHistorialBovedaCajaEntity> detalle = new HashSet<DetalleHistorialBovedaCajaEntity>();
 
@@ -54,14 +42,6 @@ public class HistorialBovedaCajaEntity extends HistorialEntity implements Serial
 
     public void setBovedaCaja(BovedaCajaEntity bovedaCaja) {
         this.bovedaCaja = bovedaCaja;
-    }
-
-    public BigDecimal getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(BigDecimal saldo) {
-        this.saldo = saldo;
     }
 
     public Set<DetalleHistorialBovedaCajaEntity> getDetalle() {

@@ -108,7 +108,6 @@ public class ModelToRepresentation {
         rep.setAbierto(model.isAbierto());
         rep.setEstadoMovimiento(model.getEstadoMovimiento());
         rep.setEstado(model.getEstado());
-        rep.setSaldo(model.getSaldo());
 
         return rep;
     }

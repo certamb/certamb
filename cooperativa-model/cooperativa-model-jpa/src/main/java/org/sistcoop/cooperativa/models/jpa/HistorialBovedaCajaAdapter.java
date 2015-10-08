@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -97,16 +96,6 @@ public class HistorialBovedaCajaAdapter implements HistorialBovedaCajaModel {
     @Override
     public void setEstadoMovimiento(boolean estadoMovimiento) {
         historialBovedaCajaEntity.setEstadoMovimiento(estadoMovimiento);
-    }
-
-    @Override
-    public BigDecimal getSaldo() {
-        return historialBovedaCajaEntity.getSaldo();
-    }
-
-    @Override
-    public void setSaldo(BigDecimal saldo) {
-        historialBovedaCajaEntity.setSaldo(saldo);
     }
 
     @Override

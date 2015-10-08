@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.models.jpa;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -61,7 +60,6 @@ public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage imp
         BovedaCajaEntity bovedaCajaEntity = this.em.find(BovedaCajaEntity.class, bovedaCajaModel.getId());
         HistorialBovedaCajaEntity historialBovedaCajaEntity = new HistorialBovedaCajaEntity();
         historialBovedaCajaEntity.setBovedaCaja(bovedaCajaEntity);
-        historialBovedaCajaEntity.setSaldo(BigDecimal.ZERO);
         historialBovedaCajaEntity.setEstado(true);
         historialBovedaCajaEntity.setFechaApertura(currentDate);
         historialBovedaCajaEntity.setHoraApertura(currentTime);

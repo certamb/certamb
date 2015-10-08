@@ -174,4 +174,28 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage impl
                 : null;
     }
 
+    @Override
+    public TransaccionAporteModel findTransaccionAporteById(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public TransaccionCuentaPersonalModel findTransaccionCuentaPersonalById(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public TransaccionCompraVentaModel findTransaccionCompraVentaById(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public TransferenciaCuentaPersonalModel findTransferenciaCuentaPersonalById(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
