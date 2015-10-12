@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,55 +26,46 @@ public class HistorialBovedaProviderTest extends AbstractTest {
 
     @Test
     public void create1() {
-        BovedaModel bovedaModel = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+        BovedaModel boveda = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+        HistorialBovedaModel historialBoveda = historialBovedaProvider.create(boveda);
 
-        HistorialBovedaModel model = historialBovedaProvider.create(bovedaModel);
-
-        assertThat(model, is(notNullValue()));
-        assertThat(model.getId(), is(notNullValue()));
-        assertThat(model.getFechaApertura(), is(notNullValue()));
-        assertThat(model.getHoraApertura(), is(notNullValue()));
-        assertThat(model.getEstado(), is(true));
+        assertThat(historialBoveda, is(notNullValue()));
+        assertThat(historialBoveda.getId(), is(notNullValue()));
+        assertThat(historialBoveda.getFechaApertura(), is(notNullValue()));
+        assertThat(historialBoveda.getHoraApertura(), is(notNullValue()));
+        assertThat(historialBoveda.getEstado(), is(true));
     }
 
     @Test
     public void create2() {
-        BovedaModel bovedaModel = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+        BovedaModel boveda = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
 
         @SuppressWarnings("unused")
-        HistorialBovedaModel model1 = historialBovedaProvider.create(bovedaModel);
-        HistorialBovedaModel model2 = null;
+        HistorialBovedaModel historialBoveda1 = historialBovedaProvider.create(boveda);
+        HistorialBovedaModel historialBoveda2 = null;
 
         try {
-            model2 = historialBovedaProvider.create(bovedaModel);
-        } catch (Exception e) {
-            log.info("Historial activo existente previamente");
+            historialBoveda2 = historialBovedaProvider.create(boveda);
+        } catch (ModelDuplicateException e) {
+            log.info("Model duplicate exception");
         }
 
-        assertThat(model2, is(nullValue()));
+        assertThat(historialBoveda2, is(nullValue()));
     }
 
     @Test
     public void create3() {
-        BovedaModel bovedaModel = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
-
-        HistorialBovedaModel model1 = historialBovedaProvider.create(bovedaModel);
-        model1.desactivar();
-        model1.commit();
-
-        HistorialBovedaModel model2 = null;
-
+        BovedaModel boveda = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+        boveda.desactivar();
+        boveda.commit();
+        HistorialBovedaModel historialBoveda = null;
         try {
-            model2 = historialBovedaProvider.create(bovedaModel);
-        } catch (Exception e) {
-            log.info("Historial activo existente previamente");
+            historialBoveda = historialBovedaProvider.create(boveda);
+        } catch (ModelReadOnlyException e) {
+            log.info("Model readonly exception");
         }
 
-        assertThat(model2, is(notNullValue()));
-        assertThat(model2.getId(), is(notNullValue()));
-        assertThat(model2.getFechaApertura(), is(notNullValue()));
-        assertThat(model2.getHoraApertura(), is(notNullValue()));
-        assertThat(model2.getEstado(), is(true));
+        assertThat(historialBoveda, is(nullValue()));
     }
 
     /**
@@ -81,14 +73,13 @@ public class HistorialBovedaProviderTest extends AbstractTest {
      */
     @Test
     public void findById1() {
-        BovedaModel bovedaModel = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+        BovedaModel boveda = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+        HistorialBovedaModel historialBoveda1 = historialBovedaProvider.create(boveda);
 
-        HistorialBovedaModel model1 = historialBovedaProvider.create(bovedaModel);
+        String id = historialBoveda1.getId();
+        HistorialBovedaModel historialBoveda2 = historialBovedaProvider.findById(id);
 
-        String id = model1.getId();
-        HistorialBovedaModel model2 = historialBovedaProvider.findById(id);
-
-        assertThat("model1 is not equal to model2", model1, is(equalTo(model2)));
+        assertThat("model1 is not equal to model2", historialBoveda1, is(equalTo(historialBoveda2)));
     }
 
     /**
@@ -100,9 +91,9 @@ public class HistorialBovedaProviderTest extends AbstractTest {
     @Test
     public void findById2() {
         String id = "2bbca919-9bca-4190-ad37-3843b72927de";
-        HistorialBovedaModel model = historialBovedaProvider.findById(id);
+        HistorialBovedaModel historialBoveda = historialBovedaProvider.findById(id);
 
-        assertThat("model is not Null", model, is(nullValue()));
+        assertThat("model is not Null", historialBoveda, is(nullValue()));
     }
 
     /**
@@ -110,35 +101,57 @@ public class HistorialBovedaProviderTest extends AbstractTest {
      */
     @Test
     public void findById3() {
-        BovedaModel bovedaModel = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+        BovedaModel boveda = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+        HistorialBovedaModel historialBoveda1 = historialBovedaProvider.create(boveda);
+        historialBoveda1.desactivar();
+        historialBoveda1.commit();
 
-        HistorialBovedaModel model1 = historialBovedaProvider.create(bovedaModel);
-        model1.desactivar();
-        model1.commit();
+        String id = historialBoveda1.getId();
+        HistorialBovedaModel historialBoveda2 = historialBovedaProvider.findById(id);
 
-        String id = model1.getId();
-        HistorialBovedaModel model2 = historialBovedaProvider.findById(id);
-
-        assertThat("model1 is not equal to model2", model1, is(equalTo(model2)));
+        assertThat("model1 is not equal to model2", historialBoveda1, is(equalTo(historialBoveda2)));
     }
 
     @Test
-    public void searchCriteria2() {
-        BovedaModel bovedaModel1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
-        BovedaModel bovedaModel2 = bovedaProvider.create("agencia02", "PEN", "Boveda nuevos soles");
+    public void findByHistorialActivo() {
+        BovedaModel boveda = bovedaProvider.create("01", "PEN", "Boveda nuevos soles");
+        HistorialBovedaModel historialBoveda1 = historialBovedaProvider.create(boveda);
+        HistorialBovedaModel historialBoveda2 = historialBovedaProvider.findByHistorialActivo(boveda);
+
+        assertThat("model1 is not equal to model2", historialBoveda1, is(equalTo(historialBoveda2)));
+    }
+
+    @Test
+    public void getAll() {
+        BovedaModel boveda = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
+
+        HistorialBovedaModel historialBoveda1 = historialBovedaProvider.create(boveda);
+        historialBoveda1.desactivar();
+        historialBoveda1.commit();
+        @SuppressWarnings("unused")
+        HistorialBovedaModel historialBoveda2 = historialBovedaProvider.create(boveda);
+
+        List<HistorialBovedaModel> historiales = historialBovedaProvider.getAll(boveda);
+
+        assertThat(historiales, is(notNullValue()));
+        assertThat(historiales.size(), is(2));
+    }
+
+    @Test
+    public void searchCriteria() {
+        BovedaModel boveda1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
+        BovedaModel boveda2 = bovedaProvider.create("agencia02", "PEN", "Boveda nuevos soles");
 
         @SuppressWarnings("unused")
-        HistorialBovedaModel model1 = historialBovedaProvider.create(bovedaModel1);
+        HistorialBovedaModel historialBoveda1 = historialBovedaProvider.create(boveda1);
         @SuppressWarnings("unused")
-        HistorialBovedaModel model2 = historialBovedaProvider.create(bovedaModel2);
+        HistorialBovedaModel historialBoveda2 = historialBovedaProvider.create(boveda2);
 
         SearchCriteriaModel criteria = new SearchCriteriaModel();
-        criteria.addFilter("idBoveda", bovedaModel1.getId(), SearchCriteriaFilterOperator.eq);
         criteria.addFilter("fechaApertura", LocalDate.now(), SearchCriteriaFilterOperator.gte);
         criteria.addFilter("fechaApertura", LocalDate.now(), SearchCriteriaFilterOperator.lte);
 
-        SearchResultsModel<HistorialBovedaModel> result = historialBovedaProvider.search(bovedaModel1,
-                criteria);
+        SearchResultsModel<HistorialBovedaModel> result = historialBovedaProvider.search(boveda1, criteria);
 
         assertThat(result, is(notNullValue()));
         assertThat(result.getModels().size(), is(1));

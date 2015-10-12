@@ -18,6 +18,7 @@ import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinModel;
@@ -30,8 +31,8 @@ import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 @Stateless
 @Local(HistorialBovedaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage implements
-        HistorialBovedaCajaProvider {
+public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage
+        implements HistorialBovedaCajaProvider {
 
     @PersistenceContext
     protected EntityManager em;
@@ -48,6 +49,10 @@ public class JpaHistorialBovedaCajaProvider extends AbstractHibernateStorage imp
 
     @Override
     public HistorialBovedaCajaModel create(BovedaCajaModel bovedaCajaModel) {
+        if (!bovedaCajaModel.getEstado()) {
+            throw new ModelReadOnlyException(
+                    "BovedaCaja estado=false. BovedaCaja inactiva, no se puede modificar");
+        }
         if (findByHistorialActivo(bovedaCajaModel) != null) {
             throw new ModelDuplicateException(
                     "HistorialBovedaCajaEntity activos (estado = true) debe ser unico, se encontro otra entidad con bovedaCaja="

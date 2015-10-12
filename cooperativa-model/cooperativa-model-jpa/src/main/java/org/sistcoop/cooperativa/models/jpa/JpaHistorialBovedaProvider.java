@@ -18,6 +18,7 @@ import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinModel;
@@ -46,17 +47,20 @@ public class JpaHistorialBovedaProvider extends AbstractHibernateStorage impleme
     }
 
     @Override
-    public HistorialBovedaModel create(BovedaModel bovedaModel) {
-        if (findByHistorialActivo(bovedaModel) != null) {
+    public HistorialBovedaModel create(BovedaModel boveda) {
+        if (!boveda.getEstado()) {
+            throw new ModelReadOnlyException("Boveda estado=false. Boveda inactiva, no se puede modificar");
+        }
+        if (findByHistorialActivo(boveda) != null) {
             throw new ModelDuplicateException(
                     "HistorialBovedaEntity activos (estado = true) debe ser unico, se encontro otra entidad con boveda="
-                            + bovedaModel + " y estado=true");
+                            + boveda + " y estado=true");
         }
 
         // Crear historial
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
-        BovedaEntity bovedaEntity = this.em.find(BovedaEntity.class, bovedaModel.getId());
+        BovedaEntity bovedaEntity = this.em.find(BovedaEntity.class, boveda.getId());
         HistorialBovedaEntity historialBovedaEntity = new HistorialBovedaEntity();
         historialBovedaEntity.setBoveda(bovedaEntity);
         historialBovedaEntity.setAbierto(true);
@@ -76,8 +80,8 @@ public class JpaHistorialBovedaProvider extends AbstractHibernateStorage impleme
 
     @Override
     public HistorialBovedaModel findByHistorialActivo(BovedaModel boveda) {
-        TypedQuery<HistorialBovedaEntity> query = em.createNamedQuery(
-                "HistorialBovedaEntity.findByIdBovedaEstado", HistorialBovedaEntity.class);
+        TypedQuery<HistorialBovedaEntity> query = em
+                .createNamedQuery("HistorialBovedaEntity.findByIdBovedaEstado", HistorialBovedaEntity.class);
         query.setParameter("idBoveda", boveda.getId());
         query.setParameter("estado", true);
         List<HistorialBovedaEntity> results = query.getResultList();

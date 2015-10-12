@@ -16,6 +16,7 @@ import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleHistorialBovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
 
@@ -23,8 +24,8 @@ import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
 @Stateless
 @Local(DetalleHistorialBovedaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleHistorialBovedaProvider extends AbstractHibernateStorage implements
-        DetalleHistorialBovedaProvider {
+public class JpaDetalleHistorialBovedaProvider extends AbstractHibernateStorage
+        implements DetalleHistorialBovedaProvider {
 
     @PersistenceContext
     protected EntityManager em;
@@ -42,6 +43,10 @@ public class JpaDetalleHistorialBovedaProvider extends AbstractHibernateStorage 
     @Override
     public DetalleHistorialBovedaModel create(HistorialBovedaModel historialBovedaModel, BigDecimal valor,
             int cantidad) {
+        if (!historialBovedaModel.getEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBoveda estado=false. Historial inactivo, no puede ser modificado");
+        }
         if (findByValor(historialBovedaModel, valor) != null) {
             throw new ModelDuplicateException(
                     "DetalleHistorialBovedaEntity valor debe ser unico, se encontro otra entidad con historialBovedaModel="

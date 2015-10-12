@@ -13,9 +13,7 @@ public interface BovedaProvider extends Provider {
 
     BovedaModel create(String agencia, String moneda, String denominacion);
 
-    BovedaModel findById(String id);  
-
-    boolean remove(BovedaModel boveda);
+    BovedaModel findById(String id);
 
     List<BovedaModel> getAll();
 

@@ -158,18 +158,6 @@ public class CajaProviderTest extends AbstractTest {
     }
 
     @Test
-    public void remove() {
-        CajaModel model = cajaProvider.create("agencia01", "Caja 01");
-        String id = model.getId();
-        boolean result = cajaProvider.remove(model);
-
-        model = cajaProvider.findById(id);
-
-        assertThat(result, is(true));
-        assertThat(model, is(nullValue()));
-    }
-
-    @Test
     public void getAll() {
         @SuppressWarnings("unused")
         CajaModel model1 = cajaProvider.create("agencia01", "Caja 01");

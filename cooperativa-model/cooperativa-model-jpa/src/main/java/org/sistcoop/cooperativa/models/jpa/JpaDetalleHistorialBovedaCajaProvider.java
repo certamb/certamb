@@ -16,6 +16,7 @@ import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleHistorialBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 
@@ -23,8 +24,8 @@ import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaCajaEntity;
 @Stateless
 @Local(DetalleHistorialBovedaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleHistorialBovedaCajaProvider extends AbstractHibernateStorage implements
-        DetalleHistorialBovedaCajaProvider {
+public class JpaDetalleHistorialBovedaCajaProvider extends AbstractHibernateStorage
+        implements DetalleHistorialBovedaCajaProvider {
 
     @PersistenceContext
     protected EntityManager em;
@@ -42,6 +43,10 @@ public class JpaDetalleHistorialBovedaCajaProvider extends AbstractHibernateStor
     @Override
     public DetalleHistorialBovedaCajaModel create(HistorialBovedaCajaModel historialBovedaCaja,
             BigDecimal valor, int cantidad) {
+        if (!historialBovedaCaja.getEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCaja estado=false. Historial inactivo, no puede ser modificado");
+        }
         if (findByValor(historialBovedaCaja, valor) != null) {
             throw new ModelDuplicateException(
                     "DetalleHistorialBovedaCajaEntity valor debe ser unico, se encontro otra entidad con historialBovedaCaja="

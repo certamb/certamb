@@ -159,18 +159,6 @@ public class BovedaProviderTest extends AbstractTest {
     }
 
     @Test
-    public void remove() {
-        BovedaModel model = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
-        String id = model.getId();
-        boolean result = bovedaProvider.remove(model);
-
-        model = bovedaProvider.findById(id);
-
-        assertThat(result, is(true));
-        assertThat(model, is(nullValue()));
-    }
-
-    @Test
     public void getAll() {
         BovedaModel model1 = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
         @SuppressWarnings("unused")

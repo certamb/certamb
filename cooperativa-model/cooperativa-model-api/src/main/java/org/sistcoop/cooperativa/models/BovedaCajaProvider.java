@@ -17,8 +17,6 @@ public interface BovedaCajaProvider extends Provider {
 
     BovedaCajaModel findByBovedaCaja(BovedaModel boveda, CajaModel caja);
 
-    boolean remove(BovedaCajaModel bovedaCaja);
-
     List<BovedaCajaModel> getAll(BovedaModel boveda);
 
     List<BovedaCajaModel> getAll(CajaModel caja);

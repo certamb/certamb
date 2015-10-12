@@ -15,7 +15,6 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
-import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
@@ -66,21 +65,6 @@ public class JpaCajaProvider extends AbstractHibernateStorage implements CajaPro
     public CajaModel findById(String id) {
         CajaEntity cajaEntity = this.em.find(CajaEntity.class, id);
         return cajaEntity != null ? new CajaAdapter(em, cajaEntity) : null;
-    }
-
-    @Override
-    public boolean remove(CajaModel cajaModel) {
-        TypedQuery<BovedaCajaEntity> query2 = em.createNamedQuery("BovedaCajaEntity.findByIdCaja",
-                BovedaCajaEntity.class);
-        query2.setParameter("idCaja", cajaModel.getId());
-        query2.setMaxResults(1);
-        if (!query2.getResultList().isEmpty()) {
-            return false;
-        }
-
-        CajaEntity cajaEntity = em.find(CajaEntity.class, cajaModel.getId());
-        em.remove(cajaEntity);
-        return true;
     }
 
     @Override

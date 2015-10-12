@@ -17,6 +17,7 @@ import org.sistcoop.cooperativa.models.BovedaCajaProvider;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
@@ -47,6 +48,12 @@ public class JpaBovedaCajaProvider extends AbstractHibernateStorage implements B
 
     @Override
     public BovedaCajaModel create(BovedaModel bovedaModel, CajaModel cajaModel) {
+        if (!bovedaModel.getEstado()) {
+            throw new ModelReadOnlyException("Boveda estado=false. Boveda inactiva, no se puede modificar");
+        }
+        if (!cajaModel.getEstado()) {
+            throw new ModelReadOnlyException("Caja estado=false. Caja inactiva, no se puede modificar");
+        }
         if (findByBovedaCaja(bovedaModel, cajaModel) != null) {
             throw new ModelDuplicateException(
                     "BovedaCajaEntity boveda y caja debe ser unico, se encontro otra entidad con boveda="
@@ -86,13 +93,6 @@ public class JpaBovedaCajaProvider extends AbstractHibernateStorage implements B
         } else {
             return new BovedaCajaAdapter(em, results.get(0));
         }
-    }
-
-    @Override
-    public boolean remove(BovedaCajaModel bovedaCajaModel) {
-        BovedaCajaEntity bovedaCajaEntity = em.find(BovedaCajaEntity.class, bovedaCajaModel.getId());
-        em.remove(bovedaCajaEntity);
-        return true;
     }
 
     @Override

@@ -15,9 +15,7 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
-import org.sistcoop.cooperativa.models.jpa.entities.BovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.BovedaEntity;
-import org.sistcoop.cooperativa.models.jpa.entities.HistorialBovedaEntity;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
@@ -81,29 +79,6 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
     }
 
     @Override
-    public boolean remove(BovedaModel bovedaModel) {
-        TypedQuery<HistorialBovedaEntity> query1 = em.createNamedQuery(
-                "HistorialBovedaEntity.findByIdBoveda", HistorialBovedaEntity.class);
-        query1.setParameter("idBoveda", bovedaModel.getId());
-        query1.setMaxResults(1);
-        if (!query1.getResultList().isEmpty()) {
-            return false;
-        }
-
-        TypedQuery<BovedaCajaEntity> query2 = em.createNamedQuery("BovedaCajaEntity.findByIdBoveda",
-                BovedaCajaEntity.class);
-        query2.setParameter("idBoveda", bovedaModel.getId());
-        query2.setMaxResults(1);
-        if (!query2.getResultList().isEmpty()) {
-            return false;
-        }
-
-        BovedaEntity bovedaEntity = em.find(BovedaEntity.class, bovedaModel.getId());
-        em.remove(bovedaEntity);
-        return true;
-    }
-
-    @Override
     public List<BovedaModel> getAll() {
         TypedQuery<BovedaEntity> query = em.createNamedQuery("BovedaEntity.findAll", BovedaEntity.class);
         List<BovedaEntity> entities = query.getResultList();
@@ -126,8 +101,8 @@ public class JpaBovedaProvider extends AbstractHibernateStorage implements Boved
 
     @Override
     public SearchResultsModel<BovedaModel> search(SearchCriteriaModel criteria, String filterText) {
-        SearchResultsModel<BovedaEntity> entityResult = findFullText(criteria, BovedaEntity.class,
-                filterText, "denominacion", "moneda");
+        SearchResultsModel<BovedaEntity> entityResult = findFullText(criteria, BovedaEntity.class, filterText,
+                "denominacion", "moneda");
         List<BovedaEntity> entities = entityResult.getModels();
 
         SearchResultsModel<BovedaModel> searchResult = new SearchResultsModel<>();

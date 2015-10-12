@@ -15,8 +15,6 @@ public interface CajaProvider extends Provider {
 
     CajaModel findById(String id);
 
-    boolean remove(CajaModel caja);
-
     List<CajaModel> getAll();
 
     SearchResultsModel<CajaModel> search(SearchCriteriaModel criteria);
