@@ -119,20 +119,6 @@ public class BovedaResourceImpl implements BovedaResource {
     }
 
     @Override
-    public Response remove() {
-        BovedaModel boveda = getBovedaModel();
-        if (boveda == null) {
-            throw new NotFoundException("Boveda no encontrada");
-        }
-        boolean removed = bovedaProvider.remove(boveda);
-        if (removed) {
-            return Response.noContent().build();
-        } else {
-            return ErrorResponse.error("Boveda no pudo ser eliminado", Response.Status.BAD_REQUEST);
-        }
-    }
-
-    @Override
     public HistorialesBovedaResource historiales() {
         return bovedaHistorialesResource;
     }

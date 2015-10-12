@@ -18,8 +18,6 @@ public interface TransaccionBovedaCajaProvider extends Provider {
 
     TransaccionBovedaCajaModel findById(String id);
 
-    boolean remove(TransaccionBovedaCajaModel transaccionBovedaCaja);
-
     List<TransaccionBovedaCajaModel> getAll(HistorialBovedaModel historialBoveda);
 
     List<TransaccionBovedaCajaModel> getAll(HistorialBovedaCajaModel historialBovedaCaja);

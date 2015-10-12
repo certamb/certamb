@@ -67,20 +67,6 @@ public class BovedaCajaResourceImpl implements BovedaCajaResource {
     }
 
     @Override
-    public Response remove() {
-        BovedaCajaModel bovedaCaja = getBovedaCajaModel();
-        if (bovedaCaja == null) {
-            throw new NotFoundException("BovedaCaja no encontrada");
-        }
-        boolean removed = bovedaCajaProvider.remove(bovedaCaja);
-        if (removed) {
-            return Response.noContent().build();
-        } else {
-            return ErrorResponse.error("BovedaCaja no pudo ser eliminado", Response.Status.BAD_REQUEST);
-        }
-    }
-
-    @Override
     public HistorialesBovedaCajaResource historiales() {
         return cajaBovedaHistorialesResource;
     }

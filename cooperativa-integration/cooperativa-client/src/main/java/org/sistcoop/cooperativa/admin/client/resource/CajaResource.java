@@ -1,7 +1,6 @@
 package org.sistcoop.cooperativa.admin.client.resource;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -55,16 +54,6 @@ public interface CajaResource {
     @POST
     @Path("disable")
     public Response disable();
-
-    /**
-     * Use este endpoint para eliminar una caja por medio de su ID.
-     * 
-     * @summary Delete a Caja by ID
-     * @statuscode 204 Si la caja fue eliminada.
-     * @return javax.ws.rs.core.Response
-     */
-    @DELETE
-    public Response remove();
 
     @Path("bovedasCaja")
     public BovedaCajasResource bovedasCaja();

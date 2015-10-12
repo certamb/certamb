@@ -88,20 +88,6 @@ public class CajaResourceImpl implements CajaResource {
     }
 
     @Override
-    public Response remove() {
-        CajaModel caja = getCajaModel();
-        if (caja == null) {
-            throw new NotFoundException("Caja no encontrada");
-        }
-        boolean removed = cajaProvider.remove(caja);
-        if (removed) {
-            return Response.noContent().build();
-        } else {
-            return ErrorResponse.error("Caja no pudo ser eliminado", Response.Status.BAD_REQUEST);
-        }
-    }
-
-    @Override
     public BovedaCajasResource bovedasCaja() {
         return cajaBovedasResource;
     }

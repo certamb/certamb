@@ -33,8 +33,8 @@ import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 @Stateless
 @Local(TransaccionBovedaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaTransaccionBovedaCajaProvider extends AbstractHibernateStorage implements
-        TransaccionBovedaCajaProvider {
+public class JpaTransaccionBovedaCajaProvider extends AbstractHibernateStorage
+        implements TransaccionBovedaCajaProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -53,19 +53,19 @@ public class JpaTransaccionBovedaCajaProvider extends AbstractHibernateStorage i
     public TransaccionBovedaCajaModel create(HistorialBovedaModel historialBoveda,
             HistorialBovedaCajaModel historialBovedaCaja, OrigenTransaccionBovedaCaja origen,
             String observacion) {
+        if (!historialBoveda.getEstado() || !historialBoveda.isAbierto()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBoveda (estado = false) o cerrado, no se puede asociar entidades");
+        }
+        if (!historialBovedaCaja.getEstado() || !historialBovedaCaja.isAbierto()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCaja (estado = false) o cerrado, no se puede asociar entidades");
+        }
+
         HistorialBovedaEntity historialBovedaEntity = this.em.find(HistorialBovedaEntity.class,
                 historialBoveda.getId());
         HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class,
                 historialBovedaCaja.getId());
-
-        if (!historialBovedaEntity.isEstado() || !historialBovedaEntity.isAbierto()) {
-            throw new ModelReadOnlyException(
-                    "HistorialBovedaEntity (estado = false) o cerrado, no se puede asociar entidades");
-        }
-        if (!historialBovedaCajaEntity.isEstado() || !historialBovedaCajaEntity.isAbierto()) {
-            throw new ModelReadOnlyException(
-                    "HistorialBovedaCajaEntity (estado = false) o cerrado, no se puede asociar entidades");
-        }
 
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
@@ -87,14 +87,6 @@ public class JpaTransaccionBovedaCajaProvider extends AbstractHibernateStorage i
     public TransaccionBovedaCajaModel findById(String id) {
         TransaccionBovedaCajaEntity transBovedaCaja = this.em.find(TransaccionBovedaCajaEntity.class, id);
         return transBovedaCaja != null ? new TransaccionBovedaCajaAdapter(em, transBovedaCaja) : null;
-    }
-
-    @Override
-    public boolean remove(TransaccionBovedaCajaModel transaccionBovedaCaja) {
-        TransaccionBovedaCajaEntity transBovedaCaja = em.find(TransaccionBovedaCajaEntity.class,
-                transaccionBovedaCaja.getId());
-        em.remove(transBovedaCaja);
-        return true;
     }
 
     @Override
@@ -140,8 +132,8 @@ public class JpaTransaccionBovedaCajaProvider extends AbstractHibernateStorage i
     }
 
     @Override
-    public SearchResultsModel<TransaccionBovedaCajaModel> search(
-            HistorialBovedaCajaModel historialBovedaCaja, SearchCriteriaModel criteria) {
+    public SearchResultsModel<TransaccionBovedaCajaModel> search(HistorialBovedaCajaModel historialBovedaCaja,
+            SearchCriteriaModel criteria) {
         SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("transaccionBovedaCaja");
         criteriaJoin.addJoin("transaccionBovedaCaja.historialBovedaCaja", "historialBovedaCaja",
                 SearchCriteriaJoinType.INNER_JOIN);
