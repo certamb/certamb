@@ -10,7 +10,6 @@ import javax.ejb.TransactionAttributeType;
 
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
-import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 
@@ -24,28 +23,21 @@ public class TransaccionBovedaCajaManager {
         transaccionBovedaCajaModel.commit();
 
         int factorBoveda;
-        int factorCaja;
 
         switch (transaccionBovedaCajaModel.getOrigen()) {
         case BOVEDA:
             // restar a boveda
             factorBoveda = -1;
-            // sumar a caja
-            factorCaja = 1;
             break;
         case CAJA:
             // sumar a boveda
             factorBoveda = 1;
-            // restar a caja
-            factorCaja = -1;
             break;
         default:
             throw new EJBException();
         }
 
         HistorialBovedaModel historialBovedaModel = transaccionBovedaCajaModel.getHistorialBoveda();
-        HistorialBovedaCajaModel historialBovedaCajaModel = transaccionBovedaCajaModel
-                .getHistorialBovedaCaja();
 
         BigDecimal saldoTotalDeTransaccion = BigDecimal.ZERO;
         List<DetalleTransaccionBovedaCajaModel> detalleTransaccionBovedaCajaModels = transaccionBovedaCajaModel
@@ -76,15 +68,6 @@ public class TransaccionBovedaCajaManager {
                 }
             }
         }
-
-        // alterar a caja
-        BigDecimal saldoAnterior = historialBovedaCajaModel.getSaldo();
-        if (factorCaja == 1) {
-            historialBovedaCajaModel.setSaldo(saldoAnterior.add(saldoTotalDeTransaccion));
-        } else if (factorCaja == -1) {
-            historialBovedaCajaModel.setSaldo(saldoAnterior.subtract(saldoTotalDeTransaccion));
-        }
-        historialBovedaCajaModel.commit();
 
         return true;
     }

@@ -1,7 +1,5 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
-import java.math.BigDecimal;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
@@ -56,12 +54,7 @@ public class BovedaCajaResourceImpl implements BovedaCajaResource {
             if (historialBovedaCajaActivo.isAbierto()) {
                 return new ErrorResponseException("BovedaCaja abierto",
                         "No se puede desactivar BovedaCaja hasta que se cierre", Response.Status.BAD_REQUEST)
-                        .getResponse();
-            }
-            if (historialBovedaCajaActivo.getSaldo().compareTo(BigDecimal.ZERO) != 0) {
-                return new ErrorResponseException("BovedaCaja con saldo", "BovedaCaja tiene saldo="
-                        + historialBovedaCajaActivo.getSaldo() + ", no se puede desactivar",
-                        Response.Status.BAD_REQUEST).getResponse();
+                                .getResponse();
             }
         }
 

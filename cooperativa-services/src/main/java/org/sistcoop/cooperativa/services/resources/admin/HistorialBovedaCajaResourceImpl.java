@@ -1,9 +1,7 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -86,16 +84,7 @@ public class HistorialBovedaCajaResourceImpl implements HistorialBovedaCajaResou
         if (!historialBovedaCaja.isAbierto()) {
             return new ErrorResponseException("BovedaCaja cerrada",
                     "BovedaCaja cerrada, no se puede cerrar nuevamente", Response.Status.BAD_REQUEST)
-                    .getResponse();
-        }
-
-        Function<DetalleMonedaRepresentation, BigDecimal> totalMapper = det -> det.getValor().multiply(
-                new BigDecimal(det.getCantidad()));
-        BigDecimal saldoDetalleEnviado = detalle.stream().map(totalMapper)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        if (historialBovedaCaja.getSaldo().compareTo(saldoDetalleEnviado) != 0) {
-            return new ErrorResponseException("Detalle no valido", "El detalle enviado no es valido",
-                    Response.Status.BAD_REQUEST).getResponse();
+                            .getResponse();
         }
 
         boolean result = historialBovedaCajaManager.cerrarHistorialBovedaCaja(historialBovedaCaja, detalle);

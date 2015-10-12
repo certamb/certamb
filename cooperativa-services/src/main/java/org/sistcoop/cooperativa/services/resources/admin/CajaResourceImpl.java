@@ -1,6 +1,5 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -73,11 +72,6 @@ public class CajaResourceImpl implements CajaResource {
         List<HistorialBovedaCajaModel> historialesBovedaCaja = bovedaCajas.stream().map(historialMapper)
                 .filter(bovedaCaja -> bovedaCaja != null).collect(Collectors.toList());
         for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesBovedaCaja) {
-            if (historialBovedaCajaModel.getSaldo().compareTo(BigDecimal.ZERO) != 0) {
-                return new ErrorResponseException("Caja relacionada tiene saldo",
-                        "Existe una caja con saldo diferente de 0.00, la boveda no puede ser desactivada",
-                        Response.Status.BAD_REQUEST).getResponse();
-            }
             if (historialBovedaCajaModel.isAbierto()) {
                 return new ErrorResponseException("Caja relacionada abierta",
                         "Existe una caja abierta, la boveda no puede ser desactivada",

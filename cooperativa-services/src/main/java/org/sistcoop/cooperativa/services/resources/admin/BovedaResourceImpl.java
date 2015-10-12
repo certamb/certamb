@@ -88,8 +88,9 @@ public class BovedaResourceImpl implements BovedaResource {
             BigDecimal saldoHistorialBoveda = detalleHistorialBoveda.stream().map(totalMapper)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
             if (saldoHistorialBoveda.compareTo(BigDecimal.ZERO) != 0) {
-                return new ErrorResponseException("Boveda saldo invalido", "Boveda tiene saldo="
-                        + saldoHistorialBoveda + ", no se puede desactivar hasta que tenga 0.00 de saldo",
+                return new ErrorResponseException("Boveda saldo invalido",
+                        "Boveda tiene saldo=" + saldoHistorialBoveda
+                                + ", no se puede desactivar hasta que tenga 0.00 de saldo",
                         Response.Status.BAD_REQUEST).getResponse();
             }
         }
@@ -102,11 +103,6 @@ public class BovedaResourceImpl implements BovedaResource {
         List<HistorialBovedaCajaModel> historialesBovedaCaja = bovedaCajas.stream().map(historialMapper)
                 .filter(bovedaCaja -> bovedaCaja != null).collect(Collectors.toList());
         for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesBovedaCaja) {
-            if (historialBovedaCajaModel.getSaldo().compareTo(BigDecimal.ZERO) != 0) {
-                return new ErrorResponseException("Caja relacionada tiene saldo",
-                        "Existe una caja con saldo diferente de 0.00, la boveda no puede ser desactivada",
-                        Response.Status.BAD_REQUEST).getResponse();
-            }
             if (historialBovedaCajaModel.isAbierto()) {
                 return new ErrorResponseException("Caja relacionada abierta",
                         "Existe una caja abierta, la boveda no puede ser desactivada",
