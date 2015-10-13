@@ -88,6 +88,30 @@ public class DetalleTransaccionBovedaCajaProviderTest extends AbstractTest {
         HistorialBovedaCajaModel historialBovedaCaja = historialBovedaCajaProvider.create(bovedaCaja);
         TransaccionBovedaCajaModel transaccionBovedaCaja = transaccionBovedaCajaProvider
                 .create(historialBoveda, historialBovedaCaja, OrigenTransaccionBovedaCaja.BOVEDA, null);
+        transaccionBovedaCaja.setEstadoConfirmacion(true);
+        transaccionBovedaCaja.commit();
+
+        DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCaja = detalleTransaccionBovedaCajaProvider
+                .create(transaccionBovedaCaja, BigDecimal.TEN, 10000);
+        try {
+            detalleTransaccionBovedaCaja = detalleTransaccionBovedaCajaProvider.create(transaccionBovedaCaja,
+                    BigDecimal.TEN, 10000);
+        } catch (ModelReadOnlyException e) {
+            log.info("Read only exception success");
+        }
+
+        assertThat("model is Null", detalleTransaccionBovedaCaja, is(nullValue()));
+    }
+
+    @Test
+    public void create4() {
+        BovedaModel boveda = bovedaProvider.create("agencia01", "PEN", "Boveda nuevos soles");
+        CajaModel caja = cajaProvider.create("agencia01", "Caja 01");
+        BovedaCajaModel bovedaCaja = bovedaCajaProvider.create(boveda, caja);
+        HistorialBovedaModel historialBoveda = historialBovedaProvider.create(boveda);
+        HistorialBovedaCajaModel historialBovedaCaja = historialBovedaCajaProvider.create(bovedaCaja);
+        TransaccionBovedaCajaModel transaccionBovedaCaja = transaccionBovedaCajaProvider
+                .create(historialBoveda, historialBovedaCaja, OrigenTransaccionBovedaCaja.BOVEDA, null);
 
         @SuppressWarnings("unused")
         DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCaja1 = detalleTransaccionBovedaCajaProvider

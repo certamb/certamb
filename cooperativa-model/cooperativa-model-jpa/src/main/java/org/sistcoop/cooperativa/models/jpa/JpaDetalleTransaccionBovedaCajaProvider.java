@@ -45,7 +45,11 @@ public class JpaDetalleTransaccionBovedaCajaProvider extends AbstractHibernateSt
             BigDecimal valor, int cantidad) {
         if (!transaccionBovedaCaja.getEstadoSolicitud()) {
             throw new ModelReadOnlyException(
-                    "TransaccionBovedaCaja estado=false. Transaccion no puede ser modificada");
+                    "TransaccionBovedaCaja estadoSolicitud=false. Transaccion cancelada, no puede ser modificada");
+        }
+        if (transaccionBovedaCaja.getEstadoConfirmacion()) {
+            throw new ModelReadOnlyException(
+                    "TransaccionBovedaCaja estadoConfirmacion=true. Transaccion ya fue confirmada, no puede ser modificada");
         }
         if (findByValor(transaccionBovedaCaja, valor) != null) {
             throw new ModelDuplicateException(
