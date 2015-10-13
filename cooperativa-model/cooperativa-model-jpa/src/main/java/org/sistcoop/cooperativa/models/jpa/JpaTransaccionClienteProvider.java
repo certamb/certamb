@@ -31,8 +31,8 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransferenciaCuentaPersonalE
 @Stateless
 @Local(TransaccionClienteProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaTransaccionClienteProvider extends AbstractHibernateStorage implements
-        TransaccionClienteProvider {
+public class JpaTransaccionClienteProvider extends AbstractHibernateStorage
+        implements TransaccionClienteProvider {
 
     @PersistenceContext
     private EntityManager em;
