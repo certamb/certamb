@@ -15,6 +15,7 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionCajaCajaProvider;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleTransaccionCajaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionCajaCajaEntity;
@@ -23,8 +24,8 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransaccionCajaCajaEntity;
 @Stateless
 @Local(DetalleTransaccionCajaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleTransaccionCajaCajaProvider extends AbstractHibernateStorage implements
-        DetalleTransaccionCajaCajaProvider {
+public class JpaDetalleTransaccionCajaCajaProvider extends AbstractHibernateStorage
+        implements DetalleTransaccionCajaCajaProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -42,6 +43,14 @@ public class JpaDetalleTransaccionCajaCajaProvider extends AbstractHibernateStor
     @Override
     public DetalleTransaccionCajaCajaModel create(TransaccionCajaCajaModel transaccionCajaCaja,
             BigDecimal valor, int cantidad) {
+        if (!transaccionCajaCaja.getEstadoSolicitud()) {
+            throw new ModelReadOnlyException(
+                    "TransaccionCajaCaja estadoSolicitud=false. Transaccion cancelada no se puede modificar");
+        }
+        if (transaccionCajaCaja.getEstadoConfirmacion()) {
+            throw new ModelReadOnlyException(
+                    "TransaccionCajaCaja estadoConfirmacion=true. Transaccion ya fue confirmada, no se puede modificar");
+        }
         if (findByValor(transaccionCajaCaja, valor) != null) {
             throw new ModelDuplicateException(
                     "DetalleTransaccionCajaCajaEntity valor debe ser unico, se encontro otra entidad con transaccionCajaCaja="

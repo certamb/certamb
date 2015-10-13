@@ -17,8 +17,6 @@ public interface TransaccionCajaCajaProvider extends Provider {
 
     TransaccionCajaCajaModel findById(String id);
 
-    boolean remove(TransaccionCajaCajaModel transaccionCajaCajaModel);
-
     List<TransaccionCajaCajaModel> getAll(HistorialBovedaCajaModel historialBovedaCaja);
 
     List<TransaccionCajaCajaModel> getAllOrigen(HistorialBovedaCajaModel historialBovedaCaja);

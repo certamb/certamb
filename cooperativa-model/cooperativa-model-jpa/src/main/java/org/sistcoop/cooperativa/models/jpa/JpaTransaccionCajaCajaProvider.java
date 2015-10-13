@@ -31,8 +31,8 @@ import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 @Stateless
 @Local(TransaccionCajaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage implements
-        TransaccionCajaCajaProvider {
+public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage
+        implements TransaccionCajaCajaProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -50,19 +50,19 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
     @Override
     public TransaccionCajaCajaModel create(HistorialBovedaCajaModel historialBovedaCajaOrigen,
             HistorialBovedaCajaModel historialBovedaCajaDestino, BigDecimal monto, String observacion) {
-        HistorialBovedaCajaEntity historialBovedaCajaOrigenEntity = this.em.find(
-                HistorialBovedaCajaEntity.class, historialBovedaCajaOrigen.getId());
-        HistorialBovedaCajaEntity historialBovedaCajaDestinoEntity = this.em.find(
-                HistorialBovedaCajaEntity.class, historialBovedaCajaDestino.getId());
+        if (!historialBovedaCajaOrigen.getEstado() || !historialBovedaCajaOrigen.isAbierto()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCajaEntity (estado = false) o cerrados, no se puede asociar entidades");
+        }
+        if (!historialBovedaCajaDestino.getEstado() || !historialBovedaCajaDestino.isAbierto()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCajaEntity (estado = false) o cerrados, no se puede asociar entidades");
+        }
 
-        if (!historialBovedaCajaOrigenEntity.isEstado() || !historialBovedaCajaOrigenEntity.isAbierto()) {
-            throw new ModelReadOnlyException(
-                    "HistorialBovedaCajaEntity (estado = false) o cerrados, no se puede asociar entidades");
-        }
-        if (!historialBovedaCajaDestinoEntity.isEstado() || !historialBovedaCajaDestinoEntity.isAbierto()) {
-            throw new ModelReadOnlyException(
-                    "HistorialBovedaCajaEntity (estado = false) o cerrados, no se puede asociar entidades");
-        }
+        HistorialBovedaCajaEntity historialBovedaCajaOrigenEntity = this.em
+                .find(HistorialBovedaCajaEntity.class, historialBovedaCajaOrigen.getId());
+        HistorialBovedaCajaEntity historialBovedaCajaDestinoEntity = this.em
+                .find(HistorialBovedaCajaEntity.class, historialBovedaCajaDestino.getId());
 
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
@@ -84,16 +84,8 @@ public class JpaTransaccionCajaCajaProvider extends AbstractHibernateStorage imp
     public TransaccionCajaCajaModel findById(String id) {
         TransaccionCajaCajaEntity transaccionCajaCajaEntity = this.em.find(TransaccionCajaCajaEntity.class,
                 id);
-        return transaccionCajaCajaEntity != null ? new TransaccionCajaCajaAdapter(em,
-                transaccionCajaCajaEntity) : null;
-    }
-
-    @Override
-    public boolean remove(TransaccionCajaCajaModel transaccionCajaCajaModel) {
-        TransaccionCajaCajaEntity transaccionCajaCajaEntity = em.find(TransaccionCajaCajaEntity.class,
-                transaccionCajaCajaModel.getId());
-        em.remove(transaccionCajaCajaEntity);
-        return true;
+        return transaccionCajaCajaEntity != null
+                ? new TransaccionCajaCajaAdapter(em, transaccionCajaCajaEntity) : null;
     }
 
     @Override
