@@ -34,8 +34,8 @@ import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 @Stateless
 @Local(TransaccionEntidadBovedaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorage implements
-        TransaccionEntidadBovedaProvider {
+public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorage
+        implements TransaccionEntidadBovedaProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -53,17 +53,17 @@ public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorag
     @Override
     public TransaccionEntidadBovedaModel create(EntidadModel entidad, HistorialBovedaModel historialBoveda,
             OrigenTransaccionEntidadBoveda origen, TipoTransaccionEntidadBoveda tipo, String observacion) {
-        EntidadEntity entidadEntity = this.em.find(EntidadEntity.class, entidad.getId());
-        HistorialBovedaEntity historialBovedaEntity = this.em.find(HistorialBovedaEntity.class,
-                historialBoveda.getId());
-
-        if (!historialBovedaEntity.isEstado()) {
+        if (!entidad.getEstado()) {
+            throw new ModelReadOnlyException("EntidadEntity (estado = false) no se puede asociar entidades");
+        }
+        if (!historialBoveda.getEstado()) {
             throw new ModelReadOnlyException(
                     "HistorialBovedaEntity (estado = false) no se puede asociar entidades");
         }
-        if (!entidadEntity.isEstado()) {
-            throw new ModelReadOnlyException("EntidadEntity (estado = false) no se puede asociar entidades");
-        }
+
+        EntidadEntity entidadEntity = this.em.find(EntidadEntity.class, entidad.getId());
+        HistorialBovedaEntity historialBovedaEntity = this.em.find(HistorialBovedaEntity.class,
+                historialBoveda.getId());
 
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
@@ -83,18 +83,10 @@ public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorag
 
     @Override
     public TransaccionEntidadBovedaModel findById(String id) {
-        TransaccionEntidadBovedaEntity transaccionEntidadBovedaEntity = this.em.find(
-                TransaccionEntidadBovedaEntity.class, id);
-        return transaccionEntidadBovedaEntity != null ? new TransaccionEntidadBovedaAdapter(em,
-                transaccionEntidadBovedaEntity) : null;
-    }
-
-    @Override
-    public boolean remove(TransaccionEntidadBovedaModel transaccionEntidadBoveda) {
-        TransaccionEntidadBovedaEntity transaccionEntidadBovedaEntity = em.find(
-                TransaccionEntidadBovedaEntity.class, transaccionEntidadBoveda.getId());
-        em.remove(transaccionEntidadBovedaEntity);
-        return true;
+        TransaccionEntidadBovedaEntity transaccionEntidadBovedaEntity = this.em
+                .find(TransaccionEntidadBovedaEntity.class, id);
+        return transaccionEntidadBovedaEntity != null
+                ? new TransaccionEntidadBovedaAdapter(em, transaccionEntidadBovedaEntity) : null;
     }
 
     @Override
@@ -124,8 +116,8 @@ public class JpaTransaccionEntidadBovedaProvider extends AbstractHibernateStorag
     public SearchResultsModel<TransaccionEntidadBovedaModel> search(EntidadModel entidad,
             SearchCriteriaModel criteria) {
         SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("transaccionEntidadBoveda");
-        criteriaJoin
-                .addJoin("transaccionEntidadBoveda.entidad", "entidad", SearchCriteriaJoinType.INNER_JOIN);
+        criteriaJoin.addJoin("transaccionEntidadBoveda.entidad", "entidad",
+                SearchCriteriaJoinType.INNER_JOIN);
         criteriaJoin.addCondition("entidad.id", entidad.getId(), SearchCriteriaFilterOperator.eq);
 
         SearchResultsModel<TransaccionEntidadBovedaEntity> entityResult = find(criteriaJoin, criteria,

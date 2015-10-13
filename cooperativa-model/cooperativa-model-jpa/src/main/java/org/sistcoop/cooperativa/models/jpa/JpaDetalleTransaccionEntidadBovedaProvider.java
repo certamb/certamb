@@ -16,6 +16,7 @@ import org.sistcoop.cooperativa.models.DetalleTransaccionEntidadBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionEntidadBovedaProvider;
 import org.sistcoop.cooperativa.models.TransaccionEntidadBovedaModel;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleTransaccionEntidadBovedaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionEntidadBovedaEntity;
 
@@ -23,8 +24,8 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransaccionEntidadBovedaEnti
 @Stateless
 @Local(DetalleTransaccionEntidadBovedaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleTransaccionEntidadBovedaProvider extends AbstractHibernateStorage implements
-        DetalleTransaccionEntidadBovedaProvider {
+public class JpaDetalleTransaccionEntidadBovedaProvider extends AbstractHibernateStorage
+        implements DetalleTransaccionEntidadBovedaProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -40,16 +41,20 @@ public class JpaDetalleTransaccionEntidadBovedaProvider extends AbstractHibernat
     }
 
     @Override
-    public DetalleTransaccionEntidadBovedaModel create(
-            TransaccionEntidadBovedaModel transaccionEntidadBoveda, BigDecimal valor, int cantidad) {
+    public DetalleTransaccionEntidadBovedaModel create(TransaccionEntidadBovedaModel transaccionEntidadBoveda,
+            BigDecimal valor, int cantidad) {
+        if (!transaccionEntidadBoveda.getEstado()) {
+            throw new ModelReadOnlyException(
+                    "TransaccionEntidadBoveda estado=false. Transaccion desactivada no puede ser modificada");
+        }
         if (findByValor(transaccionEntidadBoveda, valor) != null) {
             throw new ModelDuplicateException(
                     "DetalleTransaccionBovedaCajaEntity valor debe ser unico, se encontro otra entidad con transaccionEntidadBoveda="
                             + transaccionEntidadBoveda + " y valor=" + valor);
         }
 
-        TransaccionEntidadBovedaEntity transaccionEntidadBovedaEntity = this.em.find(
-                TransaccionEntidadBovedaEntity.class, transaccionEntidadBoveda.getId());
+        TransaccionEntidadBovedaEntity transaccionEntidadBovedaEntity = this.em
+                .find(TransaccionEntidadBovedaEntity.class, transaccionEntidadBoveda.getId());
         DetalleTransaccionEntidadBovedaEntity detalleTransaccionBovedaCajaEntity = new DetalleTransaccionEntidadBovedaEntity();
         detalleTransaccionBovedaCajaEntity.setTransaccionEntidadBoveda(transaccionEntidadBovedaEntity);
         detalleTransaccionBovedaCajaEntity.setValor(valor);
@@ -61,8 +66,8 @@ public class JpaDetalleTransaccionEntidadBovedaProvider extends AbstractHibernat
 
     @Override
     public DetalleTransaccionEntidadBovedaModel findById(String id) {
-        DetalleTransaccionEntidadBovedaEntity detalleEntity = this.em.find(
-                DetalleTransaccionEntidadBovedaEntity.class, id);
+        DetalleTransaccionEntidadBovedaEntity detalleEntity = this.em
+                .find(DetalleTransaccionEntidadBovedaEntity.class, id);
         return detalleEntity != null ? new DetalleTransaccionEntidadBovedaAdapter(em, detalleEntity) : null;
     }
 
@@ -80,7 +85,8 @@ public class JpaDetalleTransaccionEntidadBovedaProvider extends AbstractHibernat
         } else if (results.size() > 1) {
             throw new IllegalStateException(
                     "Mas de un DetalleTransaccionEntidadBovedaEntity con idTransaccionEntidadBoveda="
-                            + transaccionEntidadBoveda.getId() + " y valor=" + valor + ", results=" + results);
+                            + transaccionEntidadBoveda.getId() + " y valor=" + valor + ", results="
+                            + results);
         } else {
             return new DetalleTransaccionEntidadBovedaAdapter(em, results.get(0));
         }

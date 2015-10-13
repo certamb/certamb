@@ -67,8 +67,7 @@ public class DetalleTransaccionBovedaCajaProviderTest extends AbstractTest {
         transaccionBovedaCaja.setEstadoSolicitud(false);
         transaccionBovedaCaja.commit();
 
-        DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCaja = detalleTransaccionBovedaCajaProvider
-                .create(transaccionBovedaCaja, BigDecimal.TEN, 10000);
+        DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCaja = null;
         try {
             detalleTransaccionBovedaCaja = detalleTransaccionBovedaCajaProvider.create(transaccionBovedaCaja,
                     BigDecimal.TEN, 10000);
@@ -91,8 +90,7 @@ public class DetalleTransaccionBovedaCajaProviderTest extends AbstractTest {
         transaccionBovedaCaja.setEstadoConfirmacion(true);
         transaccionBovedaCaja.commit();
 
-        DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCaja = detalleTransaccionBovedaCajaProvider
-                .create(transaccionBovedaCaja, BigDecimal.TEN, 10000);
+        DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCaja = null;
         try {
             detalleTransaccionBovedaCaja = detalleTransaccionBovedaCajaProvider.create(transaccionBovedaCaja,
                     BigDecimal.TEN, 10000);
@@ -136,8 +134,6 @@ public class DetalleTransaccionBovedaCajaProviderTest extends AbstractTest {
         HistorialBovedaCajaModel historialBovedaCaja = historialBovedaCajaProvider.create(bovedaCaja);
         TransaccionBovedaCajaModel transaccionBovedaCaja = transaccionBovedaCajaProvider
                 .create(historialBoveda, historialBovedaCaja, OrigenTransaccionBovedaCaja.BOVEDA, null);
-        transaccionBovedaCaja.setEstadoSolicitud(false);
-        transaccionBovedaCaja.commit();
 
         DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCaja1 = detalleTransaccionBovedaCajaProvider
                 .create(transaccionBovedaCaja, BigDecimal.TEN, 10000);
@@ -158,8 +154,6 @@ public class DetalleTransaccionBovedaCajaProviderTest extends AbstractTest {
         HistorialBovedaCajaModel historialBovedaCaja = historialBovedaCajaProvider.create(bovedaCaja);
         TransaccionBovedaCajaModel transaccionBovedaCaja = transaccionBovedaCajaProvider
                 .create(historialBoveda, historialBovedaCaja, OrigenTransaccionBovedaCaja.BOVEDA, null);
-        transaccionBovedaCaja.setEstadoSolicitud(false);
-        transaccionBovedaCaja.commit();
 
         DetalleTransaccionBovedaCajaModel detalleTransaccionBovedaCaja1 = detalleTransaccionBovedaCajaProvider
                 .create(transaccionBovedaCaja, BigDecimal.TEN, 10000);
