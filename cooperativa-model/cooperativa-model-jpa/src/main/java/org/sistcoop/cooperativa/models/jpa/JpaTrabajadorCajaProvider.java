@@ -16,6 +16,7 @@ import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.jpa.entities.CajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TrabajadorCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.search.SearchCriteriaJoinModel;
@@ -45,13 +46,13 @@ public class JpaTrabajadorCajaProvider extends AbstractHibernateStorage implemen
 
     @Override
     public TrabajadorCajaModel create(CajaModel caja, String tipoDocumento, String numeroDocumento) {
+        if (!caja.getEstado()) {
+            throw new ModelReadOnlyException("Caja estado=false. Caja desactivada no se puede modificar");
+        }
         if (findByTipoNumeroDocumento(caja, tipoDocumento, numeroDocumento) != null) {
             throw new ModelDuplicateException(
                     "TrabajadorCajaEntity caja, tipoDocumento y numeroDocumento debe ser unico, se encontro otra entidad con caja="
-                            + caja
-                            + ", tipoDocumento="
-                            + tipoDocumento
-                            + " y numeroDocumento="
+                            + caja + ", tipoDocumento=" + tipoDocumento + " y numeroDocumento="
                             + numeroDocumento);
         }
 
