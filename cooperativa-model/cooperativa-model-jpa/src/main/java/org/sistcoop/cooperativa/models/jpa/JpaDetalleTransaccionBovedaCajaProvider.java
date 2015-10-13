@@ -16,6 +16,7 @@ import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleTransaccionBovedaCajaEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionBovedaCajaEntity;
 
@@ -23,8 +24,8 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransaccionBovedaCajaEntity;
 @Stateless
 @Local(DetalleTransaccionBovedaCajaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleTransaccionBovedaCajaProvider extends AbstractHibernateStorage implements
-        DetalleTransaccionBovedaCajaProvider {
+public class JpaDetalleTransaccionBovedaCajaProvider extends AbstractHibernateStorage
+        implements DetalleTransaccionBovedaCajaProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -42,14 +43,18 @@ public class JpaDetalleTransaccionBovedaCajaProvider extends AbstractHibernateSt
     @Override
     public DetalleTransaccionBovedaCajaModel create(TransaccionBovedaCajaModel transaccionBovedaCaja,
             BigDecimal valor, int cantidad) {
+        if (!transaccionBovedaCaja.getEstadoSolicitud()) {
+            throw new ModelReadOnlyException(
+                    "TransaccionBovedaCaja estado=false. Transaccion no puede ser modificada");
+        }
         if (findByValor(transaccionBovedaCaja, valor) != null) {
             throw new ModelDuplicateException(
                     "DetalleTransaccionBovedaCajaEntity valor debe ser unico, se encontro otra entidad con transaccionBovedaCaja="
                             + transaccionBovedaCaja + " y valor=" + valor);
         }
 
-        TransaccionBovedaCajaEntity transaccionBovedaCajaEntity = this.em.find(
-                TransaccionBovedaCajaEntity.class, transaccionBovedaCaja.getId());
+        TransaccionBovedaCajaEntity transaccionBovedaCajaEntity = this.em
+                .find(TransaccionBovedaCajaEntity.class, transaccionBovedaCaja.getId());
         DetalleTransaccionBovedaCajaEntity detalleTransaccionBovedaCajaEntity = new DetalleTransaccionBovedaCajaEntity();
         detalleTransaccionBovedaCajaEntity.setTransaccionBovedaCaja(transaccionBovedaCajaEntity);
         detalleTransaccionBovedaCajaEntity.setValor(valor);
@@ -61,8 +66,8 @@ public class JpaDetalleTransaccionBovedaCajaProvider extends AbstractHibernateSt
 
     @Override
     public DetalleTransaccionBovedaCajaModel findById(String id) {
-        DetalleTransaccionBovedaCajaEntity detalleEntity = this.em.find(
-                DetalleTransaccionBovedaCajaEntity.class, id);
+        DetalleTransaccionBovedaCajaEntity detalleEntity = this.em
+                .find(DetalleTransaccionBovedaCajaEntity.class, id);
         return detalleEntity != null ? new DetalleTransaccionBovedaCajaAdapter(em, detalleEntity) : null;
     }
 
