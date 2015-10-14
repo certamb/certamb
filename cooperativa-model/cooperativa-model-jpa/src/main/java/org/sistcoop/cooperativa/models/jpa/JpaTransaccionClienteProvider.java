@@ -50,13 +50,13 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage
     @Override
     public TransaccionAporteModel createTransaccionAporte(HistorialBovedaCajaModel historialBovedaCaja,
             String numeroCuenta, BigDecimal monto, int anio, int mes, String observacion) {
+        if (!historialBovedaCaja.getEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCaja (estado = false) no se puede asociar entidades");
+        }
+
         HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class,
                 historialBovedaCaja.getId());
-
-        if (!historialBovedaCajaEntity.isEstado()) {
-            throw new ModelReadOnlyException(
-                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
-        }
 
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
@@ -79,13 +79,13 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage
     public TransaccionCuentaPersonalModel createTransaccionCuentaPersonal(
             HistorialBovedaCajaModel historialBovedaCaja, String numeroCuenta, BigDecimal monto,
             String referencia, String observacion) {
+        if (!historialBovedaCaja.getEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCaja (estado = false) no se puede asociar entidades");
+        }
+
         HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class,
                 historialBovedaCaja.getId());
-
-        if (!historialBovedaCajaEntity.isEstado()) {
-            throw new ModelReadOnlyException(
-                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
-        }
 
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
@@ -108,13 +108,13 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage
             HistorialBovedaCajaModel historialBovedaCaja, String tipoTransaccion, String cliente,
             String monedaEntregada, String monedaRecibida, BigDecimal montoRecibido,
             BigDecimal montoEntregado, BigDecimal tipoCambio, String observacion) {
+        if (!historialBovedaCaja.getEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCaja (estado = false) no se puede asociar entidades");
+        }
+
         HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class,
                 historialBovedaCaja.getId());
-
-        if (!historialBovedaCajaEntity.isEstado()) {
-            throw new ModelReadOnlyException(
-                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
-        }
 
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
@@ -141,13 +141,13 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage
     public TransferenciaCuentaPersonalModel createTransferenciaCuentaPersonal(
             HistorialBovedaCajaModel historialBovedaCaja, BigDecimal monto, String numeroCuentaOrigen,
             String numeroCuentaDestino, String referencia, String observacion) {
+        if (!historialBovedaCaja.getEstado()) {
+            throw new ModelReadOnlyException(
+                    "HistorialBovedaCaja (estado = false) no se puede asociar entidades");
+        }
+
         HistorialBovedaCajaEntity historialBovedaCajaEntity = this.em.find(HistorialBovedaCajaEntity.class,
                 historialBovedaCaja.getId());
-
-        if (!historialBovedaCajaEntity.isEstado()) {
-            throw new ModelReadOnlyException(
-                    "HistorialBovedaCajaEntity (estado = false) no se puede asociar entidades");
-        }
 
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
@@ -176,26 +176,33 @@ public class JpaTransaccionClienteProvider extends AbstractHibernateStorage
 
     @Override
     public TransaccionAporteModel findTransaccionAporteById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        TransaccionAporteEntity transaccionClienteEntity = this.em.find(TransaccionAporteEntity.class, id);
+        return transaccionClienteEntity != null ? new TransaccionAporteAdapter(em, transaccionClienteEntity)
+                : null;
     }
 
     @Override
     public TransaccionCuentaPersonalModel findTransaccionCuentaPersonalById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        TransaccionCuentaPersonalEntity transaccionClienteEntity = this.em
+                .find(TransaccionCuentaPersonalEntity.class, id);
+        return transaccionClienteEntity != null
+                ? new TransaccionCuentaPersonalAdapter(em, transaccionClienteEntity) : null;
     }
 
     @Override
     public TransaccionCompraVentaModel findTransaccionCompraVentaById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        TransaccionCompraVentaEntity transaccionClienteEntity = this.em
+                .find(TransaccionCompraVentaEntity.class, id);
+        return transaccionClienteEntity != null
+                ? new TransaccionCompraVentaAdapter(em, transaccionClienteEntity) : null;
     }
 
     @Override
     public TransferenciaCuentaPersonalModel findTransferenciaCuentaPersonalById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        TransferenciaCuentaPersonalEntity transaccionClienteEntity = this.em
+                .find(TransferenciaCuentaPersonalEntity.class, id);
+        return transaccionClienteEntity != null
+                ? new TransferenciaCuentaPersonalAdapter(em, transaccionClienteEntity) : null;
     }
 
 }
