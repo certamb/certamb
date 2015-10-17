@@ -33,6 +33,7 @@ public interface CajaTrabajadorResource {
      * @return javax.ws.rs.core.Response
      */
     @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
     public Response remove();
 
 }

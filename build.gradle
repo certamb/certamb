@@ -1,3 +1,5 @@
+apply from: "$rootDir/gradle/versioning.gradle"
+
 buildscript {
     repositories {
     	maven { url 'http://nexus.qmino.com/content/repositories/miredot' }

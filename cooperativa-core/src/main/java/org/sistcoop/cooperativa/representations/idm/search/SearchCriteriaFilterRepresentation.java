@@ -33,7 +33,7 @@ public class SearchCriteriaFilterRepresentation implements Serializable {
     private Object value;
 
     @DefaultValue("eq")
-    private SearchCriteriaFilterOperator operator;
+    private SearchCriteriaFilterOperatorRepresentation operator;
 
     public SearchCriteriaFilterRepresentation() {
         // TODO Auto-generated constructor stub
@@ -55,11 +55,11 @@ public class SearchCriteriaFilterRepresentation implements Serializable {
         this.value = value;
     }
 
-    public SearchCriteriaFilterOperator getOperator() {
+    public SearchCriteriaFilterOperatorRepresentation getOperator() {
         return operator;
     }
 
-    public void setOperator(SearchCriteriaFilterOperator operator) {
+    public void setOperator(SearchCriteriaFilterOperatorRepresentation operator) {
         this.operator = operator;
     }
 

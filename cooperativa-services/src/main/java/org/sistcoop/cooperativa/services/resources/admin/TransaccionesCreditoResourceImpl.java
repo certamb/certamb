@@ -34,50 +34,47 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionAporteRepresentat
 import org.sistcoop.cooperativa.representations.idm.TransaccionCompraVentaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCreditoRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCuentaPersonalRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchCriteriaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
 
 @Stateless
 public class TransaccionesCreditoResourceImpl implements TransaccionesCreditoResource {
 
-    @Inject
-    private CajaProvider cajaProvider;
+	@Inject
+	private CajaProvider cajaProvider;
 
-    @Inject
-    private RepresentationToModel representationToModel;
+	@Inject
+	private RepresentationToModel representationToModel;
 
-    @Context
-    private UriInfo uriInfo;
+	@Context
+	private UriInfo uriInfo;
 
-    @Inject
-    private CajaResource cajaResource;
+	@Inject
+	private CajaResource cajaResource;
 
-    @Override
-    public TransaccionCreditoResource transaccion(String idTransaccion) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public TransaccionCreditoResource transaccion(String idTransaccion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public Response create(TransaccionCreditoRepresentation rep) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public Response create(TransaccionCreditoRepresentation rep) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<TransaccionCreditoRepresentation> getAll() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<TransaccionCreditoRepresentation> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public SearchResultsRepresentation<TransaccionCreditoRepresentation> search(String numeroOperacion,
-            Boolean estado, LocalDateTime desde, LocalDateTime hasta, String filterText, Integer page,
-            Integer pageSize) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    
+	@Override
+	public SearchResultsRepresentation<TransaccionCreditoRepresentation> search(SearchCriteriaRepresentation criteria) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

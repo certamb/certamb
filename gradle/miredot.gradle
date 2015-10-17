@@ -25,19 +25,19 @@ miredot {
         httpStatusCodes {
             '200' { 
                 document = 'always'
-                defaultMessage = 'The service call has completed successfully.' 
+                defaultMessage = 'La llamada a este servicio fue completada satisfactoriamente.' 
             }
             '401' {
                 document = 'explicit: com.qmino.miredot.petstore.exceptions.AuthorizationException'
-                defaultMessage = 'The user is logged in, but is not authorized to use this service.'
+                defaultMessage = 'El usuario fue autenticado, pero no tiene autorizacion para usar este servicio.'
             }
             '412' { 
                 document = 'put,post'
-                defaultMessage = 'Invalid JSON/XML input.' 
+                defaultMessage = 'JSON/XML datos enviados invalidos.' 
             }
             '500' { 
                 document = 'always'
-                defaultMessage = 'Internal server exception. The service call did not succeed.'
+                defaultMessage = 'Internal server exception. La llamada a este servicio no fue satisfactoria.'
                 sticky = true // Document always, even if there is an @statuscode tag
             }
         }

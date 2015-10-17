@@ -17,108 +17,136 @@ import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.ModelDuplicateException;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
-import org.sistcoop.cooperativa.models.search.PagingModel;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.cooperativa.models.search.SearchCriteriaModel;
 import org.sistcoop.cooperativa.models.search.SearchResultsModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.TrabajadorCajaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.PagingRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchCriteriaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
 
 @Stateless
 public class CajaTrabajadoresResourceImpl implements CajaTrabajadoresResource {
 
-    @PathParam("idCaja")
-    private String idCaja;
+	@PathParam("idCaja")
+	private String idCaja;
 
-    @Inject
-    private CajaProvider cajaProvider;
+	@Inject
+	private CajaProvider cajaProvider;
 
-    @Inject
-    private TrabajadorCajaProvider trabajadorCajaProvider;
+	@Inject
+	private TrabajadorCajaProvider trabajadorCajaProvider;
 
-    @Inject
-    private RepresentationToModel representationToModel;
+	@Inject
+	private RepresentationToModel representationToModel;
 
-    @Context
-    private UriInfo uriInfo;
+	@Context
+	private UriInfo uriInfo;
 
-    @Inject
-    private CajaTrabajadorResource cajaTrabajadorResource;
+	@Inject
+	private CajaTrabajadorResource cajaTrabajadorResource;
 
-    public CajaModel getCajaModel() {
-        return cajaProvider.findById(idCaja);
-    }
+	public CajaModel getCajaModel() {
+		return cajaProvider.findById(idCaja);
+	}
 
-    @Override
-    public CajaTrabajadorResource cajaTrabajador(String trabajador) {
-        return cajaTrabajadorResource;
-    }
+	@Override
+	public CajaTrabajadorResource cajaTrabajador(String trabajador) {
+		return cajaTrabajadorResource;
+	}
 
-    @Override
-    public Response create(TrabajadorCajaRepresentation rep) {
-        CajaModel caja = getCajaModel();
-        if (trabajadorCajaProvider.findByTipoNumeroDocumento(caja, rep.getTipoDocumento(),
-                rep.getNumeroDocumento()) != null) {
-            return ErrorResponse.exists("Trabajador ya fue asignado a la caja");
-        }
-        try {
-            TrabajadorCajaModel trabajadorCajaModel = representationToModel.createTrabajadorCaja(rep,
-                    getCajaModel(), trabajadorCajaProvider);
-            return Response
-                    .created(uriInfo.getAbsolutePathBuilder().path(trabajadorCajaModel.getId()).build())
-                    .header("Access-Control-Expose-Headers", "Location")
-                    .entity(ModelToRepresentation.toRepresentation(trabajadorCajaModel)).build();
-        } catch (ModelDuplicateException e) {
-            return ErrorResponse.exists("Trabajador ya fue asignado a la caja");
-        }
-    }
+	@Override
+	public Response create(TrabajadorCajaRepresentation rep) {
+		CajaModel caja = getCajaModel();
+		if (trabajadorCajaProvider.findByTipoNumeroDocumento(caja, rep.getTipoDocumento(),
+				rep.getNumeroDocumento()) != null) {
+			return ErrorResponse.exists("Trabajador ya fue asignado a la caja");
+		}
+		try {
+			TrabajadorCajaModel trabajadorCajaModel = representationToModel.createTrabajadorCaja(rep, getCajaModel(),
+					trabajadorCajaProvider);
+			return Response.created(uriInfo.getAbsolutePathBuilder().path(trabajadorCajaModel.getId()).build())
+					.header("Access-Control-Expose-Headers", "Location")
+					.entity(ModelToRepresentation.toRepresentation(trabajadorCajaModel)).build();
+		} catch (ModelDuplicateException e) {
+			return ErrorResponse.exists("Trabajador ya fue asignado a la caja");
+		}
+	}
 
-    @Override
-    public List<TrabajadorCajaRepresentation> getAll() {
-        List<TrabajadorCajaModel> models = trabajadorCajaProvider.getAll(getCajaModel());
-        List<TrabajadorCajaRepresentation> result = new ArrayList<>();
-        models.forEach(model -> result.add(ModelToRepresentation.toRepresentation(model)));
-        return result;
-    }
+	@Override
+	public List<TrabajadorCajaRepresentation> getAll() {
+		List<TrabajadorCajaModel> models = trabajadorCajaProvider.getAll(getCajaModel());
+		List<TrabajadorCajaRepresentation> result = new ArrayList<>();
+		models.forEach(model -> result.add(ModelToRepresentation.toRepresentation(model)));
+		return result;
+	}
 
-    @Override
-    public SearchResultsRepresentation<TrabajadorCajaRepresentation> search(String tipoDocumento,
-            String numeroDocumento, String filterText, Integer page, Integer pageSize) {
-        // add paging
-        PagingModel paging = new PagingModel();
-        paging.setPage(page);
-        paging.setPageSize(pageSize);
+	/*
+	 * @Override public
+	 * SearchResultsRepresentation<TrabajadorCajaRepresentation> search(String
+	 * tipoDocumento, String numeroDocumento, String filterText, Integer page,
+	 * Integer pageSize) { // add paging PagingModel paging = new PagingModel();
+	 * paging.setPage(page); paging.setPageSize(pageSize);
+	 * 
+	 * SearchCriteriaModel searchCriteriaBean = new SearchCriteriaModel();
+	 * searchCriteriaBean.setPaging(paging);
+	 * 
+	 * // add filter if (tipoDocumento != null) {
+	 * searchCriteriaBean.addFilter("tipoDocumento", tipoDocumento,
+	 * SearchCriteriaFilterOperator.eq); } if (numeroDocumento != null) {
+	 * searchCriteriaBean.addFilter("numeroDocumento", numeroDocumento,
+	 * SearchCriteriaFilterOperator.eq); }
+	 * 
+	 * // search
+	 * 
+	 * // search SearchResultsModel<TrabajadorCajaModel> results; if (filterText
+	 * == null) { results = trabajadorCajaProvider.search(getCajaModel(),
+	 * searchCriteriaBean); } else { results =
+	 * trabajadorCajaProvider.search(getCajaModel(), searchCriteriaBean,
+	 * filterText); }
+	 * 
+	 * SearchResultsRepresentation<TrabajadorCajaRepresentation> rep = new
+	 * SearchResultsRepresentation<>(); List<TrabajadorCajaRepresentation> items
+	 * = new ArrayList<>(); results.getModels().forEach(model ->
+	 * items.add(ModelToRepresentation.toRepresentation(model)));
+	 * rep.setItems(items); rep.setTotalSize(results.getTotalSize()); return
+	 * rep; }
+	 */
 
-        SearchCriteriaModel searchCriteriaBean = new SearchCriteriaModel();
-        searchCriteriaBean.setPaging(paging);
+	@Override
+	public SearchResultsRepresentation<TrabajadorCajaRepresentation> search(SearchCriteriaRepresentation criteria) {
+		SearchCriteriaModel criteriaModel = new SearchCriteriaModel();
 
-        // add filter
-        if (tipoDocumento != null) {
-            searchCriteriaBean.addFilter("tipoDocumento", tipoDocumento, SearchCriteriaFilterOperator.eq);
-        }
-        if (numeroDocumento != null) {
-            searchCriteriaBean.addFilter("numeroDocumento", numeroDocumento, SearchCriteriaFilterOperator.eq);
-        }
+		// set filter and order
+		criteria.getFilters().forEach(filter -> criteriaModel.addFilter(filter.getName(), filter.getValue(),
+				SearchCriteriaFilterOperator.valueOf(filter.getOperator().toString())));
+		criteria.getOrders().forEach(order -> criteriaModel.addOrder(order.getName(), order.isAscending()));
 
-        // search
+		// set paging
+		PagingRepresentation paging = criteria.getPaging();
+		criteriaModel.setPageSize(paging.getPageSize());
+		criteriaModel.setPage(paging.getPage());
 
-        // search
-        SearchResultsModel<TrabajadorCajaModel> results;
-        if (filterText == null) {
-            results = trabajadorCajaProvider.search(getCajaModel(), searchCriteriaBean);
-        } else {
-            results = trabajadorCajaProvider.search(getCajaModel(), searchCriteriaBean, filterText);
-        }
+		// extract filterText
+		String filterText = criteria.getFilterText();
 
-        SearchResultsRepresentation<TrabajadorCajaRepresentation> rep = new SearchResultsRepresentation<>();
-        List<TrabajadorCajaRepresentation> items = new ArrayList<>();
-        results.getModels().forEach(model -> items.add(ModelToRepresentation.toRepresentation(model)));
-        rep.setItems(items);
-        rep.setTotalSize(results.getTotalSize());
-        return rep;
-    }
+		// search
+		SearchResultsModel<TrabajadorCajaModel> results;
+		if (filterText == null) {
+			results = trabajadorCajaProvider.search(getCajaModel(), criteriaModel);
+		} else {
+			results = trabajadorCajaProvider.search(getCajaModel(), criteriaModel, filterText);
+		}
+
+		SearchResultsRepresentation<TrabajadorCajaRepresentation> rep = new SearchResultsRepresentation<>();
+		List<TrabajadorCajaRepresentation> items = new ArrayList<>();
+		results.getModels().forEach(model -> items.add(ModelToRepresentation.toRepresentation(model)));
+		rep.setItems(items);
+		rep.setTotalSize(results.getTotalSize());
+		return rep;
+	}
 
 }

@@ -38,6 +38,7 @@ public interface HistorialBovedaResource {
      */
     @POST
     @Path("cerrar")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response cerrar();
 
     /**

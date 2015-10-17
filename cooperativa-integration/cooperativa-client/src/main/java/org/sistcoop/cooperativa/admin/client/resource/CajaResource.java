@@ -53,6 +53,7 @@ public interface CajaResource {
      */
     @POST
     @Path("disable")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response disable();
 
     @Path("bovedasCaja")

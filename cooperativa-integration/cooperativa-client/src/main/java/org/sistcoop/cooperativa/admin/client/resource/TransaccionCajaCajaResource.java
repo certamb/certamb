@@ -41,6 +41,7 @@ public interface TransaccionCajaCajaResource {
      */
     @POST
     @Path("confirmar")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response confirmar();
 
     /**
@@ -54,6 +55,7 @@ public interface TransaccionCajaCajaResource {
      */
     @POST
     @Path("cancelar")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response cancelar();
 
     /**

@@ -52,6 +52,7 @@ public interface BovedaResource {
      */
     @POST
     @Path("disable")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response disable();
 
     @Path("historiales")

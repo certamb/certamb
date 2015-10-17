@@ -14,30 +14,31 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionAporteRepresentat
  */
 public interface TransaccionAporteResource {
 
-    /**
-     * Use este endpoint para extraer informacion hacerca de una
-     * TransaccionAporte por medio de su ID.
-     * 
-     * @summary Get a TransaccionAporte by ID
-     * @statuscode 200 Si la transaccionAporte fue retornada satisfactoriamente.
-     * @return Una transaccionAporte.
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public TransaccionAporteRepresentation toRepresentation();
+	/**
+	 * Use este endpoint para extraer informacion hacerca de una
+	 * TransaccionAporte por medio de su ID.
+	 * 
+	 * @summary Get a TransaccionAporte by ID
+	 * @statuscode 200 Si la transaccionAporte fue retornada satisfactoriamente.
+	 * @return Una transaccionAporte.
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public TransaccionAporteRepresentation toRepresentation();
 
-    /**
-     * 
-     * Use este endpoint para extornar una transaccion de aporte. Un extorno
-     * significa cancelar la transaccion y devolver el dinero a los implicados.
-     * La transaccion es identificada por su ID
-     * 
-     * @summary Extornar una transaccionAporte by ID.
-     * @statuscode 204 Si la transaccion fue extornada satisfactoriamente.
-     * @return javax.ws.rs.core.Response
-     */
-    @POST
-    @Path("extornar")
-    public Response extornar();
+	/**
+	 * 
+	 * Use este endpoint para extornar una transaccion de aporte. Un extorno
+	 * significa cancelar la transaccion y devolver el dinero a los implicados.
+	 * La transaccion es identificada por su ID
+	 * 
+	 * @summary Extornar una transaccionAporte by ID.
+	 * @statuscode 204 Si la transaccion fue extornada satisfactoriamente.
+	 * @return javax.ws.rs.core.Response
+	 */
+	@POST
+	@Path("extornar")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response extornar();
 
 }

@@ -29,8 +29,10 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionAporteRepresentation;
+import org.sistcoop.cooperativa.representations.idm.TransaccionBovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCompraVentaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCuentaPersonalRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchCriteriaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
 
@@ -67,13 +69,11 @@ public class TransaccionesAporteResourceImpl implements TransaccionesAporteResou
         return null;
     }
 
-    @Override
-    public SearchResultsRepresentation<TransaccionAporteRepresentation> search(String numeroOperacion,
-            Boolean estado, LocalDateTime desde, LocalDateTime hasta, String filterText, Integer page,
-            Integer pageSize) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+	@Override
+	public SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> search(
+			SearchCriteriaRepresentation criteria) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

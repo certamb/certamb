@@ -25,6 +25,7 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.TransaccionCuentaPersonalRepresentation;
+import org.sistcoop.cooperativa.representations.idm.search.SearchCriteriaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
 
@@ -61,14 +62,11 @@ public class TransaccionesCuentasPersonalesResourceImpl implements Transacciones
         return null;
     }
 
-    @Override
-    public SearchResultsRepresentation<TransaccionCuentaPersonalRepresentation> search(
-            String numeroOperacion, Boolean estado, LocalDateTime desde, LocalDateTime hasta,
-            String filterText, Integer page, Integer pageSize) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-   
+	@Override
+	public SearchResultsRepresentation<TransaccionCuentaPersonalRepresentation> search(
+			SearchCriteriaRepresentation criteria) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

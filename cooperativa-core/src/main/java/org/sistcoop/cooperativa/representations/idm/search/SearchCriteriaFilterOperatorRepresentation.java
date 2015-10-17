@@ -21,7 +21,7 @@ package org.sistcoop.cooperativa.representations.idm.search;
  *
  * @author eric.wittmann@redhat.com
  */
-public enum SearchCriteriaFilterOperator {
+public enum SearchCriteriaFilterOperatorRepresentation {
 
     bool_eq, eq, neq, gt, gte, lt, lte, like;
 
