@@ -96,14 +96,14 @@ public interface BovedasResource {
 	 */
 
 	/**
-	 * Este endpoint provee una forma de buscar entidades. Los criterios de
+	 * Este endpoint provee una forma de buscar bovedas. Los criterios de
 	 * busqueda estan definidos por los parametros enviados.
 	 * 
-	 * @summary Search for Entidades
+	 * @summary Search for Bovedas
 	 * @param criteria
 	 *            Criterio de busqueda.
 	 * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
-	 * @return Los resultados de la busqueda (una pagina de entidades).
+	 * @return Los resultados de la busqueda (una pagina de bovedas).
 	 */
 	@POST
 	@Path("search")

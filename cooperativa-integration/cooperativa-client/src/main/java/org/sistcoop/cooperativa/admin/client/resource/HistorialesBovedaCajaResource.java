@@ -91,14 +91,15 @@ public interface HistorialesBovedaCajaResource {
 	 */
 
 	/**
-	 * Este endpoint provee una forma de buscar entidades. Los criterios de
-	 * busqueda estan definidos por los parametros enviados.
+	 * Este endpoint provee una forma de buscar historialBovedaCaja. Los
+	 * criterios de busqueda estan definidos por los parametros enviados.
 	 * 
-	 * @summary Search for Entidades
+	 * @summary Search for HistorialBovedaCaja
 	 * @param criteria
 	 *            Criterio de busqueda.
 	 * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
-	 * @return Los resultados de la busqueda (una pagina de entidades).
+	 * @return Los resultados de la busqueda (una pagina de
+	 *         historialBovedaCaja).
 	 */
 	@POST
 	@Path("search")
