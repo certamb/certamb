@@ -3,7 +3,6 @@ package org.sistcoop.cooperativa.models;
 import java.io.File;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.TargetsContainer;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -49,18 +48,6 @@ public abstract class AbstractTest {
 		war.addAsLibraries(dependencies);
 
 		return war;
-	}
-
-	@Deployment(testable = false, name = "wildfly")
-	@TargetsContainer("wildfly")
-	public static WebArchive deployWildfly() {
-		return ShrinkWrap.create(WebArchive.class).addAsWebResource(EmptyAsset.INSTANCE, "index.html");
-	}
-
-	@Deployment(testable = false, name = "jbossEap")
-	@TargetsContainer("jbossEap")
-	public static WebArchive deployJbossEap() {
-		return ShrinkWrap.create(WebArchive.class).addAsWebResource(EmptyAsset.INSTANCE, "index.html");
 	}
 
 }
