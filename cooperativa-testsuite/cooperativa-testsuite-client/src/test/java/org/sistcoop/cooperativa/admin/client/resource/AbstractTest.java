@@ -40,64 +40,52 @@ import org.slf4j.LoggerFactory;
 @UsingDataSet("empty.xml")
 public abstract class AbstractTest {
 
-    protected Logger log = LoggerFactory.getLogger(AbstractTest.class);
+	protected Logger log = LoggerFactory.getLogger(AbstractTest.class);
 
-    @Deployment
-    public static WebArchive createDeployment() {
-        File[] logger = Maven.resolver().resolve("org.slf4j:slf4j-simple:1.7.10").withoutTransitivity()
-                .asFile();
+	@Deployment
+	public static WebArchive createDeployment() {
+		File[] logger = Maven.resolver().resolve("org.slf4j:slf4j-simple:1.7.10").withoutTransitivity().asFile();
 
-        File[] restAssured = Maven.resolver().resolve("com.jayway.restassured:rest-assured:2.4.1")
-                .withTransitivity().asFile();
+		File[] restAssured = Maven.resolver().resolve("com.jayway.restassured:rest-assured:2.4.1").withTransitivity()
+				.asFile();
 
-        WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "test.war")
+		WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
 
-                /** model-api **/
-                .addPackage(MapperConfigValidationException.class.getPackage())
-                .addPackage(BovedaModel.class.getPackage())
-                .addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
-                .addPackage(SearchCriteriaModel.class.getPackage())
-                .addPackage(SearchCriteriaModel.class.getPackage())
-                .addPackage(ModelToRepresentation.class.getPackage())
-                .addPackage(Provider.class.getPackage())
-                
-                /** model-jpa **/
-                .addPackage(JpaBovedaProvider.class.getPackage())
-                .addPackage(BovedaEntity.class.getPackage())
-                .addPackage(SearchCriteriaJoinModel.class.getPackage())
+				/** model-api **/
+				.addPackage(MapperConfigValidationException.class.getPackage())
+				.addPackage(BovedaModel.class.getPackage()).addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
+				.addPackage(SearchCriteriaModel.class.getPackage()).addPackage(SearchCriteriaModel.class.getPackage())
+				.addPackage(ModelToRepresentation.class.getPackage()).addPackage(Provider.class.getPackage())
 
-                /** client */
-                .addPackage(Config.class.getPackage())
-                .addPackage(BovedasResource.class.getPackage())
+				/** model-jpa **/
+				.addPackage(JpaBovedaProvider.class.getPackage()).addPackage(BovedaEntity.class.getPackage())
+				.addPackage(SearchCriteriaJoinModel.class.getPackage())
 
-                /** services */
-                .addPackage(MessagesProvider.class.getPackage())
-                .addPackage(ErrorResponse.class.getPackage())
-                .addPackage(CooperativaFilter.class.getPackage())
-                .addPackage(CooperativaListener.class.getPackage())
-                .addPackage(BovedaManager.class.getPackage())                
-                .addPackage(Messages.class.getPackage())
-                .addPackage(ModelExceptionMapper.class.getPackage())                
-                .addPackage(BovedasResourceImpl.class.getPackage())                
-                .addPackage(BovedaCajas_Boveda.class.getPackage())
+				/** client */
+				.addPackage(Config.class.getPackage()).addPackage(BovedasResource.class.getPackage())
 
-                /** core */
-                .addPackage(Config.class.getPackage())
-                .addPackage(GenericConstants.class.getPackage())
-                .addPackage(BovedaRepresentation.class.getPackage())
-                .addPackage(SearchResultsRepresentation.class.getPackage())
+				/** services */
+				.addPackage(MessagesProvider.class.getPackage()).addPackage(ErrorResponse.class.getPackage())
+				.addPackage(CooperativaFilter.class.getPackage()).addPackage(CooperativaListener.class.getPackage())
+				.addPackage(BovedaManager.class.getPackage()).addPackage(Messages.class.getPackage())
+				.addPackage(ModelExceptionMapper.class.getPackage()).addPackage(BovedasResourceImpl.class.getPackage())
+				.addPackage(BovedaCajas_Boveda.class.getPackage())
 
-                /** core jaxrs */
-                .addPackage(JaxRsActivator.class.getPackage())
+				/** core */
+				.addPackage(Config.class.getPackage()).addPackage(GenericConstants.class.getPackage())
+				.addPackage(BovedaRepresentation.class.getPackage())
+				.addPackage(SearchResultsRepresentation.class.getPackage())
 
-                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")               
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsManifestResource(EmptyAsset.INSTANCE, "web.xml").addAsWebInfResource("test-ds.xml");
+				/** core jaxrs */
+				.addPackage(JaxRsActivator.class.getPackage())
 
-        war.addAsLibraries(logger);
-        war.addAsLibraries(restAssured);
+				.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+				.addAsManifestResource(EmptyAsset.INSTANCE, "web.xml").addAsWebInfResource("test-ds.xml");
 
-        return war;
-    }
+		war.addAsLibraries(logger);
+		war.addAsLibraries(restAssured);
+
+		return war;
+	}
 }

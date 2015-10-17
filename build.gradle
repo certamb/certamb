@@ -6,12 +6,10 @@ buildscript {
     }
     dependencies {
         classpath 'com.qmino:miredot-plugin:1.6.2'
-        classpath 'com.bmuschko:gradle-cargo-plugin:2.1.1'
     }
 }
 
 allprojects {
-    apply plugin: 'idea'
     apply plugin: 'eclipse'
     group = 'org.sistcoop' 
 }
@@ -30,11 +28,11 @@ subprojects {
         compile 'javax.inject:javax.inject:1'
         compile 'javax.annotation:javax.annotation-api:1.2'			
         
-        compile 'org.hibernate:hibernate-entitymanager:5.0.2.Final'
-        compile 'org.hibernate:hibernate-envers:5.0.2.Final'
-        compile 'org.hibernate:hibernate-validator:5.0.2.Final'
-        compile 'org.hibernate:hibernate-java8:5.0.2.Final'
-        compile 'org.hibernate:hibernate-infinispan:5.0.2.Final'
+        compile 'org.hibernate:hibernate-entitymanager:5.0.1.Final'
+        compile 'org.hibernate:hibernate-envers:5.0.1.Final'
+        compile 'org.hibernate:hibernate-validator:5.0.1.Final'
+        compile 'org.hibernate:hibernate-java8:5.0.1.Final'
+        compile 'org.hibernate:hibernate-infinispan:5.0.1.Final'
         
         compile 'org.jboss.resteasy:resteasy-jaxrs:3.0.13.Final'        
         compile 'org.jboss.resteasy:resteasy-jackson-provider:3.0.13.Final'      

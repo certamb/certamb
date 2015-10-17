@@ -3,6 +3,7 @@ package org.sistcoop.cooperativa.models;
 import java.io.File;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.TargetsContainer;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -25,34 +26,41 @@ import org.slf4j.LoggerFactory;
 @UsingDataSet("empty.xml")
 public abstract class AbstractTest {
 
-    protected Logger log = LoggerFactory.getLogger(AbstractTest.class);
+	protected Logger log = LoggerFactory.getLogger(AbstractTest.class);
 
-    @Deployment
-    public static WebArchive createDeployment() {
-        File[] dependencies = Maven.resolver().resolve("org.slf4j:slf4j-simple:1.7.10").withoutTransitivity()
-                .asFile();
+	@Deployment
+	public static WebArchive createDeployment() {
+		File[] dependencies = Maven.resolver().resolve("org.slf4j:slf4j-log4j12:1.7.12").withoutTransitivity().asFile();
 
-        WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "test.war")
-                /** model-api **/
-                .addPackage(MapperConfigValidationException.class.getPackage())
-                .addPackage(BovedaModel.class.getPackage())
-                .addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
-                .addPackage(SearchCriteriaModel.class.getPackage())
-                .addPackage(SearchCriteriaModel.class.getPackage())
-                .addPackage(ModelToRepresentation.class.getPackage())
-                .addPackage(Provider.class.getPackage())
-               
-                /** model-jpa **/
-                .addPackage(JpaBovedaProvider.class.getPackage())
-                .addPackage(BovedaEntity.class.getPackage())
-                .addPackage(SearchCriteriaJoinModel.class.getPackage())
+		WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
+				/** model-api **/
+				.addPackage(MapperConfigValidationException.class.getPackage())
+				.addPackage(BovedaModel.class.getPackage()).addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
+				.addPackage(SearchCriteriaModel.class.getPackage()).addPackage(SearchCriteriaModel.class.getPackage())
+				.addPackage(ModelToRepresentation.class.getPackage()).addPackage(Provider.class.getPackage())
 
-                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")               
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml").addAsWebInfResource("test-ds.xml");
+				/** model-jpa **/
+				.addPackage(JpaBovedaProvider.class.getPackage()).addPackage(BovedaEntity.class.getPackage())
+				.addPackage(SearchCriteriaJoinModel.class.getPackage())
 
-        war.addAsLibraries(dependencies);
+				.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml").addAsWebInfResource("test-ds.xml");
 
-        return war;
-    }
+		war.addAsLibraries(dependencies);
+
+		return war;
+	}
+
+	@Deployment(testable = false, name = "wildfly")
+	@TargetsContainer("wildfly")
+	public static WebArchive deployWildfly() {
+		return ShrinkWrap.create(WebArchive.class).addAsWebResource(EmptyAsset.INSTANCE, "index.html");
+	}
+
+	@Deployment(testable = false, name = "jbossEap")
+	@TargetsContainer("jbossEap")
+	public static WebArchive deployJbossEap() {
+		return ShrinkWrap.create(WebArchive.class).addAsWebResource(EmptyAsset.INSTANCE, "index.html");
+	}
+
 }
