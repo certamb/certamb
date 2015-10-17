@@ -1,6 +1,7 @@
 package org.sistcoop.cooperativa.models.jpa;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -9,9 +10,12 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.cooperativa.models.DetalleTransaccionClienteModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionClienteProvider;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.TransaccionClienteModel;
 import org.sistcoop.cooperativa.models.jpa.entities.DetalleTransaccionClienteEntity;
 import org.sistcoop.cooperativa.models.jpa.entities.TransaccionClienteEntity;
@@ -20,8 +24,8 @@ import org.sistcoop.cooperativa.models.jpa.entities.TransaccionClienteEntity;
 @Stateless
 @Local(DetalleTransaccionClienteProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaDetalleTransaccionClienteProvider extends AbstractHibernateStorage implements
-        DetalleTransaccionClienteProvider {
+public class JpaDetalleTransaccionClienteProvider extends AbstractHibernateStorage
+        implements DetalleTransaccionClienteProvider {
 
     @PersistenceContext
     protected EntityManager em;
@@ -37,10 +41,20 @@ public class JpaDetalleTransaccionClienteProvider extends AbstractHibernateStora
     }
 
     @Override
-    public DetalleTransaccionClienteModel create(TransaccionClienteModel transaccionClienteModel,
-            BigDecimal valor, int cantidad) {
+    public DetalleTransaccionClienteModel create(TransaccionClienteModel transaccionCliente, BigDecimal valor,
+            int cantidad) {
+        if (!transaccionCliente.getEstado()) {
+            throw new ModelReadOnlyException(
+                    "TransaccionCliente estado=false. Transaccion cancelada, no puede ser modificada");
+        }
+        if (findByValor(transaccionCliente, valor) != null) {
+            throw new ModelDuplicateException(
+                    "DetalleTransaccionClienteEntity valor debe ser unico, se encontro otra entidad con transaccionCliente="
+                            + transaccionCliente + " y valor=" + valor);
+        }
+
         TransaccionClienteEntity transaccionClienteEntity = this.em.find(TransaccionClienteEntity.class,
-                transaccionClienteModel.getId());
+                transaccionCliente.getId());
         DetalleTransaccionClienteEntity detalleTransaccionClienteEntity = new DetalleTransaccionClienteEntity();
         detalleTransaccionClienteEntity.setTransaccionCliente(transaccionClienteEntity);
         detalleTransaccionClienteEntity.setValor(valor);
@@ -48,6 +62,26 @@ public class JpaDetalleTransaccionClienteProvider extends AbstractHibernateStora
 
         em.persist(detalleTransaccionClienteEntity);
         return new DetalleTransaccionClienteAdapter(em, detalleTransaccionClienteEntity);
+    }
+
+    @Override
+    public DetalleTransaccionClienteModel findByValor(TransaccionClienteModel transaccionClienteModel,
+            BigDecimal valor) {
+        TypedQuery<DetalleTransaccionClienteEntity> query = em.createNamedQuery(
+                "DetalleTransaccionClienteEntity.findByIdTransaccionCliente",
+                DetalleTransaccionClienteEntity.class);
+        query.setParameter("idTransaccionCliente", transaccionClienteModel.getId());
+        query.setParameter("valor", valor);
+        List<DetalleTransaccionClienteEntity> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        } else if (results.size() > 1) {
+            throw new IllegalStateException(
+                    "Mas de un DetalleTransaccionClienteEntity con idTransaccionCliente="
+                            + transaccionClienteModel.getId() + " y valor=" + valor + ", results=" + results);
+        } else {
+            return new DetalleTransaccionClienteAdapter(em, results.get(0));
+        }
     }
 
 }
