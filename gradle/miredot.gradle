@@ -1,4 +1,4 @@
-apply plugin: 'java' // should already be there
+apply plugin: 'java'
 apply plugin: 'miredot'
 
 miredot {

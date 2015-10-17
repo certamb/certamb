@@ -1,43 +1,15 @@
 apply plugin: 'war'
-apply plugin: 'jetty'
-//apply from: "$rootDir/gradle/functionalTest.gradle"
-apply from: "$rootDir/gradle/publishWarMaven.gradle"
-apply from: "$rootDir/gradle/cargo.gradle"
-//apply from: "$rootDir/gradle/smokeTest.gradle"
 
 dependencies {
-    compile project(":cooperativa-core")
-    compile project(":cooperativa-core-jaxrs")
-    compile project(":cooperativa-integration:cooperativa-client")
-    compile project(":cooperativa-services")
-    compile project(":cooperativa-model:cooperativa-model-api")
-    compile project(":cooperativa-model:cooperativa-model-jpa")
+    compile project(':cooperativa-core')
+    compile project(':cooperativa-core-jaxrs')
+    compile project(':cooperativa-integration:cooperativa-client')
+    compile project(':cooperativa-services')
+    compile project(':cooperativa-model:cooperativa-model-api')
+    compile project(':cooperativa-model:cooperativa-model-jpa')
     providedCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.13.Final'
 }
 
-task createBuildInfoFile << {
-    def buildInfoDir = new File("$buildDir")
-	if( !buildInfoDir.exists() ) {        
-        buildInfoDir.mkdirs()
-    }
-    
-    def buildInfoFile = new File("$buildDir/build-info.properties")
-    Properties props = new Properties()
-    props.setProperty('version', project.version.toString())
-    props.setProperty('timestamp', project.buildTimestamp)
-    props.store(buildInfoFile.newWriter(), null)
-}
-
-war {
-    dependsOn createBuildInfoFile
+war {   
     baseName = 'cooperativa'
-
-    from(buildDir) {
-        include 'build-info.properties'
-        into('WEB-INF/classes')
-    }
-}
-
-jettyRun {
-    contextPath = 'cooperativa'
 }
