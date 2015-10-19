@@ -6,7 +6,7 @@
 	<group qualifier="chameleon" default="true">
 		<container qualifier="wildfly" default="true">
 			<configuration>
-				<property name="chameleonTarget">wildfly:9.0.1.Final:managed</property>
+				<property name="chameleonTarget">wildfly:10.0.0.CR2:managed</property>
 			</configuration>
 		</container>
 	</group>
