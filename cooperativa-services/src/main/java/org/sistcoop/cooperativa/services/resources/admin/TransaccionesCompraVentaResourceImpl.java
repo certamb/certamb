@@ -35,40 +35,29 @@ import org.sistcoop.cooperativa.services.ErrorResponse;
 @Stateless
 public class TransaccionesCompraVentaResourceImpl implements TransaccionesCompraVentaResource {
 
-	@Inject
-	private CajaProvider cajaProvider;
+    @Override
+    public TransaccionCompraVentaResource transaccion(String idTransaccion) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Inject
-	private RepresentationToModel representationToModel;
+    @Override
+    public Response create(TransaccionCompraVentaRepresentation rep) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Context
-	private UriInfo uriInfo;
+    @Override
+    public List<TransaccionCompraVentaRepresentation> getAll() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Inject
-	private CajaResource cajaResource;
-
-	@Override
-	public TransaccionCompraVentaResource transaccion(String idTransaccion) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Response create(TransaccionCompraVentaRepresentation rep) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<TransaccionCompraVentaRepresentation> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public SearchResultsRepresentation<TransaccionCompraVentaResource> search(SearchCriteriaRepresentation criteria) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public SearchResultsRepresentation<TransaccionCompraVentaResource> search(
+            SearchCriteriaRepresentation criteria) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

@@ -14,6 +14,7 @@ import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.EntidadRepresentation;
 import org.sistcoop.cooperativa.services.ErrorResponse;
 import org.sistcoop.cooperativa.services.managers.EntidadManager;
+import org.sistcoop.cooperativa.services.resources.producers.TransaccionesEntidadBoveda_Entidad;
 
 @Stateless
 public class EntidadResourceImpl implements EntidadResource {
@@ -28,6 +29,7 @@ public class EntidadResourceImpl implements EntidadResource {
     private EntidadProvider entidadProvider;
 
     @Inject
+    @TransaccionesEntidadBoveda_Entidad
     private TransaccionesEntidadBovedaResource transaccionesEntidadBovedaResource;
 
     private EntidadModel getEntidadModel() {

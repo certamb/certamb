@@ -26,22 +26,6 @@ import org.sistcoop.cooperativa.services.managers.EntidadManager;
 @Stateless
 public class TransaccionCreditoResourceImpl implements TransaccionCreditoResource {
 
-    @PathParam("idEntidad")
-    private String idEntidad;
-
-    @Inject
-    private EntidadManager entidadManager;
-
-    @Inject
-    private EntidadProvider entidadProvider;
-
-    @Inject
-    private TransaccionesEntidadBovedaResource transaccionesEntidadBovedaResource;
-
-    private EntidadModel getEntidadModel() {
-        return entidadProvider.findById(idEntidad);
-    }
-
     @Override
     public TransaccionCreditoRepresentation toRepresentation() {
         // TODO Auto-generated method stub
@@ -53,5 +37,7 @@ public class TransaccionCreditoResourceImpl implements TransaccionCreditoResourc
         // TODO Auto-generated method stub
         return null;
     }
+
+   
 
 }

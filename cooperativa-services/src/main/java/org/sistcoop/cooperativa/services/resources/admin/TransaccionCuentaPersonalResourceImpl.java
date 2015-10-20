@@ -24,22 +24,6 @@ import org.sistcoop.cooperativa.services.managers.EntidadManager;
 @Stateless
 public class TransaccionCuentaPersonalResourceImpl implements TransaccionCuentaPersonalResource {
 
-    @PathParam("idEntidad")
-    private String idEntidad;
-
-    @Inject
-    private EntidadManager entidadManager;
-
-    @Inject
-    private EntidadProvider entidadProvider;
-
-    @Inject
-    private TransaccionesEntidadBovedaResource transaccionesEntidadBovedaResource;
-
-    private EntidadModel getEntidadModel() {
-        return entidadProvider.findById(idEntidad);
-    }
-
     @Override
     public TransaccionCuentaPersonalRepresentation toRepresentation() {
         // TODO Auto-generated method stub

@@ -28,6 +28,7 @@ import org.sistcoop.cooperativa.services.ErrorResponse;
 import org.sistcoop.cooperativa.services.ErrorResponseException;
 import org.sistcoop.cooperativa.services.managers.HistorialBovedaManager;
 import org.sistcoop.cooperativa.services.resources.producers.TransaccionesBovedaCaja_Boveda;
+import org.sistcoop.cooperativa.services.resources.producers.TransaccionesEntidadBoveda_HistorialBoveda;
 
 @Stateless
 public class HistorialBovedaResourceImpl implements HistorialBovedaResource {
@@ -42,6 +43,7 @@ public class HistorialBovedaResourceImpl implements HistorialBovedaResource {
     private HistorialBovedaManager historialBovedaManager;
 
     @Inject
+    @TransaccionesEntidadBoveda_HistorialBoveda
     private TransaccionesEntidadBovedaResource transaccionesEntidadBovedaResource;
 
     @Inject

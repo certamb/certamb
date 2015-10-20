@@ -39,18 +39,6 @@ import org.sistcoop.cooperativa.services.ErrorResponse;
 @Stateless
 public class TransaccionesAporteResourceImpl implements TransaccionesAporteResource {
 
-    @Inject
-    private CajaProvider cajaProvider;
-
-    @Inject
-    private RepresentationToModel representationToModel;
-
-    @Context
-    private UriInfo uriInfo;
-
-    @Inject
-    private CajaResource cajaResource;
-
     @Override
     public TransaccionAporteResource transaccion(String idTransaccion) {
         // TODO Auto-generated method stub
@@ -69,11 +57,11 @@ public class TransaccionesAporteResourceImpl implements TransaccionesAporteResou
         return null;
     }
 
-	@Override
-	public SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> search(
-			SearchCriteriaRepresentation criteria) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-    
+    @Override
+    public SearchResultsRepresentation<TransaccionBovedaCajaRepresentation> search(
+            SearchCriteriaRepresentation criteria) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

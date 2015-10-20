@@ -23,22 +23,6 @@ import org.sistcoop.cooperativa.services.managers.EntidadManager;
 @Stateless
 public class TransaccionAporteResourceImpl implements TransaccionAporteResource {
 
-    @PathParam("idTransaccion")
-    private String idTransaccion;
-
-    @Inject
-    private EntidadManager entidadManager;
-
-    @Inject
-    private EntidadProvider entidadProvider;
-
-    @Inject
-    private TransaccionClienteProvider transaccionClienteProvider;
-
-    private TransaccionAporteModel getTransaccionAporteModel() {
-        return transaccionClienteProvider.findTransaccionAporteById(idTransaccion);
-    }
-
     @Override
     public TransaccionAporteRepresentation toRepresentation() {
         // TODO Auto-generated method stub
