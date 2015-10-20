@@ -8,7 +8,7 @@ subprojects {
     }
     dependencies {
     	testCompile 'junit:junit:4.12'
-    	testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.9.Final'    	
+    	testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.10.Final'    	
     	testCompile 'org.arquillian.container:arquillian-container-chameleon:1.0.0.Alpha5'
     	
     	testCompile 'org.hamcrest:hamcrest-all:1.3'
