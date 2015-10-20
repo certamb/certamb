@@ -19,6 +19,7 @@ import org.sistcoop.cooperativa.admin.client.resource.HistorialesBovedaResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
 import org.sistcoop.cooperativa.models.BovedaProvider;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
@@ -67,7 +68,7 @@ public class BovedaResourceImpl implements BovedaResource {
 
     @Override
     public void update(BovedaRepresentation rep) {
-        bovedaManager.updateBoveda(getBovedaModel(), rep);
+        bovedaManager.update(getBovedaModel(), rep);
     }
 
     @Override
@@ -76,21 +77,19 @@ public class BovedaResourceImpl implements BovedaResource {
         HistorialBovedaModel historialBovedaActivo = boveda.getHistorialActivo();
         if (historialBovedaActivo != null) {
             if (historialBovedaActivo.isAbierto()) {
-                return new ErrorResponseException("Boveda abierta", "Boveda abierta, no se puede desactivar",
-                        Response.Status.BAD_REQUEST).getResponse();
+                return new ErrorResponseException("Error", "Boveda abierta", Response.Status.BAD_REQUEST)
+                        .getResponse();
             }
 
             List<DetalleHistorialBovedaModel> detalleHistorialBoveda = historialBovedaActivo.getDetalle();
-            Function<DetalleHistorialBovedaModel, BigDecimal> totalMapper = detalle -> detalle.getValor()
+            Function<DetalleHistorialBovedaModel, BigDecimal> mapper = detalle -> detalle.getValor()
                     .multiply(new BigDecimal(detalle.getCantidad()));
 
             // Hallar saldo de boveda
-            BigDecimal saldoHistorialBoveda = detalleHistorialBoveda.stream().map(totalMapper)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-            if (saldoHistorialBoveda.compareTo(BigDecimal.ZERO) != 0) {
-                return new ErrorResponseException("Boveda saldo invalido",
-                        "Boveda tiene saldo=" + saldoHistorialBoveda
-                                + ", no se puede desactivar hasta que tenga 0.00 de saldo",
+            BigDecimal saldo = detalleHistorialBoveda.stream().map(mapper).reduce(BigDecimal.ZERO,
+                    BigDecimal::add);
+            if (saldo.compareTo(BigDecimal.ZERO) != 0) {
+                return new ErrorResponseException("Error", "Boveda saldo=" + saldo,
                         Response.Status.BAD_REQUEST).getResponse();
             }
         }
@@ -98,23 +97,32 @@ public class BovedaResourceImpl implements BovedaResource {
         // Hallar cajas relacionadas
         List<BovedaCajaModel> bovedaCajas = boveda.getBovedaCajas();
 
-        Function<BovedaCajaModel, HistorialBovedaCajaModel> historialMapper = bovedaCaja -> bovedaCaja
+        Function<BovedaCajaModel, HistorialBovedaCajaModel> mapper = bovedaCaja -> bovedaCaja
                 .getHistorialActivo();
-        List<HistorialBovedaCajaModel> historialesBovedaCaja = bovedaCajas.stream().map(historialMapper)
-                .filter(bovedaCaja -> bovedaCaja != null).collect(Collectors.toList());
-        for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesBovedaCaja) {
-            if (historialBovedaCajaModel.isAbierto()) {
-                return new ErrorResponseException("Caja relacionada abierta",
-                        "Existe una caja abierta, la boveda no puede ser desactivada",
+        List<HistorialBovedaCajaModel> historialesBovedaCaja = bovedaCajas.stream().map(mapper)
+                .filter(historialBovedaCaja -> historialBovedaCaja != null).collect(Collectors.toList());
+        for (HistorialBovedaCajaModel historialBovedaCaja : historialesBovedaCaja) {
+            if (historialBovedaCaja.isAbierto()) {
+                return new ErrorResponseException("Error", "Boveda tiene caja(s) abierta",
+                        Response.Status.BAD_REQUEST).getResponse();
+            }
+
+            List<DetalleHistorialBovedaCajaModel> detalleHistorialBoveda = historialBovedaCaja.getDetalle();
+            Function<DetalleHistorialBovedaCajaModel, BigDecimal> mapperTotal = detalle -> detalle.getValor()
+                    .multiply(new BigDecimal(detalle.getCantidad()));
+            BigDecimal saldo = detalleHistorialBoveda.stream().map(mapperTotal).reduce(BigDecimal.ZERO,
+                    BigDecimal::add);
+            if (saldo.compareTo(BigDecimal.ZERO) != 0) {
+                return new ErrorResponseException("Error", "Boveda tiene caja(s) con dinero",
                         Response.Status.BAD_REQUEST).getResponse();
             }
         }
 
-        boolean disabled = bovedaManager.disableBoveda(boveda);
-        if (disabled) {
+        boolean result = bovedaManager.disable(boveda);
+        if (result) {
             return Response.noContent().build();
         } else {
-            return ErrorResponse.error("Boveda no pudo ser desactivado", Response.Status.BAD_REQUEST);
+            return ErrorResponse.error("Boveda no pudo ser desactivada", Response.Status.BAD_REQUEST);
         }
     }
 

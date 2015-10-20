@@ -28,7 +28,7 @@ import org.sistcoop.cooperativa.representations.idm.search.SearchResultsRepresen
 import org.sistcoop.cooperativa.services.ErrorResponse;
 import org.sistcoop.cooperativa.services.filters.CooperativaFilter;
 import org.sistcoop.cooperativa.services.listeners.CooperativaListener;
-import org.sistcoop.cooperativa.services.managers.BovedaManager;
+import org.sistcoop.cooperativa.services.managers.BovedaManagerTest;
 import org.sistcoop.cooperativa.services.messages.Messages;
 import org.sistcoop.cooperativa.services.resources.ModelExceptionMapper;
 import org.sistcoop.cooperativa.services.resources.admin.BovedasResourceImpl;
@@ -67,7 +67,7 @@ public abstract class AbstractTest {
 				/** services */
 				.addPackage(MessagesProvider.class.getPackage()).addPackage(ErrorResponse.class.getPackage())
 				.addPackage(CooperativaFilter.class.getPackage()).addPackage(CooperativaListener.class.getPackage())
-				.addPackage(BovedaManager.class.getPackage()).addPackage(Messages.class.getPackage())
+				.addPackage(BovedaManagerTest.class.getPackage()).addPackage(Messages.class.getPackage())
 				.addPackage(ModelExceptionMapper.class.getPackage()).addPackage(BovedasResourceImpl.class.getPackage())
 				.addPackage(BovedaCajas_Boveda.class.getPackage())
 
