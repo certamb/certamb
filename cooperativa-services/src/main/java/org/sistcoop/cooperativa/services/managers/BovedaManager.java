@@ -32,6 +32,11 @@ public class BovedaManager {
         List<BovedaCajaModel> bovedaCajas = boveda.getBovedaCajas();
         HistorialBovedaModel historialBovedaActivo = boveda.getHistorialActivo();
 
+        // Validar boveda
+        if (!boveda.getEstado()) {
+            return false;
+        }
+
         // Validar historialBoveda
         if (historialBovedaActivo != null) {
             BigDecimal saldo = getSaldo(historialBovedaActivo);

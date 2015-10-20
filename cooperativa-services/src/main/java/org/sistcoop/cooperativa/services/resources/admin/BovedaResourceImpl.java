@@ -75,6 +75,14 @@ public class BovedaResourceImpl implements BovedaResource {
     public Response disable() {
         BovedaModel boveda = getBovedaModel();
         HistorialBovedaModel historialBovedaActivo = boveda.getHistorialActivo();
+
+        // Validar boveda
+        if (!boveda.getEstado()) {
+            return new ErrorResponseException("Error", "Boveda inactiva", Response.Status.BAD_REQUEST)
+                    .getResponse();
+        }
+
+        // Validar historialBoveda
         if (historialBovedaActivo != null) {
             if (historialBovedaActivo.isAbierto()) {
                 return new ErrorResponseException("Error", "Boveda abierta", Response.Status.BAD_REQUEST)
@@ -84,8 +92,6 @@ public class BovedaResourceImpl implements BovedaResource {
             List<DetalleHistorialBovedaModel> detalleHistorialBoveda = historialBovedaActivo.getDetalle();
             Function<DetalleHistorialBovedaModel, BigDecimal> mapper = detalle -> detalle.getValor()
                     .multiply(new BigDecimal(detalle.getCantidad()));
-
-            // Hallar saldo de boveda
             BigDecimal saldo = detalleHistorialBoveda.stream().map(mapper).reduce(BigDecimal.ZERO,
                     BigDecimal::add);
             if (saldo.compareTo(BigDecimal.ZERO) != 0) {
@@ -94,7 +100,7 @@ public class BovedaResourceImpl implements BovedaResource {
             }
         }
 
-        // Hallar cajas relacionadas
+        // Validar historialBovedaCaja
         List<BovedaCajaModel> bovedaCajas = boveda.getBovedaCajas();
 
         Function<BovedaCajaModel, HistorialBovedaCajaModel> mapper = bovedaCaja -> bovedaCaja
