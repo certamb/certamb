@@ -1,5 +1,6 @@
 package org.sistcoop.cooperativa.services.resources.admin;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import org.sistcoop.cooperativa.admin.client.resource.CajaTrabajadoresResource;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.CajaModel;
 import org.sistcoop.cooperativa.models.CajaProvider;
+import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.utils.ModelToRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
@@ -67,19 +69,35 @@ public class CajaResourceImpl implements CajaResource {
         CajaModel caja = getCajaModel();
         List<BovedaCajaModel> bovedaCajas = caja.getBovedaCajas();
 
+        // Validar caja
+        if (!caja.getEstado()) {
+            return new ErrorResponseException("Error", "Caja inactiva", Response.Status.BAD_REQUEST)
+                    .getResponse();
+        }
+
+        // Validar historialBovedaCaja
         Function<BovedaCajaModel, HistorialBovedaCajaModel> historialMapper = bovedaCaja -> bovedaCaja
                 .getHistorialActivo();
         List<HistorialBovedaCajaModel> historialesBovedaCaja = bovedaCajas.stream().map(historialMapper)
-                .filter(bovedaCaja -> bovedaCaja != null).collect(Collectors.toList());
-        for (HistorialBovedaCajaModel historialBovedaCajaModel : historialesBovedaCaja) {
-            if (historialBovedaCajaModel.isAbierto()) {
-                return new ErrorResponseException("Caja relacionada abierta",
-                        "Existe una caja abierta, la boveda no puede ser desactivada",
-                        Response.Status.BAD_REQUEST).getResponse();
+                .filter(historialBovedaCaja -> historialBovedaCaja != null).collect(Collectors.toList());
+        for (HistorialBovedaCajaModel historialBovedaCaja : historialesBovedaCaja) {
+            if (historialBovedaCaja.isAbierto()) {
+                return new ErrorResponseException("Error", "Caja abierta", Response.Status.BAD_REQUEST)
+                        .getResponse();
+            }
+
+            List<DetalleHistorialBovedaCajaModel> detalleHistorialBoveda = historialBovedaCaja.getDetalle();
+            Function<DetalleHistorialBovedaCajaModel, BigDecimal> mapper = detalle -> detalle.getValor()
+                    .multiply(new BigDecimal(detalle.getCantidad()));
+            BigDecimal saldo = detalleHistorialBoveda.stream().map(mapper).reduce(BigDecimal.ZERO,
+                    BigDecimal::add);
+            if (saldo.compareTo(BigDecimal.ZERO) != 0) {
+                return new ErrorResponseException("Error", "Caja con dinero", Response.Status.BAD_REQUEST)
+                        .getResponse();
             }
         }
 
-        boolean result = cajaManager.desactivarCaja(caja);
+        boolean result = cajaManager.disable(caja);
         if (result) {
             return Response.noContent().build();
         } else {
