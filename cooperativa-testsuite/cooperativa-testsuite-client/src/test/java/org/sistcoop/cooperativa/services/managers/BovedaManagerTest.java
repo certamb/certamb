@@ -7,6 +7,8 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,12 +26,24 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
+import org.sistcoop.cooperativa.models.utils.RepresentationToModel;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
+import org.sistcoop.cooperativa.representations.idm.HistorialBovedaRepresentation;
 
 public class BovedaManagerTest extends AbstractTest {
 
     @Inject
+    private RepresentationToModel representationToModel;
+
+    @Inject
     private BovedaManager bovedaManager;
+
+    @Inject
+    private HistorialBovedaManager historialBovedaManager;
+
+    @Inject
+    private HistorialBovedaCajaManager historialBovedaCajaManager;
 
     @Inject
     private BovedaProvider bovedaProvider;
@@ -80,6 +94,9 @@ public class BovedaManagerTest extends AbstractTest {
         assertThat(boveda2.getEstado(), is(equalTo(estado)));
     }
 
+    /**
+     ** Disable
+     **/
     @Test
     public void disable1() {
         BovedaModel boveda = bovedaProvider.create("Agencia 01", "PEN", "Boveda de Nuevos Soles");
@@ -97,21 +114,36 @@ public class BovedaManagerTest extends AbstractTest {
         assertThat(bovedaCaja.getEstado(), is(false));
     }
 
+    /**
+     * Disable. HistorialBoveda (estado = true)
+     */
     @Test
     public void disable2() {
         BovedaModel boveda = bovedaProvider.create("Agencia 01", "PEN", "Boveda de Nuevos Soles");
         CajaModel caja = cajaProvider.create("Agencia 01", "Caja 01");
         BovedaCajaModel bovedaCaja = bovedaCajaProvider.create(boveda, caja);
+
+        List<DetalleMonedaRepresentation> detalleRepresentation = new ArrayList<>();
+        HistorialBovedaRepresentation historialBovedaRepresentation = new HistorialBovedaRepresentation();
+        historialBovedaRepresentation.setDetalle(detalleRepresentation);
+
         @SuppressWarnings("unused")
-        HistorialBovedaModel historialBoveda = historialBovedaProvider.create(boveda);
+        HistorialBovedaModel historialBoveda = representationToModel.createHistorialBoveda(
+                historialBovedaRepresentation, boveda, historialBovedaProvider,
+                detalleHistorialBovedaProvider);
+
         @SuppressWarnings("unused")
-        HistorialBovedaCajaModel historialBovedaCaja = historialBovedaCajaProvider.create(bovedaCaja);
+        HistorialBovedaCajaModel historialBovedaCaja = representationToModel.createHistorialBovedaCaja(
+                bovedaCaja, historialBovedaCajaProvider, detalleHistorialBovedaCajaProvider);
 
         boolean result = bovedaManager.disable(boveda);
 
         assertThat(result, is(false));
     }
 
+    /**
+     * Disable. HistorialBoveda (saldo != 0)
+     */
     @Test
     public void disable3() {
         BovedaModel boveda = bovedaProvider.create("Agencia 01", "PEN", "Boveda de Nuevos Soles");

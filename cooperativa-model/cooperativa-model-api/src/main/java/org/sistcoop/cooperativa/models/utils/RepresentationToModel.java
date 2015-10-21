@@ -53,7 +53,8 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepr
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class RepresentationToModel {
 
-    public BovedaModel createBoveda(BovedaRepresentation bovedaRepresentation, BovedaProvider bovedaProvider) {
+    public BovedaModel createBoveda(BovedaRepresentation bovedaRepresentation,
+            BovedaProvider bovedaProvider) {
         BovedaModel bovedaModel = bovedaProvider.create(bovedaRepresentation.getAgencia(),
                 bovedaRepresentation.getMoneda(), bovedaRepresentation.getDenominacion());
 
@@ -179,12 +180,11 @@ public class RepresentationToModel {
                 BigDecimal valor = detalleHistorialBovedaModel.getValor();
                 detalleHistorialBovedaCajaProvider.create(historialActivoModel, valor, cantidad);
             }
-            System.out.println("tress");
             return historialActivoModel;
         } else {
             historialActivoModel.desactivar();
             historialActivoModel.commit();
-            System.out.println("cuatrooo");
+
             List<DetalleHistorialBovedaCajaModel> detalleHistorialActivoModels = historialActivoModel
                     .getDetalle();
             HistorialBovedaCajaModel historialActivoNuevoModel = historialBovedaCajaProvider
@@ -194,7 +194,6 @@ public class RepresentationToModel {
                 BigDecimal valor = detalleHistorialBovedaCajaModel.getValor();
                 detalleHistorialBovedaCajaProvider.create(historialActivoNuevoModel, valor, cantidad);
             }
-            System.out.println("cincoooo");
             return historialActivoNuevoModel;
         }
     }
@@ -206,11 +205,10 @@ public class RepresentationToModel {
             DetalleTransaccionEntidadBovedaProvider detalleTransaccionEntidadBovedaProvider) {
 
         // crear la transaccion
-        TransaccionEntidadBovedaModel transaccionEntidadBovedaModel = transaccionEntidadBovedaProvider
-                .create(entidadModel, historialBovedaModel,
-                        OrigenTransaccionEntidadBoveda.valueOf(rep.getOrigen().toUpperCase()),
-                        TipoTransaccionEntidadBoveda.valueOf(rep.getTipo().toUpperCase()),
-                        rep.getObservacion());
+        TransaccionEntidadBovedaModel transaccionEntidadBovedaModel = transaccionEntidadBovedaProvider.create(
+                entidadModel, historialBovedaModel,
+                OrigenTransaccionEntidadBoveda.valueOf(rep.getOrigen().toUpperCase()),
+                TipoTransaccionEntidadBoveda.valueOf(rep.getTipo().toUpperCase()), rep.getObservacion());
 
         // crear detalle transaccion
         for (DetalleMonedaRepresentation detalleMonedaRepresentation : detalle) {
@@ -231,8 +229,8 @@ public class RepresentationToModel {
         BigDecimal saldoTotalDeTransaccion = BigDecimal.ZERO;
 
         // Crear transaccion
-        TransaccionBovedaCajaModel transaccionBovedaCajaModel = transaccionBovedaCajaProvider.create(
-                historialBovedaModel, historialBovedaCajaModel, origen, null);
+        TransaccionBovedaCajaModel transaccionBovedaCajaModel = transaccionBovedaCajaProvider
+                .create(historialBovedaModel, historialBovedaCajaModel, origen, null);
 
         // Crear detalle transaccion
         List<DetalleMonedaRepresentation> detalleMonedaRepresentations = transaccionBovedaCajaRepresentation
