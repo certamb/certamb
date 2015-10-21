@@ -1,9 +1,19 @@
 package org.sistcoop.cooperativa.models.utils;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
+
+import javax.inject.Inject;
+
+import org.junit.Test;
 import org.sistcoop.cooperativa.models.AbstractTest;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaModel;
+import org.sistcoop.cooperativa.models.BovedaProvider;
 import org.sistcoop.cooperativa.models.CajaModel;
+import org.sistcoop.cooperativa.models.CajaProvider;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.DetalleHistorialBovedaModel;
 import org.sistcoop.cooperativa.models.DetalleTransaccionBovedaCajaModel;
@@ -32,34 +42,41 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepr
 
 public class ModelToRepresentationTest extends AbstractTest {
 
-    public static BovedaRepresentation toRepresentation(BovedaModel model) {
-        if (model == null)
-            return null;
+    @Inject
+    private BovedaProvider bovedaProvider;
 
-        BovedaRepresentation rep = new BovedaRepresentation();
+    @Inject
+    private CajaProvider cajaProvider;
 
-        rep.setId(model.getId());
-        rep.setAgencia(model.getAgencia());
-        rep.setDenominacion(model.getDenominacion());
-        rep.setMoneda(model.getMoneda());
-        rep.setEstado(model.getEstado());
+    @Test
+    public void boveda() {
+        BovedaModel boveda1 = bovedaProvider.create("Agencia 01", "PEN", "Boveda Nuevos Soles");
+        BovedaModel boveda2 = null;
+        BovedaRepresentation rep1 = ModelToRepresentation.toRepresentation(boveda1);
+        BovedaRepresentation rep2 = ModelToRepresentation.toRepresentation(boveda2);
 
-        return rep;
+        assertThat(rep1, is(notNullValue()));
+        assertThat(rep2, is(nullValue()));
+        assertThat(rep1.getId(), is(notNullValue()));
+        assertThat(rep1.getAgencia(), is(notNullValue()));
+        assertThat(rep1.getDenominacion(), is(notNullValue()));
+        assertThat(rep1.getMoneda(), is(notNullValue()));
     }
 
-    public static CajaRepresentation toRepresentation(CajaModel model) {
-        if (model == null)
-            return null;
+    @Test
+    public void caja() {
+        CajaModel caja1 = cajaProvider.create("Agencia 01", "Caja 01");
+        CajaModel caja2 = null;
+        CajaRepresentation rep1 = ModelToRepresentation.toRepresentation(caja1);
+        CajaRepresentation rep2 = ModelToRepresentation.toRepresentation(caja2);
 
-        CajaRepresentation rep = new CajaRepresentation();
-        rep.setId(model.getId());
-        rep.setDenominacion(model.getDenominacion());
-        rep.setAgencia(model.getAgencia());
-        rep.setEstado(model.getEstado());
-
-        return rep;
+        assertThat(rep1, is(notNullValue()));
+        assertThat(rep2, is(nullValue()));
+        assertThat(rep1.getId(), is(notNullValue()));
+        assertThat(rep1.getAgencia(), is(notNullValue()));
+        assertThat(rep1.getDenominacion(), is(notNullValue()));
     }
-
+/*
     public static BovedaCajaRepresentation toRepresentation(BovedaCajaModel model) {
         if (model == null)
             return null;
@@ -262,6 +279,6 @@ public class ModelToRepresentationTest extends AbstractTest {
         rep.setCliente(model.getCliente());
         rep.setTipoTransaccion(model.getTipoTransaccion());
         return rep;
-    }
+    }*/
 
 }
