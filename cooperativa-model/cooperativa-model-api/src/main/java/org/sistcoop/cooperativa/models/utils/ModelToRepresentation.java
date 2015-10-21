@@ -31,6 +31,18 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepr
 
 public class ModelToRepresentation {
 
+    public static EntidadRepresentation toRepresentation(EntidadModel model) {
+        if (model == null)
+            return null;
+
+        EntidadRepresentation rep = new EntidadRepresentation();
+        rep.setId(model.getId());
+        rep.setDenominacion(model.getDenominacion());
+        rep.setAbreviatura(model.getAbreviatura());
+        rep.setEstado(model.getEstado());
+        return rep;
+    }
+
     public static BovedaRepresentation toRepresentation(BovedaModel model) {
         if (model == null)
             return null;
@@ -55,6 +67,18 @@ public class ModelToRepresentation {
         rep.setDenominacion(model.getDenominacion());
         rep.setAgencia(model.getAgencia());
         rep.setEstado(model.getEstado());
+
+        return rep;
+    }
+
+    public static TrabajadorCajaRepresentation toRepresentation(TrabajadorCajaModel model) {
+        if (model == null)
+            return null;
+
+        TrabajadorCajaRepresentation rep = new TrabajadorCajaRepresentation();
+        rep.setId(model.getId());
+        rep.setTipoDocumento(model.getTipoDocumento());
+        rep.setNumeroDocumento(model.getNumeroDocumento());
 
         return rep;
     }
@@ -112,15 +136,19 @@ public class ModelToRepresentation {
         return rep;
     }
 
-    public static TrabajadorCajaRepresentation toRepresentation(TrabajadorCajaModel model) {
+    public static TransaccionEntidadBovedaRepresentation toRepresentation(
+            TransaccionEntidadBovedaModel model) {
         if (model == null)
             return null;
 
-        TrabajadorCajaRepresentation rep = new TrabajadorCajaRepresentation();
+        TransaccionEntidadBovedaRepresentation rep = new TransaccionEntidadBovedaRepresentation();
         rep.setId(model.getId());
-        rep.setTipoDocumento(model.getTipoDocumento());
-        rep.setNumeroDocumento(model.getNumeroDocumento());
-
+        rep.setFecha(model.getFecha());
+        rep.setHora(model.getHora());
+        rep.setTipo(model.getTipo().toString());
+        rep.setOrigen(model.getOrigen().toString());
+        rep.setObservacion(model.getObservacion());
+        rep.setEstado(model.getEstado());
         return rep;
     }
 
@@ -210,33 +238,6 @@ public class ModelToRepresentation {
         DetalleMonedaRepresentation rep = new DetalleMonedaRepresentation();
         rep.setValor(model.getValor());
         rep.setCantidad(model.getCantidad());
-        return rep;
-    }
-
-    public static EntidadRepresentation toRepresentation(EntidadModel model) {
-        if (model == null)
-            return null;
-
-        EntidadRepresentation rep = new EntidadRepresentation();
-        rep.setId(model.getId());
-        rep.setDenominacion(model.getDenominacion());
-        rep.setAbreviatura(model.getAbreviatura());
-        rep.setEstado(model.getEstado());
-        return rep;
-    }
-
-    public static TransaccionEntidadBovedaRepresentation toRepresentation(TransaccionEntidadBovedaModel model) {
-        if (model == null)
-            return null;
-
-        TransaccionEntidadBovedaRepresentation rep = new TransaccionEntidadBovedaRepresentation();
-        rep.setId(model.getId());
-        rep.setFecha(model.getFecha());
-        rep.setHora(model.getHora());
-        rep.setTipo(model.getTipo().toString());
-        rep.setOrigen(model.getOrigen().toString());
-        rep.setObservacion(model.getObservacion());
-        rep.setEstado(model.getEstado());
         return rep;
     }
 
