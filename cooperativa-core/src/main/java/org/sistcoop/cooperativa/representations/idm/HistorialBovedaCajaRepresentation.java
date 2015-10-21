@@ -1,7 +1,6 @@
 package org.sistcoop.cooperativa.representations.idm;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -20,8 +19,6 @@ public class HistorialBovedaCajaRepresentation implements Serializable {
     private boolean abierto;
     private boolean estadoMovimiento;
     private boolean estado;
-
-    private BigDecimal saldo;
 
     public String getId() {
         return id;
@@ -85,14 +82,6 @@ public class HistorialBovedaCajaRepresentation implements Serializable {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
-    }
-
-    public BigDecimal getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(BigDecimal saldo) {
-        this.saldo = saldo;
     }
 
 }
