@@ -26,6 +26,8 @@ import org.sistcoop.cooperativa.models.HistorialBovedaCajaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.HistorialBovedaModel;
 import org.sistcoop.cooperativa.models.HistorialBovedaProvider;
+import org.sistcoop.cooperativa.models.ModelDuplicateException;
+import org.sistcoop.cooperativa.models.ModelReadOnlyException;
 import org.sistcoop.cooperativa.models.TrabajadorCajaModel;
 import org.sistcoop.cooperativa.models.TrabajadorCajaProvider;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
@@ -37,7 +39,6 @@ import org.sistcoop.cooperativa.models.TransaccionEntidadBovedaProvider;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionEntidadBoveda;
 import org.sistcoop.cooperativa.models.enums.TipoTransaccionEntidadBoveda;
-import org.sistcoop.cooperativa.representations.idm.BovedaCajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.BovedaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.CajaRepresentation;
 import org.sistcoop.cooperativa.representations.idm.DetalleMonedaRepresentation;
@@ -66,45 +67,34 @@ public class RepresentationToModel {
         return provider.create(representation.getAgencia(), representation.getDenominacion());
     }
 
-    public BovedaCajaModel createBovedaCaja(BovedaCajaRepresentation representation, CajaModel cajaModel,
-            BovedaProvider bovedaProvider, BovedaCajaProvider bovedaCajaProvider) {
-
-        BovedaRepresentation bovedaRepresentation = representation.getBoveda();
-        BovedaModel bovedaModel = bovedaProvider.findById(bovedaRepresentation.getId());
-
-        return bovedaCajaProvider.create(bovedaModel, cajaModel);
+    public BovedaCajaModel createBovedaCaja(BovedaModel boveda, CajaModel caja, BovedaCajaProvider provider) {
+        return provider.create(boveda, caja);
     }
 
-    public BovedaCajaModel createBovedaCaja(BovedaCajaRepresentation bovedaCajaRepresentation,
-            BovedaModel bovedaModel, CajaProvider cajaProvider, BovedaCajaProvider bovedaCajaProvider) {
-
-        CajaRepresentation cajaRepresentation = bovedaCajaRepresentation.getCaja();
-        CajaModel cajaModel = cajaProvider.findById(cajaRepresentation.getId());
-
-        return bovedaCajaProvider.create(bovedaModel, cajaModel);
-    }
-
-    public void createBovedaCaja(BovedaCajaRepresentation[] bovedaCajaRepresentations,
-            BovedaModel bovedaModel, CajaProvider cajaProvider, BovedaCajaProvider bovedaCajaProvider) {
-
-        for (BovedaCajaRepresentation bovedaCajaRepresentation : bovedaCajaRepresentations) {
-            CajaRepresentation cajaRepresentation = bovedaCajaRepresentation.getCaja();
-            CajaModel cajaModel = cajaProvider.findById(cajaRepresentation.getId());
-            bovedaCajaProvider.create(bovedaModel, cajaModel);
+    public boolean createBovedaCaja(List<BovedaModel> bovedas, CajaModel caja, BovedaCajaProvider provider) {
+        try {
+            for (BovedaModel boveda : bovedas) {
+                provider.create(boveda, caja);
+            }
+            return true;
+        } catch (ModelReadOnlyException e) {
+            return false;
+        } catch (ModelDuplicateException e) {
+            return false;
         }
-
     }
 
-    public void createBovedaCaja(BovedaCajaRepresentation[] bovedaCajaRepresentations, CajaModel cajaModel,
-            BovedaProvider bovedaProvider, BovedaCajaProvider bovedaCajaProvider) {
-
-        for (BovedaCajaRepresentation bovedaCajaRepresentation : bovedaCajaRepresentations) {
-            BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();
-            BovedaModel bovedaModel = bovedaProvider.findById(bovedaRepresentation.getId());
-
-            bovedaCajaProvider.create(bovedaModel, cajaModel);
+    public boolean createBovedaCaja(BovedaModel boveda, List<CajaModel> cajas, BovedaCajaProvider provider) {
+        try {
+            for (CajaModel caja : cajas) {
+                provider.create(boveda, caja);
+            }
+            return true;
+        } catch (ModelReadOnlyException e) {
+            return false;
+        } catch (ModelDuplicateException e) {
+            return false;
         }
-
     }
 
     /**

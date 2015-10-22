@@ -161,50 +161,15 @@ public class RepresentationToModelTest extends AbstractTest {
     }
 
     @Test
-    public void createBovedaCaja() {
-
+    public void createBovedaCaja1() {
+        
     }
 
-    public BovedaCajaModel createBovedaCaja(BovedaCajaRepresentation bovedaCajaRepresentation,
-            CajaModel cajaModel, BovedaProvider bovedaProvider, BovedaCajaProvider bovedaCajaProvider) {
-
-        BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();
-        BovedaModel bovedaModel = bovedaProvider.findById(bovedaRepresentation.getId());
-
-        return bovedaCajaProvider.create(bovedaModel, cajaModel);
+    @Test
+    public void createBovedaCaja2() {
+        
     }
-
-    public BovedaCajaModel createBovedaCaja(BovedaCajaRepresentation bovedaCajaRepresentation,
-            BovedaModel bovedaModel, CajaProvider cajaProvider, BovedaCajaProvider bovedaCajaProvider) {
-
-        CajaRepresentation cajaRepresentation = bovedaCajaRepresentation.getCaja();
-        CajaModel cajaModel = cajaProvider.findById(cajaRepresentation.getId());
-
-        return bovedaCajaProvider.create(bovedaModel, cajaModel);
-    }
-
-    public void createBovedaCaja(BovedaCajaRepresentation[] bovedaCajaRepresentations,
-            BovedaModel bovedaModel, CajaProvider cajaProvider, BovedaCajaProvider bovedaCajaProvider) {
-
-        for (BovedaCajaRepresentation bovedaCajaRepresentation : bovedaCajaRepresentations) {
-            CajaRepresentation cajaRepresentation = bovedaCajaRepresentation.getCaja();
-            CajaModel cajaModel = cajaProvider.findById(cajaRepresentation.getId());
-            bovedaCajaProvider.create(bovedaModel, cajaModel);
-        }
-
-    }
-
-    public void createBovedaCaja(BovedaCajaRepresentation[] bovedaCajaRepresentations, CajaModel cajaModel,
-            BovedaProvider bovedaProvider, BovedaCajaProvider bovedaCajaProvider) {
-
-        for (BovedaCajaRepresentation bovedaCajaRepresentation : bovedaCajaRepresentations) {
-            BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();
-            BovedaModel bovedaModel = bovedaProvider.findById(bovedaRepresentation.getId());
-
-            bovedaCajaProvider.create(bovedaModel, cajaModel);
-        }
-
-    }
+       
 
     /**
      * Abrir boveda
