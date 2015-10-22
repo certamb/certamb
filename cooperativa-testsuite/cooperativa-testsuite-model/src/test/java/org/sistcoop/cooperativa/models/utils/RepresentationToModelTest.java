@@ -162,14 +162,18 @@ public class RepresentationToModelTest extends AbstractTest {
 
     @Test
     public void createBovedaCaja1() {
-        
+
     }
 
     @Test
     public void createBovedaCaja2() {
-        
+
     }
-       
+
+    @Test
+    public void createBovedaCaja3() {
+
+    }
 
     /**
      * Abrir boveda
