@@ -427,6 +427,7 @@ public class ModelToRepresentationTest extends AbstractTest {
         assertThat(rep1.getValor(), is(notNullValue()));
     }
 
+    @Test
     public void transaccionCompraVenta() {
         BovedaModel boveda = bovedaProvider.create("Agencia 01", "PEN", "Boveda Nuevos Soles");
         CajaModel caja = cajaProvider.create("Agencia 01", "Caja 01");

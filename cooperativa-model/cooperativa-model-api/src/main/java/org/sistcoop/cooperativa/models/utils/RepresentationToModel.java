@@ -53,25 +53,23 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepr
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class RepresentationToModel {
 
-    public BovedaModel createBoveda(BovedaRepresentation bovedaRepresentation,
-            BovedaProvider bovedaProvider) {
-        BovedaModel bovedaModel = bovedaProvider.create(bovedaRepresentation.getAgencia(),
-                bovedaRepresentation.getMoneda(), bovedaRepresentation.getDenominacion());
-
-        return bovedaModel;
+    public EntidadModel createEntidad(EntidadRepresentation representation, EntidadProvider provider) {
+        return provider.create(representation.getDenominacion(), representation.getAbreviatura());
     }
 
-    public CajaModel createCaja(CajaRepresentation cajaRepresentation, CajaProvider cajaProvider) {
-        CajaModel cajaModel = cajaProvider.create(cajaRepresentation.getAgencia(),
-                cajaRepresentation.getDenominacion());
-
-        return cajaModel;
+    public BovedaModel createBoveda(BovedaRepresentation representation, BovedaProvider provider) {
+        return provider.create(representation.getAgencia(), representation.getMoneda(),
+                representation.getDenominacion());
     }
 
-    public BovedaCajaModel createBovedaCaja(BovedaCajaRepresentation bovedaCajaRepresentation,
-            CajaModel cajaModel, BovedaProvider bovedaProvider, BovedaCajaProvider bovedaCajaProvider) {
+    public CajaModel createCaja(CajaRepresentation representation, CajaProvider provider) {
+        return provider.create(representation.getAgencia(), representation.getDenominacion());
+    }
 
-        BovedaRepresentation bovedaRepresentation = bovedaCajaRepresentation.getBoveda();
+    public BovedaCajaModel createBovedaCaja(BovedaCajaRepresentation representation, CajaModel cajaModel,
+            BovedaProvider bovedaProvider, BovedaCajaProvider bovedaCajaProvider) {
+
+        BovedaRepresentation bovedaRepresentation = representation.getBoveda();
         BovedaModel bovedaModel = bovedaProvider.findById(bovedaRepresentation.getId());
 
         return bovedaCajaProvider.create(bovedaModel, cajaModel);
@@ -284,11 +282,6 @@ public class RepresentationToModel {
                 trabajadorRepresentation.getTipoDocumento(), trabajadorRepresentation.getNumeroDocumento());
 
         return trabajadorCajaModel;
-    }
-
-    public EntidadModel createEntidad(EntidadRepresentation rep, EntidadProvider entidadProvider) {
-        EntidadModel entidadModel = entidadProvider.create(rep.getDenominacion(), rep.getAbreviatura());
-        return entidadModel;
     }
 
 }

@@ -1,8 +1,18 @@
 package org.sistcoop.cooperativa.models.utils;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.junit.Test;
 import org.sistcoop.cooperativa.models.AbstractTest;
 import org.sistcoop.cooperativa.models.BovedaCajaModel;
 import org.sistcoop.cooperativa.models.BovedaCajaProvider;
@@ -29,6 +39,7 @@ import org.sistcoop.cooperativa.models.TransaccionBovedaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionBovedaCajaProvider;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaModel;
 import org.sistcoop.cooperativa.models.TransaccionCajaCajaProvider;
+import org.sistcoop.cooperativa.models.TransaccionClienteProvider;
 import org.sistcoop.cooperativa.models.TransaccionEntidadBovedaModel;
 import org.sistcoop.cooperativa.models.TransaccionEntidadBovedaProvider;
 import org.sistcoop.cooperativa.models.enums.OrigenTransaccionBovedaCaja;
@@ -48,19 +59,110 @@ import org.sistcoop.cooperativa.representations.idm.TransaccionEntidadBovedaRepr
 
 public class RepresentationToModelTest extends AbstractTest {
 
-    public BovedaModel createBoveda(BovedaRepresentation bovedaRepresentation,
-            BovedaProvider bovedaProvider) {
-        BovedaModel bovedaModel = bovedaProvider.create(bovedaRepresentation.getAgencia(),
-                bovedaRepresentation.getMoneda(), bovedaRepresentation.getDenominacion());
+    @Inject
+    private RepresentationToModel representationToModel;
 
-        return bovedaModel;
+    @Inject
+    private EntidadProvider entidadProvider;
+
+    @Inject
+    private BovedaProvider bovedaProvider;
+
+    @Inject
+    private CajaProvider cajaProvider;
+
+    @Inject
+    private BovedaCajaProvider bovedaCajaProvider;
+
+    @Inject
+    private HistorialBovedaProvider historialBovedaProvider;
+
+    @Inject
+    private HistorialBovedaCajaProvider historialBovedaCajaProvider;
+
+    @Inject
+    private TrabajadorCajaProvider trabajadorCajaProvider;
+
+    @Inject
+    private TransaccionEntidadBovedaProvider transaccionEntidadBovedaProvider;
+
+    @Inject
+    private TransaccionBovedaCajaProvider transaccionBovedaCajaProvider;
+
+    @Inject
+    private TransaccionCajaCajaProvider transaccionCajaCajaProvider;
+
+    @Inject
+    private DetalleHistorialBovedaProvider detalleHistorialBovedaProvider;
+
+    @Inject
+    private DetalleHistorialBovedaCajaProvider detalleHistorialBovedaCajaProvider;
+
+    @Inject
+    private DetalleTransaccionEntidadBovedaProvider detalleTransaccionEntidadBovedaProvider;
+
+    @Inject
+    private DetalleTransaccionBovedaCajaProvider detalleTransaccionBovedaCajaProvider;
+
+    @Inject
+    private DetalleTransaccionCajaCajaProvider detalleTransaccionCajaCajaProvider;
+
+    @Inject
+    private TransaccionClienteProvider transaccionClienteProvider;
+
+    @Test
+    public void createEntidad() {
+        EntidadRepresentation entidadRep = new EntidadRepresentation();
+        entidadRep.setId("123456789");
+        entidadRep.setDenominacion("Banco de Credito del Peru");
+        entidadRep.setAbreviatura("BCP");
+        entidadRep.setEstado(false);
+
+        EntidadModel entidadModel = representationToModel.createEntidad(entidadRep, entidadProvider);
+        assertThat(entidadModel, is(notNullValue()));
+        assertThat(entidadModel.getId(), not(equalTo(entidadRep.getId())));
+        assertThat(entidadModel.getDenominacion(), is(equalTo(entidadRep.getDenominacion())));
+        assertThat(entidadModel.getAbreviatura(), is(equalTo(entidadRep.getAbreviatura())));
+        assertThat(entidadModel.getEstado(), not(equalTo(entidadRep.isEstado())));
     }
 
-    public CajaModel createCaja(CajaRepresentation cajaRepresentation, CajaProvider cajaProvider) {
-        CajaModel cajaModel = cajaProvider.create(cajaRepresentation.getAgencia(),
-                cajaRepresentation.getDenominacion());
+    @Test
+    public void createBoveda() {
+        BovedaRepresentation bovedaRep = new BovedaRepresentation();
+        bovedaRep.setId("123456789");
+        bovedaRep.setAgencia("Agencia 01");
+        bovedaRep.setDenominacion("Boveda Nuevos Soles");
+        bovedaRep.setMoneda("PEN");
+        bovedaRep.setEstado(false);
 
-        return cajaModel;
+        BovedaModel bovedaModel = representationToModel.createBoveda(bovedaRep, bovedaProvider);
+        assertThat(bovedaModel, is(notNullValue()));
+        assertThat(bovedaModel.getId(), not(equalTo(bovedaRep.getId())));
+        assertThat(bovedaModel.getAgencia(), is(equalTo(bovedaRep.getAgencia())));
+        assertThat(bovedaModel.getDenominacion(), is(equalTo(bovedaRep.getDenominacion())));
+        assertThat(bovedaModel.getMoneda(), is(equalTo(bovedaRep.getMoneda())));
+        assertThat(bovedaModel.getEstado(), not(equalTo(bovedaRep.isEstado())));
+    }
+
+    @Test
+    public void createCaja() {
+        CajaRepresentation cajaRep = new CajaRepresentation();
+        cajaRep.setId("123456789");
+        cajaRep.setAgencia("Agencia 01");
+        cajaRep.setDenominacion("Boveda Nuevos Soles");
+        cajaRep.setEstado(false);
+
+        CajaModel cajaModel = representationToModel.createCaja(cajaRep, cajaProvider);
+        assertThat(cajaModel, is(notNullValue()));
+        assertThat(cajaModel.getId(), not(equalTo(cajaRep.getId())));
+        assertThat(cajaModel.getAgencia(), is(equalTo(cajaRep.getAgencia())));
+        assertThat(cajaModel.getDenominacion(), is(equalTo(cajaRep.getDenominacion())));
+        assertThat(cajaModel.getEstado(), not(equalTo(cajaRep.isEstado())));
+    }
+
+    @Test
+    public void createBovedaCaja() {
+
     }
 
     public BovedaCajaModel createBovedaCaja(BovedaCajaRepresentation bovedaCajaRepresentation,
