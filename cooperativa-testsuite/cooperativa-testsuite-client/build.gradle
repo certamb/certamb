@@ -1,4 +1,0 @@
-dependencies {
-    compile project(':cooperativa-integration:cooperativa-client')
-	compile project(':cooperativa-services')
-}

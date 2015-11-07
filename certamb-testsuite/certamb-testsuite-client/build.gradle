@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':certamb-integration:certamb-client')
+	compile project(':certamb-services')
+}

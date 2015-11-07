@@ -1,0 +1,5 @@
+dependencies {
+	compile project(':certamb-model:certamb-model-api')
+	compile project(':certamb-model:certamb-model-jpa')
+	compile project(':certamb-model:certamb-model-mongo')
+}

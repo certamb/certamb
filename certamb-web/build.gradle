@@ -1,0 +1,15 @@
+apply plugin: 'war'
+
+dependencies {
+    compile project(':certamb-core')
+    compile project(':certamb-core-jaxrs')
+    compile project(':certamb-integration:certamb-client')
+    compile project(':certamb-services')
+    compile project(':certamb-model:certamb-model-api')
+    compile project(':certamb-model:certamb-model-jpa')
+    providedCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.13.Final'
+}
+
+war {   
+    baseName = 'certamb'
+}

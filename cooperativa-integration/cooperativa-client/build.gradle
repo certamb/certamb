@@ -1,6 +1,0 @@
-apply from: "$rootDir/gradle/miredot.gradle"
-
-dependencies {
-    compile project(':cooperativa-core')
-    compile project(':cooperativa-core-jaxrs')
-}
