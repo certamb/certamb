@@ -6,7 +6,7 @@ public interface EstadoProcedimientoModel extends Model {
 
     String getDenominacion();
 
-    void setDenominacion();
+    void setDenominacion(String denominacion);
 
     int getPlazo();
 

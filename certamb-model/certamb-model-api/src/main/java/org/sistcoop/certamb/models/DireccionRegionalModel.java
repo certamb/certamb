@@ -1,7 +1,5 @@
 package org.sistcoop.certamb.models;
 
-import java.util.List;
-
 public interface DireccionRegionalModel extends Model {
 
     String getId();
@@ -13,7 +11,5 @@ public interface DireccionRegionalModel extends Model {
     boolean getEstado();
 
     void setEstado(boolean estado);
-
-    List<ProyectoModel> getProyectos();
 
 }

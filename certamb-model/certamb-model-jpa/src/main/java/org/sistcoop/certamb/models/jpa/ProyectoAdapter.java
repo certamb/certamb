@@ -1,17 +1,11 @@
 package org.sistcoop.certamb.models.jpa;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 
-import org.sistcoop.certamb.models.DireccionRegionalModel;
-import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.enums.TipoProyecto;
-import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
 
 public class ProyectoAdapter implements ProyectoModel {
@@ -44,56 +38,37 @@ public class ProyectoAdapter implements ProyectoModel {
 
     @Override
     public String getId() {
-        // TODO Auto-generated method stub
-        return null;
+        return proyectoEntity.getId();
     }
 
     @Override
     public String getDenominacion() {
-        // TODO Auto-generated method stub
-        return null;
+        return proyectoEntity.getDenominacion();
     }
 
     @Override
     public void setDenominacion(String denominacion) {
-        // TODO Auto-generated method stub
-
+        proyectoEntity.setDenominacion(denominacion);
     }
 
     @Override
     public BigDecimal getMonto() {
-        // TODO Auto-generated method stub
-        return null;
+        return proyectoEntity.getMonto();
     }
 
     @Override
     public void setMonto(BigDecimal monto) {
-        // TODO Auto-generated method stub
-
+        proyectoEntity.setMonto(monto);
     }
 
     @Override
     public TipoProyecto getTipo() {
-        // TODO Auto-generated method stub
-        return null;
+        return proyectoEntity.getTipo();
     }
 
     @Override
     public void setTipo(TipoProyecto tipo) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public DireccionRegionalModel getDireccionRegional() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<HistorialProyectoModel> getHistoriales() {
-        // TODO Auto-generated method stub
-        return null;
+        proyectoEntity.setTipo(tipo);
     }
 
     @Override

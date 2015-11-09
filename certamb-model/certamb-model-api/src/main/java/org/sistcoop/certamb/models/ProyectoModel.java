@@ -1,7 +1,6 @@
 package org.sistcoop.certamb.models;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.sistcoop.certamb.models.enums.TipoProyecto;
 
@@ -20,9 +19,5 @@ public interface ProyectoModel extends Model {
     TipoProyecto getTipo();
 
     void setTipo(TipoProyecto tipo);
-
-    DireccionRegionalModel getDireccionRegional();
-
-    List<HistorialProyectoModel> getHistoriales();
 
 }

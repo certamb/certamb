@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.certamb.representations.idm.EstadoProcedimientoRepresentation;
-import org.sistcoop.certamb.representations.idm.ProyectoRepresentation;
 import org.sistcoop.certamb.representations.idm.search.SearchCriteriaRepresentation;
 import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentation;
 

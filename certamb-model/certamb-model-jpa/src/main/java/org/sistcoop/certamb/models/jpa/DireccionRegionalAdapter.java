@@ -1,29 +1,24 @@
 package org.sistcoop.certamb.models.jpa;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.EntityManager;
 
 import org.sistcoop.certamb.models.DireccionRegionalModel;
-import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 
 public class DireccionRegionalAdapter implements DireccionRegionalModel {
 
     private static final long serialVersionUID = 1L;
 
-    private DireccionRegionalEntity regionalEntity;
+    private DireccionRegionalEntity direccionRegionalEntity;
     private EntityManager em;
 
-    public DireccionRegionalAdapter(EntityManager em, DireccionRegionalEntity regionalEntity) {
+    public DireccionRegionalAdapter(EntityManager em, DireccionRegionalEntity direccionRegionalEntity) {
         this.em = em;
-        this.regionalEntity = regionalEntity;
+        this.direccionRegionalEntity = direccionRegionalEntity;
     }
 
     public DireccionRegionalEntity getDireccionRegionalEntity() {
-        return regionalEntity;
+        return direccionRegionalEntity;
     }
 
     public static DireccionRegionalEntity toDireccionRegionalEntity(DireccionRegionalModel model,
@@ -36,31 +31,32 @@ public class DireccionRegionalAdapter implements DireccionRegionalModel {
 
     @Override
     public void commit() {
-        em.merge(regionalEntity);
+        em.merge(direccionRegionalEntity);
     }
 
     @Override
     public String getId() {
-        // TODO Auto-generated method stub
-        return null;
+        return direccionRegionalEntity.getId();
     }
 
     @Override
     public String getDenominacion() {
-        // TODO Auto-generated method stub
-        return null;
+        return direccionRegionalEntity.getDenominacion();
     }
 
     @Override
     public void setDenominacion(String denominacion) {
-        // TODO Auto-generated method stub
-
+        direccionRegionalEntity.setDenominacion(denominacion);
     }
 
     @Override
     public boolean getEstado() {
-        // TODO Auto-generated method stub
-        return false;
+        return direccionRegionalEntity.isEstado();
+    }
+
+    @Override
+    public void setEstado(boolean estado) {
+        direccionRegionalEntity.setEstado(estado);
     }
 
     @Override
@@ -86,18 +82,6 @@ public class DireccionRegionalAdapter implements DireccionRegionalModel {
         } else if (!getDenominacion().equals(other.getDenominacion()))
             return false;
         return true;
-    }
-
-    @Override
-    public void setEstado(boolean estado) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public List<ProyectoModel> getProyectos() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

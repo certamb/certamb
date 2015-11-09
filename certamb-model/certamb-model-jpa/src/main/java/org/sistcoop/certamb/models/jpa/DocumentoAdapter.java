@@ -1,20 +1,9 @@
 package org.sistcoop.certamb.models.jpa;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.EntityManager;
 
-import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DocumentoModel;
-import org.sistcoop.certamb.models.HistorialProyectoModel;
-import org.sistcoop.certamb.models.ProyectoModel;
-import org.sistcoop.certamb.models.enums.TipoProyecto;
-import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.entities.DocumentoEntity;
-import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
 
 public class DocumentoAdapter implements DocumentoModel {
 
@@ -46,20 +35,17 @@ public class DocumentoAdapter implements DocumentoModel {
 
     @Override
     public String getId() {
-        // TODO Auto-generated method stub
-        return null;
+        return documentoEntity.getId();
     }
 
     @Override
     public String getUrl() {
-        // TODO Auto-generated method stub
-        return null;
+        return documentoEntity.getUrl();
     }
 
     @Override
     public void setUrl(String url) {
-        // TODO Auto-generated method stub
-
+        documentoEntity.setUrl(url);
     }
 
     @Override

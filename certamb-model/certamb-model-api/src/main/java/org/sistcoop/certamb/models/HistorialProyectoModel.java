@@ -1,6 +1,6 @@
 package org.sistcoop.certamb.models;
 
-import java.util.List;
+import java.util.Date;
 
 import org.sistcoop.certamb.models.enums.CategoriaProyecto;
 
@@ -8,7 +8,7 @@ public interface HistorialProyectoModel extends Model {
 
     String getId();
 
-    String getFecha();
+    Date getFecha();
 
     CategoriaProyecto getCategoria();
 
@@ -25,11 +25,5 @@ public interface HistorialProyectoModel extends Model {
     boolean getEstado();
 
     void setEstado(boolean estado);
-
-    ProyectoModel getProyecto();
-
-    EstadoProcedimientoModel getEstadoProcedimiento();
-
-    List<DocumentoModel> getDocumentos();
 
 }

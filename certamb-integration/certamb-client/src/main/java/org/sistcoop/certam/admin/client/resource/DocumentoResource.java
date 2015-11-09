@@ -1,16 +1,10 @@
 package org.sistcoop.certam.admin.client.resource;
 
-import java.util.List;
-
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.sistcoop.certamb.representations.idm.DocumentoRepresentation;
-import org.sistcoop.certamb.representations.idm.ProyectoRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com

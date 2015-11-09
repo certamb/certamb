@@ -1,22 +1,12 @@
 package org.sistcoop.certamb.models.jpa;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 
-import org.sistcoop.certamb.models.DireccionRegionalModel;
-import org.sistcoop.certamb.models.DocumentoModel;
-import org.sistcoop.certamb.models.EstadoProcedimientoModel;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
-import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.enums.CategoriaProyecto;
-import org.sistcoop.certamb.models.enums.TipoProyecto;
-import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.entities.HistorialProyectoEntity;
-import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
 
 public class HistorialProyectoAdapter implements HistorialProyectoModel {
 
@@ -49,80 +39,53 @@ public class HistorialProyectoAdapter implements HistorialProyectoModel {
 
     @Override
     public String getId() {
-        // TODO Auto-generated method stub
-        return null;
+        return historialProyectoEntity.getId();
     }
 
     @Override
-    public String getFecha() {
-        // TODO Auto-generated method stub
-        return null;
+    public Date getFecha() {
+        return historialProyectoEntity.getFecha();
     }
 
     @Override
     public CategoriaProyecto getCategoria() {
-        // TODO Auto-generated method stub
-        return null;
+        return historialProyectoEntity.getCategoria();
     }
 
     @Override
     public void setCategoria(CategoriaProyecto categoria) {
-        // TODO Auto-generated method stub
-
+        historialProyectoEntity.setCategoria(categoria);
     }
 
     @Override
     public String getResolucion() {
-        // TODO Auto-generated method stub
-        return null;
+        return historialProyectoEntity.getResolucion();
     }
 
     @Override
     public void setResolucion(String resolucion) {
-        // TODO Auto-generated method stub
-
+        historialProyectoEntity.setResolucion(resolucion);
+        ;
     }
 
     @Override
     public String getObservacion() {
-        // TODO Auto-generated method stub
-        return null;
+        return historialProyectoEntity.getObservacion();
     }
 
     @Override
     public void setObservacion(String observacion) {
-        // TODO Auto-generated method stub
-
+        historialProyectoEntity.setObservacion(observacion);
     }
 
     @Override
     public boolean getEstado() {
-        // TODO Auto-generated method stub
-        return false;
+        return historialProyectoEntity.isEstado();
     }
 
     @Override
     public void setEstado(boolean estado) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public ProyectoModel getProyecto() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public EstadoProcedimientoModel getEstadoProcedimiento() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<DocumentoModel> getDocumentos() {
-        // TODO Auto-generated method stub
-        return null;
+        historialProyectoEntity.setEstado(estado);
     }
 
     @Override

@@ -8,10 +8,6 @@
 	<!-- <module-name>cooperativa</module-name> -->
 
 	<!-- Login method -->
-	<!--
-	<login-config>
-		<auth-method>KEYCLOAK</auth-method>
-		<realm-name>sistcoop</realm-name>
-	</login-config>
-	-->
+	<!-- <login-config> <auth-method>KEYCLOAK</auth-method> <realm-name>sistcoop</realm-name> 
+		</login-config> -->
 </web-app>

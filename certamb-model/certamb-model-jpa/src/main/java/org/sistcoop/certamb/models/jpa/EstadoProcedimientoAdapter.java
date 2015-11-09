@@ -1,20 +1,10 @@
 package org.sistcoop.certamb.models.jpa;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.EntityManager;
 
-import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.EstadoProcedimientoModel;
-import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.ProyectoModel;
-import org.sistcoop.certamb.models.enums.TipoProyecto;
-import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.entities.EstadoProcedimientoEntity;
-import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
 
 public class EstadoProcedimientoAdapter implements EstadoProcedimientoModel {
 
@@ -47,31 +37,27 @@ public class EstadoProcedimientoAdapter implements EstadoProcedimientoModel {
 
     @Override
     public String getId() {
-        // TODO Auto-generated method stub
-        return null;
+        return estadoProcedimientoEntity.getId();
     }
 
     @Override
     public String getDenominacion() {
-        // TODO Auto-generated method stub
-        return null;
+        return estadoProcedimientoEntity.getDenominacion();
     }
 
     @Override
-    public void setDenominacion() {
-        // TODO Auto-generated method stub
-
+    public void setDenominacion(String denominacion) {
+        estadoProcedimientoEntity.setDenominacion(denominacion);
     }
 
     @Override
     public int getPlazo() {
-        // TODO Auto-generated method stub
-        return 0;
+        return estadoProcedimientoEntity.getPlazo();
     }
 
     @Override
     public void setPlazo(int plazo) {
-        // TODO Auto-generated method stub
+        estadoProcedimientoEntity.setPlazo(plazo);
 
     }
 

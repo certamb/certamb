@@ -7,8 +7,8 @@ import org.sistcoop.certamb.provider.Provider;
 @Local
 public interface EstadoProcedimientoProvider extends Provider {
 
-    DocumentoModel create(String denominacion, int plazo);
+    EstadoProcedimientoModel create(String denominacion, int plazo);
 
-    DireccionRegionalModel findById(String id);
+    EstadoProcedimientoModel findById(String id);
 
 }

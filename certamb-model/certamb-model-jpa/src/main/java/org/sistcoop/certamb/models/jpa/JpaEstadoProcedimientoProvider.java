@@ -1,8 +1,5 @@
 package org.sistcoop.certamb.models.jpa;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -11,17 +8,9 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.sistcoop.certamb.models.DireccionRegionalModel;
-import org.sistcoop.certamb.models.DireccionRegionalProvider;
-import org.sistcoop.certamb.models.DocumentoModel;
-import org.sistcoop.certamb.models.DocumentoProvider;
+import org.sistcoop.certamb.models.EstadoProcedimientoModel;
 import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
-import org.sistcoop.certamb.models.HistorialProyectoModel;
-import org.sistcoop.certamb.models.HistorialProyectoProvider;
-import org.sistcoop.certamb.models.ProyectoModel;
-import org.sistcoop.certamb.models.ProyectoProvider;
-import org.sistcoop.certamb.models.search.SearchCriteriaModel;
-import org.sistcoop.certamb.models.search.SearchResultsModel;
+import org.sistcoop.certamb.models.jpa.entities.EstadoProcedimientoEntity;
 
 /**
  * @author <a href="mailto:carlosthe19916@sistcoop.com">Carlos Feria</a>
@@ -31,7 +20,8 @@ import org.sistcoop.certamb.models.search.SearchResultsModel;
 @Stateless
 @Local(EstadoProcedimientoProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage implements EstadoProcedimientoProvider {
+public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage
+        implements EstadoProcedimientoProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -47,17 +37,21 @@ public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage imp
     }
 
     @Override
-    public DocumentoModel create(String denominacion, int plazo) {
-        // TODO Auto-generated method stub
-        return null;
+    public EstadoProcedimientoModel create(String denominacion, int plazo) {
+        EstadoProcedimientoEntity estadoProcedimientoEntity = new EstadoProcedimientoEntity();
+        estadoProcedimientoEntity.setDenominacion(denominacion);
+        estadoProcedimientoEntity.setPlazo(plazo);
+
+        em.persist(estadoProcedimientoEntity);
+        return new EstadoProcedimientoAdapter(em, estadoProcedimientoEntity);
     }
 
     @Override
-    public DireccionRegionalModel findById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+    public EstadoProcedimientoModel findById(String id) {
+        EstadoProcedimientoEntity estadoProcedimientoEntity = this.em.find(EstadoProcedimientoEntity.class,
+                id);
+        return estadoProcedimientoEntity != null
+                ? new EstadoProcedimientoAdapter(em, estadoProcedimientoEntity) : null;
     }
-
-    
 
 }

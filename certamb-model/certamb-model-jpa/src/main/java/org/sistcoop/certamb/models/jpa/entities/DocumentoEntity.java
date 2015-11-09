@@ -46,7 +46,7 @@ public class DocumentoEntity implements Serializable {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "HISTORIAL_PROYECTO_ID", foreignKey = @ForeignKey )
-    protected HistorialProyectoEntity historial;
+    private HistorialProyectoEntity historial;
 
     @Version
     private Timestamp optlk;

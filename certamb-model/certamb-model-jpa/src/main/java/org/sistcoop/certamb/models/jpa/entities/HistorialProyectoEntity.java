@@ -3,15 +3,20 @@ package org.sistcoop.certamb.models.jpa.entities;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,6 +28,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.Type;
+import org.sistcoop.certamb.models.enums.CategoriaProyecto;
 
 @Entity
 @Table(name = "HISTORIAL_PROYECTO")
@@ -47,9 +53,9 @@ public class HistorialProyectoEntity implements Serializable {
     @Column(name = "FECHA")
     private Date fecha;
 
-    @Size(min = 1, max = 200)
+    @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORIA")
-    private String categoria;
+    private CategoriaProyecto categoria;
 
     @Size(min = 1, max = 200)
     @Column(name = "RESOLUCION")
@@ -74,6 +80,9 @@ public class HistorialProyectoEntity implements Serializable {
     @JoinColumn(name = "ESTADO_PROCEDIMIENTO_ID", foreignKey = @ForeignKey )
     private EstadoProcedimientoEntity estadoProcedimiento;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "historial")
+    private Set<DocumentoEntity> documentos = new HashSet<DocumentoEntity>();
+
     @Version
     private Timestamp optlk;
 
@@ -93,11 +102,11 @@ public class HistorialProyectoEntity implements Serializable {
         this.fecha = fecha;
     }
 
-    public String getCategoria() {
+    public CategoriaProyecto getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(CategoriaProyecto categoria) {
         this.categoria = categoria;
     }
 
@@ -139,6 +148,14 @@ public class HistorialProyectoEntity implements Serializable {
 
     public void setEstadoProcedimiento(EstadoProcedimientoEntity estadoProcedimiento) {
         this.estadoProcedimiento = estadoProcedimiento;
+    }
+
+    public Set<DocumentoEntity> getDocumentos() {
+        return documentos;
+    }
+
+    public void setDocumentos(Set<DocumentoEntity> documentos) {
+        this.documentos = documentos;
     }
 
     public Timestamp getOptlk() {

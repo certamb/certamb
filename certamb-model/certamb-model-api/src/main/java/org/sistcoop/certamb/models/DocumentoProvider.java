@@ -9,10 +9,10 @@ import org.sistcoop.certamb.provider.Provider;
 @Local
 public interface DocumentoProvider extends Provider {
 
-    DocumentoModel create(HistorialProyectoModel historial);
+    DocumentoModel create(HistorialProyectoModel historial, String url);
 
-    DireccionRegionalModel findById(String id);
+    DocumentoModel findById(String id);
 
-    List<DireccionRegionalModel> getAll(HistorialProyectoModel historial);
+    List<DocumentoModel> getAll(HistorialProyectoModel historial);
 
 }
