@@ -23,8 +23,8 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @Table(name = "DOCUMENTO")
 @NamedQueries(value = { 
-        @NamedQuery(name = "DocumentoEntity.findAll", query = "SELECT d DocumentoEntity d"),
-        @NamedQuery(name = "DocumentoEntity.findByIdHistorial", query = "SELECT d DocumentoEntity d INNER JOIN d.historial h WHERE h.id =:idHistorial") })
+        @NamedQuery(name = "DocumentoEntity.findAll", query = "SELECT d FROM DocumentoEntity d"),
+        @NamedQuery(name = "DocumentoEntity.findByIdHistorial", query = "SELECT d FROM DocumentoEntity d INNER JOIN d.historial h WHERE h.id =:idHistorial") })
 public class DocumentoEntity implements Serializable {
 
     /**
