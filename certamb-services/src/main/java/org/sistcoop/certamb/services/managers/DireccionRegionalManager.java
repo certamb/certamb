@@ -17,4 +17,16 @@ public class DireccionRegionalManager {
         return true;
     }
 
+    public boolean enable(DireccionRegionalModel model) {
+        model.setEstado(true);
+        model.commit();
+        return true;
+    }
+
+    public boolean disable(DireccionRegionalModel model) {
+        model.setEstado(false);
+        model.commit();
+        return true;
+    }
+
 }

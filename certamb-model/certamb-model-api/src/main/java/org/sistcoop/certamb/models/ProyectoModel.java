@@ -17,9 +17,9 @@ public interface ProyectoModel extends Model {
 
     void setMonto(BigDecimal monto);
 
-    TipoProyecto getCategoria();
+    TipoProyecto getTipo();
 
-    void setCategoria(TipoProyecto categoria);
+    void setTipo(TipoProyecto tipo);
 
     DireccionRegionalModel getDireccionRegional();
 

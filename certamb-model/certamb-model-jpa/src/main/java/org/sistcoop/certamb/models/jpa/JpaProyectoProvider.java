@@ -42,7 +42,8 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
     }
 
     @Override
-    public ProyectoModel create(String denominacion, BigDecimal monto) {
+    public ProyectoModel create(DireccionRegionalModel direccionReional, String denominacion,
+            BigDecimal monto) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -96,7 +97,5 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
         // TODO Auto-generated method stub
         return null;
     }
-
-   
 
 }

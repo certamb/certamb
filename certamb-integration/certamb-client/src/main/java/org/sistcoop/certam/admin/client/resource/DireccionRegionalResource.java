@@ -55,10 +55,25 @@ public interface DireccionRegionalResource {
      * @return javax.ws.rs.core.Response
      */
     @POST
+    @Path("enable")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response enable();
+
+    /**
+     * Use este endpoint para desactivar una direccionRegional. Una boveda
+     * desactivada no podra ser usada nuevamente para realizar ninguna
+     * operacion.
+     * 
+     * @summary Disable DireccionRegional
+     * @statuscode 200 Si la direccionRegional fue desactivada
+     *             satisfactoriamente.
+     * @return javax.ws.rs.core.Response
+     */
+    @POST
     @Path("disable")
     @Produces(MediaType.APPLICATION_JSON)
     public Response disable();
-
+    
     @Path("historiales")
     public ProyectosResource historiales();
 

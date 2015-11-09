@@ -2,49 +2,81 @@ package org.sistcoop.certamb.services.resources.admin;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.certam.admin.client.resource.DireccionRegionalResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource;
+import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
+import org.sistcoop.certamb.models.utils.ModelToRepresentation;
 import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
+import org.sistcoop.certamb.services.ErrorResponse;
 import org.sistcoop.certamb.services.managers.DireccionRegionalManager;
 
 @Stateless
 public class DireccionRegionalResourceImpl implements DireccionRegionalResource {
 
-    @PathParam("idCaja")
-    private String idCaja;
+    @PathParam("idDireccionRegional")
+    private String idDireccionRegional;
 
     @Inject
-    private DireccionRegionalManager cajaManager;
+    private DireccionRegionalManager direccionRegionalManager;
 
     @Inject
-    private DireccionRegionalProvider cajaProvider;
+    private DireccionRegionalProvider direccionRegionalProvider;
+
+    @Inject
+    private ProyectosResource proyectosResource;
+
+    private DireccionRegionalModel getDireccionRegionalModel() {
+        return direccionRegionalProvider.findById(idDireccionRegional);
+    }
 
     @Override
     public DireccionRegionalRepresentation toRepresentation() {
-        // TODO Auto-generated method stub
-        return null;
+        DireccionRegionalRepresentation rep = ModelToRepresentation
+                .toRepresentation(getDireccionRegionalModel());
+        if (rep != null) {
+            return rep;
+        } else {
+            throw new NotFoundException("Caja no encontrada");
+        }
     }
 
     @Override
     public void update(DireccionRegionalRepresentation rep) {
-        // TODO Auto-generated method stub
-        
+        direccionRegionalManager.update(getDireccionRegionalModel(), rep);
+    }
+
+    @Override
+    public Response enable() {
+        DireccionRegionalModel direccionRegional = getDireccionRegionalModel();
+
+        boolean result = direccionRegionalManager.enable(direccionRegional);
+        if (result) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Caja no pudo ser desactivada", Response.Status.BAD_REQUEST);
+        }
     }
 
     @Override
     public Response disable() {
-        // TODO Auto-generated method stub
-        return null;
+        DireccionRegionalModel direccionRegional = getDireccionRegionalModel();
+
+        boolean result = direccionRegionalManager.disable(direccionRegional);
+        if (result) {
+            return Response.noContent().build();
+        } else {
+            return ErrorResponse.error("Caja no pudo ser desactivada", Response.Status.BAD_REQUEST);
+        }
     }
 
     @Override
     public ProyectosResource historiales() {
-        // TODO Auto-generated method stub
-        return null;
-    }    
+        return proyectosResource;
+    }
 
 }

@@ -73,13 +73,13 @@ public class ProyectoAdapter implements ProyectoModel {
     }
 
     @Override
-    public TipoProyecto getCategoria() {
+    public TipoProyecto getTipo() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void setCategoria(TipoProyecto categoria) {
+    public void setTipo(TipoProyecto tipo) {
         // TODO Auto-generated method stub
 
     }
