@@ -11,28 +11,28 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.runner.RunWith;
 import org.sistcoop.ceramb.admin.client.Config;
-import org.sistcoop.certam.admin.client.resource.BovedasResource;
+import org.sistcoop.certam.admin.client.resource.DireccionesRegionalesResource;
 import org.sistcoop.certamb.JaxRsActivator;
 import org.sistcoop.certamb.constants.GenericConstants;
 import org.sistcoop.certamb.mappers.MapperConfigValidationException;
 import org.sistcoop.certamb.messages.MessagesProvider;
-import org.sistcoop.certamb.models.BovedaModel;
-import org.sistcoop.certamb.models.enums.OrigenTransaccionBovedaCaja;
-import org.sistcoop.certamb.models.jpa.JpaBovedaProvider;
-import org.sistcoop.certamb.models.jpa.entities.BovedaEntity;
+import org.sistcoop.certamb.models.DireccionRegionalModel;
+import org.sistcoop.certamb.models.enums.TipoProyecto;
+import org.sistcoop.certamb.models.jpa.JpaDireccionRegionalProvider;
+import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.search.SearchCriteriaJoinModel;
 import org.sistcoop.certamb.models.search.SearchCriteriaModel;
 import org.sistcoop.certamb.models.utils.ModelToRepresentation;
 import org.sistcoop.certamb.provider.Provider;
-import org.sistcoop.certamb.representations.idm.BovedaRepresentation;
+import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
 import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.certamb.services.ErrorResponse;
 import org.sistcoop.certamb.services.filters.CooperativaFilter;
 import org.sistcoop.certamb.services.listeners.CooperativaListener;
-import org.sistcoop.certamb.services.managers.BovedaManagerTest;
+import org.sistcoop.certamb.services.managers.DireccionRegionalManagerTest;
 import org.sistcoop.certamb.services.messages.Messages;
 import org.sistcoop.certamb.services.resources.ModelExceptionMapper;
-import org.sistcoop.certamb.services.resources.admin.BovedasResourceImpl;
+import org.sistcoop.certamb.services.resources.admin.DireccionesRegionalesResourceImpl;
 import org.sistcoop.certamb.services.resources.producers.BovedaCajas_Boveda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,27 +54,27 @@ public abstract class AbstractTest {
 
 				/** model-api **/
 				.addPackage(MapperConfigValidationException.class.getPackage())
-				.addPackage(BovedaModel.class.getPackage()).addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
+				.addPackage(DireccionRegionalModel.class.getPackage()).addPackage(TipoProyecto.class.getPackage())
 				.addPackage(SearchCriteriaModel.class.getPackage()).addPackage(SearchCriteriaModel.class.getPackage())
 				.addPackage(ModelToRepresentation.class.getPackage()).addPackage(Provider.class.getPackage())
 
 				/** model-jpa **/
-				.addPackage(JpaBovedaProvider.class.getPackage()).addPackage(BovedaEntity.class.getPackage())
+				.addPackage(JpaDireccionRegionalProvider.class.getPackage()).addPackage(DireccionRegionalEntity.class.getPackage())
 				.addPackage(SearchCriteriaJoinModel.class.getPackage())
 
 				/** client */
-				.addPackage(Config.class.getPackage()).addPackage(BovedasResource.class.getPackage())
+				.addPackage(Config.class.getPackage()).addPackage(DireccionesRegionalesResource.class.getPackage())
 
 				/** services */
 				.addPackage(MessagesProvider.class.getPackage()).addPackage(ErrorResponse.class.getPackage())
 				.addPackage(CooperativaFilter.class.getPackage()).addPackage(CooperativaListener.class.getPackage())
-				.addPackage(BovedaManagerTest.class.getPackage()).addPackage(Messages.class.getPackage())
-				.addPackage(ModelExceptionMapper.class.getPackage()).addPackage(BovedasResourceImpl.class.getPackage())
+				.addPackage(DireccionRegionalManagerTest.class.getPackage()).addPackage(Messages.class.getPackage())
+				.addPackage(ModelExceptionMapper.class.getPackage()).addPackage(DireccionesRegionalesResourceImpl.class.getPackage())
 				.addPackage(BovedaCajas_Boveda.class.getPackage())
 
 				/** core */
 				.addPackage(Config.class.getPackage()).addPackage(GenericConstants.class.getPackage())
-				.addPackage(BovedaRepresentation.class.getPackage())
+				.addPackage(DireccionRegionalRepresentation.class.getPackage())
 				.addPackage(SearchResultsRepresentation.class.getPackage())
 
 				/** core jaxrs */

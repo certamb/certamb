@@ -1,116 +1,15 @@
 package org.sistcoop.certamb.models.utils;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
-import java.math.BigDecimal;
-import java.util.List;
-
 import javax.inject.Inject;
 
-import org.junit.Test;
 import org.sistcoop.certamb.models.AbstractTest;
-import org.sistcoop.certamb.models.BovedaCajaModel;
-import org.sistcoop.certamb.models.BovedaCajaProvider;
-import org.sistcoop.certamb.models.BovedaModel;
-import org.sistcoop.certamb.models.BovedaProvider;
-import org.sistcoop.certamb.models.CajaModel;
-import org.sistcoop.certamb.models.CajaProvider;
-import org.sistcoop.certamb.models.DetalleHistorialBovedaCajaModel;
-import org.sistcoop.certamb.models.DetalleHistorialBovedaCajaProvider;
-import org.sistcoop.certamb.models.DetalleHistorialBovedaModel;
-import org.sistcoop.certamb.models.DetalleHistorialBovedaProvider;
-import org.sistcoop.certamb.models.DetalleTransaccionBovedaCajaProvider;
-import org.sistcoop.certamb.models.DetalleTransaccionCajaCajaProvider;
-import org.sistcoop.certamb.models.DetalleTransaccionEntidadBovedaProvider;
-import org.sistcoop.certamb.models.EntidadModel;
-import org.sistcoop.certamb.models.EntidadProvider;
-import org.sistcoop.certamb.models.HistorialBovedaCajaModel;
-import org.sistcoop.certamb.models.HistorialBovedaCajaProvider;
-import org.sistcoop.certamb.models.HistorialBovedaModel;
-import org.sistcoop.certamb.models.HistorialBovedaProvider;
-import org.sistcoop.certamb.models.TrabajadorCajaModel;
-import org.sistcoop.certamb.models.TrabajadorCajaProvider;
-import org.sistcoop.certamb.models.TransaccionBovedaCajaModel;
-import org.sistcoop.certamb.models.TransaccionBovedaCajaProvider;
-import org.sistcoop.certamb.models.TransaccionCajaCajaModel;
-import org.sistcoop.certamb.models.TransaccionCajaCajaProvider;
-import org.sistcoop.certamb.models.TransaccionClienteProvider;
-import org.sistcoop.certamb.models.TransaccionEntidadBovedaModel;
-import org.sistcoop.certamb.models.TransaccionEntidadBovedaProvider;
-import org.sistcoop.certamb.models.enums.OrigenTransaccionBovedaCaja;
-import org.sistcoop.certamb.models.enums.OrigenTransaccionEntidadBoveda;
-import org.sistcoop.certamb.models.enums.TipoTransaccionEntidadBoveda;
-import org.sistcoop.certamb.models.utils.RepresentationToModel;
-import org.sistcoop.certamb.representations.idm.BovedaCajaRepresentation;
-import org.sistcoop.certamb.representations.idm.BovedaRepresentation;
-import org.sistcoop.certamb.representations.idm.CajaRepresentation;
-import org.sistcoop.certamb.representations.idm.DetalleMonedaRepresentation;
-import org.sistcoop.certamb.representations.idm.EntidadRepresentation;
-import org.sistcoop.certamb.representations.idm.HistorialBovedaCajaRepresentation;
-import org.sistcoop.certamb.representations.idm.HistorialBovedaRepresentation;
-import org.sistcoop.certamb.representations.idm.TrabajadorCajaRepresentation;
-import org.sistcoop.certamb.representations.idm.TransaccionBovedaCajaRepresentation;
-import org.sistcoop.certamb.representations.idm.TransaccionCajaCajaRepresentation;
-import org.sistcoop.certamb.representations.idm.TransaccionEntidadBovedaRepresentation;
 
 public class RepresentationToModelTest extends AbstractTest {
 
     @Inject
     private RepresentationToModel representationToModel;
 
-    @Inject
-    private EntidadProvider entidadProvider;
-
-    @Inject
-    private BovedaProvider bovedaProvider;
-
-    @Inject
-    private CajaProvider cajaProvider;
-
-    @Inject
-    private BovedaCajaProvider bovedaCajaProvider;
-
-    @Inject
-    private HistorialBovedaProvider historialBovedaProvider;
-
-    @Inject
-    private HistorialBovedaCajaProvider historialBovedaCajaProvider;
-
-    @Inject
-    private TrabajadorCajaProvider trabajadorCajaProvider;
-
-    @Inject
-    private TransaccionEntidadBovedaProvider transaccionEntidadBovedaProvider;
-
-    @Inject
-    private TransaccionBovedaCajaProvider transaccionBovedaCajaProvider;
-
-    @Inject
-    private TransaccionCajaCajaProvider transaccionCajaCajaProvider;
-
-    @Inject
-    private DetalleHistorialBovedaProvider detalleHistorialBovedaProvider;
-
-    @Inject
-    private DetalleHistorialBovedaCajaProvider detalleHistorialBovedaCajaProvider;
-
-    @Inject
-    private DetalleTransaccionEntidadBovedaProvider detalleTransaccionEntidadBovedaProvider;
-
-    @Inject
-    private DetalleTransaccionBovedaCajaProvider detalleTransaccionBovedaCajaProvider;
-
-    @Inject
-    private DetalleTransaccionCajaCajaProvider detalleTransaccionCajaCajaProvider;
-
-    @Inject
-    private TransaccionClienteProvider transaccionClienteProvider;
-
+   /*
     @Test
     public void createEntidad() {
         EntidadRepresentation entidadRep = new EntidadRepresentation();
@@ -153,7 +52,7 @@ public class RepresentationToModelTest extends AbstractTest {
         cajaRep.setDenominacion("Boveda Nuevos Soles");
         cajaRep.setEstado(false);
 
-        CajaModel cajaModel = representationToModel.createCaja(cajaRep, cajaProvider);
+        DireccionRegionalModel cajaModel = representationToModel.createCaja(cajaRep, cajaProvider);
         assertThat(cajaModel, is(notNullValue()));
         assertThat(cajaModel.getId(), not(equalTo(cajaRep.getId())));
         assertThat(cajaModel.getAgencia(), is(equalTo(cajaRep.getAgencia())));
@@ -174,12 +73,12 @@ public class RepresentationToModelTest extends AbstractTest {
     @Test
     public void createBovedaCaja3() {
 
-    }
+    }*/
 
     /**
      * Abrir boveda
      */
-    public HistorialBovedaModel createHistorialBoveda(
+   /* public HistorialBovedaModel createHistorialBoveda(
             HistorialBovedaRepresentation historialBovedaRepresentation, BovedaModel bovedaModel,
             HistorialBovedaProvider historialBovedaProvider,
             DetalleHistorialBovedaProvider detalleHistorialBovedaProvider) {
@@ -290,7 +189,7 @@ public class RepresentationToModelTest extends AbstractTest {
     public TransaccionBovedaCajaModel createTransaccionBovedaCaja(
             TransaccionBovedaCajaRepresentation transaccionBovedaCajaRepresentation,
             HistorialBovedaModel historialBovedaModel, HistorialBovedaCajaModel historialBovedaCajaModel,
-            OrigenTransaccionBovedaCaja origen, TransaccionBovedaCajaProvider transaccionBovedaCajaProvider,
+            TipoProyecto origen, TransaccionBovedaCajaProvider transaccionBovedaCajaProvider,
             DetalleTransaccionBovedaCajaProvider detalleTransaccionBovedaCajaProvider) {
 
         BigDecimal saldoTotalDeTransaccion = BigDecimal.ZERO;
@@ -345,7 +244,7 @@ public class RepresentationToModelTest extends AbstractTest {
     }
 
     public TrabajadorCajaModel createTrabajadorCaja(TrabajadorCajaRepresentation trabajadorRepresentation,
-            CajaModel cajaModel, TrabajadorCajaProvider trabajadorCajaProvider) {
+            DireccionRegionalModel cajaModel, TrabajadorCajaProvider trabajadorCajaProvider) {
 
         TrabajadorCajaModel trabajadorCajaModel = trabajadorCajaProvider.create(cajaModel,
                 trabajadorRepresentation.getTipoDocumento(), trabajadorRepresentation.getNumeroDocumento());
@@ -356,6 +255,6 @@ public class RepresentationToModelTest extends AbstractTest {
     public EntidadModel createEntidad(EntidadRepresentation rep, EntidadProvider entidadProvider) {
         EntidadModel entidadModel = entidadProvider.create(rep.getDenominacion(), rep.getAbreviatura());
         return entidadModel;
-    }
+    }*/
 
 }

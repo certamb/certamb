@@ -11,15 +11,14 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.runner.RunWith;
 import org.sistcoop.certamb.mappers.MapperConfigValidationException;
-import org.sistcoop.certamb.models.BovedaModel;
-import org.sistcoop.certamb.models.enums.OrigenTransaccionBovedaCaja;
-import org.sistcoop.certamb.models.jpa.JpaBovedaProvider;
-import org.sistcoop.certamb.models.jpa.entities.BovedaEntity;
+import org.sistcoop.certamb.models.enums.TipoProyecto;
+import org.sistcoop.certamb.models.jpa.JpaDireccionRegionalProvider;
+import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.search.SearchCriteriaJoinModel;
 import org.sistcoop.certamb.models.search.SearchCriteriaModel;
 import org.sistcoop.certamb.models.utils.ModelToRepresentation;
 import org.sistcoop.certamb.provider.Provider;
-import org.sistcoop.certamb.representations.idm.BovedaRepresentation;
+import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,15 +36,15 @@ public abstract class AbstractTest {
         WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
                 /** model-api **/
                 .addPackage(MapperConfigValidationException.class.getPackage())
-                .addPackage(BovedaRepresentation.class.getPackage())
-                .addPackage(BovedaModel.class.getPackage())
-                .addPackage(OrigenTransaccionBovedaCaja.class.getPackage())
+                .addPackage(DireccionRegionalRepresentation.class.getPackage())
+                .addPackage(DireccionRegionalModel.class.getPackage())
+                .addPackage(TipoProyecto.class.getPackage())
                 .addPackage(SearchCriteriaModel.class.getPackage())
                 .addPackage(SearchCriteriaModel.class.getPackage())
                 .addPackage(ModelToRepresentation.class.getPackage()).addPackage(Provider.class.getPackage())
 
                 /** model-jpa **/
-                .addPackage(JpaBovedaProvider.class.getPackage()).addPackage(BovedaEntity.class.getPackage())
+                .addPackage(JpaDireccionRegionalProvider.class.getPackage()).addPackage(DireccionRegionalEntity.class.getPackage())
                 .addPackage(SearchCriteriaJoinModel.class.getPackage())
 
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
