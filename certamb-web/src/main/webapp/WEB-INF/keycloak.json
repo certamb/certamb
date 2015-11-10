@@ -1,8 +1,8 @@
 {
   "realm": "CERTAMB",
-  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlSpCAjAFCILsM9CBx9jGeQ+N5dR8JyxUe/beNX1ncQuplAPizTh0iCkg//7lg3I3JtoPAs8qR4EeywT8CRWhcyW1ELArRwWigI3iHX5c6A1doo1ZVue/D9PHSXUty3FMTVqx60dVvCXmQ5EcQu4+VM9odtLt+7KkSOOUlYrrqDp3N03pnn3r78RKdi2XElqlfXHbAjk2XrJZaOdzgwVgBCCz5sEZaLtF/oQvhIcpFGxcXVrRH7Yzh446RD03x/5f+Jd4a3pG2DCkfAihZZpnQvOi2tsSyoXxXPBwz8GGfo5SH8mNYvZt+sn1qKjSk6wp+A/a2genGSg//Y+NsiMZ/QIDAQAB",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoAV17QCHW1pNG9TrLlc4nbhCGSz9h7Q52nRctiv9XWun62OGbCCIWNuAAoOjXrx8n6KZG4BgvH+rcBrs6ACvJnLwS4lxrdUf8aOi23P7ygyqlLZIRYgfru2UOo/MGqoFUKGEtiRiIuwmEdRlTByAboa4xOeJQmDOUpqvtcCQspm2woi7NAkolYSIxx0kXZFuIG6wvrxS2XKKq1IuTDlkIf+OgZuvWCuVnicwKYEL6CnkRIzTXCGgy3Qj15W8q3umnXGVlkCXX4FhPG9yeQoJX4QZleQJGGNnHv+/rdeqdSdIG6635MIeYHWEm/nsH00zRzLDFTXw/RnT2niDZG2LFQIDAQAB",
   "bearer-only": true,
-  "auth-server-url": "https://keycloak-softgreen.rhcloud.com/auth",
+  "auth-server-url": "https://certambkeycloak-softgreen.rhcloud.com/auth",
   "ssl-required": "external",
   "resource": "CERTAMB_REST",
   "use-resource-role-mappings": true,
