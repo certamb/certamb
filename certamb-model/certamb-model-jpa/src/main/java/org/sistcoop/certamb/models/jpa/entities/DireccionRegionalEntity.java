@@ -39,7 +39,7 @@ public class DireccionRegionalEntity implements Serializable {
 
     @NotNull
     @NotBlank
-    @NaturalId
+    @NaturalId(mutable = true)
     @Size(min = 1, max = 200)
     @Column(name = "DENOMINACION")
     private String denominacion;

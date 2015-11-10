@@ -17,4 +17,6 @@
 
 -- You can use this file to load seed data into the database using SQL statements
 
---INSERT INTO BOVEDA (ID,MONEDA,DENOMINACION,AGENCIA,ESTADO,optlk) VALUES ('b937fa4a-475f-11e5-a151-feff819cdc9f','PEN','Boveda de Nuevos Soles','http://localhost:8080/rrhh/rest/sucursales/bf1754a8-46b8-11e5-a151-feff819cdc9f/agencias/af8bedfe-46b9-11e5-a151-feff819cdc9f','T','1/01/2015');
+INSERT INTO DIRECCION_REGIONAL (ID,DENOMINACION,ESTADO,optlk) VALUES ('3b3f49d0-efd2-4954-a22d-7f0b5eacc0ea','Direccion regional de turismo','T','1/01/2015');
+INSERT INTO DIRECCION_REGIONAL (ID,DENOMINACION,ESTADO,optlk) VALUES ('1c6daaf8-899a-4708-a6cf-87191ed14b8a','Direccion regional de transporte','T','1/01/2015');
+INSERT INTO DIRECCION_REGIONAL (ID,DENOMINACION,ESTADO,optlk) VALUES ('2a13b5ce-f4fa-4531-8a4f-e603aabd4018','Direccion regional de salud','T','1/01/2015');
