@@ -1,10 +1,10 @@
 {
-  "realm": "sistcoop",
-  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqb16cd8oUvzs4zzbxpKDMf/U0pOodfK1WFw6DDOeRLzBsrORF7VwjsKP10of2x3rCN4mrsxNa1gLmMVFcsWinjcdZDDymFIqWut8v6PsoxKSoXpeg09LxxJs30eOCAb6LfsTKEPDBeYY9PEkW+Kj1F1tLsr2ScNcVBLttecmXlvjO+20/0cmjsVSf/1V18LnKEEOx61aowYJm/N10HVcqskhwwz6MQTK2T1U8RfgnmOKWmVOfioqiCKRCTVMrCjIB+FQg/LWBw0sHOQf7AI4yHUgq1J0nZZbKDdg4wqzPEwzSQKbeKneMhnwafmCmWuQSTNyKqwMxPANaUTGLR1b/wIDAQAB",
+  "realm": "CERTAMB",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlSpCAjAFCILsM9CBx9jGeQ+N5dR8JyxUe/beNX1ncQuplAPizTh0iCkg//7lg3I3JtoPAs8qR4EeywT8CRWhcyW1ELArRwWigI3iHX5c6A1doo1ZVue/D9PHSXUty3FMTVqx60dVvCXmQ5EcQu4+VM9odtLt+7KkSOOUlYrrqDp3N03pnn3r78RKdi2XElqlfXHbAjk2XrJZaOdzgwVgBCCz5sEZaLtF/oQvhIcpFGxcXVrRH7Yzh446RD03x/5f+Jd4a3pG2DCkfAihZZpnQvOi2tsSyoXxXPBwz8GGfo5SH8mNYvZt+sn1qKjSk6wp+A/a2genGSg//Y+NsiMZ/QIDAQAB",
   "bearer-only": true,
   "auth-server-url": "https://keycloak-softgreen.rhcloud.com/auth",
   "ssl-required": "external",
-  "resource": "cooperativa",
+  "resource": "CERTAMB_REST",
   "use-resource-role-mappings": true,
   "enable-cors": true
 }
