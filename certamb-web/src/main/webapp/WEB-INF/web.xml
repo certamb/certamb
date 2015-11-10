@@ -5,9 +5,11 @@
 	version="3.0">
 
 	<!-- keycloak aplication name -->
-	<!-- <module-name>cooperativa</module-name> -->
+	<module-name>CERTAMB_REST</module-name>
 
 	<!-- Login method -->
-	<!-- <login-config> <auth-method>KEYCLOAK</auth-method> <realm-name>sistcoop</realm-name> 
-		</login-config> -->
+	<login-config>
+		<auth-method>KEYCLOAK</auth-method>
+		<realm-name>CERTAMB</realm-name>
+	</login-config>
 </web-app>
