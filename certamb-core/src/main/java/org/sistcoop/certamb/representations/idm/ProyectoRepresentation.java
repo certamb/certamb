@@ -15,6 +15,8 @@ public class ProyectoRepresentation implements Serializable {
     private BigDecimal monto;
     private String tipo;
 
+    private DireccionRegionalRepresentation direccionRegional;
+
     public String getId() {
         return id;
     }
@@ -45,6 +47,14 @@ public class ProyectoRepresentation implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public DireccionRegionalRepresentation getDireccionRegional() {
+        return direccionRegional;
+    }
+
+    public void setDireccionRegional(DireccionRegionalRepresentation direccionRegional) {
+        this.direccionRegional = direccionRegional;
     }
 
 }
