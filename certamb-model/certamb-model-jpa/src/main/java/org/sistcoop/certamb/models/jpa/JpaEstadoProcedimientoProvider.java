@@ -1,5 +1,8 @@
 package org.sistcoop.certamb.models.jpa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -7,9 +10,11 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.sistcoop.certamb.models.EstadoProcedimientoModel;
 import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
+import org.sistcoop.certamb.models.EtapaProcedimientoModel;
 import org.sistcoop.certamb.models.jpa.entities.EstadoProcedimientoEntity;
 
 /**
@@ -52,6 +57,19 @@ public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage
                 id);
         return estadoProcedimientoEntity != null
                 ? new EstadoProcedimientoAdapter(em, estadoProcedimientoEntity) : null;
+    }
+
+    @Override
+    public List<EstadoProcedimientoModel> getAll(EtapaProcedimientoModel etapaProcedimiento) {
+        TypedQuery<EstadoProcedimientoEntity> query = em.createNamedQuery(
+                "EstadoProcedimientoEntity.findByIdEtapaProcedimiento", EstadoProcedimientoEntity.class);
+        query.setParameter("idEtapaProcedimiento", etapaProcedimiento.getId());
+        List<EstadoProcedimientoEntity> entities = query.getResultList();
+        List<EstadoProcedimientoModel> result = new ArrayList<>();
+        for (EstadoProcedimientoEntity entity : entities) {
+            result.add(new EstadoProcedimientoAdapter(em, entity));
+        }
+        return result;
     }
 
 }

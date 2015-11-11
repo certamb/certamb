@@ -29,6 +29,7 @@ import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.NotBlank;
+import org.sistcoop.certamb.models.enums.EstadoProceso;
 import org.sistcoop.certamb.models.enums.TipoProyecto;
 
 @Entity
@@ -67,6 +68,11 @@ public class ProyectoEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "TIPO")
     private TipoProyecto tipo;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ESTADO")
+    private EstadoProceso estado;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -117,6 +123,14 @@ public class ProyectoEntity implements Serializable {
 
     public void setDireccionRegional(DireccionRegionalEntity direccionRegional) {
         this.direccionRegional = direccionRegional;
+    }
+
+    public EstadoProceso getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoProceso estado) {
+        this.estado = estado;
     }
 
     public Set<HistorialProyectoEntity> getHistoriales() {

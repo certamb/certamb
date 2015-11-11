@@ -4,16 +4,12 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.sistcoop.certamb.representations.idm.EstadoProcedimientoRepresentation;
-import org.sistcoop.certamb.representations.idm.search.SearchCriteriaRepresentation;
-import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com
@@ -30,19 +26,6 @@ public interface EstadosProcedimientoResource {
             @PathParam("idEstadoProcedimiento") String idEstadoProcedimiento);
 
     /**
-     * Use este endpoint para crear un Proyecto en una DireccionRegional.
-     * 
-     * @summary Create Proyecto
-     * @param rep
-     *            La nueva Proyecto.
-     * @statuscode 200 Si el proyecto fue creada satisfactoriamente.
-     * @return Informacion acerca del proyecto creada.
-     */
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response create(EstadoProcedimientoRepresentation rep);
-
-    /**
      * Este endpoint lista todas Proyectos que pertenecen a una
      * DireccionRegional.
      * 
@@ -55,19 +38,4 @@ public interface EstadosProcedimientoResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<EstadoProcedimientoRepresentation> getAll();
 
-    /**
-     * Este endpoint provee una forma de buscar proyectos. Los criterios de
-     * busqueda estan definidos por los parametros enviados.
-     * 
-     * @summary Search for Proyectos
-     * @param criteria
-     *            Criterio de busqueda.
-     * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
-     * @return Los resultados de la busqueda (una pagina de proyectos).
-     */
-    @POST
-    @Path("search")
-    @Produces(MediaType.APPLICATION_JSON)
-    public SearchResultsRepresentation<EstadoProcedimientoRepresentation> search(
-            SearchCriteriaRepresentation criteria);
 }

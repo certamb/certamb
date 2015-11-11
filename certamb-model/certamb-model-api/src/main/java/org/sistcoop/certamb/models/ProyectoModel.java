@@ -2,6 +2,7 @@ package org.sistcoop.certamb.models;
 
 import java.math.BigDecimal;
 
+import org.sistcoop.certamb.models.enums.EstadoProceso;
 import org.sistcoop.certamb.models.enums.TipoProyecto;
 
 public interface ProyectoModel extends Model {
@@ -19,5 +20,9 @@ public interface ProyectoModel extends Model {
     TipoProyecto getTipo();
 
     void setTipo(TipoProyecto tipo);
+
+    EstadoProceso getEstado();
+
+    void setEstado(EstadoProceso estado);
 
 }

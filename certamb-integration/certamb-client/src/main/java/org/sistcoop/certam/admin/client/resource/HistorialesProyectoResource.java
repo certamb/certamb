@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.certamb.representations.idm.HistorialProyectoRepresentation;
-import org.sistcoop.certamb.representations.idm.ProyectoRepresentation;
 import org.sistcoop.certamb.representations.idm.search.SearchCriteriaRepresentation;
 import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentation;
 
@@ -22,50 +21,52 @@ import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentati
 @Consumes(MediaType.APPLICATION_JSON)
 public interface HistorialesProyectoResource {
 
-	/**
-	 * @param idHistorialProyecto
-	 *            El ID de HistorialProyecto.
-	 */
-	@Path("{idHistorialProyecto}")
-	public HistorialProyectoResource proyecto(@PathParam("idHistorialProyecto") String idHistorialProyecto);
+    /**
+     * @param idHistorialProyecto
+     *            El ID de HistorialProyecto.
+     */
+    @Path("{idHistorialProyecto}")
+    public HistorialProyectoResource historial(@PathParam("idHistorialProyecto") String idHistorialProyecto);
 
-	/**
-	 * Use este endpoint para crear un Proyecto en una DireccionRegional.
-	 * 
-	 * @summary Create Proyecto
-	 * @param rep
-	 *            La nueva Proyecto.
-	 * @statuscode 200 Si el proyecto fue creada satisfactoriamente.
-	 * @return Informacion acerca del proyecto creada.
-	 */
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(HistorialProyectoRepresentation rep);
+    /**
+     * Use este endpoint para crear un Proyecto en una DireccionRegional.
+     * 
+     * @summary Create Proyecto
+     * @param rep
+     *            La nueva Proyecto.
+     * @statuscode 200 Si el proyecto fue creada satisfactoriamente.
+     * @return Informacion acerca del proyecto creada.
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(HistorialProyectoRepresentation rep);
 
-	/**
-	 * Este endpoint lista todas Proyectos que pertenecen a una DireccionRegional.
-	 * 
-	 * @summary List all Proyecto
-	 * @statuscode 200 Si la lista de proyectos fue retornada
-	 *             satisfactoriamente.
-	 * @return Una Lista de proyectos.
-	 */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<HistorialProyectoRepresentation> getAll();	
+    /**
+     * Este endpoint lista todas Proyectos que pertenecen a una
+     * DireccionRegional.
+     * 
+     * @summary List all Proyecto
+     * @statuscode 200 Si la lista de proyectos fue retornada
+     *             satisfactoriamente.
+     * @return Una Lista de proyectos.
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<HistorialProyectoRepresentation> getAll();
 
-	/**
-	 * Este endpoint provee una forma de buscar proyectos. Los criterios de
-	 * busqueda estan definidos por los parametros enviados.
-	 * 
-	 * @summary Search for Proyectos
-	 * @param criteria
-	 *            Criterio de busqueda.
-	 * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
-	 * @return Los resultados de la busqueda (una pagina de proyectos).
-	 */
-	@POST
-	@Path("search")
-	@Produces(MediaType.APPLICATION_JSON)
-	public SearchResultsRepresentation<ProyectoRepresentation> search(SearchCriteriaRepresentation criteria);
+    /**
+     * Este endpoint provee una forma de buscar proyectos. Los criterios de
+     * busqueda estan definidos por los parametros enviados.
+     * 
+     * @summary Search for Proyectos
+     * @param criteria
+     *            Criterio de busqueda.
+     * @statuscode 200 Si la busqueda fue realizada satisfactoriamente.
+     * @return Los resultados de la busqueda (una pagina de proyectos).
+     */
+    @POST
+    @Path("search")
+    @Produces(MediaType.APPLICATION_JSON)
+    public SearchResultsRepresentation<HistorialProyectoRepresentation> search(
+            SearchCriteriaRepresentation criteria);
 }

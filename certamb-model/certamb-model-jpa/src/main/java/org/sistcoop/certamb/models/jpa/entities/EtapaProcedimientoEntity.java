@@ -4,14 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -21,14 +15,13 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.NotBlank;
-import org.sistcoop.certamb.models.enums.ResponsableEstadoProcedimiento;
 
 @Entity
-@Table(name = "ESTADO_PROCEDIMIENTO")
+@Table(name = "ETAPA_PROCEDIMIENTO")
 @NamedQueries(value = {
-        @NamedQuery(name = "EstadoProcedimientoEntity.findAll", query = "SELECT e FROM EstadoProcedimientoEntity e"),
-        @NamedQuery(name = "EstadoProcedimientoEntity.findByIdEtapaProcedimiento", query = "SELECT e FROM EstadoProcedimientoEntity e INNER JOIN e.etapa et WHERE et.id =:idEtapaProcedimiento") })
-public class EstadoProcedimientoEntity implements Serializable {
+        @NamedQuery(name = "EtapaProcedimientoEntity.findAll", query = "SELECT e FROM EtapaProcedimientoEntity e"),
+        @NamedQuery(name = "EtapaProcedimientoEntity.findByDenominacion", query = "SELECT e FROM EtapaProcedimientoEntity e WHERE e.denominacion =:denominacion") })
+public class EtapaProcedimientoEntity implements Serializable {
 
     /**
      * 
@@ -42,30 +35,15 @@ public class EstadoProcedimientoEntity implements Serializable {
     private String id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ETAPA_PROCEDIMIENTO_ID", foreignKey = @ForeignKey )
-    private EtapaProcedimientoEntity etapa;
-
-    @NotNull
-    @Min(0)
-    @Column(name = "ORDEN")
-    private int orden;
-
-    @NotNull
     @NotBlank
     @Size(min = 1, max = 200)
     @Column(name = "DENOMINACION")
     private String denominacion;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "RESPONSABLE")
-    private ResponsableEstadoProcedimiento responsable;
-
-    @NotNull
-    @Min(value = 1)
-    @Column(name = "PLAZO")
-    private int plazo;
+    @Min(0)
+    @Column(name = "ORDEN")
+    private int orden;
 
     public String getId() {
         return id;
@@ -73,22 +51,6 @@ public class EstadoProcedimientoEntity implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public EtapaProcedimientoEntity getEtapa() {
-        return etapa;
-    }
-
-    public void setEtapa(EtapaProcedimientoEntity etapa) {
-        this.etapa = etapa;
-    }
-
-    public int getOrden() {
-        return orden;
-    }
-
-    public void setOrden(int orden) {
-        this.orden = orden;
     }
 
     public String getDenominacion() {
@@ -99,20 +61,12 @@ public class EstadoProcedimientoEntity implements Serializable {
         this.denominacion = denominacion;
     }
 
-    public ResponsableEstadoProcedimiento getResponsable() {
-        return responsable;
+    public int getOrden() {
+        return orden;
     }
 
-    public void setResponsable(ResponsableEstadoProcedimiento responsable) {
-        this.responsable = responsable;
-    }
-
-    public int getPlazo() {
-        return plazo;
-    }
-
-    public void setPlazo(int plazo) {
-        this.plazo = plazo;
+    public void setOrden(int orden) {
+        this.orden = orden;
     }
 
     @Override
@@ -131,7 +85,7 @@ public class EstadoProcedimientoEntity implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        EstadoProcedimientoEntity other = (EstadoProcedimientoEntity) obj;
+        EtapaProcedimientoEntity other = (EtapaProcedimientoEntity) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

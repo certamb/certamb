@@ -26,7 +26,4 @@ public interface HistorialProyectoResource {
     @Path("documentos")
     public DocumentosResource documentos();
 
-    @Path("estadosProcedimiento")
-    public EstadosProcedimientoResource estadosProcedimiento();
-
 }

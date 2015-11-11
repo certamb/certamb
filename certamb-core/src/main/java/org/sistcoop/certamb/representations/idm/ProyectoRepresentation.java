@@ -14,6 +14,7 @@ public class ProyectoRepresentation implements Serializable {
     private String denominacion;
     private BigDecimal monto;
     private String tipo;
+    private String estado;
 
     private DireccionRegionalRepresentation direccionRegional;
 
@@ -55,6 +56,14 @@ public class ProyectoRepresentation implements Serializable {
 
     public void setDireccionRegional(DireccionRegionalRepresentation direccionRegional) {
         this.direccionRegional = direccionRegional;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
 }

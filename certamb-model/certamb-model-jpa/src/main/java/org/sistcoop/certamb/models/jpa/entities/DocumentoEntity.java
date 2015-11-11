@@ -1,7 +1,6 @@
 package org.sistcoop.certamb.models.jpa.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -22,7 +20,7 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "DOCUMENTO")
-@NamedQueries(value = { 
+@NamedQueries(value = {
         @NamedQuery(name = "DocumentoEntity.findAll", query = "SELECT d FROM DocumentoEntity d"),
         @NamedQuery(name = "DocumentoEntity.findByIdHistorial", query = "SELECT d FROM DocumentoEntity d INNER JOIN d.historial h WHERE h.id =:idHistorial") })
 public class DocumentoEntity implements Serializable {
@@ -48,9 +46,6 @@ public class DocumentoEntity implements Serializable {
     @JoinColumn(name = "HISTORIAL_PROYECTO_ID", foreignKey = @ForeignKey )
     private HistorialProyectoEntity historial;
 
-    @Version
-    private Timestamp optlk;
-
     public String getId() {
         return id;
     }
@@ -73,14 +68,6 @@ public class DocumentoEntity implements Serializable {
 
     public void setHistorial(HistorialProyectoEntity historial) {
         this.historial = historial;
-    }
-
-    public Timestamp getOptlk() {
-        return optlk;
-    }
-
-    public void setOptlk(Timestamp optlk) {
-        this.optlk = optlk;
     }
 
     @Override
