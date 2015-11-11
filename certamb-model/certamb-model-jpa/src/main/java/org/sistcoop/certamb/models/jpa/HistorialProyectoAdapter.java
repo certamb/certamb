@@ -4,8 +4,10 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 
+import org.sistcoop.certamb.models.EstadoProcedimientoModel;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.enums.CategoriaProyecto;
+import org.sistcoop.certamb.models.jpa.entities.EstadoProcedimientoEntity;
 import org.sistcoop.certamb.models.jpa.entities.HistorialProyectoEntity;
 
 public class HistorialProyectoAdapter implements HistorialProyectoModel {
@@ -86,6 +88,13 @@ public class HistorialProyectoAdapter implements HistorialProyectoModel {
     @Override
     public void setEstado(boolean estado) {
         historialProyectoEntity.setEstado(estado);
+    }
+
+    @Override
+    public EstadoProcedimientoModel getEstadoProcedimiento() {
+        EstadoProcedimientoEntity estadoProcedimientoEntity = historialProyectoEntity
+                .getEstadoProcedimiento();
+        return new EstadoProcedimientoAdapter(em, estadoProcedimientoEntity);
     }
 
     @Override

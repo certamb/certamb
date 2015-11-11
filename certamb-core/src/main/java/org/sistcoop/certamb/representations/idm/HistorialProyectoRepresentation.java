@@ -17,6 +17,8 @@ public class HistorialProyectoRepresentation implements Serializable {
     private String observacion;
     private boolean estado;
 
+    private EstadoProcedimientoRepresentation estadoProcedimiento;
+
     public String getId() {
         return id;
     }
@@ -63,6 +65,14 @@ public class HistorialProyectoRepresentation implements Serializable {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public EstadoProcedimientoRepresentation getEstadoProcedimiento() {
+        return estadoProcedimiento;
+    }
+
+    public void setEstadoProcedimiento(EstadoProcedimientoRepresentation estadoProcedimiento) {
+        this.estadoProcedimiento = estadoProcedimiento;
     }
 
 }

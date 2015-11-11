@@ -6,24 +6,33 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.sistcoop.certam.admin.client.resource.HistorialProyectoResource;
 import org.sistcoop.certam.admin.client.resource.HistorialesProyectoResource;
+import org.sistcoop.certamb.models.EstadoProcedimientoModel;
+import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.HistorialProyectoProvider;
+import org.sistcoop.certamb.models.ModelDuplicateException;
+import org.sistcoop.certamb.models.ModelReadOnlyException;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.ProyectoProvider;
 import org.sistcoop.certamb.models.search.SearchCriteriaFilterOperator;
 import org.sistcoop.certamb.models.search.SearchCriteriaModel;
 import org.sistcoop.certamb.models.search.SearchResultsModel;
 import org.sistcoop.certamb.models.utils.ModelToRepresentation;
+import org.sistcoop.certamb.models.utils.RepresentationToModel;
+import org.sistcoop.certamb.representations.idm.EstadoProcedimientoRepresentation;
 import org.sistcoop.certamb.representations.idm.HistorialProyectoRepresentation;
 import org.sistcoop.certamb.representations.idm.search.OrderByRepresentation;
 import org.sistcoop.certamb.representations.idm.search.PagingRepresentation;
 import org.sistcoop.certamb.representations.idm.search.SearchCriteriaFilterRepresentation;
 import org.sistcoop.certamb.representations.idm.search.SearchCriteriaRepresentation;
 import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentation;
+import org.sistcoop.certamb.services.ErrorResponse;
 
 @Stateless
 public class HistorialesProyectoResourceImpl implements HistorialesProyectoResource {
@@ -38,7 +47,16 @@ public class HistorialesProyectoResourceImpl implements HistorialesProyectoResou
     private HistorialProyectoProvider historialProyectoProvider;
 
     @Inject
+    private EstadoProcedimientoProvider estadoProcedimientoProvider;
+
+    @Inject
+    private RepresentationToModel representationToModel;
+
+    @Inject
     private HistorialProyectoResource historialProyectoResource;
+
+    @Context
+    private UriInfo uriInfo;
 
     @Override
     public HistorialProyectoResource historial(String idHistorialProyecto) {
@@ -51,8 +69,21 @@ public class HistorialesProyectoResourceImpl implements HistorialesProyectoResou
 
     @Override
     public Response create(HistorialProyectoRepresentation rep) {
-        // TODO Auto-generated method stub
-        return null;
+        EstadoProcedimientoRepresentation estadoProcedimientoRepresentation = rep.getEstadoProcedimiento();
+        EstadoProcedimientoModel estadoProcedimientoModel = estadoProcedimientoProvider
+                .findById(estadoProcedimientoRepresentation.getId());
+        try {
+            HistorialProyectoModel direccionRegionalModel = representationToModel.createHistorialProyecto(rep,
+                    getProyectoModel(), estadoProcedimientoModel, historialProyectoProvider);
+            return Response
+                    .created(uriInfo.getAbsolutePathBuilder().path(direccionRegionalModel.getId()).build())
+                    .header("Access-Control-Expose-Headers", "Location")
+                    .entity(ModelToRepresentation.toRepresentation(direccionRegionalModel)).build();
+        } catch (ModelDuplicateException e) {
+            return ErrorResponse.exists("Historial existe con la misma denominacion");
+        } catch (ModelReadOnlyException e) {
+            return ErrorResponse.exists("Proyecto de solo lectura");
+        }
     }
 
     @Override

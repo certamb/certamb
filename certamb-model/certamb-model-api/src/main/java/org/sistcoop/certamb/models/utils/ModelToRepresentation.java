@@ -48,6 +48,8 @@ public class ModelToRepresentation {
         rep.setResolucion(model.getResolucion());
         rep.setObservacion(model.getObservacion());
         rep.setEstado(model.getEstado());
+
+        rep.setEstadoProcedimiento(toRepresentation(model.getEstadoProcedimiento()));
         return rep;
     }
 
