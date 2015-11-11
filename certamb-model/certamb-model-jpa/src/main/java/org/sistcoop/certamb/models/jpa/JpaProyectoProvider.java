@@ -120,8 +120,8 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
     }
 
     @Override
-    public SearchResultsModel<ProyectoModel> search(SearchCriteriaModel criteria) {
-        SearchResultsModel<ProyectoEntity> entityResult = find(criteria, ProyectoEntity.class);
+    public SearchResultsModel<ProyectoModel> search(SearchCriteriaModel criteria) {       
+        SearchResultsModel<ProyectoEntity> entityResult = find(criteria, ProyectoEntity.class);    
         List<ProyectoEntity> entities = entityResult.getModels();
 
         SearchResultsModel<ProyectoModel> searchResult = new SearchResultsModel<>();
@@ -151,15 +151,18 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
     @Override
     public SearchResultsModel<ProyectoModel> search(DireccionRegionalModel direccionRegional,
             SearchCriteriaModel criteria) {
+        System.out.println("11111111111111111");
         SearchCriteriaJoinModel criteriaJoin = new SearchCriteriaJoinModel("proyecto");
         criteriaJoin.addJoin("proyecto.direccionRegional", "direccionRegional",
                 SearchCriteriaJoinType.INNER_JOIN);
         criteriaJoin.addCondition("direccionRegional.id", direccionRegional.getId(),
                 SearchCriteriaFilterOperator.eq);
-
+        System.out.println("222222222222222");
+        
         SearchResultsModel<ProyectoEntity> entityResult = find(criteriaJoin, criteria, ProyectoEntity.class);
         List<ProyectoEntity> entities = entityResult.getModels();
-
+        System.out.println("3333333333333333");
+        
         SearchResultsModel<ProyectoModel> searchResult = new SearchResultsModel<>();
         List<ProyectoModel> models = searchResult.getModels();
         for (ProyectoEntity entity : entities) {
