@@ -74,7 +74,7 @@ public interface DireccionRegionalResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response disable();
     
-    @Path("historiales")
-    public ProyectosResource historiales();
+    @Path("proyectos")
+    public ProyectosResource_direccionRegional proyectos();
 
 }

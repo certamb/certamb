@@ -7,7 +7,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import org.sistcoop.certam.admin.client.resource.DireccionRegionalResource;
-import org.sistcoop.certam.admin.client.resource.ProyectosResource;
+import org.sistcoop.certam.admin.client.resource.ProyectosResource_direccionRegional;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
 import org.sistcoop.certamb.models.utils.ModelToRepresentation;
@@ -28,7 +28,7 @@ public class DireccionRegionalResourceImpl implements DireccionRegionalResource 
     private DireccionRegionalProvider direccionRegionalProvider;
 
     @Inject
-    private ProyectosResource proyectosResource;
+    private ProyectosResource_direccionRegional proyectosResource;
 
     private DireccionRegionalModel getDireccionRegionalModel() {
         return direccionRegionalProvider.findById(idDireccionRegional);
@@ -75,7 +75,7 @@ public class DireccionRegionalResourceImpl implements DireccionRegionalResource 
     }
 
     @Override
-    public ProyectosResource historiales() {
+    public ProyectosResource_direccionRegional proyectos() {
         return proyectosResource;
     }
 

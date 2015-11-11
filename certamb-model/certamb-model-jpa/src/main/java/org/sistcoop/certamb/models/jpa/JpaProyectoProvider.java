@@ -17,7 +17,9 @@ import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.ModelDuplicateException;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.ProyectoProvider;
+import org.sistcoop.certamb.models.enums.EstadoProceso;
 import org.sistcoop.certamb.models.enums.TipoProyecto;
+import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
 import org.sistcoop.certamb.models.jpa.search.SearchCriteriaJoinModel;
 import org.sistcoop.certamb.models.jpa.search.SearchCriteriaJoinType;
@@ -49,7 +51,7 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
     }
 
     @Override
-    public ProyectoModel create(DireccionRegionalModel direccionReional, String denominacion,
+    public ProyectoModel create(DireccionRegionalModel direccionRegional, String denominacion,
             BigDecimal monto) {
         if (findByDenominacion(denominacion) != null) {
             throw new ModelDuplicateException(
@@ -57,14 +59,17 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
                             + denominacion);
         }
 
+        DireccionRegionalEntity direccionRegionalEntity = this.em.find(DireccionRegionalEntity.class,
+                direccionRegional.getId());
+
         ProyectoEntity proyectoEntity = new ProyectoEntity();
+        proyectoEntity.setDireccionRegional(direccionRegionalEntity);
         proyectoEntity.setDenominacion(denominacion);
         proyectoEntity.setMonto(monto);
-        if (monto.compareTo(new BigDecimal("20000000")) <= 0) {
-            proyectoEntity.setTipo(TipoProyecto.PERFIL);
-        } else {
-            proyectoEntity.setTipo(TipoProyecto.FACTIBILIDAD);
-        }
+        proyectoEntity.setEstado(EstadoProceso.PROCESO);
+        proyectoEntity.setTipo(monto.compareTo(new BigDecimal("20000000")) <= 0 ? TipoProyecto.PERFIL
+                : TipoProyecto.FACTIBILIDAD);
+
         em.persist(proyectoEntity);
         return new ProyectoAdapter(em, proyectoEntity);
     }

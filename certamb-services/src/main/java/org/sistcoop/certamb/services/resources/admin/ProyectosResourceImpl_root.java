@@ -13,6 +13,8 @@ import org.sistcoop.certam.admin.client.resource.ProyectoResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource_root;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
+import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
+import org.sistcoop.certamb.models.HistorialProyectoProvider;
 import org.sistcoop.certamb.models.ModelDuplicateException;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.ProyectoProvider;
@@ -39,6 +41,12 @@ public class ProyectosResourceImpl_root implements ProyectosResource_root {
     private ProyectoProvider proyectoProvider;
 
     @Inject
+    private HistorialProyectoProvider historialProyectoProvider;
+
+    @Inject
+    private EstadoProcedimientoProvider estadoProcedimientoProvider;
+
+    @Inject
     private RepresentationToModel representationToModel;
 
     @Context
@@ -62,7 +70,8 @@ public class ProyectosResourceImpl_root implements ProyectosResource_root {
                 .findById(rep.getDireccionRegional().getId());
         try {
             ProyectoModel proyectoModel = representationToModel.createProyecto(rep, direccionRegionalModel,
-                    proyectoProvider);
+                    proyectoProvider, historialProyectoProvider, estadoProcedimientoProvider);
+
             return Response.created(uriInfo.getAbsolutePathBuilder().path(proyectoModel.getId()).build())
                     .header("Access-Control-Expose-Headers", "Location")
                     .entity(ModelToRepresentation.toRepresentation(proyectoModel)).build();

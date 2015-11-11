@@ -11,10 +11,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.sistcoop.certam.admin.client.resource.ProyectoResource;
-import org.sistcoop.certam.admin.client.resource.ProyectosResource;
+import org.sistcoop.certam.admin.client.resource.ProyectosResource_direccionRegional;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
+import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
+import org.sistcoop.certamb.models.HistorialProyectoProvider;
 import org.sistcoop.certamb.models.ModelDuplicateException;
+import org.sistcoop.certamb.models.ModelReadOnlyException;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.ProyectoProvider;
 import org.sistcoop.certamb.models.search.SearchCriteriaFilterOperator;
@@ -31,7 +34,7 @@ import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentati
 import org.sistcoop.certamb.services.ErrorResponse;
 
 @Stateless
-public class ProyectosResourceImpl implements ProyectosResource {
+public class ProyectosResourceImpl_direccionRegional implements ProyectosResource_direccionRegional {
 
     @PathParam("idDireccionRegional")
     private String idDireccionRegional;
@@ -41,6 +44,12 @@ public class ProyectosResourceImpl implements ProyectosResource {
 
     @Inject
     private ProyectoProvider proyectoProvider;
+
+    @Inject
+    private HistorialProyectoProvider historialProyectoProvider;
+
+    @Inject
+    private EstadoProcedimientoProvider estadoProcedimientoProvider;
 
     @Inject
     private RepresentationToModel representationToModel;
@@ -68,12 +77,15 @@ public class ProyectosResourceImpl implements ProyectosResource {
 
         try {
             ProyectoModel proyectoModel = representationToModel.createProyecto(rep,
-                    getDireccionRegionalModel(), proyectoProvider);
+                    getDireccionRegionalModel(), proyectoProvider, historialProyectoProvider,
+                    estadoProcedimientoProvider);
             return Response.created(uriInfo.getAbsolutePathBuilder().path(proyectoModel.getId()).build())
                     .header("Access-Control-Expose-Headers", "Location")
                     .entity(ModelToRepresentation.toRepresentation(proyectoModel)).build();
         } catch (ModelDuplicateException e) {
-            return ErrorResponse.exists("DireccionRegional existe con la misma denominacion");
+            return ErrorResponse.exists("Proyecto existe con la misma denominacion");
+        } catch (ModelReadOnlyException e) {
+            return ErrorResponse.exists("Direccion regional inactiva, no se puede crear proyectos");
         }
     }
 

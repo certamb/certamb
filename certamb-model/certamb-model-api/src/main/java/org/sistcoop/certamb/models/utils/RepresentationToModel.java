@@ -7,6 +7,7 @@ import javax.ejb.TransactionAttributeType;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
 import org.sistcoop.certamb.models.EstadoProcedimientoModel;
+import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.HistorialProyectoProvider;
 import org.sistcoop.certamb.models.ProyectoModel;
@@ -26,8 +27,16 @@ public class RepresentationToModel {
     }
 
     public ProyectoModel createProyecto(ProyectoRepresentation rep, DireccionRegionalModel direccionRegional,
-            ProyectoProvider provider) {
-        return provider.create(direccionRegional, rep.getDenominacion(), rep.getMonto());
+            ProyectoProvider proyectoProvider, HistorialProyectoProvider historialProvider,
+            EstadoProcedimientoProvider estadoProcedimientoProvider) {
+        EstadoProcedimientoModel estadoProcedimiento = estadoProcedimientoProvider.findByOrder(1);
+
+        ProyectoModel proyectoModel = proyectoProvider.create(direccionRegional, rep.getDenominacion(),
+                rep.getMonto());
+        historialProvider.create(proyectoModel, estadoProcedimiento, null, null,
+                "Historial creado por el sistema");
+
+        return proyectoModel;
     }
 
     public HistorialProyectoModel createHistorialProyecto(HistorialProyectoRepresentation rep,

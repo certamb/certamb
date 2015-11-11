@@ -13,6 +13,8 @@ public interface EstadoProcedimientoProvider extends Provider {
 
     EstadoProcedimientoModel findById(String id);
 
+    EstadoProcedimientoModel findByOrder(int i);
+
     List<EstadoProcedimientoModel> getAll(EtapaProcedimientoModel etapaProcedimiento);
 
 }
