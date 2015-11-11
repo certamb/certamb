@@ -29,7 +29,7 @@ public class RepresentationToModel {
     public ProyectoModel createProyecto(ProyectoRepresentation rep, DireccionRegionalModel direccionRegional,
             ProyectoProvider proyectoProvider, HistorialProyectoProvider historialProvider,
             EstadoProcedimientoProvider estadoProcedimientoProvider) {
-        EstadoProcedimientoModel estadoProcedimiento = estadoProcedimientoProvider.findByOrder(1);
+        EstadoProcedimientoModel estadoProcedimiento = estadoProcedimientoProvider.findFirst();
 
         ProyectoModel proyectoModel = proyectoProvider.create(direccionRegional, rep.getDenominacion(),
                 rep.getMonto());

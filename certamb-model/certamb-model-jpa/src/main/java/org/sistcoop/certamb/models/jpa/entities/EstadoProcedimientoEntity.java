@@ -27,6 +27,7 @@ import org.sistcoop.certamb.models.enums.ResponsableEstadoProcedimiento;
 @Table(name = "ESTADO_PROCEDIMIENTO")
 @NamedQueries(value = {
         @NamedQuery(name = "EstadoProcedimientoEntity.findAll", query = "SELECT e FROM EstadoProcedimientoEntity e"),
+        @NamedQuery(name = "EstadoProcedimientoEntity.findFirst", query = "SELECT e FROM EstadoProcedimientoEntity e INNER JOIN e.etapa et WHERE et.orden=(SELECT MIN(aux.orden) FROM EtapaProcedimientoEntity aux) AND e.orden=(SELECT MIN(aux.orden) FROM EstadoProcedimientoEntity aux)"),
         @NamedQuery(name = "EstadoProcedimientoEntity.findByIdEtapaProcedimiento", query = "SELECT e FROM EstadoProcedimientoEntity e INNER JOIN e.etapa et WHERE et.id =:idEtapaProcedimiento") })
 public class EstadoProcedimientoEntity implements Serializable {
 

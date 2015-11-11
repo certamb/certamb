@@ -60,9 +60,15 @@ public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage
     }
 
     @Override
-    public EstadoProcedimientoModel findByOrder(int i) {
-        // TODO Auto-generated method stub
-        return null;
+    public EstadoProcedimientoModel findFirst() {
+        TypedQuery<EstadoProcedimientoEntity> query = em
+                .createNamedQuery("EstadoProcedimientoEntity.findFirst", EstadoProcedimientoEntity.class);
+        List<EstadoProcedimientoEntity> entities = query.getResultList();
+        if (!entities.isEmpty()) {
+            return new EstadoProcedimientoAdapter(em, entities.get(0));
+        } else {
+            return null;
+        }
     }
 
     @Override
