@@ -13,6 +13,7 @@ import org.sistcoop.certamb.models.HistorialProyectoProvider;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.ProyectoProvider;
 import org.sistcoop.certamb.models.enums.CategoriaProyecto;
+import org.sistcoop.certamb.models.enums.TipoProyecto;
 import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
 import org.sistcoop.certamb.representations.idm.HistorialProyectoRepresentation;
 import org.sistcoop.certamb.representations.idm.ProyectoRepresentation;
@@ -32,7 +33,7 @@ public class RepresentationToModel {
         EstadoProcedimientoModel estadoProcedimiento = estadoProcedimientoProvider.findFirst();
 
         ProyectoModel proyectoModel = proyectoProvider.create(direccionRegional, rep.getDenominacion(),
-                rep.getMonto());
+                TipoProyecto.valueOf(rep.getTipo()));
         historialProvider.create(proyectoModel, estadoProcedimiento, null, null,
                 "Historial creado por el sistema");
 

@@ -71,7 +71,6 @@ public class ProyectosResourceImpl_root implements ProyectosResource_root {
         try {
             ProyectoModel proyectoModel = representationToModel.createProyecto(rep, direccionRegionalModel,
                     proyectoProvider, historialProyectoProvider, estadoProcedimientoProvider);
-
             return Response.created(uriInfo.getAbsolutePathBuilder().path(proyectoModel.getId()).build())
                     .header("Access-Control-Expose-Headers", "Location")
                     .entity(ModelToRepresentation.toRepresentation(proyectoModel)).build();

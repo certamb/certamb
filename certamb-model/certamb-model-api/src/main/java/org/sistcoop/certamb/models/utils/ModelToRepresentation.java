@@ -44,7 +44,7 @@ public class ModelToRepresentation {
         HistorialProyectoRepresentation rep = new HistorialProyectoRepresentation();
         rep.setId(model.getId());
         rep.setFecha(model.getFecha());
-        rep.setCategoria(model.getCategoria().toString());
+        rep.setCategoria(model.getCategoria() != null ? model.getCategoria().toString() : null);
         rep.setResolucion(model.getResolucion());
         rep.setObservacion(model.getObservacion());
         rep.setEstado(model.getEstado());

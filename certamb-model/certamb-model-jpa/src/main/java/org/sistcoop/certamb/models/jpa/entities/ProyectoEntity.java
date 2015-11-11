@@ -58,7 +58,6 @@ public class ProyectoEntity implements Serializable {
     @Column(name = "DENOMINACION")
     private String denominacion;
 
-    @NotNull
     @Min(value = 0)
     @Digits(integer = 18, fraction = 2)
     @Column(name = "MONTO")
