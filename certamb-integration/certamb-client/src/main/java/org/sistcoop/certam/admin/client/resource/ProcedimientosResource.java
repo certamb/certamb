@@ -9,21 +9,20 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.sistcoop.certamb.representations.idm.EstadoProcedimientoRepresentation;
+import org.sistcoop.certamb.representations.idm.ProcedimientoRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com
  */
 @Consumes(MediaType.APPLICATION_JSON)
-public interface EstadosProcedimientoResource {
+public interface ProcedimientosResource {
 
     /**
      * @param idProyecto
      *            El ID de Proyecto.
      */
-    @Path("{idEstadoProcedimiento}")
-    public EstadoProcedimientoResource estadoProcedimiento(
-            @PathParam("idEstadoProcedimiento") String idEstadoProcedimiento);
+    @Path("{idProcedimiento}")
+    public ProcedimientoResource procedimiento(@PathParam("idProcedimiento") String idProcedimiento);
 
     /**
      * Este endpoint lista todas Proyectos que pertenecen a una
@@ -36,6 +35,6 @@ public interface EstadosProcedimientoResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<EstadoProcedimientoRepresentation> getAll();
+    public List<ProcedimientoRepresentation> getAll();
 
 }

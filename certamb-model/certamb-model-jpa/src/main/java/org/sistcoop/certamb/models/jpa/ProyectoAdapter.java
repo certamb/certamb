@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.ProyectoModel;
-import org.sistcoop.certamb.models.enums.EstadoProceso;
+import org.sistcoop.certamb.models.enums.EstadoProyecto;
 import org.sistcoop.certamb.models.enums.TipoProyecto;
 import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
@@ -66,7 +66,8 @@ public class ProyectoAdapter implements ProyectoModel {
 
     @Override
     public TipoProyecto getTipo() {
-        return TipoProyecto.valueOf(proyectoEntity.getTipo());
+        String tipoProyecto = proyectoEntity.getTipo();
+        return tipoProyecto != null ? TipoProyecto.valueOf(tipoProyecto) : null;
     }
 
     @Override
@@ -75,12 +76,13 @@ public class ProyectoAdapter implements ProyectoModel {
     }
 
     @Override
-    public EstadoProceso getEstado() {
-        return EstadoProceso.valueOf(proyectoEntity.getEstado());
+    public EstadoProyecto getEstado() {
+        String estado = proyectoEntity.getEstado();
+        return estado != null ? EstadoProyecto.valueOf(estado) : null;
     }
 
     @Override
-    public void setEstado(EstadoProceso estado) {
+    public void setEstado(EstadoProyecto estado) {
         proyectoEntity.setEstado(estado.toString());
     }
 

@@ -1,15 +1,16 @@
 package org.sistcoop.certam.admin.client.resource;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.sistcoop.certamb.representations.idm.EstadoProcedimientoRepresentation;
+import org.sistcoop.certamb.representations.idm.ProcedimientoRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com
  */
-public interface EstadoProcedimientoResource {
+public interface ProcedimientoResource {
 
     /**
      * Use este endpoint para extraer un proyecto por medio de su ID.
@@ -20,6 +21,9 @@ public interface EstadoProcedimientoResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public EstadoProcedimientoRepresentation toRepresentation();
+    public ProcedimientoRepresentation toRepresentation();
+
+    @Path("sugerencias")
+    public SugerenciasResource sugerencias();
 
 }

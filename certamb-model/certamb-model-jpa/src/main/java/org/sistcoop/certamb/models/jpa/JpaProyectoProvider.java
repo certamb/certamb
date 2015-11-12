@@ -17,7 +17,7 @@ import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.ModelDuplicateException;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.ProyectoProvider;
-import org.sistcoop.certamb.models.enums.EstadoProceso;
+import org.sistcoop.certamb.models.enums.EstadoProyecto;
 import org.sistcoop.certamb.models.enums.TipoProyecto;
 import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
@@ -65,7 +65,7 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
         ProyectoEntity proyectoEntity = new ProyectoEntity();
         proyectoEntity.setDireccionRegional(direccionRegionalEntity);
         proyectoEntity.setDenominacion(denominacion);
-        proyectoEntity.setEstado(EstadoProceso.PROCESO.toString());
+        proyectoEntity.setEstado(EstadoProyecto.PROCESO.toString());
         proyectoEntity.setTipo(tipoProyecto.toString());
         proyectoEntity.setMonto(monto);
 

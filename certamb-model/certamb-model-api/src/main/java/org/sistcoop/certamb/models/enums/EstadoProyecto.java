@@ -1,5 +1,5 @@
 package org.sistcoop.certamb.models.enums;
 
-public enum EstadoProceso {
+public enum EstadoProyecto {
     PROCESO, ABANDONO, APROBADO, DESAPROBADO
 }

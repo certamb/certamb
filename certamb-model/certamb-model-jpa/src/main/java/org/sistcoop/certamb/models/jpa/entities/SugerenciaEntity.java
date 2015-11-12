@@ -14,10 +14,15 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
-@Table(name = "ESTADO_PROCEDIMIENTO_SUGERENCIA")
-public class EstadoProcedimientoSugerenciaEntity implements Serializable {
+@Table(name = "SUGERENCIA")
+@NamedQueries(value = {
+        @NamedQuery(name = "SugerenciaEntity.findAll", query = "SELECT s FROM SugerenciaEntity s"),
+        @NamedQuery(name = "SugerenciaEntity.findByIdProcedimiento", query = "SELECT s FROM SugerenciaEntity s INNER JOIN s.procedimiento p WHERE p.id =:idProcedimiento") })
+public class SugerenciaEntity implements Serializable {
 
     /**
      * 
@@ -32,8 +37,24 @@ public class EstadoProcedimientoSugerenciaEntity implements Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ESTADO_PROCEDIMIENTO_ID", foreignKey = @ForeignKey )
-    private EtapaProcedimientoEntity estadoProcedimiento;
+    @JoinColumn(name = "PROCEDIMIENTO_ID", foreignKey = @ForeignKey )
+    private ProcedimientoEntity procedimiento;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public ProcedimientoEntity getProcedimiento() {
+        return procedimiento;
+    }
+
+    public void setProcedimiento(ProcedimientoEntity procedimiento) {
+        this.procedimiento = procedimiento;
+    }
 
     @Override
     public int hashCode() {
@@ -51,7 +72,7 @@ public class EstadoProcedimientoSugerenciaEntity implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        EstadoProcedimientoSugerenciaEntity other = (EstadoProcedimientoSugerenciaEntity) obj;
+        SugerenciaEntity other = (SugerenciaEntity) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

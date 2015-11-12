@@ -25,7 +25,7 @@ public interface HistorialProyectoModel extends Model {
     boolean getEstado();
 
     void desactivar();
-    
-    EstadoProcedimientoModel getEstadoProcedimiento();
+
+    ProcedimientoModel getProdedimiento();
 
 }

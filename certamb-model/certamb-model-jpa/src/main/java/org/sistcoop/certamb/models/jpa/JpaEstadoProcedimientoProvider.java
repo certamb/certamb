@@ -12,10 +12,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.sistcoop.certamb.models.EstadoProcedimientoModel;
-import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
-import org.sistcoop.certamb.models.EtapaProcedimientoModel;
-import org.sistcoop.certamb.models.jpa.entities.EstadoProcedimientoEntity;
+import org.sistcoop.certamb.models.ProcedimientoModel;
+import org.sistcoop.certamb.models.ProcedimientoProvider;
+import org.sistcoop.certamb.models.EtapaModel;
+import org.sistcoop.certamb.models.jpa.entities.ProcedimientoEntity;
 
 /**
  * @author <a href="mailto:carlosthe19916@sistcoop.com">Carlos Feria</a>
@@ -23,10 +23,10 @@ import org.sistcoop.certamb.models.jpa.entities.EstadoProcedimientoEntity;
 
 @Named
 @Stateless
-@Local(EstadoProcedimientoProvider.class)
+@Local(ProcedimientoProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage
-        implements EstadoProcedimientoProvider {
+        implements ProcedimientoProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -42,44 +42,44 @@ public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage
     }
 
     @Override
-    public EstadoProcedimientoModel create(String denominacion, int plazo) {
-        EstadoProcedimientoEntity estadoProcedimientoEntity = new EstadoProcedimientoEntity();
+    public ProcedimientoModel create(String denominacion, int plazo) {
+        ProcedimientoEntity estadoProcedimientoEntity = new ProcedimientoEntity();
         estadoProcedimientoEntity.setDenominacion(denominacion);
         estadoProcedimientoEntity.setPlazo(plazo);
 
         em.persist(estadoProcedimientoEntity);
-        return new EstadoProcedimientoAdapter(em, estadoProcedimientoEntity);
+        return new ProcedimientoAdapter(em, estadoProcedimientoEntity);
     }
 
     @Override
-    public EstadoProcedimientoModel findById(String id) {
-        EstadoProcedimientoEntity estadoProcedimientoEntity = this.em.find(EstadoProcedimientoEntity.class,
+    public ProcedimientoModel findById(String id) {
+        ProcedimientoEntity estadoProcedimientoEntity = this.em.find(ProcedimientoEntity.class,
                 id);
         return estadoProcedimientoEntity != null
-                ? new EstadoProcedimientoAdapter(em, estadoProcedimientoEntity) : null;
+                ? new ProcedimientoAdapter(em, estadoProcedimientoEntity) : null;
     }
 
     @Override
-    public EstadoProcedimientoModel findFirst() {
-        TypedQuery<EstadoProcedimientoEntity> query = em
-                .createNamedQuery("EstadoProcedimientoEntity.findFirst", EstadoProcedimientoEntity.class);
-        List<EstadoProcedimientoEntity> entities = query.getResultList();
+    public ProcedimientoModel findFirst() {
+        TypedQuery<ProcedimientoEntity> query = em
+                .createNamedQuery("EstadoProcedimientoEntity.findFirst", ProcedimientoEntity.class);
+        List<ProcedimientoEntity> entities = query.getResultList();
         if (!entities.isEmpty()) {
-            return new EstadoProcedimientoAdapter(em, entities.get(0));
+            return new ProcedimientoAdapter(em, entities.get(0));
         } else {
             return null;
         }
     }
 
     @Override
-    public List<EstadoProcedimientoModel> getAll(EtapaProcedimientoModel etapaProcedimiento) {
-        TypedQuery<EstadoProcedimientoEntity> query = em.createNamedQuery(
-                "EstadoProcedimientoEntity.findByIdEtapaProcedimiento", EstadoProcedimientoEntity.class);
+    public List<ProcedimientoModel> getAll(EtapaModel etapaProcedimiento) {
+        TypedQuery<ProcedimientoEntity> query = em.createNamedQuery(
+                "EstadoProcedimientoEntity.findByIdEtapaProcedimiento", ProcedimientoEntity.class);
         query.setParameter("idEtapaProcedimiento", etapaProcedimiento.getId());
-        List<EstadoProcedimientoEntity> entities = query.getResultList();
-        List<EstadoProcedimientoModel> result = new ArrayList<>();
-        for (EstadoProcedimientoEntity entity : entities) {
-            result.add(new EstadoProcedimientoAdapter(em, entity));
+        List<ProcedimientoEntity> entities = query.getResultList();
+        List<ProcedimientoModel> result = new ArrayList<>();
+        for (ProcedimientoEntity entity : entities) {
+            result.add(new ProcedimientoAdapter(em, entity));
         }
         return result;
     }

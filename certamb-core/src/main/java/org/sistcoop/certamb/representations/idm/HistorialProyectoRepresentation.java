@@ -2,6 +2,8 @@ package org.sistcoop.certamb.representations.idm;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class HistorialProyectoRepresentation implements Serializable {
 
@@ -17,7 +19,9 @@ public class HistorialProyectoRepresentation implements Serializable {
     private String observacion;
     private boolean estado;
 
-    private EstadoProcedimientoRepresentation estadoProcedimiento;
+    private ProyectoRepresentation proyecto;
+    private ProcedimientoRepresentation procedimiento;
+    private Set<DocumentoRepresentation> documentos = new HashSet<DocumentoRepresentation>();
 
     public String getId() {
         return id;
@@ -67,12 +71,28 @@ public class HistorialProyectoRepresentation implements Serializable {
         this.estado = estado;
     }
 
-    public EstadoProcedimientoRepresentation getEstadoProcedimiento() {
-        return estadoProcedimiento;
+    public ProyectoRepresentation getProyecto() {
+        return proyecto;
     }
 
-    public void setEstadoProcedimiento(EstadoProcedimientoRepresentation estadoProcedimiento) {
-        this.estadoProcedimiento = estadoProcedimiento;
+    public void setProyecto(ProyectoRepresentation proyecto) {
+        this.proyecto = proyecto;
+    }
+
+    public ProcedimientoRepresentation getProcedimiento() {
+        return procedimiento;
+    }
+
+    public void setProcedimiento(ProcedimientoRepresentation procedimiento) {
+        this.procedimiento = procedimiento;
+    }
+
+    public Set<DocumentoRepresentation> getDocumentos() {
+        return documentos;
+    }
+
+    public void setDocumentos(Set<DocumentoRepresentation> documentos) {
+        this.documentos = documentos;
     }
 
 }

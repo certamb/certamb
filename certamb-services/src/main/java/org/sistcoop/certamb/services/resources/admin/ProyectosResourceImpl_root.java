@@ -13,7 +13,7 @@ import org.sistcoop.certam.admin.client.resource.ProyectoResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource_root;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
-import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
+import org.sistcoop.certamb.models.ProcedimientoProvider;
 import org.sistcoop.certamb.models.HistorialProyectoProvider;
 import org.sistcoop.certamb.models.ModelDuplicateException;
 import org.sistcoop.certamb.models.ProyectoModel;
@@ -44,7 +44,7 @@ public class ProyectosResourceImpl_root implements ProyectosResource_root {
     private HistorialProyectoProvider historialProyectoProvider;
 
     @Inject
-    private EstadoProcedimientoProvider estadoProcedimientoProvider;
+    private ProcedimientoProvider estadoProcedimientoProvider;
 
     @Inject
     private RepresentationToModel representationToModel;

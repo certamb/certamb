@@ -6,8 +6,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -24,15 +22,14 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.NotBlank;
-import org.sistcoop.certamb.models.enums.ResponsableEstadoProcedimiento;
 
 @Entity
-@Table(name = "ESTADO_PROCEDIMIENTO")
+@Table(name = "PROCEDIMIENTO")
 @NamedQueries(value = {
-        @NamedQuery(name = "EstadoProcedimientoEntity.findAll", query = "SELECT e FROM EstadoProcedimientoEntity e"),
-        @NamedQuery(name = "EstadoProcedimientoEntity.findFirst", query = "SELECT e FROM EstadoProcedimientoEntity e INNER JOIN e.etapa et WHERE et.orden=(SELECT MIN(aux.orden) FROM EtapaProcedimientoEntity aux) AND e.orden=(SELECT MIN(aux.orden) FROM EstadoProcedimientoEntity aux)"),
-        @NamedQuery(name = "EstadoProcedimientoEntity.findByIdEtapaProcedimiento", query = "SELECT e FROM EstadoProcedimientoEntity e INNER JOIN e.etapa et WHERE et.id =:idEtapaProcedimiento") })
-public class EstadoProcedimientoEntity implements Serializable {
+        @NamedQuery(name = "ProcedimientoEntity.findAll", query = "SELECT e FROM ProcedimientoEntity e"),
+        @NamedQuery(name = "ProcedimientoEntity.findFirst", query = "SELECT e FROM ProcedimientoEntity e INNER JOIN e.etapa et WHERE et.orden=(SELECT MIN(aux.orden) FROM EtapaEntity aux) AND e.orden=(SELECT MIN(aux.orden) FROM ProcedimientoEntity aux)"),
+        @NamedQuery(name = "ProcedimientoEntity.findByIdEtapaProcedimiento", query = "SELECT e FROM ProcedimientoEntity e INNER JOIN e.etapa et WHERE et.id =:idEtapaProcedimiento") })
+public class ProcedimientoEntity implements Serializable {
 
     /**
      * 
@@ -46,11 +43,6 @@ public class EstadoProcedimientoEntity implements Serializable {
     private String id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ETAPA_PROCEDIMIENTO_ID", foreignKey = @ForeignKey )
-    private EtapaProcedimientoEntity etapa;
-
-    @NotNull
     @Min(0)
     @Column(name = "ORDEN")
     private int orden;
@@ -62,9 +54,9 @@ public class EstadoProcedimientoEntity implements Serializable {
     private String denominacion;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Size(min = 1, max = 100)
     @Column(name = "RESPONSABLE")
-    private ResponsableEstadoProcedimiento responsable;
+    private String responsable;
 
     @NotNull
     @Min(value = 1)
@@ -76,8 +68,13 @@ public class EstadoProcedimientoEntity implements Serializable {
     @Column(name = "ESTADO")
     private String estado;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "estadoProcedimiento")
-    private Set<EstadoProcedimientoSugerenciaEntity> sugerencias = new HashSet<EstadoProcedimientoSugerenciaEntity>();
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ETAPA_ID", foreignKey = @ForeignKey )
+    private EtapaEntity etapa;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "procedimiento")
+    private Set<SugerenciaEntity> sugerencias = new HashSet<SugerenciaEntity>();
 
     public String getId() {
         return id;
@@ -87,11 +84,11 @@ public class EstadoProcedimientoEntity implements Serializable {
         this.id = id;
     }
 
-    public EtapaProcedimientoEntity getEtapa() {
+    public EtapaEntity getEtapa() {
         return etapa;
     }
 
-    public void setEtapa(EtapaProcedimientoEntity etapa) {
+    public void setEtapa(EtapaEntity etapa) {
         this.etapa = etapa;
     }
 
@@ -111,11 +108,11 @@ public class EstadoProcedimientoEntity implements Serializable {
         this.denominacion = denominacion;
     }
 
-    public ResponsableEstadoProcedimiento getResponsable() {
+    public String getResponsable() {
         return responsable;
     }
 
-    public void setResponsable(ResponsableEstadoProcedimiento responsable) {
+    public void setResponsable(String responsable) {
         this.responsable = responsable;
     }
 
@@ -135,11 +132,11 @@ public class EstadoProcedimientoEntity implements Serializable {
         this.estado = estado;
     }
 
-    public Set<EstadoProcedimientoSugerenciaEntity> getSugerencias() {
+    public Set<SugerenciaEntity> getSugerencias() {
         return sugerencias;
     }
 
-    public void setSugerencias(Set<EstadoProcedimientoSugerenciaEntity> sugerencias) {
+    public void setSugerencias(Set<SugerenciaEntity> sugerencias) {
         this.sugerencias = sugerencias;
     }
 
@@ -159,7 +156,7 @@ public class EstadoProcedimientoEntity implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        EstadoProcedimientoEntity other = (EstadoProcedimientoEntity) obj;
+        ProcedimientoEntity other = (ProcedimientoEntity) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

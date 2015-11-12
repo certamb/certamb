@@ -17,11 +17,11 @@ import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "ETAPA_PROCEDIMIENTO")
-@NamedQueries(value = {
-        @NamedQuery(name = "EtapaProcedimientoEntity.findAll", query = "SELECT e FROM EtapaProcedimientoEntity e"),
-        @NamedQuery(name = "EtapaProcedimientoEntity.findByDenominacion", query = "SELECT e FROM EtapaProcedimientoEntity e WHERE e.denominacion =:denominacion") })
-public class EtapaProcedimientoEntity implements Serializable {
+@Table(name = "ETAPA")
+@NamedQueries(value = { 
+        @NamedQuery(name = "EtapaEntity.findAll", query = "SELECT e FROM EtapaEntity e"),
+        @NamedQuery(name = "EtapaEntity.findByDenominacion", query = "SELECT e FROM EtapaEntity e WHERE e.denominacion =:denominacion") })
+public class EtapaEntity implements Serializable {
 
     /**
      * 
@@ -85,7 +85,7 @@ public class EtapaProcedimientoEntity implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        EtapaProcedimientoEntity other = (EtapaProcedimientoEntity) obj;
+        EtapaEntity other = (EtapaEntity) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

@@ -13,12 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.sistcoop.certamb.models.EstadoProcedimientoModel;
+import org.sistcoop.certamb.models.ProcedimientoModel;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.HistorialProyectoProvider;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.enums.CategoriaProyecto;
-import org.sistcoop.certamb.models.jpa.entities.EstadoProcedimientoEntity;
+import org.sistcoop.certamb.models.jpa.entities.ProcedimientoEntity;
 import org.sistcoop.certamb.models.jpa.entities.HistorialProyectoEntity;
 import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
 import org.sistcoop.certamb.models.jpa.search.SearchCriteriaJoinModel;
@@ -52,16 +52,16 @@ public class JpaHistorialProyectoProvider extends AbstractHibernateStorage
     }
 
     @Override
-    public HistorialProyectoModel create(ProyectoModel proyecto, EstadoProcedimientoModel estadoProcedimiento,
+    public HistorialProyectoModel create(ProyectoModel proyecto, ProcedimientoModel estadoProcedimiento,
             CategoriaProyecto categoria, String resolucion, String observacion) {
         ProyectoEntity proyectoEntity = this.em.find(ProyectoEntity.class, proyecto.getId());
-        EstadoProcedimientoEntity procedimientoEntity = this.em.find(EstadoProcedimientoEntity.class,
+        ProcedimientoEntity procedimientoEntity = this.em.find(ProcedimientoEntity.class,
                 estadoProcedimiento.getId());
 
         HistorialProyectoEntity historialProyectoEntity = new HistorialProyectoEntity();
         historialProyectoEntity.setProyecto(proyectoEntity);
-        historialProyectoEntity.setEstadoProcedimiento(procedimientoEntity);
-        historialProyectoEntity.setCategoria(categoria);
+        historialProyectoEntity.setProcedimiento(procedimientoEntity);
+        historialProyectoEntity.setCategoria(categoria != null ? categoria.toString() : null);
         historialProyectoEntity.setFecha(Calendar.getInstance().getTime());
         historialProyectoEntity.setResolucion(resolucion);
         historialProyectoEntity.setObservacion(observacion);

@@ -4,10 +4,10 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 
-import org.sistcoop.certamb.models.EstadoProcedimientoModel;
+import org.sistcoop.certamb.models.ProcedimientoModel;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.enums.CategoriaProyecto;
-import org.sistcoop.certamb.models.jpa.entities.EstadoProcedimientoEntity;
+import org.sistcoop.certamb.models.jpa.entities.ProcedimientoEntity;
 import org.sistcoop.certamb.models.jpa.entities.HistorialProyectoEntity;
 
 public class HistorialProyectoAdapter implements HistorialProyectoModel {
@@ -51,12 +51,13 @@ public class HistorialProyectoAdapter implements HistorialProyectoModel {
 
     @Override
     public CategoriaProyecto getCategoria() {
-        return historialProyectoEntity.getCategoria();
+        String categoria = historialProyectoEntity.getCategoria();
+        return categoria != null ? CategoriaProyecto.valueOf(historialProyectoEntity.getCategoria()) : null;
     }
 
     @Override
     public void setCategoria(CategoriaProyecto categoria) {
-        historialProyectoEntity.setCategoria(categoria);
+        historialProyectoEntity.setCategoria(categoria.toString());
     }
 
     @Override
@@ -67,7 +68,6 @@ public class HistorialProyectoAdapter implements HistorialProyectoModel {
     @Override
     public void setResolucion(String resolucion) {
         historialProyectoEntity.setResolucion(resolucion);
-        ;
     }
 
     @Override
@@ -91,10 +91,9 @@ public class HistorialProyectoAdapter implements HistorialProyectoModel {
     }
 
     @Override
-    public EstadoProcedimientoModel getEstadoProcedimiento() {
-        EstadoProcedimientoEntity estadoProcedimientoEntity = historialProyectoEntity
-                .getEstadoProcedimiento();
-        return new EstadoProcedimientoAdapter(em, estadoProcedimientoEntity);
+    public ProcedimientoModel getProdedimiento() {
+        ProcedimientoEntity procedimientoEntity = historialProyectoEntity.getProcedimiento();
+        return new ProcedimientoAdapter(em, procedimientoEntity);
     }
 
     @Override

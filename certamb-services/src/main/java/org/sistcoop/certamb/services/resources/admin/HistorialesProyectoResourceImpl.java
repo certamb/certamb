@@ -12,8 +12,8 @@ import javax.ws.rs.core.UriInfo;
 
 import org.sistcoop.certam.admin.client.resource.HistorialProyectoResource;
 import org.sistcoop.certam.admin.client.resource.HistorialesProyectoResource;
-import org.sistcoop.certamb.models.EstadoProcedimientoModel;
-import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
+import org.sistcoop.certamb.models.ProcedimientoModel;
+import org.sistcoop.certamb.models.ProcedimientoProvider;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.HistorialProyectoProvider;
 import org.sistcoop.certamb.models.ModelDuplicateException;
@@ -25,7 +25,7 @@ import org.sistcoop.certamb.models.search.SearchCriteriaModel;
 import org.sistcoop.certamb.models.search.SearchResultsModel;
 import org.sistcoop.certamb.models.utils.ModelToRepresentation;
 import org.sistcoop.certamb.models.utils.RepresentationToModel;
-import org.sistcoop.certamb.representations.idm.EstadoProcedimientoRepresentation;
+import org.sistcoop.certamb.representations.idm.ProcedimientoRepresentation;
 import org.sistcoop.certamb.representations.idm.HistorialProyectoRepresentation;
 import org.sistcoop.certamb.representations.idm.search.OrderByRepresentation;
 import org.sistcoop.certamb.representations.idm.search.PagingRepresentation;
@@ -47,7 +47,7 @@ public class HistorialesProyectoResourceImpl implements HistorialesProyectoResou
     private HistorialProyectoProvider historialProyectoProvider;
 
     @Inject
-    private EstadoProcedimientoProvider estadoProcedimientoProvider;
+    private ProcedimientoProvider estadoProcedimientoProvider;
 
     @Inject
     private RepresentationToModel representationToModel;
@@ -69,12 +69,12 @@ public class HistorialesProyectoResourceImpl implements HistorialesProyectoResou
 
     @Override
     public Response create(HistorialProyectoRepresentation rep) {
-        EstadoProcedimientoRepresentation estadoProcedimientoRepresentation = rep.getEstadoProcedimiento();
-        EstadoProcedimientoModel estadoProcedimientoModel = estadoProcedimientoProvider
-                .findById(estadoProcedimientoRepresentation.getId());
+        ProcedimientoRepresentation procedimientoRepresentation = rep.getProcedimiento();
+        ProcedimientoModel procedimientoModel = estadoProcedimientoProvider
+                .findById(procedimientoRepresentation.getId());
         try {
             HistorialProyectoModel direccionRegionalModel = representationToModel.createHistorialProyecto(rep,
-                    getProyectoModel(), estadoProcedimientoModel, historialProyectoProvider);
+                    getProyectoModel(), procedimientoModel, historialProyectoProvider);
             return Response
                     .created(uriInfo.getAbsolutePathBuilder().path(direccionRegionalModel.getId()).build())
                     .header("Access-Control-Expose-Headers", "Location")

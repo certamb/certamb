@@ -5,12 +5,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.sistcoop.certamb.representations.idm.EtapaProcedimientoRepresentation;
+import org.sistcoop.certamb.representations.idm.EtapaRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com
  */
-public interface EtapaProcedimientoResource {
+public interface EtapaResource {
 
     /**
      * Use este endpoint para extraer informacion hacerca de una
@@ -22,9 +22,9 @@ public interface EtapaProcedimientoResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public EtapaProcedimientoRepresentation toRepresentation();
+    public EtapaRepresentation toRepresentation();
 
-    @Path("estadosProcedimiento")
-    public EstadosProcedimientoResource estadosProcedimiento();
+    @Path("procedimientos")
+    public ProcedimientosResource procedimientos();
 
 }

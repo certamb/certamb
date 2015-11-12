@@ -9,22 +9,21 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.sistcoop.certamb.representations.idm.EtapaProcedimientoRepresentation;
+import org.sistcoop.certamb.representations.idm.EtapaRepresentation;
 
 /**
  * @author carlosthe19916@gmail.com
  */
 @Path("etapasProcedimiento")
 @Consumes(MediaType.APPLICATION_JSON)
-public interface EtapasProcedimientoResource {
+public interface EtapasResource {
 
     /**
      * @param idDireccionRegional
      *            El ID de DireccionRegional.
      */
-    @Path("{idEtapaProcedimiento}")
-    public EtapaProcedimientoResource direccionRegional(
-            @PathParam("idEtapaProcedimiento") String idEtapaProcedimiento);
+    @Path("{idEtapa}")
+    public EtapaResource direccionRegional(@PathParam("idEtapa") String idEtapa);
 
     /**
      * Este endpoint lista todas las direccionesRegionales que existen en el
@@ -38,6 +37,6 @@ public interface EtapasProcedimientoResource {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<EtapaProcedimientoRepresentation> getAll();
+    public List<EtapaRepresentation> getAll();
 
 }

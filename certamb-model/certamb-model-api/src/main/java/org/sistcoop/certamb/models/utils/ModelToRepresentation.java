@@ -1,15 +1,17 @@
 package org.sistcoop.certamb.models.utils;
 
 import org.sistcoop.certamb.models.DireccionRegionalModel;
-import org.sistcoop.certamb.models.EstadoProcedimientoModel;
-import org.sistcoop.certamb.models.EtapaProcedimientoModel;
+import org.sistcoop.certamb.models.EtapaModel;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
+import org.sistcoop.certamb.models.ProcedimientoModel;
 import org.sistcoop.certamb.models.ProyectoModel;
+import org.sistcoop.certamb.models.SugerenciaModel;
 import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
-import org.sistcoop.certamb.representations.idm.EstadoProcedimientoRepresentation;
-import org.sistcoop.certamb.representations.idm.EtapaProcedimientoRepresentation;
+import org.sistcoop.certamb.representations.idm.EtapaRepresentation;
 import org.sistcoop.certamb.representations.idm.HistorialProyectoRepresentation;
+import org.sistcoop.certamb.representations.idm.ProcedimientoRepresentation;
 import org.sistcoop.certamb.representations.idm.ProyectoRepresentation;
+import org.sistcoop.certamb.representations.idm.SugerenciaRepresentation;
 
 public class ModelToRepresentation {
 
@@ -32,8 +34,8 @@ public class ModelToRepresentation {
         rep.setId(model.getId());
         rep.setDenominacion(model.getDenominacion());
         rep.setMonto(model.getMonto());
-        rep.setTipo(model.getTipo().toString());
-        rep.setEstado(model.getEstado().toString());
+        rep.setTipo(model.getTipo() != null ? model.getTipo().toString() : null);
+        rep.setEstado(model.getEstado() != null ? model.getEstado().toString() : null);
         rep.setDireccionRegional(toRepresentation(model.getDireccionRegional()));
         return rep;
     }
@@ -50,40 +52,44 @@ public class ModelToRepresentation {
         rep.setObservacion(model.getObservacion());
         rep.setEstado(model.getEstado());
 
-        rep.setEstadoProcedimiento(toRepresentation(model.getEstadoProcedimiento()));
+        rep.setProcedimiento(toRepresentation(model.getProdedimiento()));
         return rep;
     }
 
-    public static EtapaProcedimientoRepresentation toRepresentation(EtapaProcedimientoModel model) {
+    public static EtapaRepresentation toRepresentation(EtapaModel model) {
         if (model == null)
             return null;
 
-        EtapaProcedimientoRepresentation rep = new EtapaProcedimientoRepresentation();
+        EtapaRepresentation rep = new EtapaRepresentation();
         rep.setId(model.getId());
         rep.setDenominacion(model.getDenominacion());
         rep.setOrden(model.getOrden());
         return rep;
     }
 
-    public static EstadoProcedimientoRepresentation toRepresentation(EstadoProcedimientoModel model) {
+    public static ProcedimientoRepresentation toRepresentation(ProcedimientoModel model) {
         if (model == null)
             return null;
 
-        EstadoProcedimientoRepresentation rep = new EstadoProcedimientoRepresentation();
+        ProcedimientoRepresentation rep = new ProcedimientoRepresentation();
         rep.setId(model.getId());
         rep.setDenominacion(model.getDenominacion());
         rep.setPlazo(model.getPlazo());
+        rep.setOrden(model.getOrden());
+        rep.setResponsable(model.getResponsable() != null ? model.getResponsable().toString() : null);
+        rep.setEstado(model.getEstado() != null ? model.getEstado().toString() : null);
+        rep.setEtapa(toRepresentation(model.getEtapa()));
         return rep;
     }
 
-    /*
-     * public static EntidadRepresentation toRepresentation(EntidadModel model)
-     * { if (model == null) return null;
-     * 
-     * EntidadRepresentation rep = new EntidadRepresentation();
-     * rep.setId(model.getId()); rep.setDenominacion(model.getDenominacion());
-     * rep.setAbreviatura(model.getAbreviatura());
-     * rep.setEstado(model.getEstado()); return rep; }
-     */
+    public static SugerenciaRepresentation toRepresentation(SugerenciaModel model) {
+        if (model == null)
+            return null;
+
+        SugerenciaRepresentation rep = new SugerenciaRepresentation();
+        rep.setId(model.getId());
+        rep.setProcedimiento(toRepresentation(model.getProcedimiento()));
+        return rep;
+    }
 
 }

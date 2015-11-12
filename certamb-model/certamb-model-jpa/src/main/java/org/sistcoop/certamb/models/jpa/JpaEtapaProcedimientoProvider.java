@@ -12,9 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.sistcoop.certamb.models.EtapaProcedimientoModel;
-import org.sistcoop.certamb.models.EtapaProcedimientoProvider;
-import org.sistcoop.certamb.models.jpa.entities.EtapaProcedimientoEntity;
+import org.sistcoop.certamb.models.EtapaModel;
+import org.sistcoop.certamb.models.EtapaProvider;
+import org.sistcoop.certamb.models.jpa.entities.EtapaEntity;
 import org.sistcoop.certamb.models.search.SearchCriteriaModel;
 import org.sistcoop.certamb.models.search.SearchResultsModel;
 
@@ -24,10 +24,10 @@ import org.sistcoop.certamb.models.search.SearchResultsModel;
 
 @Named
 @Stateless
-@Local(EtapaProcedimientoProvider.class)
+@Local(EtapaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class JpaEtapaProcedimientoProvider extends AbstractHibernateStorage
-        implements EtapaProcedimientoProvider {
+        implements EtapaProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -43,67 +43,67 @@ public class JpaEtapaProcedimientoProvider extends AbstractHibernateStorage
     }
 
     @Override
-    public EtapaProcedimientoModel findById(String id) {
-        EtapaProcedimientoEntity etapaProcedimientoEntity = this.em.find(EtapaProcedimientoEntity.class, id);
-        return etapaProcedimientoEntity != null ? new EtapaProcedimientoAdapter(em, etapaProcedimientoEntity)
+    public EtapaModel findById(String id) {
+        EtapaEntity etapaProcedimientoEntity = this.em.find(EtapaEntity.class, id);
+        return etapaProcedimientoEntity != null ? new EtapaAdapter(em, etapaProcedimientoEntity)
                 : null;
     }
 
     @Override
-    public EtapaProcedimientoModel findByDenominacion(String denominacion) {
-        TypedQuery<EtapaProcedimientoEntity> query = em.createNamedQuery(
-                "EtapaProcedimientoEntity.findByDenominacion", EtapaProcedimientoEntity.class);
+    public EtapaModel findByDenominacion(String denominacion) {
+        TypedQuery<EtapaEntity> query = em.createNamedQuery(
+                "EtapaProcedimientoEntity.findByDenominacion", EtapaEntity.class);
         query.setParameter("denominacion", denominacion);
 
-        List<EtapaProcedimientoEntity> results = query.getResultList();
+        List<EtapaEntity> results = query.getResultList();
         if (results.isEmpty()) {
             return null;
         } else if (results.size() > 1) {
             throw new IllegalStateException("Mas de un EtapaProcedimientoEntity con denominacion="
                     + denominacion + ", results=" + results);
         } else {
-            return new EtapaProcedimientoAdapter(em, results.get(0));
+            return new EtapaAdapter(em, results.get(0));
         }
     }
 
     @Override
-    public List<EtapaProcedimientoModel> getAll() {
-        TypedQuery<EtapaProcedimientoEntity> query = em.createNamedQuery("EtapaProcedimientoEntity.findAll",
-                EtapaProcedimientoEntity.class);
-        List<EtapaProcedimientoEntity> entities = query.getResultList();
-        List<EtapaProcedimientoModel> result = new ArrayList<>();
-        for (EtapaProcedimientoEntity entity : entities) {
-            result.add(new EtapaProcedimientoAdapter(em, entity));
+    public List<EtapaModel> getAll() {
+        TypedQuery<EtapaEntity> query = em.createNamedQuery("EtapaProcedimientoEntity.findAll",
+                EtapaEntity.class);
+        List<EtapaEntity> entities = query.getResultList();
+        List<EtapaModel> result = new ArrayList<>();
+        for (EtapaEntity entity : entities) {
+            result.add(new EtapaAdapter(em, entity));
         }
         return result;
     }
 
     @Override
-    public SearchResultsModel<EtapaProcedimientoModel> search(SearchCriteriaModel criteria) {
-        SearchResultsModel<EtapaProcedimientoEntity> entityResult = find(criteria,
-                EtapaProcedimientoEntity.class);
-        List<EtapaProcedimientoEntity> entities = entityResult.getModels();
+    public SearchResultsModel<EtapaModel> search(SearchCriteriaModel criteria) {
+        SearchResultsModel<EtapaEntity> entityResult = find(criteria,
+                EtapaEntity.class);
+        List<EtapaEntity> entities = entityResult.getModels();
 
-        SearchResultsModel<EtapaProcedimientoModel> searchResult = new SearchResultsModel<>();
-        List<EtapaProcedimientoModel> models = searchResult.getModels();
-        for (EtapaProcedimientoEntity entity : entities) {
-            models.add(new EtapaProcedimientoAdapter(em, entity));
+        SearchResultsModel<EtapaModel> searchResult = new SearchResultsModel<>();
+        List<EtapaModel> models = searchResult.getModels();
+        for (EtapaEntity entity : entities) {
+            models.add(new EtapaAdapter(em, entity));
         }
         searchResult.setTotalSize(entityResult.getTotalSize());
         return searchResult;
     }
 
     @Override
-    public SearchResultsModel<EtapaProcedimientoModel> search(SearchCriteriaModel criteria,
+    public SearchResultsModel<EtapaModel> search(SearchCriteriaModel criteria,
             String filterText) {
-        SearchResultsModel<EtapaProcedimientoEntity> entityResult = findFullText(criteria,
-                EtapaProcedimientoEntity.class, filterText, "denominacion");
-        List<EtapaProcedimientoEntity> entities = entityResult.getModels();
+        SearchResultsModel<EtapaEntity> entityResult = findFullText(criteria,
+                EtapaEntity.class, filterText, "denominacion");
+        List<EtapaEntity> entities = entityResult.getModels();
 
-        SearchResultsModel<EtapaProcedimientoModel> searchResult = new SearchResultsModel<>();
-        List<EtapaProcedimientoModel> models = searchResult.getModels();
-        for (EtapaProcedimientoEntity entity : entities) {
-            models.add(new EtapaProcedimientoAdapter(em, entity));
+        SearchResultsModel<EtapaModel> searchResult = new SearchResultsModel<>();
+        List<EtapaModel> models = searchResult.getModels();
+        for (EtapaEntity entity : entities) {
+            models.add(new EtapaAdapter(em, entity));
         }
         searchResult.setTotalSize(entityResult.getTotalSize());
         return searchResult;

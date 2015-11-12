@@ -8,8 +8,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -28,7 +26,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.Type;
-import org.sistcoop.certamb.models.enums.CategoriaProyecto;
 
 @Entity
 @Table(name = "HISTORIAL_PROYECTO")
@@ -54,9 +51,9 @@ public class HistorialProyectoEntity implements Serializable {
     @Column(name = "FECHA")
     private Date fecha;
 
-    @Enumerated(EnumType.STRING)
+    @Size(min = 1, max = 100)
     @Column(name = "CATEGORIA")
-    private CategoriaProyecto categoria;
+    private String categoria;
 
     @Size(min = 1, max = 200)
     @Column(name = "RESOLUCION")
@@ -78,8 +75,8 @@ public class HistorialProyectoEntity implements Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ESTADO_PROCEDIMIENTO_ID", foreignKey = @ForeignKey )
-    private EstadoProcedimientoEntity estadoProcedimiento;
+    @JoinColumn(name = "PROCEDIMIENTO_ID", foreignKey = @ForeignKey )
+    private ProcedimientoEntity procedimiento;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "historial")
     private Set<DocumentoEntity> documentos = new HashSet<DocumentoEntity>();
@@ -103,11 +100,11 @@ public class HistorialProyectoEntity implements Serializable {
         this.fecha = fecha;
     }
 
-    public CategoriaProyecto getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(CategoriaProyecto categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
@@ -143,12 +140,12 @@ public class HistorialProyectoEntity implements Serializable {
         this.proyecto = proyecto;
     }
 
-    public EstadoProcedimientoEntity getEstadoProcedimiento() {
-        return estadoProcedimiento;
+    public ProcedimientoEntity getProcedimiento() {
+        return procedimiento;
     }
 
-    public void setEstadoProcedimiento(EstadoProcedimientoEntity estadoProcedimiento) {
-        this.estadoProcedimiento = estadoProcedimiento;
+    public void setProcedimiento(ProcedimientoEntity procedimiento) {
+        this.procedimiento = procedimiento;
     }
 
     public Set<DocumentoEntity> getDocumentos() {

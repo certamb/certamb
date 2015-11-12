@@ -1,6 +1,6 @@
 package org.sistcoop.certamb.models;
 
-public interface EtapaProcedimientoModel extends Model {
+public interface EtapaModel extends Model {
 
     String getId();
 

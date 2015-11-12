@@ -2,7 +2,7 @@ package org.sistcoop.certamb.representations.idm;
 
 import java.io.Serializable;
 
-public class EtapaProcedimientoRepresentation implements Serializable {
+public class EtapaRepresentation implements Serializable {
 
     /**
      * 

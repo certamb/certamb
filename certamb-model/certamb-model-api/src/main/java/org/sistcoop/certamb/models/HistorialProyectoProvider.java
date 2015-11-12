@@ -12,11 +12,11 @@ import org.sistcoop.certamb.provider.Provider;
 @Local
 public interface HistorialProyectoProvider extends Provider {
 
-    HistorialProyectoModel create(ProyectoModel proyecto, EstadoProcedimientoModel estadoProcedimiento,
+    HistorialProyectoModel create(ProyectoModel proyecto, ProcedimientoModel procedimiento,
             CategoriaProyecto categoria, String resolucion, String observacion);
 
     HistorialProyectoModel findById(String id);
-    
+
     HistorialProyectoModel findByHistorialActivo(ProyectoModel proyecto);
 
     List<HistorialProyectoModel> getAll(ProyectoModel proyecto);

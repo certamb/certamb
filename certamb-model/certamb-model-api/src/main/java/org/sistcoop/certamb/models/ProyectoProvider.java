@@ -13,7 +13,7 @@ import org.sistcoop.certamb.provider.Provider;
 @Local
 public interface ProyectoProvider extends Provider {
 
-    ProyectoModel create(DireccionRegionalModel direccionReional, String denominacion,
+    ProyectoModel create(DireccionRegionalModel direccionRegional, String denominacion,
             TipoProyecto tipoProyecto, BigDecimal monto);
 
     ProyectoModel findById(String id);

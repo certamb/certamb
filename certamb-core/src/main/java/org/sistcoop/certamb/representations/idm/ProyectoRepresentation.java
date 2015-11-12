@@ -50,20 +50,20 @@ public class ProyectoRepresentation implements Serializable {
         this.tipo = tipo;
     }
 
-    public DireccionRegionalRepresentation getDireccionRegional() {
-        return direccionRegional;
-    }
-
-    public void setDireccionRegional(DireccionRegionalRepresentation direccionRegional) {
-        this.direccionRegional = direccionRegional;
-    }
-
     public String getEstado() {
         return estado;
     }
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public DireccionRegionalRepresentation getDireccionRegional() {
+        return direccionRegional;
+    }
+
+    public void setDireccionRegional(DireccionRegionalRepresentation direccionRegional) {
+        this.direccionRegional = direccionRegional;
     }
 
 }

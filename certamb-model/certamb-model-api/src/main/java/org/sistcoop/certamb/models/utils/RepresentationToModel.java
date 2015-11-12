@@ -6,8 +6,8 @@ import javax.ejb.TransactionAttributeType;
 
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
-import org.sistcoop.certamb.models.EstadoProcedimientoModel;
-import org.sistcoop.certamb.models.EstadoProcedimientoProvider;
+import org.sistcoop.certamb.models.ProcedimientoModel;
+import org.sistcoop.certamb.models.ProcedimientoProvider;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.HistorialProyectoProvider;
 import org.sistcoop.certamb.models.ProyectoModel;
@@ -29,30 +29,29 @@ public class RepresentationToModel {
 
     public ProyectoModel createProyecto(ProyectoRepresentation rep, DireccionRegionalModel direccionRegional,
             ProyectoProvider proyectoProvider, HistorialProyectoProvider historialProvider,
-            EstadoProcedimientoProvider estadoProcedimientoProvider) {
-        EstadoProcedimientoModel estadoProcedimiento = estadoProcedimientoProvider.findFirst();
+            ProcedimientoProvider estadoProcedimientoProvider) {
+        ProcedimientoModel procedimientoModel = estadoProcedimientoProvider.findFirst();
 
         ProyectoModel proyectoModel = proyectoProvider.create(direccionRegional, rep.getDenominacion(),
                 TipoProyecto.valueOf(rep.getTipo()), rep.getMonto());
-        historialProvider.create(proyectoModel, estadoProcedimiento, null, null,
+        historialProvider.create(proyectoModel, procedimientoModel, null, null,
                 "Historial creado por el sistema");
 
         return proyectoModel;
     }
 
     public HistorialProyectoModel createHistorialProyecto(HistorialProyectoRepresentation rep,
-            ProyectoModel proyecto, EstadoProcedimientoModel estadoProcedimiento,
-            HistorialProyectoProvider provider) {
+            ProyectoModel proyecto, ProcedimientoModel procedimiento, HistorialProyectoProvider provider) {
         HistorialProyectoModel historialActivo = provider.findByHistorialActivo(proyecto);
         historialActivo.desactivar();
         historialActivo.commit();
 
-        HistorialProyectoModel historialProyectoModel = provider.create(proyecto, estadoProcedimiento,
+        HistorialProyectoModel historialProyectoModel = provider.create(proyecto, procedimiento,
                 CategoriaProyecto.valueOf(rep.getCategoria()), rep.getResolucion(), rep.getObservacion());
 
         // Verificar fin de procedimiento
-        EstadoProcedimientoModel estadoProcedimientoModel = historialProyectoModel.getEstadoProcedimiento();
-        proyecto.setEstado(estadoProcedimientoModel.getEstadoProceso());
+        ProcedimientoModel procedimientoModel = historialProyectoModel.getProdedimiento();
+        proyecto.setEstado(procedimientoModel.getEstado());
         proyecto.commit();
 
         return historialProyectoModel;
