@@ -84,7 +84,7 @@ public class ProcedimientoEntity implements Serializable {
     @Column(name = "REQUIERE_RESOLUCION")
     private boolean requiereResolucion;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "procedimientoSugerencia")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "procedimiento")
     private Set<SugerenciaEntity> sugerencias = new HashSet<SugerenciaEntity>();
 
     public String getId() {
