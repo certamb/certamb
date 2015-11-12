@@ -25,4 +25,6 @@ public interface ProyectoModel extends Model {
 
     void setEstado(EstadoProceso estado);
 
+    DireccionRegionalModel getDireccionRegional();
+
 }

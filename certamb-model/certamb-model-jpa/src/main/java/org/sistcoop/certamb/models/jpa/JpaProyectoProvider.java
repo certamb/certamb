@@ -64,8 +64,8 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
         ProyectoEntity proyectoEntity = new ProyectoEntity();
         proyectoEntity.setDireccionRegional(direccionRegionalEntity);
         proyectoEntity.setDenominacion(denominacion);
-        proyectoEntity.setEstado(EstadoProceso.PROCESO);
-        proyectoEntity.setTipo(tipoProyecto);
+        proyectoEntity.setEstado(EstadoProceso.PROCESO.toString());
+        proyectoEntity.setTipo(tipoProyecto.toString());
 
         em.persist(proyectoEntity);
         return new ProyectoAdapter(em, proyectoEntity);

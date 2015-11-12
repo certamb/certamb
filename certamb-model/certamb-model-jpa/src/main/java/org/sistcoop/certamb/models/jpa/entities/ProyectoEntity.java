@@ -8,8 +8,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -29,8 +27,6 @@ import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.NotBlank;
-import org.sistcoop.certamb.models.enums.EstadoProceso;
-import org.sistcoop.certamb.models.enums.TipoProyecto;
 
 @Entity
 @Table(name = "PROYECTO")
@@ -64,14 +60,14 @@ public class ProyectoEntity implements Serializable {
     private BigDecimal monto;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Size(min = 1, max = 100)
     @Column(name = "TIPO")
-    private TipoProyecto tipo;
+    private String tipo;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Size(min = 1, max = 100)
     @Column(name = "ESTADO")
-    private EstadoProceso estado;
+    private String estado;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -108,11 +104,11 @@ public class ProyectoEntity implements Serializable {
         this.monto = monto;
     }
 
-    public TipoProyecto getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoProyecto tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
@@ -124,11 +120,11 @@ public class ProyectoEntity implements Serializable {
         this.direccionRegional = direccionRegional;
     }
 
-    public EstadoProceso getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoProceso estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 

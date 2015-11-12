@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 
 import javax.persistence.EntityManager;
 
+import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.enums.EstadoProceso;
 import org.sistcoop.certamb.models.enums.TipoProyecto;
+import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
 
 public class ProyectoAdapter implements ProyectoModel {
@@ -64,22 +66,28 @@ public class ProyectoAdapter implements ProyectoModel {
 
     @Override
     public TipoProyecto getTipo() {
-        return proyectoEntity.getTipo();
+        return TipoProyecto.valueOf(proyectoEntity.getTipo());
     }
 
     @Override
     public void setTipo(TipoProyecto tipo) {
-        proyectoEntity.setTipo(tipo);
+        proyectoEntity.setTipo(tipo.toString());
     }
 
     @Override
     public EstadoProceso getEstado() {
-        return proyectoEntity.getEstado();
+        return EstadoProceso.valueOf(proyectoEntity.getEstado());
     }
 
     @Override
     public void setEstado(EstadoProceso estado) {
-        proyectoEntity.setEstado(estado);
+        proyectoEntity.setEstado(estado.toString());
+    }
+
+    @Override
+    public DireccionRegionalModel getDireccionRegional() {
+        DireccionRegionalEntity direccionRegionalEntity = proyectoEntity.getDireccionRegional();
+        return new DireccionRegionalAdapter(em, direccionRegionalEntity);
     }
 
     @Override

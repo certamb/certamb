@@ -34,6 +34,7 @@ public class ModelToRepresentation {
         rep.setMonto(model.getMonto());
         rep.setTipo(model.getTipo().toString());
         rep.setEstado(model.getEstado().toString());
+        rep.setDireccionRegional(toRepresentation(model.getDireccionRegional()));
         return rep;
     }
 
