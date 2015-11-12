@@ -25,6 +25,10 @@ public interface ProcedimientoModel extends Model {
 
     EstadoProyecto getEstado();
 
+    boolean getRequiereCategoria();
+    
+    boolean getRequiereResolucion();
+    
     EtapaModel getEtapa();
 
 }

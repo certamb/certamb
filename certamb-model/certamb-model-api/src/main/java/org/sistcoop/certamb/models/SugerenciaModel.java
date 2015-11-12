@@ -8,5 +8,9 @@ public interface SugerenciaModel extends Model {
     String getId();
 
     ProcedimientoModel getProcedimiento();
+    
+    ProcedimientoModel getProcedimientoSugerencia();
 
+    int getPrioridad();
+    
 }

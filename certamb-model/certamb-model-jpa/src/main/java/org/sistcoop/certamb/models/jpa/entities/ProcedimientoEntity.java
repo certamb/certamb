@@ -21,6 +21,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -73,7 +74,17 @@ public class ProcedimientoEntity implements Serializable {
     @JoinColumn(name = "ETAPA_ID", foreignKey = @ForeignKey )
     private EtapaEntity etapa;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "procedimiento")
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    @Column(name = "REQUIERE_CATEGORIA")
+    private boolean requiereCategoria;
+
+    @NotNull
+    @Type(type = "org.hibernate.type.TrueFalseType")
+    @Column(name = "REQUIERE_RESOLUCION")
+    private boolean requiereResolucion;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "procedimientoSugerencia")
     private Set<SugerenciaEntity> sugerencias = new HashSet<SugerenciaEntity>();
 
     public String getId() {
@@ -138,6 +149,22 @@ public class ProcedimientoEntity implements Serializable {
 
     public void setSugerencias(Set<SugerenciaEntity> sugerencias) {
         this.sugerencias = sugerencias;
+    }
+
+    public boolean isRequiereCategoria() {
+        return requiereCategoria;
+    }
+
+    public void setRequiereCategoria(boolean requiereCategoria) {
+        this.requiereCategoria = requiereCategoria;
+    }
+
+    public boolean isRequiereResolucion() {
+        return requiereResolucion;
+    }
+
+    public void setRequiereResolucion(boolean requiereResolucion) {
+        this.requiereResolucion = requiereResolucion;
     }
 
     @Override

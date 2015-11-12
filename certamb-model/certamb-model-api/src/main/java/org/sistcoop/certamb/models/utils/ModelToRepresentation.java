@@ -78,6 +78,8 @@ public class ModelToRepresentation {
         rep.setOrden(model.getOrden());
         rep.setResponsable(model.getResponsable() != null ? model.getResponsable().toString() : null);
         rep.setEstado(model.getEstado() != null ? model.getEstado().toString() : null);
+        rep.setRequiereCategoria(model.getRequiereCategoria());
+        rep.setRequiereResolucion(model.getRequiereResolucion());
         rep.setEtapa(toRepresentation(model.getEtapa()));
         return rep;
     }
@@ -88,7 +90,9 @@ public class ModelToRepresentation {
 
         SugerenciaRepresentation rep = new SugerenciaRepresentation();
         rep.setId(model.getId());
+        rep.setPrioridad(model.getPrioridad());
         rep.setProcedimiento(toRepresentation(model.getProcedimiento()));
+        rep.setProcedimientoSugerencia(toRepresentation(model.getProcedimientoSugerencia()));
         return rep;
     }
 

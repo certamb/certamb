@@ -92,6 +92,16 @@ public class ProcedimientoAdapter implements ProcedimientoModel {
     }
 
     @Override
+    public boolean getRequiereCategoria() {
+        return procedimientoEntity.isRequiereCategoria();
+    }
+
+    @Override
+    public boolean getRequiereResolucion() {
+        return procedimientoEntity.isRequiereResolucion();
+    }
+
+    @Override
     public EtapaModel getEtapa() {
         EtapaEntity etapaEntity = procedimientoEntity.getEtapa();
         return new EtapaAdapter(em, etapaEntity);

@@ -18,6 +18,10 @@ public class ProcedimientoRepresentation implements Serializable {
     private int plazo;
     private String estado;
     private EtapaRepresentation etapa;
+
+    private boolean requiereCategoria;
+    private boolean requiereResolucion;
+
     private Set<SugerenciaRepresentation> sugerencias = new HashSet<SugerenciaRepresentation>();
 
     public String getId() {
@@ -82,6 +86,22 @@ public class ProcedimientoRepresentation implements Serializable {
 
     public void setSugerencias(Set<SugerenciaRepresentation> sugerencias) {
         this.sugerencias = sugerencias;
+    }
+
+    public boolean isRequiereCategoria() {
+        return requiereCategoria;
+    }
+
+    public void setRequiereCategoria(boolean requiereCategoria) {
+        this.requiereCategoria = requiereCategoria;
+    }
+
+    public boolean isRequiereResolucion() {
+        return requiereResolucion;
+    }
+
+    public void setRequiereResolucion(boolean requiereResolucion) {
+        this.requiereResolucion = requiereResolucion;
     }
 
 }

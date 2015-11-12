@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -36,9 +37,19 @@ public class SugerenciaEntity implements Serializable {
     private String id;
 
     @NotNull
+    @Min(0)
+    @Column(name = "PRIORIDAD")
+    private int prioridad;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROCEDIMIENTO_ID", foreignKey = @ForeignKey )
     private ProcedimientoEntity procedimiento;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PROCEDIMIENTO_SUGERENCIA_ID", foreignKey = @ForeignKey )
+    private ProcedimientoEntity procedimientoSugerencia;
 
     public String getId() {
         return id;
@@ -54,6 +65,22 @@ public class SugerenciaEntity implements Serializable {
 
     public void setProcedimiento(ProcedimientoEntity procedimiento) {
         this.procedimiento = procedimiento;
+    }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public ProcedimientoEntity getProcedimientoSugerencia() {
+        return procedimientoSugerencia;
+    }
+
+    public void setProcedimientoSugerencia(ProcedimientoEntity procedimientoSugerencia) {
+        this.procedimientoSugerencia = procedimientoSugerencia;
     }
 
     @Override

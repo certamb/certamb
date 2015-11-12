@@ -47,6 +47,17 @@ public class SugerenciaAdapter implements SugerenciaModel {
     }
 
     @Override
+    public ProcedimientoModel getProcedimientoSugerencia() {
+        ProcedimientoEntity procedimientoEntity = sugerenciaEntity.getProcedimientoSugerencia();
+        return new ProcedimientoAdapter(em, procedimientoEntity);
+    }
+
+    @Override
+    public int getPrioridad() {
+        return sugerenciaEntity.getPrioridad();
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -70,4 +81,5 @@ public class SugerenciaAdapter implements SugerenciaModel {
             return false;
         return true;
     }
+
 }
