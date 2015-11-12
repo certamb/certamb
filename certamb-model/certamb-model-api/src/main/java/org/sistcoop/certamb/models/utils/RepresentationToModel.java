@@ -43,6 +43,10 @@ public class RepresentationToModel {
     public HistorialProyectoModel createHistorialProyecto(HistorialProyectoRepresentation rep,
             ProyectoModel proyecto, EstadoProcedimientoModel estadoProcedimiento,
             HistorialProyectoProvider provider) {
+        HistorialProyectoModel historialActivo = provider.findByHistorialActivo(proyecto);
+        historialActivo.desactivar();
+        historialActivo.commit();
+
         return provider.create(proyecto, estadoProcedimiento, CategoriaProyecto.valueOf(rep.getCategoria()),
                 rep.getResolucion(), rep.getObservacion());
     }

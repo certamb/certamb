@@ -34,7 +34,8 @@ import org.sistcoop.certamb.models.enums.CategoriaProyecto;
 @Table(name = "HISTORIAL_PROYECTO")
 @NamedQueries(value = {
         @NamedQuery(name = "HistorialProyectoEntity.findAll", query = "SELECT h FROM HistorialProyectoEntity h"),
-        @NamedQuery(name = "HistorialProyectoEntity.findByIdProyecto", query = "SELECT h FROM HistorialProyectoEntity h INNER JOIN h.proyecto p WHERE p.id =:idProyecto") })
+        @NamedQuery(name = "HistorialProyectoEntity.findByIdProyecto", query = "SELECT h FROM HistorialProyectoEntity h INNER JOIN h.proyecto p WHERE p.id =:idProyecto"),
+        @NamedQuery(name = "HistorialProyectoEntity.findByIdProyectoEstado", query = "SELECT h FROM HistorialProyectoEntity h INNER JOIN h.proyecto p WHERE p.id =:idProyecto AND h.estado=:estado") })
 public class HistorialProyectoEntity implements Serializable {
 
     /**

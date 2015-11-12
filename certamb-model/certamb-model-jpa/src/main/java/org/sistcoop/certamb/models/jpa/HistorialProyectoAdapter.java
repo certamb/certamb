@@ -86,8 +86,8 @@ public class HistorialProyectoAdapter implements HistorialProyectoModel {
     }
 
     @Override
-    public void setEstado(boolean estado) {
-        historialProyectoEntity.setEstado(estado);
+    public void desactivar() {
+        historialProyectoEntity.setEstado(false);
     }
 
     @Override

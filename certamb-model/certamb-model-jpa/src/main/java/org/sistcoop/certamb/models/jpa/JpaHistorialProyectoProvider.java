@@ -79,6 +79,23 @@ public class JpaHistorialProyectoProvider extends AbstractHibernateStorage
     }
 
     @Override
+    public HistorialProyectoModel findByHistorialActivo(ProyectoModel proyecto) {
+        TypedQuery<HistorialProyectoEntity> query = em.createNamedQuery(
+                "HistorialProyectoEntity.findByIdProyectoEstado", HistorialProyectoEntity.class);
+        query.setParameter("idProyecto", proyecto.getId());
+        query.setParameter("estado", true);
+        List<HistorialProyectoEntity> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        } else if (results.size() > 1) {
+            throw new IllegalStateException("Mas de un HistorialProyectoEntity con idProyecto="
+                    + proyecto.getId() + " y estado=" + true + ", results=" + results);
+        } else {
+            return new HistorialProyectoAdapter(em, results.get(0));
+        }
+    }
+
+    @Override
     public List<HistorialProyectoModel> getAll(ProyectoModel proyecto) {
         TypedQuery<HistorialProyectoEntity> query = em
                 .createNamedQuery("HistorialProyectoEntity.findByIdProyecto", HistorialProyectoEntity.class);

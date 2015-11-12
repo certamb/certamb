@@ -16,6 +16,8 @@ public interface HistorialProyectoProvider extends Provider {
             CategoriaProyecto categoria, String resolucion, String observacion);
 
     HistorialProyectoModel findById(String id);
+    
+    HistorialProyectoModel findByHistorialActivo(ProyectoModel proyecto);
 
     List<HistorialProyectoModel> getAll(ProyectoModel proyecto);
 
