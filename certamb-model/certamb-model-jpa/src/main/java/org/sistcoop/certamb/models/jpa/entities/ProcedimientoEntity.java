@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @NamedQueries(value = {
         @NamedQuery(name = "ProcedimientoEntity.findAll", query = "SELECT e FROM ProcedimientoEntity e"),
         @NamedQuery(name = "ProcedimientoEntity.findFirst", query = "SELECT e FROM ProcedimientoEntity e INNER JOIN e.etapa et WHERE et.orden=(SELECT MIN(aux.orden) FROM EtapaEntity aux) AND e.orden=(SELECT MIN(aux.orden) FROM ProcedimientoEntity aux)"),
-        @NamedQuery(name = "ProcedimientoEntity.findByIdEtapaProcedimiento", query = "SELECT e FROM ProcedimientoEntity e INNER JOIN e.etapa et WHERE et.id =:idEtapaProcedimiento") })
+        @NamedQuery(name = "ProcedimientoEntity.findByIdEtapa", query = "SELECT e FROM ProcedimientoEntity e INNER JOIN e.etapa et WHERE et.id =:idEtapa") })
 public class ProcedimientoEntity implements Serializable {
 
     /**

@@ -52,11 +52,11 @@ public class JpaHistorialProyectoProvider extends AbstractHibernateStorage
     }
 
     @Override
-    public HistorialProyectoModel create(ProyectoModel proyecto, ProcedimientoModel estadoProcedimiento,
+    public HistorialProyectoModel create(ProyectoModel proyecto, ProcedimientoModel procedimiento,
             CategoriaProyecto categoria, String resolucion, String observacion) {
         ProyectoEntity proyectoEntity = this.em.find(ProyectoEntity.class, proyecto.getId());
         ProcedimientoEntity procedimientoEntity = this.em.find(ProcedimientoEntity.class,
-                estadoProcedimiento.getId());
+                procedimiento.getId());
 
         HistorialProyectoEntity historialProyectoEntity = new HistorialProyectoEntity();
         historialProyectoEntity.setProyecto(proyectoEntity);

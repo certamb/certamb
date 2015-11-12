@@ -26,8 +26,7 @@ import org.sistcoop.certamb.models.search.SearchResultsModel;
 @Stateless
 @Local(EtapaProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaEtapaProcedimientoProvider extends AbstractHibernateStorage
-        implements EtapaProvider {
+public class JpaEtapaProvider extends AbstractHibernateStorage implements EtapaProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -45,22 +44,21 @@ public class JpaEtapaProcedimientoProvider extends AbstractHibernateStorage
     @Override
     public EtapaModel findById(String id) {
         EtapaEntity etapaProcedimientoEntity = this.em.find(EtapaEntity.class, id);
-        return etapaProcedimientoEntity != null ? new EtapaAdapter(em, etapaProcedimientoEntity)
-                : null;
+        return etapaProcedimientoEntity != null ? new EtapaAdapter(em, etapaProcedimientoEntity) : null;
     }
 
     @Override
     public EtapaModel findByDenominacion(String denominacion) {
-        TypedQuery<EtapaEntity> query = em.createNamedQuery(
-                "EtapaProcedimientoEntity.findByDenominacion", EtapaEntity.class);
+        TypedQuery<EtapaEntity> query = em.createNamedQuery("EtapaEntity.findByDenominacion",
+                EtapaEntity.class);
         query.setParameter("denominacion", denominacion);
 
         List<EtapaEntity> results = query.getResultList();
         if (results.isEmpty()) {
             return null;
         } else if (results.size() > 1) {
-            throw new IllegalStateException("Mas de un EtapaProcedimientoEntity con denominacion="
-                    + denominacion + ", results=" + results);
+            throw new IllegalStateException(
+                    "Mas de un EtapaEntity con denominacion=" + denominacion + ", results=" + results);
         } else {
             return new EtapaAdapter(em, results.get(0));
         }
@@ -68,8 +66,7 @@ public class JpaEtapaProcedimientoProvider extends AbstractHibernateStorage
 
     @Override
     public List<EtapaModel> getAll() {
-        TypedQuery<EtapaEntity> query = em.createNamedQuery("EtapaProcedimientoEntity.findAll",
-                EtapaEntity.class);
+        TypedQuery<EtapaEntity> query = em.createNamedQuery("EtapaEntity.findAll", EtapaEntity.class);
         List<EtapaEntity> entities = query.getResultList();
         List<EtapaModel> result = new ArrayList<>();
         for (EtapaEntity entity : entities) {
@@ -80,8 +77,7 @@ public class JpaEtapaProcedimientoProvider extends AbstractHibernateStorage
 
     @Override
     public SearchResultsModel<EtapaModel> search(SearchCriteriaModel criteria) {
-        SearchResultsModel<EtapaEntity> entityResult = find(criteria,
-                EtapaEntity.class);
+        SearchResultsModel<EtapaEntity> entityResult = find(criteria, EtapaEntity.class);
         List<EtapaEntity> entities = entityResult.getModels();
 
         SearchResultsModel<EtapaModel> searchResult = new SearchResultsModel<>();
@@ -94,10 +90,9 @@ public class JpaEtapaProcedimientoProvider extends AbstractHibernateStorage
     }
 
     @Override
-    public SearchResultsModel<EtapaModel> search(SearchCriteriaModel criteria,
-            String filterText) {
-        SearchResultsModel<EtapaEntity> entityResult = findFullText(criteria,
-                EtapaEntity.class, filterText, "denominacion");
+    public SearchResultsModel<EtapaModel> search(SearchCriteriaModel criteria, String filterText) {
+        SearchResultsModel<EtapaEntity> entityResult = findFullText(criteria, EtapaEntity.class, filterText,
+                "denominacion");
         List<EtapaEntity> entities = entityResult.getModels();
 
         SearchResultsModel<EtapaModel> searchResult = new SearchResultsModel<>();

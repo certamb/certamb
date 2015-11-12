@@ -25,8 +25,7 @@ import org.sistcoop.certamb.models.jpa.entities.ProcedimientoEntity;
 @Stateless
 @Local(ProcedimientoProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage
-        implements ProcedimientoProvider {
+public class JpaProcedimientoProvider extends AbstractHibernateStorage implements ProcedimientoProvider {
 
     @PersistenceContext
     private EntityManager em;
@@ -53,16 +52,15 @@ public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage
 
     @Override
     public ProcedimientoModel findById(String id) {
-        ProcedimientoEntity estadoProcedimientoEntity = this.em.find(ProcedimientoEntity.class,
-                id);
-        return estadoProcedimientoEntity != null
-                ? new ProcedimientoAdapter(em, estadoProcedimientoEntity) : null;
+        ProcedimientoEntity estadoProcedimientoEntity = this.em.find(ProcedimientoEntity.class, id);
+        return estadoProcedimientoEntity != null ? new ProcedimientoAdapter(em, estadoProcedimientoEntity)
+                : null;
     }
 
     @Override
     public ProcedimientoModel findFirst() {
-        TypedQuery<ProcedimientoEntity> query = em
-                .createNamedQuery("EstadoProcedimientoEntity.findFirst", ProcedimientoEntity.class);
+        TypedQuery<ProcedimientoEntity> query = em.createNamedQuery("ProcedimientoEntity.findFirst",
+                ProcedimientoEntity.class);
         List<ProcedimientoEntity> entities = query.getResultList();
         if (!entities.isEmpty()) {
             return new ProcedimientoAdapter(em, entities.get(0));
@@ -72,10 +70,10 @@ public class JpaEstadoProcedimientoProvider extends AbstractHibernateStorage
     }
 
     @Override
-    public List<ProcedimientoModel> getAll(EtapaModel etapaProcedimiento) {
-        TypedQuery<ProcedimientoEntity> query = em.createNamedQuery(
-                "EstadoProcedimientoEntity.findByIdEtapaProcedimiento", ProcedimientoEntity.class);
-        query.setParameter("idEtapaProcedimiento", etapaProcedimiento.getId());
+    public List<ProcedimientoModel> getAll(EtapaModel etapa) {
+        TypedQuery<ProcedimientoEntity> query = em.createNamedQuery("ProcedimientoEntity.findByIdEtapa",
+                ProcedimientoEntity.class);
+        query.setParameter("idEtapa", etapa.getId());
         List<ProcedimientoEntity> entities = query.getResultList();
         List<ProcedimientoModel> result = new ArrayList<>();
         for (ProcedimientoEntity entity : entities) {
