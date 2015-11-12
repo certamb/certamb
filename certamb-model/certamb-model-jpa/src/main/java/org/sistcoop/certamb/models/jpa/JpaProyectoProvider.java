@@ -1,5 +1,6 @@
 package org.sistcoop.certamb.models.jpa;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
 
     @Override
     public ProyectoModel create(DireccionRegionalModel direccionRegional, String denominacion,
-            TipoProyecto tipoProyecto) {
+            TipoProyecto tipoProyecto, BigDecimal monto) {
         if (findByDenominacion(denominacion) != null) {
             throw new ModelDuplicateException(
                     "ProyectoEntity denominacion debe ser unico, se encontro otra entidad con denominacion="
@@ -66,6 +67,7 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
         proyectoEntity.setDenominacion(denominacion);
         proyectoEntity.setEstado(EstadoProceso.PROCESO.toString());
         proyectoEntity.setTipo(tipoProyecto.toString());
+        proyectoEntity.setMonto(monto);
 
         em.persist(proyectoEntity);
         return new ProyectoAdapter(em, proyectoEntity);

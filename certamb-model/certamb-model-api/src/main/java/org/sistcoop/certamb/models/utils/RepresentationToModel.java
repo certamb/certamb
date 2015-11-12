@@ -33,7 +33,7 @@ public class RepresentationToModel {
         EstadoProcedimientoModel estadoProcedimiento = estadoProcedimientoProvider.findFirst();
 
         ProyectoModel proyectoModel = proyectoProvider.create(direccionRegional, rep.getDenominacion(),
-                TipoProyecto.valueOf(rep.getTipo()));
+                TipoProyecto.valueOf(rep.getTipo()), rep.getMonto());
         historialProvider.create(proyectoModel, estadoProcedimiento, null, null,
                 "Historial creado por el sistema");
 

@@ -1,5 +1,6 @@
 package org.sistcoop.certamb.models;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -13,7 +14,7 @@ import org.sistcoop.certamb.provider.Provider;
 public interface ProyectoProvider extends Provider {
 
     ProyectoModel create(DireccionRegionalModel direccionReional, String denominacion,
-            TipoProyecto tipoProyecto);
+            TipoProyecto tipoProyecto, BigDecimal monto);
 
     ProyectoModel findById(String id);
 
