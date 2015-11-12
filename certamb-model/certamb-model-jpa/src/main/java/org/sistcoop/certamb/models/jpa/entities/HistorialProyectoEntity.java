@@ -47,7 +47,7 @@ public class HistorialProyectoEntity implements Serializable {
     private String id;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "FECHA")
     private Date fecha;
 
