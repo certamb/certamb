@@ -14,7 +14,7 @@ import org.sistcoop.certamb.representations.idm.EtapaRepresentation;
 /**
  * @author carlosthe19916@gmail.com
  */
-@Path("etapasProcedimiento")
+@Path("etapas")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface EtapasResource {
 
