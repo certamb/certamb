@@ -47,8 +47,15 @@ public class RepresentationToModel {
         historialActivo.desactivar();
         historialActivo.commit();
 
-        return provider.create(proyecto, estadoProcedimiento, CategoriaProyecto.valueOf(rep.getCategoria()),
-                rep.getResolucion(), rep.getObservacion());
+        HistorialProyectoModel historialProyectoModel = provider.create(proyecto, estadoProcedimiento,
+                CategoriaProyecto.valueOf(rep.getCategoria()), rep.getResolucion(), rep.getObservacion());
+
+        // Verificar fin de procedimiento
+        EstadoProcedimientoModel estadoProcedimientoModel = historialProyectoModel.getEstadoProcedimiento();
+        proyecto.setEstado(estadoProcedimientoModel.getEstadoProceso());
+        proyecto.commit();
+
+        return historialProyectoModel;
     }
 
     /*

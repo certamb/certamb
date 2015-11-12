@@ -1,5 +1,7 @@
 package org.sistcoop.certamb.models;
 
+import org.sistcoop.certamb.models.enums.EstadoProceso;
+
 public interface EstadoProcedimientoModel extends Model {
 
     String getId();
@@ -11,5 +13,7 @@ public interface EstadoProcedimientoModel extends Model {
     int getPlazo();
 
     void setPlazo(int plazo);
+
+    EstadoProceso getEstadoProceso();
 
 }

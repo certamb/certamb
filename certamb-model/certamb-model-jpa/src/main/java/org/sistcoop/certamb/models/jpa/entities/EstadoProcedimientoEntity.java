@@ -1,6 +1,8 @@
 package org.sistcoop.certamb.models.jpa.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -68,6 +71,14 @@ public class EstadoProcedimientoEntity implements Serializable {
     @Column(name = "PLAZO")
     private int plazo;
 
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "ESTADO")
+    private String estado;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "estadoProcedimiento")
+    private Set<EstadoProcedimientoSugerenciaEntity> sugerencias = new HashSet<EstadoProcedimientoSugerenciaEntity>();
+
     public String getId() {
         return id;
     }
@@ -114,6 +125,22 @@ public class EstadoProcedimientoEntity implements Serializable {
 
     public void setPlazo(int plazo) {
         this.plazo = plazo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Set<EstadoProcedimientoSugerenciaEntity> getSugerencias() {
+        return sugerencias;
+    }
+
+    public void setSugerencias(Set<EstadoProcedimientoSugerenciaEntity> sugerencias) {
+        this.sugerencias = sugerencias;
     }
 
     @Override

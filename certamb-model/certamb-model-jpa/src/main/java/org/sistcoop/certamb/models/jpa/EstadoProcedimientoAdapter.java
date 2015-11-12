@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 
 import org.sistcoop.certamb.models.EstadoProcedimientoModel;
 import org.sistcoop.certamb.models.ProyectoModel;
+import org.sistcoop.certamb.models.enums.EstadoProceso;
 import org.sistcoop.certamb.models.jpa.entities.EstadoProcedimientoEntity;
 
 public class EstadoProcedimientoAdapter implements EstadoProcedimientoModel {
@@ -59,6 +60,11 @@ public class EstadoProcedimientoAdapter implements EstadoProcedimientoModel {
     public void setPlazo(int plazo) {
         estadoProcedimientoEntity.setPlazo(plazo);
 
+    }
+
+    @Override
+    public EstadoProceso getEstadoProceso() {
+        return EstadoProceso.valueOf(estadoProcedimientoEntity.getEstado());
     }
 
     @Override
