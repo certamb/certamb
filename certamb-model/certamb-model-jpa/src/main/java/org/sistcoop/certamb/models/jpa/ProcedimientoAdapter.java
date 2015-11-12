@@ -1,14 +1,20 @@
 package org.sistcoop.certamb.models.jpa;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 
 import org.sistcoop.certamb.models.EtapaModel;
 import org.sistcoop.certamb.models.ProcedimientoModel;
 import org.sistcoop.certamb.models.ProyectoModel;
+import org.sistcoop.certamb.models.SugerenciaModel;
 import org.sistcoop.certamb.models.enums.EstadoProyecto;
 import org.sistcoop.certamb.models.enums.Responsable;
 import org.sistcoop.certamb.models.jpa.entities.EtapaEntity;
 import org.sistcoop.certamb.models.jpa.entities.ProcedimientoEntity;
+import org.sistcoop.certamb.models.jpa.entities.SugerenciaEntity;
 
 public class ProcedimientoAdapter implements ProcedimientoModel {
 
@@ -105,6 +111,16 @@ public class ProcedimientoAdapter implements ProcedimientoModel {
     public EtapaModel getEtapa() {
         EtapaEntity etapaEntity = procedimientoEntity.getEtapa();
         return new EtapaAdapter(em, etapaEntity);
+    }
+
+    @Override
+    public List<SugerenciaModel> getSugerencias() {
+        Set<SugerenciaEntity> sugerenciasEntity = procedimientoEntity.getSugerencias();
+        List<SugerenciaModel> sugerenciasModel = new ArrayList<>();
+        for (SugerenciaEntity sugerenciaEntity : sugerenciasEntity) {
+            sugerenciasModel.add(new SugerenciaAdapter(em, sugerenciaEntity));
+        }
+        return sugerenciasModel;
     }
 
     @Override

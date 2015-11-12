@@ -1,5 +1,7 @@
 package org.sistcoop.certamb.models;
 
+import java.util.List;
+
 import org.sistcoop.certamb.models.enums.EstadoProyecto;
 import org.sistcoop.certamb.models.enums.Responsable;
 
@@ -26,9 +28,11 @@ public interface ProcedimientoModel extends Model {
     EstadoProyecto getEstado();
 
     boolean getRequiereCategoria();
-    
+
     boolean getRequiereResolucion();
-    
+
+    List<SugerenciaModel> getSugerencias();
+
     EtapaModel getEtapa();
 
 }

@@ -47,7 +47,8 @@ public class RepresentationToModel {
         historialActivo.commit();
 
         HistorialProyectoModel historialProyectoModel = provider.create(proyecto, procedimiento,
-                CategoriaProyecto.valueOf(rep.getCategoria()), rep.getResolucion(), rep.getObservacion());
+                rep.getCategoria() != null ? CategoriaProyecto.valueOf(rep.getCategoria()) : null,
+                rep.getResolucion(), rep.getObservacion());
 
         // Verificar fin de procedimiento
         ProcedimientoModel procedimientoModel = historialProyectoModel.getProdedimiento();

@@ -1,5 +1,8 @@
 package org.sistcoop.certamb.models.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.EtapaModel;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
@@ -81,6 +84,14 @@ public class ModelToRepresentation {
         rep.setRequiereCategoria(model.getRequiereCategoria());
         rep.setRequiereResolucion(model.getRequiereResolucion());
         rep.setEtapa(toRepresentation(model.getEtapa()));
+        
+        List<SugerenciaModel> sugerenciasModel = model.getSugerencias();
+        List<SugerenciaRepresentation> sugerenciasRepresentation = new ArrayList<>();
+        for (SugerenciaModel sugerenciaModel : sugerenciasModel) {
+            sugerenciasRepresentation.add(toRepresentation(sugerenciaModel));
+        }
+        rep.setSugerencias(sugerenciasRepresentation);
+        
         return rep;
     }
 
@@ -91,8 +102,33 @@ public class ModelToRepresentation {
         SugerenciaRepresentation rep = new SugerenciaRepresentation();
         rep.setId(model.getId());
         rep.setPrioridad(model.getPrioridad());
-        rep.setProcedimiento(toRepresentation(model.getProcedimiento()));
-        rep.setProcedimientoSugerencia(toRepresentation(model.getProcedimientoSugerencia()));
+        
+        ProcedimientoModel procedimientoModel = model.getProcedimiento();
+        ProcedimientoRepresentation procedimientoRepresentation = new ProcedimientoRepresentation();
+        procedimientoRepresentation.setId(procedimientoModel.getId());
+        procedimientoRepresentation.setDenominacion(procedimientoModel.getDenominacion());
+        procedimientoRepresentation.setPlazo(procedimientoModel.getPlazo());
+        procedimientoRepresentation.setOrden(procedimientoModel.getOrden());
+        procedimientoRepresentation.setResponsable(procedimientoModel.getResponsable() != null ? procedimientoModel.getResponsable().toString() : null);
+        procedimientoRepresentation.setEstado(procedimientoModel.getEstado() != null ? procedimientoModel.getEstado().toString() : null);
+        procedimientoRepresentation.setRequiereCategoria(procedimientoModel.getRequiereCategoria());
+        procedimientoRepresentation.setRequiereResolucion(procedimientoModel.getRequiereResolucion());
+        procedimientoRepresentation.setEtapa(toRepresentation(procedimientoModel.getEtapa()));
+        
+        ProcedimientoModel procedimientoSugerenciaModel = model.getProcedimientoSugerencia();
+        ProcedimientoRepresentation procedimientoSugerenciaRepresentation = new ProcedimientoRepresentation();
+        procedimientoSugerenciaRepresentation.setId(procedimientoSugerenciaModel.getId());
+        procedimientoSugerenciaRepresentation.setDenominacion(procedimientoSugerenciaModel.getDenominacion());
+        procedimientoSugerenciaRepresentation.setPlazo(procedimientoSugerenciaModel.getPlazo());
+        procedimientoSugerenciaRepresentation.setOrden(procedimientoSugerenciaModel.getOrden());
+        procedimientoSugerenciaRepresentation.setResponsable(procedimientoSugerenciaModel.getResponsable() != null ? procedimientoSugerenciaModel.getResponsable().toString() : null);
+        procedimientoSugerenciaRepresentation.setEstado(procedimientoSugerenciaModel.getEstado() != null ? procedimientoSugerenciaModel.getEstado().toString() : null);
+        procedimientoSugerenciaRepresentation.setRequiereCategoria(procedimientoSugerenciaModel.getRequiereCategoria());
+        procedimientoSugerenciaRepresentation.setRequiereResolucion(procedimientoSugerenciaModel.getRequiereResolucion());
+        procedimientoSugerenciaRepresentation.setEtapa(toRepresentation(procedimientoSugerenciaModel.getEtapa()));
+        
+        rep.setProcedimiento(procedimientoRepresentation);
+        rep.setProcedimientoSugerencia(procedimientoSugerenciaRepresentation);
         return rep;
     }
 

@@ -1,8 +1,8 @@
 package org.sistcoop.certamb.representations.idm;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProcedimientoRepresentation implements Serializable {
 
@@ -22,7 +22,7 @@ public class ProcedimientoRepresentation implements Serializable {
     private boolean requiereCategoria;
     private boolean requiereResolucion;
 
-    private Set<SugerenciaRepresentation> sugerencias = new HashSet<SugerenciaRepresentation>();
+    private List<SugerenciaRepresentation> sugerencias = new ArrayList<SugerenciaRepresentation>();
 
     public String getId() {
         return id;
@@ -80,11 +80,11 @@ public class ProcedimientoRepresentation implements Serializable {
         this.etapa = etapa;
     }
 
-    public Set<SugerenciaRepresentation> getSugerencias() {
+    public List<SugerenciaRepresentation> getSugerencias() {
         return sugerencias;
     }
 
-    public void setSugerencias(Set<SugerenciaRepresentation> sugerencias) {
+    public void setSugerencias(List<SugerenciaRepresentation> sugerencias) {
         this.sugerencias = sugerencias;
     }
 
