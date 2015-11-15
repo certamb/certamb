@@ -4,12 +4,4 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 
-	<!-- keycloak aplication name -->
-	<module-name>CERTAMB_REST</module-name>
-
-	<!-- Login method -->
-	<login-config>
-		<auth-method>KEYCLOAK</auth-method>
-		<realm-name>CERTAMB</realm-name>
-	</login-config>
 </web-app>

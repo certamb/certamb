@@ -91,6 +91,11 @@ public class DireccionesRegionalesResourceImpl implements DireccionesRegionalesR
 
         // set paging
         PagingRepresentation paging = criteria.getPaging();
+        if (paging == null) {
+            paging = new PagingRepresentation();
+            paging.setPage(1);
+            paging.setPageSize(20);
+        }
         criteriaModel.setPageSize(paging.getPageSize());
         criteriaModel.setPage(paging.getPage());
 
