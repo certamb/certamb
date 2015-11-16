@@ -16,8 +16,10 @@ import javax.persistence.TypedQuery;
 import org.sistcoop.certamb.models.ProcedimientoModel;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.HistorialProyectoProvider;
+import org.sistcoop.certamb.models.ModelReadOnlyException;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.enums.CategoriaProyecto;
+import org.sistcoop.certamb.models.enums.EstadoProyecto;
 import org.sistcoop.certamb.models.jpa.entities.ProcedimientoEntity;
 import org.sistcoop.certamb.models.jpa.entities.HistorialProyectoEntity;
 import org.sistcoop.certamb.models.jpa.entities.ProyectoEntity;
@@ -57,6 +59,13 @@ public class JpaHistorialProyectoProvider extends AbstractHibernateStorage
         ProyectoEntity proyectoEntity = this.em.find(ProyectoEntity.class, proyecto.getId());
         ProcedimientoEntity procedimientoEntity = this.em.find(ProcedimientoEntity.class,
                 procedimiento.getId());
+
+        String estadoProyecto = proyectoEntity.getEstado();
+        if (estadoProyecto.equalsIgnoreCase(EstadoProyecto.DESAPROBADO.toString())
+                || estadoProyecto.equalsIgnoreCase(EstadoProyecto.ABANDONO.toString())) {
+            throw new ModelReadOnlyException(
+                    "Proyecto estado:" + estadoProyecto + ", no se puede crear historiales");
+        }
 
         HistorialProyectoEntity historialProyectoEntity = new HistorialProyectoEntity();
         historialProyectoEntity.setProyecto(proyectoEntity);

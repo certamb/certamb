@@ -42,19 +42,18 @@ public class JpaProcedimientoProvider extends AbstractHibernateStorage implement
 
     @Override
     public ProcedimientoModel create(String denominacion, int plazo) {
-        ProcedimientoEntity estadoProcedimientoEntity = new ProcedimientoEntity();
-        estadoProcedimientoEntity.setDenominacion(denominacion);
-        estadoProcedimientoEntity.setPlazo(plazo);
+        ProcedimientoEntity procedimientoEntity = new ProcedimientoEntity();
+        procedimientoEntity.setDenominacion(denominacion);
+        procedimientoEntity.setPlazo(plazo);
 
-        em.persist(estadoProcedimientoEntity);
-        return new ProcedimientoAdapter(em, estadoProcedimientoEntity);
+        em.persist(procedimientoEntity);
+        return new ProcedimientoAdapter(em, procedimientoEntity);
     }
 
     @Override
     public ProcedimientoModel findById(String id) {
-        ProcedimientoEntity estadoProcedimientoEntity = this.em.find(ProcedimientoEntity.class, id);
-        return estadoProcedimientoEntity != null ? new ProcedimientoAdapter(em, estadoProcedimientoEntity)
-                : null;
+        ProcedimientoEntity procedimientoEntity = this.em.find(ProcedimientoEntity.class, id);
+        return procedimientoEntity != null ? new ProcedimientoAdapter(em, procedimientoEntity) : null;
     }
 
     @Override

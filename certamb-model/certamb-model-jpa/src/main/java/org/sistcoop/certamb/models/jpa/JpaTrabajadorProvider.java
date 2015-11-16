@@ -12,9 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.jboss.logging.Logger;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.ModelDuplicateException;
+import org.sistcoop.certamb.models.ModelReadOnlyException;
 import org.sistcoop.certamb.models.TrabajadorModel;
 import org.sistcoop.certamb.models.TrabajadorProvider;
 import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
@@ -30,8 +30,6 @@ import org.sistcoop.certamb.models.search.SearchResultsModel;
 @Local(TrabajadorProvider.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class JpaTrabajadorProvider extends AbstractHibernateStorage implements TrabajadorProvider {
-
-    private static final Logger logger = Logger.getLogger(JpaTrabajadorProvider.class);
 
     @PersistenceContext
     protected EntityManager em;
@@ -49,14 +47,16 @@ public class JpaTrabajadorProvider extends AbstractHibernateStorage implements T
     @Override
     public TrabajadorModel create(DireccionRegionalModel direccionRegional, String tipoDocumento,
             String numeroDocumento) {
+        DireccionRegionalEntity direccionRegionalEntity = em.find(DireccionRegionalEntity.class,
+                direccionRegional.getId());
+        if (!direccionRegionalEntity.isEstado()) {
+            throw new ModelReadOnlyException("Direccion regional inactiva, no se puede crear trabajadores");
+        }
         if (findByTipoNumeroDocumento(tipoDocumento, numeroDocumento) != null) {
             throw new ModelDuplicateException(
                     "TrabajadorEntity tipoDocumento y numeroDocumento debe ser unico, se encontro otra entidad con tipoDocumento="
                             + tipoDocumento + " y numeroDocumento=" + numeroDocumento);
         }
-
-        DireccionRegionalEntity direccionRegionalEntity = em.find(DireccionRegionalEntity.class,
-                direccionRegional.getId());
 
         TrabajadorEntity trabajadorEntity = new TrabajadorEntity();
         trabajadorEntity.setDireccionRegional(direccionRegionalEntity);
@@ -68,13 +68,8 @@ public class JpaTrabajadorProvider extends AbstractHibernateStorage implements T
     }
 
     @Override
-    public boolean remove(TrabajadorModel TrabajadorModel) {
-        TrabajadorEntity trabajadorEntity = em.find(TrabajadorEntity.class, TrabajadorModel.getId());
-        if (trabajadorEntity != null) {
-            logger.info(
-                    "TrabajadorEntity tiene TrabajadorUsuarioEntity asociados, TrabajadorEntity.remove() eliminara todas las entidades asociadas");
-        }
-
+    public boolean remove(TrabajadorModel trabajador) {
+        TrabajadorEntity trabajadorEntity = em.find(TrabajadorEntity.class, trabajador.getId());
         em.remove(trabajadorEntity);
         return true;
     }

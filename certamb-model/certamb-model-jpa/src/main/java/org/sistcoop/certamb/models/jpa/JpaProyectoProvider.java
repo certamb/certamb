@@ -15,6 +15,7 @@ import javax.persistence.TypedQuery;
 
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.ModelDuplicateException;
+import org.sistcoop.certamb.models.ModelReadOnlyException;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.ProyectoProvider;
 import org.sistcoop.certamb.models.enums.EstadoProyecto;
@@ -53,14 +54,16 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
     @Override
     public ProyectoModel create(DireccionRegionalModel direccionRegional, String denominacion,
             TipoProyecto tipoProyecto, BigDecimal monto) {
+        DireccionRegionalEntity direccionRegionalEntity = this.em.find(DireccionRegionalEntity.class,
+                direccionRegional.getId());
+        if (!direccionRegionalEntity.isEstado()) {
+            throw new ModelReadOnlyException("Direccion regional inactiva, no se puede crear trabajadores");
+        }
         if (findByDenominacion(denominacion) != null) {
             throw new ModelDuplicateException(
                     "ProyectoEntity denominacion debe ser unico, se encontro otra entidad con denominacion="
                             + denominacion);
         }
-
-        DireccionRegionalEntity direccionRegionalEntity = this.em.find(DireccionRegionalEntity.class,
-                direccionRegional.getId());
 
         ProyectoEntity proyectoEntity = new ProyectoEntity();
         proyectoEntity.setDireccionRegional(direccionRegionalEntity);
@@ -84,7 +87,6 @@ public class JpaProyectoProvider extends AbstractHibernateStorage implements Pro
         TypedQuery<ProyectoEntity> query = em.createNamedQuery("ProyectoEntity.findByDenominacion",
                 ProyectoEntity.class);
         query.setParameter("denominacion", denominacion);
-
         List<ProyectoEntity> results = query.getResultList();
         if (results.isEmpty()) {
             return null;

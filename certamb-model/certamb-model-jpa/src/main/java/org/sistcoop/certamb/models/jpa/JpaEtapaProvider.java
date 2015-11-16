@@ -43,8 +43,8 @@ public class JpaEtapaProvider extends AbstractHibernateStorage implements EtapaP
 
     @Override
     public EtapaModel findById(String id) {
-        EtapaEntity etapaProcedimientoEntity = this.em.find(EtapaEntity.class, id);
-        return etapaProcedimientoEntity != null ? new EtapaAdapter(em, etapaProcedimientoEntity) : null;
+        EtapaEntity etapaEntity = this.em.find(EtapaEntity.class, id);
+        return etapaEntity != null ? new EtapaAdapter(em, etapaEntity) : null;
     }
 
     @Override
