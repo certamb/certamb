@@ -9,12 +9,14 @@ import org.sistcoop.certamb.models.HistorialProyectoModel;
 import org.sistcoop.certamb.models.ProcedimientoModel;
 import org.sistcoop.certamb.models.ProyectoModel;
 import org.sistcoop.certamb.models.SugerenciaModel;
+import org.sistcoop.certamb.models.TrabajadorModel;
 import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
 import org.sistcoop.certamb.representations.idm.EtapaRepresentation;
 import org.sistcoop.certamb.representations.idm.HistorialProyectoRepresentation;
 import org.sistcoop.certamb.representations.idm.ProcedimientoRepresentation;
 import org.sistcoop.certamb.representations.idm.ProyectoRepresentation;
 import org.sistcoop.certamb.representations.idm.SugerenciaRepresentation;
+import org.sistcoop.certamb.representations.idm.TrabajadorRepresentation;
 
 public class ModelToRepresentation {
 
@@ -26,6 +28,19 @@ public class ModelToRepresentation {
         rep.setId(model.getId());
         rep.setDenominacion(model.getDenominacion());
         rep.setEstado(model.getEstado());
+        return rep;
+    }
+
+    public static TrabajadorRepresentation toRepresentation(TrabajadorModel model) {
+        if (model == null)
+            return null;
+
+        TrabajadorRepresentation rep = new TrabajadorRepresentation();
+        rep.setId(model.getId());
+        rep.setTipoDocumento(model.getTipoDocumento());
+        rep.setNumeroDocumento(model.getNumeroDocumento());
+        rep.setUsuario(model.getUsuario());
+        rep.setDireccionRegional(toRepresentation(model.getDireccionRegional()));
         return rep;
     }
 
@@ -84,14 +99,14 @@ public class ModelToRepresentation {
         rep.setRequiereCategoria(model.getRequiereCategoria());
         rep.setRequiereResolucion(model.getRequiereResolucion());
         rep.setEtapa(toRepresentation(model.getEtapa()));
-        
+
         List<SugerenciaModel> sugerenciasModel = model.getSugerencias();
         List<SugerenciaRepresentation> sugerenciasRepresentation = new ArrayList<>();
         for (SugerenciaModel sugerenciaModel : sugerenciasModel) {
             sugerenciasRepresentation.add(toRepresentation(sugerenciaModel));
         }
         rep.setSugerencias(sugerenciasRepresentation);
-        
+
         return rep;
     }
 
@@ -102,31 +117,39 @@ public class ModelToRepresentation {
         SugerenciaRepresentation rep = new SugerenciaRepresentation();
         rep.setId(model.getId());
         rep.setPrioridad(model.getPrioridad());
-        
+
         ProcedimientoModel procedimientoModel = model.getProcedimiento();
         ProcedimientoRepresentation procedimientoRepresentation = new ProcedimientoRepresentation();
         procedimientoRepresentation.setId(procedimientoModel.getId());
         procedimientoRepresentation.setDenominacion(procedimientoModel.getDenominacion());
         procedimientoRepresentation.setPlazo(procedimientoModel.getPlazo());
         procedimientoRepresentation.setOrden(procedimientoModel.getOrden());
-        procedimientoRepresentation.setResponsable(procedimientoModel.getResponsable() != null ? procedimientoModel.getResponsable().toString() : null);
-        procedimientoRepresentation.setEstado(procedimientoModel.getEstado() != null ? procedimientoModel.getEstado().toString() : null);
+        procedimientoRepresentation.setResponsable(procedimientoModel.getResponsable() != null
+                ? procedimientoModel.getResponsable().toString() : null);
+        procedimientoRepresentation.setEstado(
+                procedimientoModel.getEstado() != null ? procedimientoModel.getEstado().toString() : null);
         procedimientoRepresentation.setRequiereCategoria(procedimientoModel.getRequiereCategoria());
         procedimientoRepresentation.setRequiereResolucion(procedimientoModel.getRequiereResolucion());
         procedimientoRepresentation.setEtapa(toRepresentation(procedimientoModel.getEtapa()));
-        
+
         ProcedimientoModel procedimientoSugerenciaModel = model.getProcedimientoSugerencia();
         ProcedimientoRepresentation procedimientoSugerenciaRepresentation = new ProcedimientoRepresentation();
         procedimientoSugerenciaRepresentation.setId(procedimientoSugerenciaModel.getId());
         procedimientoSugerenciaRepresentation.setDenominacion(procedimientoSugerenciaModel.getDenominacion());
         procedimientoSugerenciaRepresentation.setPlazo(procedimientoSugerenciaModel.getPlazo());
         procedimientoSugerenciaRepresentation.setOrden(procedimientoSugerenciaModel.getOrden());
-        procedimientoSugerenciaRepresentation.setResponsable(procedimientoSugerenciaModel.getResponsable() != null ? procedimientoSugerenciaModel.getResponsable().toString() : null);
-        procedimientoSugerenciaRepresentation.setEstado(procedimientoSugerenciaModel.getEstado() != null ? procedimientoSugerenciaModel.getEstado().toString() : null);
-        procedimientoSugerenciaRepresentation.setRequiereCategoria(procedimientoSugerenciaModel.getRequiereCategoria());
-        procedimientoSugerenciaRepresentation.setRequiereResolucion(procedimientoSugerenciaModel.getRequiereResolucion());
-        procedimientoSugerenciaRepresentation.setEtapa(toRepresentation(procedimientoSugerenciaModel.getEtapa()));
-        
+        procedimientoSugerenciaRepresentation
+                .setResponsable(procedimientoSugerenciaModel.getResponsable() != null
+                        ? procedimientoSugerenciaModel.getResponsable().toString() : null);
+        procedimientoSugerenciaRepresentation.setEstado(procedimientoSugerenciaModel.getEstado() != null
+                ? procedimientoSugerenciaModel.getEstado().toString() : null);
+        procedimientoSugerenciaRepresentation
+                .setRequiereCategoria(procedimientoSugerenciaModel.getRequiereCategoria());
+        procedimientoSugerenciaRepresentation
+                .setRequiereResolucion(procedimientoSugerenciaModel.getRequiereResolucion());
+        procedimientoSugerenciaRepresentation
+                .setEtapa(toRepresentation(procedimientoSugerenciaModel.getEtapa()));
+
         rep.setProcedimiento(procedimientoRepresentation);
         rep.setProcedimientoSugerencia(procedimientoSugerenciaRepresentation);
         return rep;
