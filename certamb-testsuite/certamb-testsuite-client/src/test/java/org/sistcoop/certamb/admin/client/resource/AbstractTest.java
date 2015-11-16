@@ -27,8 +27,8 @@ import org.sistcoop.certamb.provider.Provider;
 import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
 import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.certamb.services.ErrorResponse;
-import org.sistcoop.certamb.services.filters.CooperativaFilter;
-import org.sistcoop.certamb.services.listeners.CooperativaListener;
+import org.sistcoop.certamb.services.filters.CertambFilter;
+import org.sistcoop.certamb.services.listeners.CertambListener;
 import org.sistcoop.certamb.services.managers.DireccionRegionalManagerTest;
 import org.sistcoop.certamb.services.messages.Messages;
 import org.sistcoop.certamb.services.resources.ModelExceptionMapper;
@@ -67,7 +67,7 @@ public abstract class AbstractTest {
 
 				/** services */
 				.addPackage(MessagesProvider.class.getPackage()).addPackage(ErrorResponse.class.getPackage())
-				.addPackage(CooperativaFilter.class.getPackage()).addPackage(CooperativaListener.class.getPackage())
+				.addPackage(CertambFilter.class.getPackage()).addPackage(CertambListener.class.getPackage())
 				.addPackage(DireccionRegionalManagerTest.class.getPackage()).addPackage(Messages.class.getPackage())
 				.addPackage(ModelExceptionMapper.class.getPackage()).addPackage(DireccionesRegionalesResourceImpl.class.getPackage())
 				.addPackage(BovedaCajas_Boveda.class.getPackage())
