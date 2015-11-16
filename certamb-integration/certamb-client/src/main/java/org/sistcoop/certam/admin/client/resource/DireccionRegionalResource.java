@@ -78,6 +78,6 @@ public interface DireccionRegionalResource {
     public ProyectosResource_direccionRegional proyectos();
 
     @Path("trabajadores")
-    public TrabajadoresResource trabajadores();
+    public TrabajadoresResource_direccionRegional trabajadores();
 
 }

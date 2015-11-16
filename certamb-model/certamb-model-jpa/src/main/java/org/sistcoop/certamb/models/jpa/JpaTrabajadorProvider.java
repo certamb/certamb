@@ -103,6 +103,18 @@ public class JpaTrabajadorProvider extends AbstractHibernateStorage implements T
     }
 
     @Override
+    public List<TrabajadorModel> getAll() {
+        TypedQuery<TrabajadorEntity> query = em.createNamedQuery("TrabajadorEntity.findAll",
+                TrabajadorEntity.class);
+        List<TrabajadorEntity> entities = query.getResultList();
+        List<TrabajadorModel> result = new ArrayList<TrabajadorModel>();
+        for (TrabajadorEntity trabajadorEntity : entities) {
+            result.add(new TrabajadorAdapter(em, trabajadorEntity));
+        }
+        return result;
+    }
+
+    @Override
     public List<TrabajadorModel> getAll(DireccionRegionalModel direccionRegional) {
         TypedQuery<TrabajadorEntity> query = em.createNamedQuery("TrabajadorEntity.findByIdDireccionRegional",
                 TrabajadorEntity.class);
@@ -113,6 +125,35 @@ public class JpaTrabajadorProvider extends AbstractHibernateStorage implements T
             result.add(new TrabajadorAdapter(em, trabajadorEntity));
         }
         return result;
+    }
+
+    @Override
+    public SearchResultsModel<TrabajadorModel> search(SearchCriteriaModel criteria) {
+        SearchResultsModel<TrabajadorEntity> entityResult = find(criteria, TrabajadorEntity.class);
+        List<TrabajadorEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<TrabajadorModel> searchResult = new SearchResultsModel<>();
+        List<TrabajadorModel> models = searchResult.getModels();
+        for (TrabajadorEntity entity : entities) {
+            models.add(new TrabajadorAdapter(em, entity));
+        }
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
+    }
+
+    @Override
+    public SearchResultsModel<TrabajadorModel> search(SearchCriteriaModel criteria, String filterText) {
+        SearchResultsModel<TrabajadorEntity> entityResult = findFullText(criteria, TrabajadorEntity.class,
+                filterText, "numeroDocumento");
+        List<TrabajadorEntity> entities = entityResult.getModels();
+
+        SearchResultsModel<TrabajadorModel> searchResult = new SearchResultsModel<>();
+        List<TrabajadorModel> models = searchResult.getModels();
+        for (TrabajadorEntity entity : entities) {
+            models.add(new TrabajadorAdapter(em, entity));
+        }
+        searchResult.setTotalSize(entityResult.getTotalSize());
+        return searchResult;
     }
 
     @Override

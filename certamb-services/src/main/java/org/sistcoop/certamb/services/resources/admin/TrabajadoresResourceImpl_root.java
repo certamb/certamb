@@ -5,13 +5,12 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.sistcoop.certam.admin.client.resource.TrabajadorResource;
-import org.sistcoop.certam.admin.client.resource.TrabajadoresResource;
+import org.sistcoop.certam.admin.client.resource.TrabajadoresResource_root;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
 import org.sistcoop.certamb.models.ModelDuplicateException;
@@ -32,10 +31,7 @@ import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentati
 import org.sistcoop.certamb.services.ErrorResponse;
 
 @Stateless
-public class TrabajadoresResourceImpl implements TrabajadoresResource {
-
-    @PathParam("idDireccionRegional")
-    private String idDireccionRegional;
+public class TrabajadoresResourceImpl_root implements TrabajadoresResource_root {
 
     @Inject
     private DireccionRegionalProvider direccionRegionalProvider;
@@ -52,10 +48,6 @@ public class TrabajadoresResourceImpl implements TrabajadoresResource {
     @Inject
     private TrabajadorResource trabajadorResource;
 
-    private DireccionRegionalModel getDireccionRegionalModel() {
-        return direccionRegionalProvider.findById(idDireccionRegional);
-    }
-
     @Override
     public TrabajadorResource trabajador(String idTrabajador) {
         return trabajadorResource;
@@ -67,10 +59,11 @@ public class TrabajadoresResourceImpl implements TrabajadoresResource {
                 rep.getNumeroDocumento()) != null) {
             return ErrorResponse.exists("Trabajador ya existente");
         }
-
+        DireccionRegionalModel direccionRegional = direccionRegionalProvider
+                .findById(rep.getDireccionRegional().getId());
         try {
-            TrabajadorModel trabajadorModel = representationToModel.createTrabajador(rep,
-                    getDireccionRegionalModel(), trabajadorProvider);
+            TrabajadorModel trabajadorModel = representationToModel.createTrabajador(rep, direccionRegional,
+                    trabajadorProvider);
             return Response.created(uriInfo.getAbsolutePathBuilder().path(trabajadorModel.getId()).build())
                     .header("Access-Control-Expose-Headers", "Location")
                     .entity(ModelToRepresentation.toRepresentation(trabajadorModel)).build();
@@ -83,7 +76,7 @@ public class TrabajadoresResourceImpl implements TrabajadoresResource {
 
     @Override
     public List<TrabajadorRepresentation> getAll() {
-        List<TrabajadorModel> models = trabajadorProvider.getAll(getDireccionRegionalModel());
+        List<TrabajadorModel> models = trabajadorProvider.getAll();
         List<TrabajadorRepresentation> result = new ArrayList<>();
         for (TrabajadorModel model : models) {
             result.add(ModelToRepresentation.toRepresentation(model));
@@ -121,9 +114,9 @@ public class TrabajadoresResourceImpl implements TrabajadoresResource {
         // search
         SearchResultsModel<TrabajadorModel> results = null;
         if (filterText == null) {
-            results = trabajadorProvider.search(getDireccionRegionalModel(), criteriaModel);
+            results = trabajadorProvider.search(criteriaModel);
         } else {
-            results = trabajadorProvider.search(getDireccionRegionalModel(), criteriaModel, filterText);
+            results = trabajadorProvider.search(criteriaModel, filterText);
         }
 
         SearchResultsRepresentation<TrabajadorRepresentation> rep = new SearchResultsRepresentation<>();

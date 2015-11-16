@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 
 import org.sistcoop.certam.admin.client.resource.DireccionRegionalResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource_direccionRegional;
-import org.sistcoop.certam.admin.client.resource.TrabajadoresResource;
+import org.sistcoop.certam.admin.client.resource.TrabajadoresResource_direccionRegional;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
 import org.sistcoop.certamb.models.utils.ModelToRepresentation;
@@ -32,7 +32,7 @@ public class DireccionRegionalResourceImpl implements DireccionRegionalResource 
     private ProyectosResource_direccionRegional proyectosResource;
 
     @Inject
-    private TrabajadoresResource trabajadoresResource;
+    private TrabajadoresResource_direccionRegional trabajadoresResource;
 
     private DireccionRegionalModel getDireccionRegionalModel() {
         return direccionRegionalProvider.findById(idDireccionRegional);
@@ -84,7 +84,7 @@ public class DireccionRegionalResourceImpl implements DireccionRegionalResource 
     }
 
     @Override
-    public TrabajadoresResource trabajadores() {
+    public TrabajadoresResource_direccionRegional trabajadores() {
         return trabajadoresResource;
     }
 

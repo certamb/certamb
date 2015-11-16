@@ -19,7 +19,7 @@ import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentati
  * @author carlosthe19916@gmail.com
  */
 @Consumes(MediaType.APPLICATION_JSON)
-public interface TrabajadoresResource {
+public interface TrabajadoresResource_direccionRegional {
 
     /**
      * @param idProyecto

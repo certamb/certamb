@@ -20,7 +20,13 @@ public interface TrabajadorProvider extends Provider {
 
     TrabajadorModel findByTipoNumeroDocumento(String tipoDocumento, String numeroDocumento);
 
+    List<TrabajadorModel> getAll();
+
     List<TrabajadorModel> getAll(DireccionRegionalModel direccionRegional);
+
+    SearchResultsModel<TrabajadorModel> search(SearchCriteriaModel criteriaModel);
+
+    SearchResultsModel<TrabajadorModel> search(SearchCriteriaModel criteria, String filterText);
 
     SearchResultsModel<TrabajadorModel> search(DireccionRegionalModel direccionRegional,
             SearchCriteriaModel criteria);
