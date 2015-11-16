@@ -20,6 +20,8 @@ public interface TrabajadorProvider extends Provider {
 
     TrabajadorModel findByTipoNumeroDocumento(String tipoDocumento, String numeroDocumento);
 
+    TrabajadorModel findByUsuario(String usuario);
+
     List<TrabajadorModel> getAll();
 
     List<TrabajadorModel> getAll(DireccionRegionalModel direccionRegional);

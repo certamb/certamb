@@ -98,6 +98,22 @@ public class JpaTrabajadorProvider extends AbstractHibernateStorage implements T
     }
 
     @Override
+    public TrabajadorModel findByUsuario(String usuario) {
+        TypedQuery<TrabajadorEntity> query = em.createNamedQuery("TrabajadorEntity.findByUsuario",
+                TrabajadorEntity.class);
+        query.setParameter("usuario", usuario);
+        List<TrabajadorEntity> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        } else if (results.size() > 1) {
+            throw new IllegalStateException(
+                    "Mas de un TrabajadorEntity con usuario=" + usuario + ", results=" + results);
+        } else {
+            return new TrabajadorAdapter(em, results.get(0));
+        }
+    }
+
+    @Override
     public List<TrabajadorModel> getAll() {
         TypedQuery<TrabajadorEntity> query = em.createNamedQuery("TrabajadorEntity.findAll",
                 TrabajadorEntity.class);

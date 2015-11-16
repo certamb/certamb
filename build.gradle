@@ -35,7 +35,9 @@ subprojects {
         compile 'org.hibernate:hibernate-validator:5.2.2.Final'
         
         compile 'org.jboss.resteasy:resteasy-jaxrs:3.0.9.Final'        
-        compile 'org.jboss.resteasy:resteasy-jackson-provider:3.0.9.Final'      
+        compile 'org.jboss.resteasy:resteasy-jackson-provider:3.0.9.Final'
+              
+        compile 'org.keycloak:keycloak-core:1.6.1.Final'      
     }
 
 }
