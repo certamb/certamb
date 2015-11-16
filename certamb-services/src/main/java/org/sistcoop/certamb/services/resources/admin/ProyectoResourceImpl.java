@@ -1,10 +1,12 @@
 package org.sistcoop.certamb.services.resources.admin;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 
+import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.HistorialesProyectoResource;
 import org.sistcoop.certam.admin.client.resource.ProyectoResource;
 import org.sistcoop.certamb.models.ProyectoModel;
@@ -32,6 +34,7 @@ public class ProyectoResourceImpl implements ProyectoResource {
         return proyectoProvider.findById(idProyecto);
     }
 
+    @RolesAllowed(value = { Roles.ver_proyectos })
     @Override
     public ProyectoRepresentation toRepresentation() {
         ProyectoRepresentation rep = ModelToRepresentation.toRepresentation(getProyectoModel());
@@ -42,6 +45,7 @@ public class ProyectoResourceImpl implements ProyectoResource {
         }
     }
 
+    @RolesAllowed(value = { Roles.administrar_proyectos, Roles.administrar_proyectos_direccionRegional })
     @Override
     public void update(ProyectoRepresentation rep) {
         proyectoManager.update(getProyectoModel(), rep);

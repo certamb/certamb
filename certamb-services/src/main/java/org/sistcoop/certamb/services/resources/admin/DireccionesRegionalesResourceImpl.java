@@ -3,12 +3,14 @@ package org.sistcoop.certamb.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.DireccionRegionalResource;
 import org.sistcoop.certam.admin.client.resource.DireccionesRegionalesResource;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
@@ -47,6 +49,7 @@ public class DireccionesRegionalesResourceImpl implements DireccionesRegionalesR
         return direccionRegionalResource;
     }
 
+    @RolesAllowed(value = { Roles.administrar_direcciones_regionales })
     @Override
     public Response create(DireccionRegionalRepresentation rep) {
         if (direccionRegionalProvider.findByDenominacion(rep.getDenominacion()) != null) {
@@ -65,6 +68,7 @@ public class DireccionesRegionalesResourceImpl implements DireccionesRegionalesR
         }
     }
 
+    @RolesAllowed(value = { Roles.ver_direcciones_regionales })
     @Override
     public List<DireccionRegionalRepresentation> getAll() {
         List<DireccionRegionalModel> models = direccionRegionalProvider.getAll();
@@ -75,6 +79,7 @@ public class DireccionesRegionalesResourceImpl implements DireccionesRegionalesR
         return result;
     }
 
+    @RolesAllowed(value = { Roles.ver_direcciones_regionales })
     @Override
     public SearchResultsRepresentation<DireccionRegionalRepresentation> search(
             SearchCriteriaRepresentation criteria) {

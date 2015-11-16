@@ -1,11 +1,13 @@
 package org.sistcoop.certamb.services.resources.admin;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.TrabajadorResource;
 import org.sistcoop.certamb.models.TrabajadorModel;
 import org.sistcoop.certamb.models.TrabajadorProvider;
@@ -30,6 +32,7 @@ public class TrabajadorResourceImpl implements TrabajadorResource {
         return trabajadorProvider.findById(idTrabajador);
     }
 
+    @RolesAllowed(value = { Roles.ver_trabajadores })
     @Override
     public TrabajadorRepresentation toRepresentation() {
         TrabajadorRepresentation rep = ModelToRepresentation.toRepresentation(getTrabajadorModel());
@@ -40,11 +43,13 @@ public class TrabajadorResourceImpl implements TrabajadorResource {
         }
     }
 
+    @RolesAllowed(value = { Roles.administrar_trabajadores })
     @Override
     public void update(TrabajadorRepresentation rep) {
         trabajadorManager.update(getTrabajadorModel(), rep);
     }
 
+    @RolesAllowed(value = { Roles.eliminar_trabajadores })
     @Override
     public Response remove() {
         TrabajadorModel trabajador = getTrabajadorModel();

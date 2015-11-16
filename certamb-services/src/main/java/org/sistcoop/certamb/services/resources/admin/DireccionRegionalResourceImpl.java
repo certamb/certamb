@@ -1,11 +1,13 @@
 package org.sistcoop.certamb.services.resources.admin;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.DireccionRegionalResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource_direccionRegional;
 import org.sistcoop.certam.admin.client.resource.TrabajadoresResource_direccionRegional;
@@ -38,6 +40,7 @@ public class DireccionRegionalResourceImpl implements DireccionRegionalResource 
         return direccionRegionalProvider.findById(idDireccionRegional);
     }
 
+    @RolesAllowed(value = { Roles.ver_direcciones_regionales })
     @Override
     public DireccionRegionalRepresentation toRepresentation() {
         DireccionRegionalRepresentation rep = ModelToRepresentation
@@ -49,11 +52,13 @@ public class DireccionRegionalResourceImpl implements DireccionRegionalResource 
         }
     }
 
+    @RolesAllowed(value = { Roles.administrar_direcciones_regionales })
     @Override
     public void update(DireccionRegionalRepresentation rep) {
         direccionRegionalManager.update(getDireccionRegionalModel(), rep);
     }
 
+    @RolesAllowed(value = { Roles.eliminar_direcciones_regionales })
     @Override
     public Response enable() {
         DireccionRegionalModel direccionRegional = getDireccionRegionalModel();
@@ -66,6 +71,7 @@ public class DireccionRegionalResourceImpl implements DireccionRegionalResource 
         }
     }
 
+    @RolesAllowed(value = { Roles.eliminar_direcciones_regionales })
     @Override
     public Response disable() {
         DireccionRegionalModel direccionRegional = getDireccionRegionalModel();

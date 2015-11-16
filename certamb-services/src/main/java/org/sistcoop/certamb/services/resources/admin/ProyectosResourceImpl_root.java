@@ -3,12 +3,14 @@ package org.sistcoop.certamb.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.ProyectoResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource_root;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
@@ -60,6 +62,7 @@ public class ProyectosResourceImpl_root implements ProyectosResource_root {
         return proyectoResource;
     }
 
+    @RolesAllowed(value = { Roles.administrar_proyectos, Roles.administrar_proyectos_direccionRegional })
     @Override
     public Response create(ProyectoRepresentation rep) {
         if (proyectoProvider.findByDenominacion(rep.getDenominacion()) != null) {
@@ -79,6 +82,7 @@ public class ProyectosResourceImpl_root implements ProyectosResource_root {
         }
     }
 
+    @RolesAllowed(value = { Roles.ver_proyectos })
     @Override
     public List<ProyectoRepresentation> getAll() {
         List<ProyectoModel> models = proyectoProvider.getAll();
@@ -89,6 +93,7 @@ public class ProyectosResourceImpl_root implements ProyectosResource_root {
         return result;
     }
 
+    @RolesAllowed(value = { Roles.ver_proyectos })
     @Override
     public SearchResultsRepresentation<ProyectoRepresentation> search(SearchCriteriaRepresentation criteria) {
         SearchCriteriaModel criteriaModel = new SearchCriteriaModel();

@@ -3,6 +3,7 @@ package org.sistcoop.certamb.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.PathParam;
@@ -10,6 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.TrabajadorResource;
 import org.sistcoop.certam.admin.client.resource.TrabajadoresResource_direccionRegional;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
@@ -61,6 +63,7 @@ public class TrabajadoresResourceImpl_direccionRegional implements TrabajadoresR
         return trabajadorResource;
     }
 
+    @RolesAllowed(value = { Roles.administrar_trabajadores })
     @Override
     public Response create(TrabajadorRepresentation rep) {
         if (trabajadorProvider.findByTipoNumeroDocumento(rep.getTipoDocumento(),
@@ -81,6 +84,7 @@ public class TrabajadoresResourceImpl_direccionRegional implements TrabajadoresR
         }
     }
 
+    @RolesAllowed(value = { Roles.ver_trabajadores })
     @Override
     public List<TrabajadorRepresentation> getAll() {
         List<TrabajadorModel> models = trabajadorProvider.getAll(getDireccionRegionalModel());
@@ -91,6 +95,7 @@ public class TrabajadoresResourceImpl_direccionRegional implements TrabajadoresR
         return result;
     }
 
+    @RolesAllowed(value = { Roles.ver_trabajadores })
     @Override
     public SearchResultsRepresentation<TrabajadorRepresentation> search(
             SearchCriteriaRepresentation criteria) {
