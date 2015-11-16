@@ -91,6 +91,26 @@ public class HistorialProyectoAdapter implements HistorialProyectoModel {
     }
 
     @Override
+    public Date getFechaVigenciaDesde() {
+        return historialProyectoEntity.getFechaVigenciaDesde();
+    }
+
+    @Override
+    public void setFechaVigenciaDesde(Date fechaVigenciaDesde) {
+        historialProyectoEntity.setFechaVigenciaDesde(fechaVigenciaDesde);
+    }
+
+    @Override
+    public Date getFechaVigenciaHasta() {
+        return historialProyectoEntity.getFechaVigenciaHasta();
+    }
+
+    @Override
+    public void setFechaVigenciaHasta(Date fechaVigenciaHasta) {
+        historialProyectoEntity.setFechaVigenciaHasta(fechaVigenciaHasta);
+    }
+
+    @Override
     public ProcedimientoModel getProdedimiento() {
         ProcedimientoEntity procedimientoEntity = historialProyectoEntity.getProcedimiento();
         return new ProcedimientoAdapter(em, procedimientoEntity);

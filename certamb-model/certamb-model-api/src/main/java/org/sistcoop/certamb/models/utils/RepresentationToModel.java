@@ -42,7 +42,7 @@ public class RepresentationToModel {
 
         ProyectoModel proyectoModel = proyectoProvider.create(direccionRegional, rep.getDenominacion(),
                 TipoProyecto.valueOf(rep.getTipo()), rep.getMonto());
-        historialProvider.create(proyectoModel, procedimientoModel, null, null,
+        historialProvider.create(proyectoModel, procedimientoModel, null, null, null, null,
                 "Historial creado por el sistema");
 
         return proyectoModel;
@@ -56,7 +56,8 @@ public class RepresentationToModel {
 
         HistorialProyectoModel historialProyectoModel = provider.create(proyecto, procedimiento,
                 rep.getCategoria() != null ? CategoriaProyecto.valueOf(rep.getCategoria()) : null,
-                rep.getResolucion(), rep.getObservacion());
+                rep.getResolucion(), rep.getFechaVigenciaDesde(), rep.getFechaVigenciaHasta(),
+                rep.getObservacion());
 
         // Verificar fin de procedimiento
         ProcedimientoModel procedimientoModel = historialProyectoModel.getProdedimiento();

@@ -3,6 +3,7 @@ package org.sistcoop.certamb.models.jpa.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
@@ -68,6 +71,14 @@ public class ProyectoEntity implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "ESTADO")
     private String estado;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_VIGENCIA_DESDE")
+    private Date fechaVigenciaDesde;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_VIGENCIA_HASTA")
+    private Date fechaVigenciaHasta;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -134,6 +145,22 @@ public class ProyectoEntity implements Serializable {
 
     public void setHistoriales(Set<HistorialProyectoEntity> historiales) {
         this.historiales = historiales;
+    }
+
+    public Date getFechaVigenciaDesde() {
+        return fechaVigenciaDesde;
+    }
+
+    public void setFechaVigenciaDesde(Date fechaVigenciaDesde) {
+        this.fechaVigenciaDesde = fechaVigenciaDesde;
+    }
+
+    public Date getFechaVigenciaHasta() {
+        return fechaVigenciaHasta;
+    }
+
+    public void setFechaVigenciaHasta(Date fechaVigenciaHasta) {
+        this.fechaVigenciaHasta = fechaVigenciaHasta;
     }
 
     public Timestamp getOptlk() {

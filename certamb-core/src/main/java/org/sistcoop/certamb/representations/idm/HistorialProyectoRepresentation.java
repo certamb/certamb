@@ -19,6 +19,9 @@ public class HistorialProyectoRepresentation implements Serializable {
     private String observacion;
     private boolean estado;
 
+    private Date fechaVigenciaDesde;
+    private Date fechaVigenciaHasta;
+
     private ProyectoRepresentation proyecto;
     private ProcedimientoRepresentation procedimiento;
     private Set<DocumentoRepresentation> documentos = new HashSet<DocumentoRepresentation>();
@@ -93,6 +96,22 @@ public class HistorialProyectoRepresentation implements Serializable {
 
     public void setDocumentos(Set<DocumentoRepresentation> documentos) {
         this.documentos = documentos;
+    }
+
+    public Date getFechaVigenciaDesde() {
+        return fechaVigenciaDesde;
+    }
+
+    public void setFechaVigenciaDesde(Date fechaVigenciaDesde) {
+        this.fechaVigenciaDesde = fechaVigenciaDesde;
+    }
+
+    public Date getFechaVigenciaHasta() {
+        return fechaVigenciaHasta;
+    }
+
+    public void setFechaVigenciaHasta(Date fechaVigenciaHasta) {
+        this.fechaVigenciaHasta = fechaVigenciaHasta;
     }
 
 }

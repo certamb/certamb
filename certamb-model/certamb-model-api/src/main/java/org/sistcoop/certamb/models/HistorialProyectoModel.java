@@ -22,6 +22,14 @@ public interface HistorialProyectoModel extends Model {
 
     void setObservacion(String observacion);
 
+    Date getFechaVigenciaDesde();
+
+    void setFechaVigenciaDesde(Date fechaVigenciaDesde);
+
+    Date getFechaVigenciaHasta();
+
+    void setFechaVigenciaHasta(Date fechaVigenciaHasta);
+
     boolean getEstado();
 
     void desactivar();

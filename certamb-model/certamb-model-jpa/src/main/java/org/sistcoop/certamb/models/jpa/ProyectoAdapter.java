@@ -1,6 +1,7 @@
 package org.sistcoop.certamb.models.jpa;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 
@@ -84,6 +85,26 @@ public class ProyectoAdapter implements ProyectoModel {
     @Override
     public void setEstado(EstadoProyecto estado) {
         proyectoEntity.setEstado(estado.toString());
+    }
+
+    @Override
+    public Date getFechaVigenciaDesde() {
+        return proyectoEntity.getFechaVigenciaDesde();
+    }
+
+    @Override
+    public void setFechaVigenciaDesde(Date fechaVigenciaDesde) {
+        proyectoEntity.setFechaVigenciaDesde(fechaVigenciaDesde);
+    }
+
+    @Override
+    public Date getFechaVigenciaHasta() {
+        return proyectoEntity.getFechaVigenciaHasta();
+    }
+
+    @Override
+    public void setFechaVigenciaHasta(Date fechaVigenciaHasta) {
+        proyectoEntity.setFechaVigenciaHasta(fechaVigenciaHasta);
     }
 
     @Override

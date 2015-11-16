@@ -1,5 +1,6 @@
 package org.sistcoop.certamb.models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -13,7 +14,8 @@ import org.sistcoop.certamb.provider.Provider;
 public interface HistorialProyectoProvider extends Provider {
 
     HistorialProyectoModel create(ProyectoModel proyecto, ProcedimientoModel procedimiento,
-            CategoriaProyecto categoria, String resolucion, String observacion);
+            CategoriaProyecto categoria, String resolucion, Date fechaVigenciaDesde, Date fechaVigenciaHasta,
+            String observacion);
 
     HistorialProyectoModel findById(String id);
 

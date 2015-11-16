@@ -2,6 +2,7 @@ package org.sistcoop.certamb.representations.idm;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class ProyectoRepresentation implements Serializable {
 
@@ -15,6 +16,9 @@ public class ProyectoRepresentation implements Serializable {
     private BigDecimal monto;
     private String tipo;
     private String estado;
+
+    private Date fechaVigenciaDesde;
+    private Date fechaVigenciaHasta;
 
     private DireccionRegionalRepresentation direccionRegional;
 
@@ -64,6 +68,22 @@ public class ProyectoRepresentation implements Serializable {
 
     public void setDireccionRegional(DireccionRegionalRepresentation direccionRegional) {
         this.direccionRegional = direccionRegional;
+    }
+
+    public Date getFechaVigenciaDesde() {
+        return fechaVigenciaDesde;
+    }
+
+    public void setFechaVigenciaDesde(Date fechaVigenciaDesde) {
+        this.fechaVigenciaDesde = fechaVigenciaDesde;
+    }
+
+    public Date getFechaVigenciaHasta() {
+        return fechaVigenciaHasta;
+    }
+
+    public void setFechaVigenciaHasta(Date fechaVigenciaHasta) {
+        this.fechaVigenciaHasta = fechaVigenciaHasta;
     }
 
 }

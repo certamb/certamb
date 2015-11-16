@@ -63,6 +63,14 @@ public class HistorialProyectoEntity implements Serializable {
     @Column(name = "OBSERVACION")
     private String observacion;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_VIGENCIA_DESDE")
+    private Date fechaVigenciaDesde;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_VIGENCIA_HASTA")
+    private Date fechaVigenciaHasta;
+
     @NotNull
     @Type(type = "org.hibernate.type.TrueFalseType")
     @Column(name = "ESTADO")
@@ -154,6 +162,22 @@ public class HistorialProyectoEntity implements Serializable {
 
     public void setDocumentos(Set<DocumentoEntity> documentos) {
         this.documentos = documentos;
+    }
+
+    public Date getFechaVigenciaDesde() {
+        return fechaVigenciaDesde;
+    }
+
+    public void setFechaVigenciaDesde(Date fechaVigenciaDesde) {
+        this.fechaVigenciaDesde = fechaVigenciaDesde;
+    }
+
+    public Date getFechaVigenciaHasta() {
+        return fechaVigenciaHasta;
+    }
+
+    public void setFechaVigenciaHasta(Date fechaVigenciaHasta) {
+        this.fechaVigenciaHasta = fechaVigenciaHasta;
     }
 
     public Timestamp getOptlk() {

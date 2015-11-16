@@ -54,6 +54,8 @@ public class ModelToRepresentation {
         rep.setMonto(model.getMonto());
         rep.setTipo(model.getTipo() != null ? model.getTipo().toString() : null);
         rep.setEstado(model.getEstado() != null ? model.getEstado().toString() : null);
+        rep.setFechaVigenciaDesde(model.getFechaVigenciaDesde());
+        rep.setFechaVigenciaHasta(model.getFechaVigenciaHasta());
         rep.setDireccionRegional(toRepresentation(model.getDireccionRegional()));
         return rep;
     }
@@ -69,6 +71,8 @@ public class ModelToRepresentation {
         rep.setResolucion(model.getResolucion());
         rep.setObservacion(model.getObservacion());
         rep.setEstado(model.getEstado());
+        rep.setFechaVigenciaDesde(model.getFechaVigenciaDesde());
+        rep.setFechaVigenciaHasta(model.getFechaVigenciaHasta());
 
         rep.setProcedimiento(toRepresentation(model.getProdedimiento()));
         return rep;

@@ -2,6 +2,7 @@ package org.sistcoop.certamb.models.jpa;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -55,7 +56,8 @@ public class JpaHistorialProyectoProvider extends AbstractHibernateStorage
 
     @Override
     public HistorialProyectoModel create(ProyectoModel proyecto, ProcedimientoModel procedimiento,
-            CategoriaProyecto categoria, String resolucion, String observacion) {
+            CategoriaProyecto categoria, String resolucion, Date fechaVigenciaDesde, Date fechaVigenciaHasta,
+            String observacion) {
         ProyectoEntity proyectoEntity = this.em.find(ProyectoEntity.class, proyecto.getId());
         ProcedimientoEntity procedimientoEntity = this.em.find(ProcedimientoEntity.class,
                 procedimiento.getId());
@@ -74,6 +76,8 @@ public class JpaHistorialProyectoProvider extends AbstractHibernateStorage
         historialProyectoEntity.setFecha(Calendar.getInstance().getTime());
         historialProyectoEntity.setResolucion(resolucion);
         historialProyectoEntity.setObservacion(observacion);
+        historialProyectoEntity.setFechaVigenciaDesde(fechaVigenciaDesde);
+        historialProyectoEntity.setFechaVigenciaHasta(fechaVigenciaHasta);
         historialProyectoEntity.setEstado(true);
 
         em.persist(historialProyectoEntity);
