@@ -14,51 +14,46 @@ import org.sistcoop.certamb.models.ProyectoProvider;
 import org.sistcoop.certamb.models.utils.ModelToRepresentation;
 import org.sistcoop.certamb.representations.idm.ProyectoRepresentation;
 import org.sistcoop.certamb.services.managers.ProyectoManager;
-import org.sistcoop.certamb.services.utils.CertambSession;
 
 @Stateless
 public class ProyectoResourceImpl implements ProyectoResource {
 
-    @PathParam("idProyecto")
-    private String idProyecto;
+	@PathParam("idProyecto")
+	private String idProyecto;
 
-    @Inject
-    private ProyectoManager proyectoManager;
+	@Inject
+	private ProyectoManager proyectoManager;
 
-    @Inject
-    private ProyectoProvider proyectoProvider;
+	@Inject
+	private ProyectoProvider proyectoProvider;
 
-    @Inject
-    private HistorialesProyectoResource historialProyectoResource;
+	@Inject
+	private HistorialesProyectoResource historialProyectoResource;
 
-    @Inject
-    private CertambSession certambSession;
-    
-    private ProyectoModel getProyectoModel() {
-        return proyectoProvider.findById(idProyecto);
-    }
+	private ProyectoModel getProyectoModel() {
+		return proyectoProvider.findById(idProyecto);
+	}
 
-    @RolesAllowed(value = { Roles.ver_proyectos })
-    @Override
-    public ProyectoRepresentation toRepresentation() {
-        ProyectoRepresentation rep = ModelToRepresentation.toRepresentation(getProyectoModel());
-        if (rep != null) {
-            return rep;
-        } else {
-            throw new NotFoundException("Proyecto no encontrado");
-        }
-    }
+	@RolesAllowed(value = { Roles.ver_proyectos })
+	@Override
+	public ProyectoRepresentation toRepresentation() {
+		ProyectoRepresentation rep = ModelToRepresentation.toRepresentation(getProyectoModel());
+		if (rep != null) {
+			return rep;
+		} else {
+			throw new NotFoundException("Proyecto no encontrado");
+		}
+	}
 
-    @RolesAllowed(value = { Roles.administrar_proyectos, Roles.administrar_proyectos_direccionRegional })
-    @Override
-    public void update(ProyectoRepresentation rep) {
-        //certambSession.getTrabajador(httpRequest);
-        proyectoManager.update(getProyectoModel(), rep);
-    }
+	@RolesAllowed(value = { Roles.administrar_proyectos, Roles.administrar_proyectos_direccionRegional })
+	@Override
+	public void update(ProyectoRepresentation rep) {
+		proyectoManager.update(getProyectoModel(), rep);
+	}
 
-    @Override
-    public HistorialesProyectoResource historiales() {
-        return historialProyectoResource;
-    }
+	@Override
+	public HistorialesProyectoResource historiales() {
+		return historialProyectoResource;
+	}
 
 }
