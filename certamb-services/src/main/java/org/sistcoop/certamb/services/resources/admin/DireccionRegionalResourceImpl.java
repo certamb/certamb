@@ -7,6 +7,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.DireccionRegionalResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource_direccionRegional;
@@ -18,6 +19,7 @@ import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
 import org.sistcoop.certamb.services.ErrorResponse;
 import org.sistcoop.certamb.services.managers.DireccionRegionalManager;
 
+@SecurityDomain("keycloak")
 @Stateless
 public class DireccionRegionalResourceImpl implements DireccionRegionalResource {
 
@@ -48,7 +50,7 @@ public class DireccionRegionalResourceImpl implements DireccionRegionalResource 
         if (rep != null) {
             return rep;
         } else {
-            throw new NotFoundException("Caja no encontrada");
+            throw new NotFoundException("Direccion regional no encontrada");
         }
     }
 

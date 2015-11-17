@@ -37,7 +37,8 @@ subprojects {
         compile 'org.jboss.resteasy:resteasy-jaxrs:3.0.9.Final'        
         compile 'org.jboss.resteasy:resteasy-jackson-provider:3.0.9.Final'
               
-        compile 'org.keycloak:keycloak-core:1.6.1.Final'      
+        compile 'org.keycloak:keycloak-core:1.6.1.Final'
+        compile 'org.jboss.ejb3:jboss-ejb3-ext-api:2.2.0.Final'    
     }
 
 }
