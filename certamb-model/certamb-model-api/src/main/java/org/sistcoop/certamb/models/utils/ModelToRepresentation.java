@@ -102,6 +102,7 @@ public class ModelToRepresentation {
         rep.setEstado(model.getEstado() != null ? model.getEstado().toString() : null);
         rep.setRequiereCategoria(model.getRequiereCategoria());
         rep.setRequiereResolucion(model.getRequiereResolucion());
+        rep.setRequiereFechaVigencia(model.getRequiereFechaVigencia());
         rep.setEtapa(toRepresentation(model.getEtapa()));
 
         List<SugerenciaModel> sugerenciasModel = model.getSugerencias();

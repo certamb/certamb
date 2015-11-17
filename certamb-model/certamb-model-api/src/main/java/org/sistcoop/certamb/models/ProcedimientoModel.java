@@ -7,32 +7,34 @@ import org.sistcoop.certamb.models.enums.Responsable;
 
 public interface ProcedimientoModel extends Model {
 
-    String getId();
+	String getId();
 
-    String getDenominacion();
+	String getDenominacion();
 
-    void setDenominacion(String denominacion);
+	void setDenominacion(String denominacion);
 
-    int getOrden();
+	int getOrden();
 
-    void setOrden(int orden);
+	void setOrden(int orden);
 
-    Responsable getResponsable();
+	Responsable getResponsable();
 
-    void setResponsable(Responsable responsable);
+	void setResponsable(Responsable responsable);
 
-    int getPlazo();
+	int getPlazo();
 
-    void setPlazo(int plazo);
+	void setPlazo(int plazo);
 
-    EstadoProyecto getEstado();
+	EstadoProyecto getEstado();
 
-    boolean getRequiereCategoria();
+	boolean getRequiereCategoria();
 
-    boolean getRequiereResolucion();
+	boolean getRequiereResolucion();
 
-    List<SugerenciaModel> getSugerencias();
+	boolean getRequiereFechaVigencia();
 
-    EtapaModel getEtapa();
+	List<SugerenciaModel> getSugerencias();
+
+	EtapaModel getEtapa();
 
 }
