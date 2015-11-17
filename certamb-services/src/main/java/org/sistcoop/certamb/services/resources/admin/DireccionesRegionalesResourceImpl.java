@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
+import org.sistcoop.ceramb.admin.client.Config;
 import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.DireccionRegionalResource;
 import org.sistcoop.certam.admin.client.resource.DireccionesRegionalesResource;
@@ -31,7 +32,7 @@ import org.sistcoop.certamb.representations.idm.search.SearchCriteriaRepresentat
 import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.certamb.services.ErrorResponse;
 
-@SecurityDomain("keycloak")
+@SecurityDomain(Config.KEYCLOAK_SECURITY_DOMAIN)
 @Stateless
 public class DireccionesRegionalesResourceImpl implements DireccionesRegionalesResource {
 

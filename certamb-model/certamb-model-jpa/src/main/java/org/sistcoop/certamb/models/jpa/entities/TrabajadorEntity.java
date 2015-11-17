@@ -53,9 +53,7 @@ public class TrabajadorEntity implements Serializable {
     @Column(name = "NUMERO_DOCUMENTO")
     private String numeroDocumento;
 
-    @NotNull
     @Size(min = 1, max = 100)
-    @NotBlank
     @Column(name = "USUARIO")
     private String usuario;
 

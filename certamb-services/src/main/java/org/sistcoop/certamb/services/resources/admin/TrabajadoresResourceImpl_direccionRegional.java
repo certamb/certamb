@@ -3,6 +3,7 @@ package org.sistcoop.certamb.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.TrabajadorResource;
 import org.sistcoop.certam.admin.client.resource.TrabajadoresResource_direccionRegional;
@@ -33,6 +35,9 @@ import org.sistcoop.certamb.representations.idm.search.SearchCriteriaRepresentat
 import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.certamb.services.ErrorResponse;
 
+import org.sistcoop.ceramb.admin.client.Config;
+
+@SecurityDomain(Config.KEYCLOAK_SECURITY_DOMAIN)
 @Stateless
 public class TrabajadoresResourceImpl_direccionRegional implements TrabajadoresResource_direccionRegional {
 
@@ -58,6 +63,7 @@ public class TrabajadoresResourceImpl_direccionRegional implements TrabajadoresR
         return direccionRegionalProvider.findById(idDireccionRegional);
     }
 
+    @PermitAll
     @Override
     public TrabajadorResource trabajador(String idTrabajador) {
         return trabajadorResource;

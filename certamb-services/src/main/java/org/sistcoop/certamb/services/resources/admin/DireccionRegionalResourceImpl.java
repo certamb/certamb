@@ -1,5 +1,6 @@
 package org.sistcoop.certamb.services.resources.admin;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -8,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
+import org.sistcoop.ceramb.admin.client.Config;
 import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.DireccionRegionalResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource_direccionRegional;
@@ -19,7 +21,7 @@ import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
 import org.sistcoop.certamb.services.ErrorResponse;
 import org.sistcoop.certamb.services.managers.DireccionRegionalManager;
 
-@SecurityDomain("keycloak")
+@SecurityDomain(Config.KEYCLOAK_SECURITY_DOMAIN)
 @Stateless
 public class DireccionRegionalResourceImpl implements DireccionRegionalResource {
 
@@ -86,11 +88,13 @@ public class DireccionRegionalResourceImpl implements DireccionRegionalResource 
         }
     }
 
+    @PermitAll
     @Override
     public ProyectosResource_direccionRegional proyectos() {
         return proyectosResource;
     }
 
+    @PermitAll
     @Override
     public TrabajadoresResource_direccionRegional trabajadores() {
         return trabajadoresResource;
