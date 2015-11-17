@@ -14,6 +14,7 @@ import org.sistcoop.certamb.models.ProyectoProvider;
 import org.sistcoop.certamb.models.utils.ModelToRepresentation;
 import org.sistcoop.certamb.representations.idm.ProyectoRepresentation;
 import org.sistcoop.certamb.services.managers.ProyectoManager;
+import org.sistcoop.certamb.services.utils.CertambSession;
 
 @Stateless
 public class ProyectoResourceImpl implements ProyectoResource {
@@ -30,6 +31,9 @@ public class ProyectoResourceImpl implements ProyectoResource {
     @Inject
     private HistorialesProyectoResource historialProyectoResource;
 
+    @Inject
+    private CertambSession certambSession;
+    
     private ProyectoModel getProyectoModel() {
         return proyectoProvider.findById(idProyecto);
     }
@@ -48,6 +52,7 @@ public class ProyectoResourceImpl implements ProyectoResource {
     @RolesAllowed(value = { Roles.administrar_proyectos, Roles.administrar_proyectos_direccionRegional })
     @Override
     public void update(ProyectoRepresentation rep) {
+        //certambSession.getTrabajador(httpRequest);
         proyectoManager.update(getProyectoModel(), rep);
     }
 
