@@ -16,6 +16,7 @@ import org.sistcoop.certamb.models.TrabajadorProvider;
 import org.sistcoop.certamb.models.utils.ModelToRepresentation;
 import org.sistcoop.certamb.representations.idm.TrabajadorRepresentation;
 import org.sistcoop.certamb.services.ErrorResponse;
+import org.sistcoop.certamb.services.ErrorResponseException;
 import org.sistcoop.certamb.services.managers.TrabajadorManager;
 
 @SecurityDomain(Config.KEYCLOAK_SECURITY_DOMAIN)
@@ -54,8 +55,16 @@ public class TrabajadorResourceImpl implements TrabajadorResource {
 
     @RolesAllowed(value = { Roles.administrar_trabajadores })
     @Override
-    public void updateUsuario(TrabajadorRepresentation rep) {
-        trabajadorManager.updateUsuario(getTrabajadorModel(), rep.getUsuario());
+    public Response updateUsuario(TrabajadorRepresentation rep) {
+        TrabajadorModel trabajador = trabajadorProvider.findByUsuario(rep.getUsuario());
+        if (trabajador != null) {
+            return new ErrorResponseException("Usuario no disponible",
+                    "El usuario ya fue asignado a otro trabajador", Response.Status.BAD_REQUEST)
+                            .getResponse();
+        } else {
+            trabajadorManager.updateUsuario(getTrabajadorModel(), rep.getUsuario());
+            return Response.noContent().build();
+        }
     }
 
     @RolesAllowed(value = { Roles.administrar_trabajadores })

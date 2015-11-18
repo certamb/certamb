@@ -56,7 +56,8 @@ public interface TrabajadorResource {
 	@PUT
 	@Path("/usuario")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateUsuario(TrabajadorRepresentation trabajadorRepresentation);
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateUsuario(TrabajadorRepresentation trabajadorRepresentation);
 
 	/**
 	 * Use este endpoint para desactivar una direccionRegional. Una boveda
@@ -70,6 +71,7 @@ public interface TrabajadorResource {
 	 */
 	@DELETE
 	@Path("/usuario")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response removeUsuario();
 
 	/**
