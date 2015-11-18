@@ -42,8 +42,10 @@ public class RepresentationToModel {
 
         ProyectoModel proyectoModel = proyectoProvider.create(direccionRegional, rep.getDenominacion(),
                 TipoProyecto.valueOf(rep.getTipo()), rep.getMonto());
-        historialProvider.create(proyectoModel, procedimientoModel, null, null, null, null,
-                "Historial creado por el sistema");
+        if (procedimientoModel != null) {
+            historialProvider.create(proyectoModel, procedimientoModel, null, null, null, null,
+                    "Historial creado por el sistema");
+        }
 
         return proyectoModel;
     }

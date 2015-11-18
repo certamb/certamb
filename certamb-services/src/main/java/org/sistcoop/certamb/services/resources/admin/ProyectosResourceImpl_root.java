@@ -3,6 +3,7 @@ package org.sistcoop.certamb.services.resources.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -10,6 +11,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
+import org.sistcoop.ceramb.admin.client.Config;
 import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.ProyectoResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource_root;
@@ -33,6 +36,7 @@ import org.sistcoop.certamb.representations.idm.search.SearchCriteriaRepresentat
 import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentation;
 import org.sistcoop.certamb.services.ErrorResponse;
 
+@SecurityDomain(Config.KEYCLOAK_SECURITY_DOMAIN)
 @Stateless
 public class ProyectosResourceImpl_root implements ProyectosResource_root {
 
@@ -57,6 +61,7 @@ public class ProyectosResourceImpl_root implements ProyectosResource_root {
     @Inject
     private ProyectoResource proyectoResource;
 
+    @PermitAll
     @Override
     public ProyectoResource proyecto(String idProyecto) {
         return proyectoResource;

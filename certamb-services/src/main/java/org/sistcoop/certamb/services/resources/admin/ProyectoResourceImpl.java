@@ -1,11 +1,14 @@
 package org.sistcoop.certamb.services.resources.admin;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PathParam;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
+import org.sistcoop.ceramb.admin.client.Config;
 import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.HistorialesProyectoResource;
 import org.sistcoop.certam.admin.client.resource.ProyectoResource;
@@ -15,6 +18,7 @@ import org.sistcoop.certamb.models.utils.ModelToRepresentation;
 import org.sistcoop.certamb.representations.idm.ProyectoRepresentation;
 import org.sistcoop.certamb.services.managers.ProyectoManager;
 
+@SecurityDomain(Config.KEYCLOAK_SECURITY_DOMAIN)
 @Stateless
 public class ProyectoResourceImpl implements ProyectoResource {
 
@@ -51,6 +55,7 @@ public class ProyectoResourceImpl implements ProyectoResource {
 		proyectoManager.update(getProyectoModel(), rep);
 	}
 
+	@PermitAll
 	@Override
 	public HistorialesProyectoResource historiales() {
 		return historialProyectoResource;
