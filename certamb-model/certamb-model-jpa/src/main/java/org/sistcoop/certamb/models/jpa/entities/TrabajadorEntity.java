@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @NamedQueries(value = {
         @NamedQuery(name = "TrabajadorEntity.findAll", query = "SELECT t FROM TrabajadorEntity t"),
         @NamedQuery(name = "TrabajadorEntity.findByTipoNumeroDocumento", query = "SELECT t FROM TrabajadorEntity t WHERE t.tipoDocumento = :tipoDocumento AND t.numeroDocumento = :numeroDocumento"),
-        @NamedQuery(name = "TrabajadorEntity.findByUsuario", query = "SELECT t FROM TrabajadorEntity t WHERE t.usuario = :usuario"),
+        @NamedQuery(name = "TrabajadorEntity.findByUsuario", query = "SELECT t FROM TrabajadorEntity t WHERE UPPER(t.usuario) = UPPER(:usuario)"),
         @NamedQuery(name = "TrabajadorEntity.findByIdDireccionRegional", query = "SELECT t FROM TrabajadorEntity t INNER JOIN t.direccionRegional d WHERE d.id = :idDireccionRegional") })
 public class TrabajadorEntity implements Serializable {
 
