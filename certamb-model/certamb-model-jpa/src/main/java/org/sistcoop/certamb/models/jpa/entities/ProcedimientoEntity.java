@@ -60,7 +60,7 @@ public class ProcedimientoEntity implements Serializable {
 	private String responsable;
 
 	@NotNull
-	@Min(value = 1)
+	@Min(value = 0)
 	@Column(name = "PLAZO")
 	private int plazo;
 

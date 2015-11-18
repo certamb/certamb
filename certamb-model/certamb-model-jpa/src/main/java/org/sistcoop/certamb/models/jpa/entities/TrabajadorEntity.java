@@ -57,7 +57,6 @@ public class TrabajadorEntity implements Serializable {
     @Column(name = "USUARIO")
     private String usuario;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DIRECCION_REGIONAL_ID", foreignKey = @ForeignKey )
     private DireccionRegionalEntity direccionRegional;

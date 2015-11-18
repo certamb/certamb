@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.TrabajadorModel;
+import org.sistcoop.certamb.models.jpa.entities.DireccionRegionalEntity;
 import org.sistcoop.certamb.models.jpa.entities.TrabajadorEntity;
 
 public class TrabajadorAdapter implements TrabajadorModel {
@@ -54,7 +55,12 @@ public class TrabajadorAdapter implements TrabajadorModel {
 
     @Override
     public DireccionRegionalModel getDireccionRegional() {
-        return new DireccionRegionalAdapter(em, trabajadorEntity.getDireccionRegional());
+        DireccionRegionalEntity direccionRegionalEntity = trabajadorEntity.getDireccionRegional();
+        if(direccionRegionalEntity != null){
+            return new DireccionRegionalAdapter(em, trabajadorEntity.getDireccionRegional());   
+        } else {
+            return null;
+        }        
     }
 
     @Override
