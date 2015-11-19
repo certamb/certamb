@@ -135,6 +135,7 @@ public class ModelToRepresentation {
                 procedimientoModel.getEstado() != null ? procedimientoModel.getEstado().toString() : null);
         procedimientoRepresentation.setRequiereCategoria(procedimientoModel.getRequiereCategoria());
         procedimientoRepresentation.setRequiereResolucion(procedimientoModel.getRequiereResolucion());
+        procedimientoRepresentation.setRequiereFechaVigencia(procedimientoModel.getRequiereFechaVigencia());
         procedimientoRepresentation.setEtapa(toRepresentation(procedimientoModel.getEtapa()));
 
         ProcedimientoModel procedimientoSugerenciaModel = model.getProcedimientoSugerencia();
@@ -152,6 +153,8 @@ public class ModelToRepresentation {
                 .setRequiereCategoria(procedimientoSugerenciaModel.getRequiereCategoria());
         procedimientoSugerenciaRepresentation
                 .setRequiereResolucion(procedimientoSugerenciaModel.getRequiereResolucion());
+        procedimientoSugerenciaRepresentation
+                .setRequiereFechaVigencia(procedimientoSugerenciaModel.getRequiereFechaVigencia());
         procedimientoSugerenciaRepresentation
                 .setEtapa(toRepresentation(procedimientoSugerenciaModel.getEtapa()));
 

@@ -15,6 +15,7 @@ import org.sistcoop.certamb.models.ProyectoProvider;
 import org.sistcoop.certamb.models.TrabajadorModel;
 import org.sistcoop.certamb.models.TrabajadorProvider;
 import org.sistcoop.certamb.models.enums.CategoriaProyecto;
+import org.sistcoop.certamb.models.enums.EstadoProyecto;
 import org.sistcoop.certamb.models.enums.TipoProyecto;
 import org.sistcoop.certamb.representations.idm.DireccionRegionalRepresentation;
 import org.sistcoop.certamb.representations.idm.HistorialProyectoRepresentation;
@@ -66,6 +67,13 @@ public class RepresentationToModel {
         // Verificar fin de procedimiento
         ProcedimientoModel procedimientoModel = historialProyectoModel.getProdedimiento();
         proyecto.setEstado(procedimientoModel.getEstado());
+        
+        // Poner fechas de vigencia de ser el caso
+        if(procedimientoModel.getEstado().equals(EstadoProyecto.APROBADO)) {
+            proyecto.setFechaVigenciaDesde(rep.getFechaVigenciaDesde());
+            proyecto.setFechaVigenciaHasta(rep.getFechaVigenciaHasta());               
+        }
+                
         proyecto.commit();
 
         return historialProyectoModel;
