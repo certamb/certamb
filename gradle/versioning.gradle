@@ -1,4 +1,4 @@
 allprojects {
     ext.buildTimestamp = new Date().format('yyyy-MM-dd HH:mm:ss')
-    project.version = "1.0.0.Final"
+    project.version = projectVersion
 }

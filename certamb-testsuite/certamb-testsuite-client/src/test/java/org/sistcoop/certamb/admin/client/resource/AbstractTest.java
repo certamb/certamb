@@ -29,7 +29,7 @@ import org.sistcoop.certamb.representations.idm.search.SearchResultsRepresentati
 import org.sistcoop.certamb.services.ErrorResponse;
 import org.sistcoop.certamb.services.filters.CertambFilter;
 import org.sistcoop.certamb.services.listeners.CertambListener;
-import org.sistcoop.certamb.services.managers.DireccionRegionalManagerTest;
+import org.sistcoop.certamb.services.managers.DireccionRegionalManager;
 import org.sistcoop.certamb.services.messages.Messages;
 import org.sistcoop.certamb.services.resources.ModelExceptionMapper;
 import org.sistcoop.certamb.services.resources.admin.DireccionesRegionalesResourceImpl;
@@ -41,53 +41,59 @@ import org.slf4j.LoggerFactory;
 @UsingDataSet("empty.xml")
 public abstract class AbstractTest {
 
-	protected Logger log = LoggerFactory.getLogger(AbstractTest.class);
+    protected Logger log = LoggerFactory.getLogger(AbstractTest.class);
 
-	@Deployment
-	public static WebArchive createDeployment() {
-		File[] logger = Maven.resolver().resolve("org.slf4j:slf4j-simple:1.7.10").withoutTransitivity().asFile();
+    @Deployment
+    public static WebArchive createDeployment() {
+        File[] logger = Maven.resolver().resolve("org.slf4j:slf4j-simple:1.7.10").withoutTransitivity()
+                .asFile();
 
-		File[] restAssured = Maven.resolver().resolve("com.jayway.restassured:rest-assured:2.4.1").withTransitivity()
-				.asFile();
+        File[] restAssured = Maven.resolver().resolve("com.jayway.restassured:rest-assured:2.4.1")
+                .withTransitivity().asFile();
 
-		WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
+        WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
 
-				/** model-api **/
-				.addPackage(MapperConfigValidationException.class.getPackage())
-				.addPackage(DireccionRegionalModel.class.getPackage()).addPackage(TipoProyecto.class.getPackage())
-				.addPackage(SearchCriteriaModel.class.getPackage()).addPackage(SearchCriteriaModel.class.getPackage())
-				.addPackage(ModelToRepresentation.class.getPackage()).addPackage(Provider.class.getPackage())
+                /** model-api **/
+                .addPackage(MapperConfigValidationException.class.getPackage())
+                .addPackage(DireccionRegionalModel.class.getPackage())
+                .addPackage(TipoProyecto.class.getPackage())
+                .addPackage(SearchCriteriaModel.class.getPackage())
+                .addPackage(SearchCriteriaModel.class.getPackage())
+                .addPackage(ModelToRepresentation.class.getPackage()).addPackage(Provider.class.getPackage())
 
-				/** model-jpa **/
-				.addPackage(JpaDireccionRegionalProvider.class.getPackage()).addPackage(DireccionRegionalEntity.class.getPackage())
-				.addPackage(SearchCriteriaJoinModel.class.getPackage())
+                /** model-jpa **/
+                .addPackage(JpaDireccionRegionalProvider.class.getPackage())
+                .addPackage(DireccionRegionalEntity.class.getPackage())
+                .addPackage(SearchCriteriaJoinModel.class.getPackage())
 
-				/** client */
-				.addPackage(Config.class.getPackage()).addPackage(DireccionesRegionalesResource.class.getPackage())
+                /** client */
+                .addPackage(Config.class.getPackage())
+                .addPackage(DireccionesRegionalesResource.class.getPackage())
 
-				/** services */
-				.addPackage(MessagesProvider.class.getPackage()).addPackage(ErrorResponse.class.getPackage())
-				.addPackage(CertambFilter.class.getPackage()).addPackage(CertambListener.class.getPackage())
-				.addPackage(DireccionRegionalManagerTest.class.getPackage()).addPackage(Messages.class.getPackage())
-				.addPackage(ModelExceptionMapper.class.getPackage()).addPackage(DireccionesRegionalesResourceImpl.class.getPackage())
-				.addPackage(BovedaCajas_Boveda.class.getPackage())
+                /** services */
+                .addPackage(MessagesProvider.class.getPackage()).addPackage(ErrorResponse.class.getPackage())
+                .addPackage(CertambFilter.class.getPackage()).addPackage(CertambListener.class.getPackage())
+                .addPackage(DireccionRegionalManager.class.getPackage())
+                .addPackage(Messages.class.getPackage()).addPackage(ModelExceptionMapper.class.getPackage())
+                .addPackage(DireccionesRegionalesResourceImpl.class.getPackage())
+                .addPackage(BovedaCajas_Boveda.class.getPackage())
 
-				/** core */
-				.addPackage(Config.class.getPackage()).addPackage(GenericConstants.class.getPackage())
-				.addPackage(DireccionRegionalRepresentation.class.getPackage())
-				.addPackage(SearchResultsRepresentation.class.getPackage())
+                /** core */
+                .addPackage(Config.class.getPackage()).addPackage(GenericConstants.class.getPackage())
+                .addPackage(DireccionRegionalRepresentation.class.getPackage())
+                .addPackage(SearchResultsRepresentation.class.getPackage())
 
-				/** core jaxrs */
-				.addPackage(JaxRsActivator.class.getPackage())
+                /** core jaxrs */
+                .addPackage(JaxRsActivator.class.getPackage())
 
-				.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-				.addAsManifestResource(EmptyAsset.INSTANCE, "web.xml").addAsWebInfResource("test-ds.xml");
+                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addAsManifestResource(EmptyAsset.INSTANCE, "web.xml").addAsWebInfResource("test-ds.xml");
 
-		war.addAsLibraries(logger);
-		war.addAsLibraries(restAssured);
+        war.addAsLibraries(logger);
+        war.addAsLibraries(restAssured);
 
-		return war;
-	}
+        return war;
+    }
 
 }

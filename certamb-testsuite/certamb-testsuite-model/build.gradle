@@ -1,5 +1,5 @@
 dependencies {
-	compile project(':certamb-model:certamb-model-api')
-	compile project(':certamb-model:certamb-model-jpa')
-	compile project(':certamb-model:certamb-model-mongo')
+	compile project(":$projectName-model:$projectName-model-api")
+	compile project(":$projectName-model:$projectName-model-jpa")
+	compile project(":$projectName-model:$projectName-model-mongo")
 }

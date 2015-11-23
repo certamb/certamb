@@ -6,8 +6,9 @@
 	<group qualifier="chameleon" default="true">
 		<container qualifier="wildfly" default="true">
 			<configuration>
-				<property name="chameleonTarget">wildfly:10.0.0.Final:managed</property>
+				<property name="chameleonTarget">wildfly:8.2.1.Final:managed</property>
 			</configuration>
 		</container>
 	</group>
+
 </arquillian>

@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema
 	http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
+
 	<datasource jndi-name="java:jboss/datasources/testDS"
 		pool-name="test" enabled="true" use-java-context="true">
 		<connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</connection-url>
@@ -12,4 +13,5 @@
 			<password>sa</password>
 		</security>
 	</datasource>
+
 </datasources>

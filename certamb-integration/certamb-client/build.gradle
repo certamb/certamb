@@ -1,6 +1,6 @@
 apply from: "$rootDir/gradle/miredot.gradle"
 
 dependencies {
-    compile project(':certamb-core')
-    compile project(':certamb-core-jaxrs')
+	compile project(":$projectName-core")
+	compile project(":$projectName-core-jaxrs")
 }

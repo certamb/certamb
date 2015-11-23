@@ -1,0 +1,25 @@
+task copyWebConfiguration(type: Copy) {
+    from "$rootDir/enviroment/$env/web"    	          		
+	into project(":$projectName-web").file("src/main/webapp/WEB-INF")
+}
+
+task copyModelJpaConfiguration(type: Copy) {
+    from "$rootDir/enviroment/$env/model-jpa"
+    into project(":$projectName-model:$projectName-model-jpa").file("src/main/resources")
+}
+
+task copyTestsuiteClientConfiguration(type: Copy) {
+    from "$rootDir/enviroment/$env/testsuite"
+    into project(":$projectName-testsuite:$projectName-testsuite-client").file("src/test/resources")
+}
+task copyTestsuiteModelConfiguration(type: Copy) {
+    from "$rootDir/enviroment/$env/testsuite"
+    into project(":$projectName-testsuite:$projectName-testsuite-model").file("src/test/resources")
+}
+
+task copyConfiguration(dependsOn: [copyWebConfiguration, copyModelJpaConfiguration, copyTestsuiteModelConfiguration, copyTestsuiteClientConfiguration])
+
+assemble.dependsOn copyConfiguration
+test.dependsOn copyConfiguration
+
+//gradle -Penv=prod build

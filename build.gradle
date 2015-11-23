@@ -1,25 +1,40 @@
+apply from: "$rootDir/gradle/envConfig.gradle"
 apply from: "$rootDir/gradle/versioning.gradle"
+
+apply plugin: "org.sonarqube"
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "$projectName"
+        property "sonar.projectKey", "$projectGroup:$projectName"
+    }
+}
 
 buildscript {
     repositories {
     	maven { url 'http://nexus.qmino.com/content/repositories/miredot' }
         maven { url 'http://nexus.qmino.com/content/repositories/miredot-snapshots' }
+        maven { url "https://plugins.gradle.org/m2/"}
         mavenCentral()        
     }
     dependencies {
+    	classpath "org.sonarqube.gradle:gradle-sonarqube-plugin:1.1"
         classpath 'com.qmino:miredot-plugin:1.6.2'
     }
 }
 
 allprojects {
-    apply plugin: 'eclipse'
-    group = 'org.sistcoop' 
+    apply plugin: "eclipse"
+    group = "$projectGroup"
 }
 
 subprojects {
-    apply plugin: 'java'
-    sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
+    apply plugin: "java"
+    apply from: "$rootDir/gradle/task.gradle"
+  	apply from: "$rootDir/gradle/jacoco.gradle"
+  	
+  	sourceCompatibility = "$projectSourceCompatibility"
+    targetCompatibility = "$projectTargetCompatibility"
   
     repositories {
         mavenCentral()
@@ -40,7 +55,12 @@ subprojects {
         compile 'org.keycloak:keycloak-core:1.6.1.Final'
         compile 'org.jboss.ejb3:jboss-ejb3-ext-api:2.2.0.Final'    
     }
-
+    
+    sonarqube {
+	    properties {
+	        property "sonar.sourceEncoding", "UTF-8"
+	    }
+	}
 }
 
 task wrapper(type: Wrapper) {

@@ -1,3 +1,3 @@
 dependencies {
-	compile project(':certamb-model:certamb-model-api')
+	compile project(":$projectName-model:$projectName-model-api")	
 }

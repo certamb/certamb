@@ -1,7 +1,7 @@
 subprojects {
 	apply plugin: 'java'
-    sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
+    sourceCompatibility = "$projectSourceCompatibility"
+    targetCompatibility = "$projectTargetCompatibility"
     
     repositories {
         mavenCentral()
@@ -9,7 +9,7 @@ subprojects {
     dependencies {
     	testCompile 'junit:junit:4.12'
     	testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.10.Final'    	
-    	testCompile 'org.arquillian.container:arquillian-container-chameleon:1.0.0.Alpha5'
+    	testCompile 'org.arquillian.container:arquillian-container-chameleon:1.0.0.Alpha6'
     	
     	testCompile 'org.hamcrest:hamcrest-all:1.3'
     	testCompile 'com.jayway.restassured:rest-assured:2.6.0'    	
