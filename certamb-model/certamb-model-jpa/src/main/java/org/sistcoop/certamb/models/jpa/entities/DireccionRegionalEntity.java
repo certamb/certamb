@@ -1,7 +1,6 @@
 package org.sistcoop.certamb.models.jpa.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +49,7 @@ public class DireccionRegionalEntity implements Serializable {
     private boolean estado;
 
     @Version
-    private Timestamp optlk;
+    private Integer optlk;
 
     public String getId() {
         return id;
@@ -76,11 +75,11 @@ public class DireccionRegionalEntity implements Serializable {
         this.estado = estado;
     }
 
-    public Timestamp getOptlk() {
+    public Integer getOptlk() {
         return optlk;
     }
 
-    public void setOptlk(Timestamp optlk) {
+    public void setOptlk(Integer optlk) {
         this.optlk = optlk;
     }
 

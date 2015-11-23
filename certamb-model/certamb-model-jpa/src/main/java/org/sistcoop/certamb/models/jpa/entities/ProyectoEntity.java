@@ -2,7 +2,6 @@ package org.sistcoop.certamb.models.jpa.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -89,7 +88,7 @@ public class ProyectoEntity implements Serializable {
     private Set<HistorialProyectoEntity> historiales = new HashSet<HistorialProyectoEntity>();
 
     @Version
-    private Timestamp optlk;
+    private Integer optlk;
 
     public String getId() {
         return id;
@@ -163,11 +162,11 @@ public class ProyectoEntity implements Serializable {
         this.fechaVigenciaHasta = fechaVigenciaHasta;
     }
 
-    public Timestamp getOptlk() {
+    public Integer getOptlk() {
         return optlk;
     }
 
-    public void setOptlk(Timestamp optlk) {
+    public void setOptlk(Integer optlk) {
         this.optlk = optlk;
     }
 

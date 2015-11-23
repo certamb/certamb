@@ -5,12 +5,12 @@
 
 	<datasource jndi-name="java:jboss/datasources/CertambDS"
 		pool-name="CertambDS" enabled="true" use-java-context="true">
-		<connection-url>jdbc:h2:mem:certamb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+		<connection-url>jdbc:postgresql://localhost:5432/certamb
 		</connection-url>
-		<driver>h2</driver>
+		<driver>postgresql</driver>
 		<security>
-			<user-name>sa</user-name>
-			<password>sa</password>
+			<user-name>postgres</user-name>
+			<password>123456</password>
 		</security>
 	</datasource>
 
