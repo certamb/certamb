@@ -33,11 +33,9 @@ public class SessionResourceImpl implements SessionResource {
 		// Obtener Usuario
 		// Set<String> roles = accessToken.getRealmAccess().getRoles();
 		String usuario = accessToken.getPreferredUsername();
-		System.out.println("Usuario:" + usuario);
-
-		TrabajadorModel trabajadorModel = trabajadorProvider.findByUsuario(usuario);
 		
-		System.out.println("Trabajador:"+trabajadorModel);
+		TrabajadorModel trabajadorModel = trabajadorProvider.findByUsuario(usuario);
+				
 		return ModelToRepresentation.toRepresentation(trabajadorModel);
 	}
 
