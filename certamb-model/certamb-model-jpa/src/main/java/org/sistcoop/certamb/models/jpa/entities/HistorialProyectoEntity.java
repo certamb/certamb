@@ -54,11 +54,11 @@ public class HistorialProyectoEntity implements Serializable {
     @Column(name = "CATEGORIA")
     private String categoria;
 
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "RESOLUCION")
     private String resolucion;
 
-    @Size(min = 1, max = 200)
+    @Size(min = 0, max = 200)
     @Column(name = "OBSERVACION")
     private String observacion;
 
