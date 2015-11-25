@@ -30,7 +30,6 @@ allprojects {
 
 subprojects {
     apply plugin: "java"
-    apply from: "$rootDir/gradle/task.gradle"
   	apply from: "$rootDir/gradle/jacoco.gradle"
   	
   	sourceCompatibility = "$projectSourceCompatibility"

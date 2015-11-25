@@ -1,3 +1,11 @@
 dependencies {
 	compile project(":$projectName-model:$projectName-model-api")	
 }
+
+sourceSets {
+    main {
+        resources {
+            srcDir "$rootDir/enviroment/$env/model-jpa"
+        }
+    }
+}
