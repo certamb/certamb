@@ -57,7 +57,7 @@ public class JpaHistorialProyectoProvider extends AbstractHibernateStorage
     @Override
     public HistorialProyectoModel create(ProyectoModel proyecto, ProcedimientoModel procedimiento,
             CategoriaProyecto categoria, String resolucion, Date fechaVigenciaDesde, Date fechaVigenciaHasta,
-            String observacion) {
+            String observacion, String responsableTipoDocumento, String responsableNumeroDocumento) {
         ProyectoEntity proyectoEntity = this.em.find(ProyectoEntity.class, proyecto.getId());
         ProcedimientoEntity procedimientoEntity = this.em.find(ProcedimientoEntity.class,
                 procedimiento.getId());
@@ -78,6 +78,8 @@ public class JpaHistorialProyectoProvider extends AbstractHibernateStorage
         historialProyectoEntity.setObservacion(observacion);
         historialProyectoEntity.setFechaVigenciaDesde(fechaVigenciaDesde);
         historialProyectoEntity.setFechaVigenciaHasta(fechaVigenciaHasta);
+        historialProyectoEntity.setResponsableTipoDocumento(responsableTipoDocumento);
+        historialProyectoEntity.setResponsableNumeroDocumento(responsableNumeroDocumento);
         historialProyectoEntity.setEstado(true);
 
         em.persist(historialProyectoEntity);

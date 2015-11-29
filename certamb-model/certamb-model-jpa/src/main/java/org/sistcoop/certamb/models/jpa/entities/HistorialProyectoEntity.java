@@ -70,6 +70,14 @@ public class HistorialProyectoEntity implements Serializable {
     @Column(name = "FECHA_VIGENCIA_HASTA")
     private Date fechaVigenciaHasta;
 
+    @Size(min = 0, max = 20)
+    @Column(name = "RESPONSABLE_TIPO_DOCUMENTO")
+    private String responsableTipoDocumento;
+
+    @Size(min = 0, max = 20)
+    @Column(name = "RESPONSABLE_NUMERO_DOCUMENTO")
+    private String responsableNumeroDocumento;
+
     @NotNull
     @Type(type = "org.hibernate.type.TrueFalseType")
     @Column(name = "ESTADO")
@@ -177,6 +185,22 @@ public class HistorialProyectoEntity implements Serializable {
 
     public void setFechaVigenciaHasta(Date fechaVigenciaHasta) {
         this.fechaVigenciaHasta = fechaVigenciaHasta;
+    }
+
+    public String getResponsableTipoDocumento() {
+        return responsableTipoDocumento;
+    }
+
+    public void setResponsableTipoDocumento(String responsableTipoDocumento) {
+        this.responsableTipoDocumento = responsableTipoDocumento;
+    }
+
+    public String getResponsableNumeroDocumento() {
+        return responsableNumeroDocumento;
+    }
+
+    public void setResponsableNumeroDocumento(String responsableNumeroDocumento) {
+        this.responsableNumeroDocumento = responsableNumeroDocumento;
     }
 
     public Integer getOptlk() {

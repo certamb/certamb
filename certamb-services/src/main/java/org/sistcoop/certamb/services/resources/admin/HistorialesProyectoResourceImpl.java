@@ -12,6 +12,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.sistcoop.certam.admin.client.resource.HistorialProyectoResource;
 import org.sistcoop.certam.admin.client.resource.HistorialesProyectoResource;
+import org.sistcoop.certam.admin.client.resource.SessionResource;
 import org.sistcoop.certamb.models.ProcedimientoModel;
 import org.sistcoop.certamb.models.ProcedimientoProvider;
 import org.sistcoop.certamb.models.HistorialProyectoModel;
@@ -58,6 +59,9 @@ public class HistorialesProyectoResourceImpl implements HistorialesProyectoResou
     @Context
     private UriInfo uriInfo;
 
+    @Inject
+    private SessionResource sessionResource;
+
     @Override
     public HistorialProyectoResource historial(String idHistorialProyecto) {
         return historialProyectoResource;
@@ -74,7 +78,8 @@ public class HistorialesProyectoResourceImpl implements HistorialesProyectoResou
                 .findById(procedimientoRepresentation.getId());
         try {
             HistorialProyectoModel direccionRegionalModel = representationToModel.createHistorialProyecto(rep,
-                    getProyectoModel(), procedimientoModel, historialProyectoProvider);
+                    getProyectoModel(), procedimientoModel, historialProyectoProvider,
+                    sessionResource.getTrabajador());
             return Response
                     .created(uriInfo.getAbsolutePathBuilder().path(direccionRegionalModel.getId()).build())
                     .header("Access-Control-Expose-Headers", "Location")

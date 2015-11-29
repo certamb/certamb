@@ -111,6 +111,26 @@ public class HistorialProyectoAdapter implements HistorialProyectoModel {
     }
 
     @Override
+    public String getResponsableTipoDocumento() {
+        return historialProyectoEntity.getResponsableTipoDocumento();
+    }
+
+    @Override
+    public void setResponsableTipoDocumento(String tipoDocumento) {
+        historialProyectoEntity.setResponsableTipoDocumento(tipoDocumento);
+    }
+
+    @Override
+    public String getResponsalbleNumeroDocumento() {
+        return historialProyectoEntity.getResponsableNumeroDocumento();
+    }
+
+    @Override
+    public void setResponsableNumeroDocumento(String numeroDocumento) {
+        historialProyectoEntity.setResponsableNumeroDocumento(numeroDocumento);
+    }
+
+    @Override
     public ProcedimientoModel getProdedimiento() {
         ProcedimientoEntity procedimientoEntity = historialProyectoEntity.getProcedimiento();
         return new ProcedimientoAdapter(em, procedimientoEntity);

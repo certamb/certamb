@@ -73,7 +73,8 @@ public class ModelToRepresentation {
         rep.setEstado(model.getEstado());
         rep.setFechaVigenciaDesde(model.getFechaVigenciaDesde());
         rep.setFechaVigenciaHasta(model.getFechaVigenciaHasta());
-
+        rep.setResponsableTipoDocumento(model.getResponsableTipoDocumento());
+        rep.setResponsableNumeroDocumento(model.getResponsalbleNumeroDocumento());
         rep.setProcedimiento(toRepresentation(model.getProdedimiento()));
         return rep;
     }

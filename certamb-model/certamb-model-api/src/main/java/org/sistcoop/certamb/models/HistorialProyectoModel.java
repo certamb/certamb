@@ -28,6 +28,14 @@ public interface HistorialProyectoModel extends Model {
 
     Date getFechaVigenciaHasta();
 
+    String getResponsableTipoDocumento();
+
+    void setResponsableTipoDocumento(String tipoDocumento);
+
+    String getResponsalbleNumeroDocumento();
+
+    void setResponsableNumeroDocumento(String numeroDocumento);
+
     void setFechaVigenciaHasta(Date fechaVigenciaHasta);
 
     boolean getEstado();

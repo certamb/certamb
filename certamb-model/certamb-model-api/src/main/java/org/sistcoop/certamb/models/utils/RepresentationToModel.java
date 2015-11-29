@@ -38,21 +38,24 @@ public class RepresentationToModel {
 
     public ProyectoModel createProyecto(ProyectoRepresentation rep, DireccionRegionalModel direccionRegional,
             ProyectoProvider proyectoProvider, HistorialProyectoProvider historialProvider,
-            ProcedimientoProvider estadoProcedimientoProvider) {
+            ProcedimientoProvider estadoProcedimientoProvider, TrabajadorRepresentation trabajador) {
         ProcedimientoModel procedimientoModel = estadoProcedimientoProvider.findFirst();
 
         ProyectoModel proyectoModel = proyectoProvider.create(direccionRegional, rep.getDenominacion(),
                 TipoProyecto.valueOf(rep.getTipo()), rep.getMonto());
         if (procedimientoModel != null) {
             historialProvider.create(proyectoModel, procedimientoModel, null, null, null, null,
-                    "Historial creado por el sistema");
+                    "Historial creado por el sistema",
+                    trabajador != null ? trabajador.getTipoDocumento() : null,
+                    trabajador != null ? trabajador.getNumeroDocumento() : null);
         }
 
         return proyectoModel;
     }
 
     public HistorialProyectoModel createHistorialProyecto(HistorialProyectoRepresentation rep,
-            ProyectoModel proyecto, ProcedimientoModel procedimiento, HistorialProyectoProvider provider) {
+            ProyectoModel proyecto, ProcedimientoModel procedimiento, HistorialProyectoProvider provider,
+            TrabajadorRepresentation trabajador) {
         HistorialProyectoModel historialActivo = provider.findByHistorialActivo(proyecto);
         if (historialActivo != null) {
             historialActivo.desactivar();
@@ -62,18 +65,19 @@ public class RepresentationToModel {
         HistorialProyectoModel historialProyectoModel = provider.create(proyecto, procedimiento,
                 rep.getCategoria() != null ? CategoriaProyecto.valueOf(rep.getCategoria()) : null,
                 rep.getResolucion(), rep.getFechaVigenciaDesde(), rep.getFechaVigenciaHasta(),
-                rep.getObservacion());
+                rep.getObservacion(), trabajador != null ? trabajador.getTipoDocumento() : null,
+                trabajador != null ? trabajador.getNumeroDocumento() : null);
 
         // Verificar fin de procedimiento
         ProcedimientoModel procedimientoModel = historialProyectoModel.getProdedimiento();
         proyecto.setEstado(procedimientoModel.getEstado());
-        
+
         // Poner fechas de vigencia de ser el caso
-        if(procedimientoModel.getEstado().equals(EstadoProyecto.APROBADO)) {
+        if (procedimientoModel.getEstado().equals(EstadoProyecto.APROBADO)) {
             proyecto.setFechaVigenciaDesde(rep.getFechaVigenciaDesde());
-            proyecto.setFechaVigenciaHasta(rep.getFechaVigenciaHasta());               
+            proyecto.setFechaVigenciaHasta(rep.getFechaVigenciaHasta());
         }
-                
+
         proyecto.commit();
 
         return historialProyectoModel;

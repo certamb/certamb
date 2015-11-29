@@ -15,7 +15,7 @@ public interface HistorialProyectoProvider extends Provider {
 
     HistorialProyectoModel create(ProyectoModel proyecto, ProcedimientoModel procedimiento,
             CategoriaProyecto categoria, String resolucion, Date fechaVigenciaDesde, Date fechaVigenciaHasta,
-            String observacion);
+            String observacion, String responsableTipoDocumento, String responsalbleNumeroDocumento);
 
     HistorialProyectoModel findById(String id);
 

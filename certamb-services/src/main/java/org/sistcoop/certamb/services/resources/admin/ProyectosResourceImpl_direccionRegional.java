@@ -17,6 +17,7 @@ import org.sistcoop.ceramb.admin.client.Config;
 import org.sistcoop.ceramb.admin.client.Roles;
 import org.sistcoop.certam.admin.client.resource.ProyectoResource;
 import org.sistcoop.certam.admin.client.resource.ProyectosResource_direccionRegional;
+import org.sistcoop.certam.admin.client.resource.SessionResource;
 import org.sistcoop.certamb.models.DireccionRegionalModel;
 import org.sistcoop.certamb.models.DireccionRegionalProvider;
 import org.sistcoop.certamb.models.ProcedimientoProvider;
@@ -66,6 +67,9 @@ public class ProyectosResourceImpl_direccionRegional implements ProyectosResourc
     @Inject
     private ProyectoResource proyectoResource;
 
+    @Inject
+    private SessionResource sessionResource;
+
     private DireccionRegionalModel getDireccionRegionalModel() {
         return direccionRegionalProvider.findById(idDireccionRegional);
     }
@@ -86,7 +90,7 @@ public class ProyectosResourceImpl_direccionRegional implements ProyectosResourc
         try {
             ProyectoModel proyectoModel = representationToModel.createProyecto(rep,
                     getDireccionRegionalModel(), proyectoProvider, historialProyectoProvider,
-                    estadoProcedimientoProvider);
+                    estadoProcedimientoProvider, sessionResource.getTrabajador());
             return Response.created(uriInfo.getAbsolutePathBuilder().path(proyectoModel.getId()).build())
                     .header("Access-Control-Expose-Headers", "Location")
                     .entity(ModelToRepresentation.toRepresentation(proyectoModel)).build();
