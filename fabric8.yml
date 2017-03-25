@@ -1,0 +1,12 @@
+---
+buildName: "certamb"
+links:
+  Git: "https://github.com/certamb/certamb.git"
+  Job: "http://192.168.42.210:32025/job/certamb"
+  Production: "http://172.30.147.28:80/kubernetes/pods?namespace=default-prod"
+  Staging: "http://172.30.147.28:80/kubernetes/pods?namespace=default-staging"
+  Testing: "http://172.30.147.28:80/kubernetes/pods?namespace=default-testing"
+environments:
+  Testing: "default-testing"
+  Staging: "default-staging"
+  Production: "default-prod"
